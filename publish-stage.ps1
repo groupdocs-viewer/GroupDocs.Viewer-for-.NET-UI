@@ -30,5 +30,5 @@ Foreach-Object {
 
     Write-Host "Package $package will be published."
 
-    exec { & dotnet nuget push $package --api-key "$env:NUGET_API_KEY_STAGE" --source https://apiint.nugettest.org/v3/index.json }
+    exec { & dotnet nuget push $package --api-key "$env:NUGET_API_KEY_STAGE" --source https://apiint.nugettest.org/v3/index.json --skip-duplicate }
 }
