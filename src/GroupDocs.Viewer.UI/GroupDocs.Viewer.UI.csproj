@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>$(NetFrameworkVersion)</TargetFramework>
+
+    <PackageId>GroupDocs.Viewer.UI</PackageId>
+    <Version>$(GroupDocsViewerUI)</Version>
+    <Description>GroupDocs.Viewer.UI is a ASP.NET Core UI viewer of GroupDocs.Viewer for .NET.</Description>
+    <PackageTags>GroupDocs;Viewer;UI;Angular;ASP.NET Core;</PackageTags>
+    
+    <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
+    <ClientRoot>client\</ClientRoot>
+    <BuildClientApp>false</BuildClientApp>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="assets\index.html" />
+    <EmbeddedResource Include="assets\runtime.js" />
+    <EmbeddedResource Include="assets\polyfills.js" />
+    <EmbeddedResource Include="assets\main.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="$(MicrosoftExtensionsHttp)" />
+    <PackageReference Include="Newtonsoft.Json" Version="$(NewtonsoftJson)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GroupDocs.Viewer.UI.Core\GroupDocs.Viewer.UI.Core.csproj" />
+  </ItemGroup>
+
+  <Target Name="InstallPackages" BeforeTargets="BeforeBuild" Condition="'$(BuildClientApp)' == 'True'">
+    <Message Importance="high" Text="*** Installing npm packages ***" />
+    <Exec WorkingDirectory="$(ClientRoot)" Command="npm install" ContinueOnError="false" />
+  </Target>
+
+  <Target Name="BuildClient" BeforeTargets="BeforeBuild" DependsOnTargets="InstallPackages" Condition="'$(BuildClientApp)' == 'True'">
+    <Message Importance="high" Text="*** Bundling client files ***" />
+    <Exec WorkingDirectory="$(ClientRoot)" Command="npm run build -- --prod --output-path .\..\assets" ContinueOnError="false" />
+  </Target>
+
+</Project>

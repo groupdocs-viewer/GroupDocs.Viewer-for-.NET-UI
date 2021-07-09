@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>$(NetFrameworkVersion)</TargetFramework>
+
+    <PackageId>GroupDocs.Viewer.UI.Api.Local.Cache</PackageId>
+    <Version>$(GroupDocsViewerUIApiLocalCache)</Version>
+    <Description>GroupDocs.Viewer.UI.Api.Local.Cache containing local file-cache implementation that can be used with GroupDocs.Viewer.UI.Api.</Description>
+    <PackageTags>GroupDocs;Viewer;UI;API;Local;File;Cache;ASP.NET Core;</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GroupDocs.Viewer.UI.Core\GroupDocs.Viewer.UI.Core.csproj" />
+  </ItemGroup>
+
+</Project>

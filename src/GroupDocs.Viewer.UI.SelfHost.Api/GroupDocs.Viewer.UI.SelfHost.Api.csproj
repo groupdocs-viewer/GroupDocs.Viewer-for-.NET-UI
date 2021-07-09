@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>$(NetFrameworkVersion)</TargetFramework>
+
+    <PackageId>GroupDocs.Viewer.UI.SelfHost.Api</PackageId>
+    <Version>$(GroupDocsViewerUISelfHostApi)</Version>
+    <Description>GroupDocs.Viewer.UI.SelfHost.Api containing API implementation that is based on GroupDocs.Viewer for .NET.</Description>
+    <PackageTags>GroupDocs;Viewer;UI;SelftHost;API;ASP.NET Core;</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GroupDocs.Viewer" Version="$(GroupDocsViewer)" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="$(SkiaSharpNativeAssetsLinuxNoDependencies)" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="$(MicrosoftAspNetCoreMvcCore)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GroupDocs.Viewer.UI.Api\GroupDocs.Viewer.UI.Api.csproj" />
+    <ProjectReference Include="..\GroupDocs.Viewer.UI.Core\GroupDocs.Viewer.UI.Core.csproj" />
+  </ItemGroup>
+
+</Project>

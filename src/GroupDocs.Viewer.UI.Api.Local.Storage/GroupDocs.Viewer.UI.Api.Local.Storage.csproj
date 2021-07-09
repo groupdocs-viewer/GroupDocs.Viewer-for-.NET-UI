@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>$(NetFrameworkVersion)</TargetFramework>
+
+    <PackageId>GroupDocs.Viewer.UI.Api.Local.Storage</PackageId>
+    <Version>$(GroupDocsViewerUIApiLocalStorage)</Version>
+    <Description>GroupDocs.Viewer.UI.Api.Local.Storage containing local file-storage implementation that can be used with GroupDocs.Viewer.UI.Api.</Description>
+    <PackageTags>GroupDocs;Viewer;UI;API;Local;File;Storage;ASP.NET Core;</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GroupDocs.Viewer.UI.Core\GroupDocs.Viewer.UI.Core.csproj" />
+  </ItemGroup>
+
+</Project>
