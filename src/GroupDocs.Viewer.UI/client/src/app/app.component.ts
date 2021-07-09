@@ -94,7 +94,8 @@ export class AppComponent extends ViewerAppComponent {
     preloadPages(start: number, end: number) {
         const pagesToLoad = [];
         const isInitialLoad = start === 1;
-        const minPagesToLoad = 10;
+        const minPagesToLoad = this.viewerConfig.preloadPageCount;
+        const countPages = this.file.pages.length;
         this.selectedPageNumber = 1;
 
         if(isInitialLoad) {
@@ -114,7 +115,8 @@ export class AppComponent extends ViewerAppComponent {
                 const addPages = minPagesToLoad - pagesToLoad.length;
                 for (let i = last; i <= last + addPages; i++) {
                     const pageNumber = i + 1;
-                    if (this.pagesLoading.indexOf(pageNumber) === -1) {
+                    
+                    if (pageNumber <= countPages && this.pagesLoading.indexOf(pageNumber) === -1) {
                         pagesToLoad.push(pageNumber);
                         this.pagesLoading.push(pageNumber);
                     }
