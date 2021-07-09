@@ -5,7 +5,7 @@
 
     <PackageId>GroupDocs.Viewer.UI.SelfHost.Api</PackageId>
     <Version>$(GroupDocsViewerUISelfHostApi)</Version>
-    <Description>GroupDocs.Viewer.UI.SelfHost.Api containing API implementation that is based on GroupDocs.Viewer for .NET.</Description>
+    <Description>GroupDocs.Viewer.UI.SelfHost.Api containing API implementation that is based on GroupDocs.Viewer for .NET see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
     <PackageTags>GroupDocs;Viewer;UI;SelftHost;API;ASP.NET Core;</PackageTags>
   </PropertyGroup>
 

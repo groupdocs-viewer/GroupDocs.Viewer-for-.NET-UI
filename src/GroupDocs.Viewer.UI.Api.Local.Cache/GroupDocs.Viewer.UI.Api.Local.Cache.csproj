@@ -5,7 +5,7 @@
 
     <PackageId>GroupDocs.Viewer.UI.Api.Local.Cache</PackageId>
     <Version>$(GroupDocsViewerUIApiLocalCache)</Version>
-    <Description>GroupDocs.Viewer.UI.Api.Local.Cache containing local file-cache implementation that can be used with GroupDocs.Viewer.UI.Api.</Description>
+    <Description>GroupDocs.Viewer.UI.Api.Local.Cache containing local file-cache implementation that can be used with GroupDocs.Viewer.UI.Api see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
     <PackageTags>GroupDocs;Viewer;UI;API;Local;File;Cache;ASP.NET Core;</PackageTags>
   </PropertyGroup>
 
