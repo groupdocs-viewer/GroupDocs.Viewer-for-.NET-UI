@@ -15,6 +15,8 @@ namespace GroupDocs.Viewer.UI.Sample
                 .AddControllers()
                 .AddGroupDocsViewerSelfHostApi(config =>
                 {
+                    //Trial limitations https://docs.groupdocs.com/viewer/net/evaluation-limitations-and-licensing-of-groupdocs-viewer/
+                    //Temporary license can be requested at https://purchase.groupdocs.com/temporary-license
                     config.SetLicensePath("c:\\licenses\\GroupDocs.Viewer.lic");
                 })
                 .AddLocalStorage("./Files")
