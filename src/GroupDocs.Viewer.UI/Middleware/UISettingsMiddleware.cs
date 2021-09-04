@@ -1,4 +1,4 @@
-﻿using GroupDocs.Viewer.UI.Configuration;
+﻿using GroupDocs.Viewer.UI.Core.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;

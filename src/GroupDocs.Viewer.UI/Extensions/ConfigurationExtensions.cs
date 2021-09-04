@@ -1,5 +1,5 @@
 using GroupDocs.Viewer.UI;
-using GroupDocs.Viewer.UI.Configuration;
+using GroupDocs.Viewer.UI.Core.Configuration;
 
 namespace Microsoft.Extensions.Configuration
 {

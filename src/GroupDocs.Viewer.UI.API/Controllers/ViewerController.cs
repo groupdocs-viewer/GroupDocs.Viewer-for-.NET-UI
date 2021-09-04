@@ -6,10 +6,12 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using GroupDocs.Viewer.UI.Api.Models;
 using GroupDocs.Viewer.UI.Core;
+using GroupDocs.Viewer.UI.Core.Configuration;
 using GroupDocs.Viewer.UI.Core.Entities;
 using GroupDocs.Viewer.UI.Core.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace GroupDocs.Viewer.UI.Api.Controllers
 {
@@ -18,21 +20,26 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
     {
         private readonly IFileStorage _fileStorage;
         private readonly IViewer _viewer;
+        private readonly Config _config;
 
         private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions()
         {
             IgnoreNullValues = false
         };
 
-        public ViewerController(IFileStorage fileStorage, IViewer viewer)
+        public ViewerController(IFileStorage fileStorage, IViewer viewer, IOptions<Config> config)
         {
             _fileStorage = fileStorage;
             _viewer = viewer;
+            _config = config.Value;
         }
 
         [HttpPost]
         public async Task<IActionResult> LoadFileTree([FromBody] LoadFileTreeRequest request)
         {
+            if(!_config.Browse)
+                return ForbiddenJsonResult("Browsing files is disabled.");
+
             try
             {
                 var files =
@@ -53,6 +60,9 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> DownloadDocument([FromQuery] string path)
         {
+            if(!_config.Download)
+                return ForbiddenJsonResult("Downloading files is disabled.");
+
             try
             {
                 var fileName = Path.GetFileName(path);
@@ -69,6 +79,9 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> LoadDocumentPageResource([FromQuery]LoadDocumentPageResource request)
         {
+            if(!_config.HtmlMode)
+                return ForbiddenJsonResult("Loading page resources is disabled in image mode.");
+
             try
             {
                 var bytes = await _viewer.GetPageResourceAsync(request.Guid, request.Password, request.PageNumber, request.ResourceName);
@@ -89,6 +102,9 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadDocument()
         {
+            if(!_config.Upload)
+                return ForbiddenJsonResult("Uploading files is disabled.");
+
             try
             {
                 var (fileName, bytes) = await ReadOrDownloadFile();
@@ -109,6 +125,9 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> PrintPdf([FromBody] PrintPdfRequest request)
         {
+            if(!_config.Print)
+                return ForbiddenJsonResult("Printing files is disabled.");
+
             try
             {
                 var filename = Path.GetFileName(request.Guid);
