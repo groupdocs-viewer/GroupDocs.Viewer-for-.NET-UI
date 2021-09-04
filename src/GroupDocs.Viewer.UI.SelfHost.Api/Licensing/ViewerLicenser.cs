@@ -1,4 +1,5 @@
-﻿using GroupDocs.Viewer.UI.SelfHost.Api.Configuration;
+﻿using System;
+using GroupDocs.Viewer.UI.SelfHost.Api.Configuration;
 using Microsoft.Extensions.Options;
 
 namespace GroupDocs.Viewer.UI.SelfHost.Api.Licensing
@@ -16,23 +17,29 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Licensing
 
         public void SetLicense()
         {
-            if (string.IsNullOrEmpty(_config.LicensePath))
+            if (_licenseSet)
                 return;
 
-            if (!_licenseSet)
-            {
-                lock (_lock)
-                {
-                    if (!_licenseSet)
-                    {
-                        License license = new License();
-                        license.SetLicense(_config.LicensePath);
+            if (!string.IsNullOrEmpty(_config.LicensePath))
+                SetLicense(_config.LicensePath);
 
-                        _licenseSet = true;
-                    }
+            string licensePath = Environment.GetEnvironmentVariable("GROUPDOCS_LIC_PATH");
+            if (!string.IsNullOrEmpty(licensePath))
+                SetLicense(licensePath);
+        }
+
+        private void SetLicense(string licensePath)
+        {
+            lock (_lock)
+            {
+                if (!_licenseSet)
+                {
+                    License license = new License();
+                    license.SetLicense(licensePath);
+
+                    _licenseSet = true;
                 }
             }
         }
-
     }
 }

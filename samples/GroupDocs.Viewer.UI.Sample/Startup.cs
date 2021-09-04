@@ -17,7 +17,7 @@ namespace GroupDocs.Viewer.UI.Sample
                 {
                     //Trial limitations https://docs.groupdocs.com/viewer/net/evaluation-limitations-and-licensing-of-groupdocs-viewer/
                     //Temporary license can be requested at https://purchase.groupdocs.com/temporary-license
-                    //config.SetLicensePath("c:\\licenses\\GroupDocs.Viewer.lic");
+                    //config.SetLicensePath("c:\\licenses\\GroupDocs.Viewer.lic"); // or set environment variable 'GROUPDOCS_LIC_PATH'
                 })
                 .AddLocalStorage("./Files")
                 .AddLocalCache("./Cache");
