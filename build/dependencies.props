@@ -33,12 +33,12 @@
   </PropertyGroup>
 
   <PropertyGroup Label="GroupDocs.Viewer UI Package Versions">
-    <GroupDocsViewerUI>3.1.0</GroupDocsViewerUI>
-    <GroupDocsViewerUIApi>3.1.0</GroupDocsViewerUIApi>
-    <GroupDocsViewerUIApiLocalCache>3.1.1</GroupDocsViewerUIApiLocalCache>
+    <GroupDocsViewerUI>3.1.1</GroupDocsViewerUI>
+    <GroupDocsViewerUIApi>3.1.1</GroupDocsViewerUIApi>
+    <GroupDocsViewerUIApiLocalCache>3.1.2</GroupDocsViewerUIApiLocalCache>
     <GroupDocsViewerUIApiInMemoryCache>3.1.0</GroupDocsViewerUIApiInMemoryCache>
-    <GroupDocsViewerUIApiLocalStorage>3.1.0</GroupDocsViewerUIApiLocalStorage>
-    <GroupDocsViewerUICore>3.1.0</GroupDocsViewerUICore>
-    <GroupDocsViewerUISelfHostApi>3.1.2</GroupDocsViewerUISelfHostApi>
+    <GroupDocsViewerUIApiLocalStorage>3.1.1</GroupDocsViewerUIApiLocalStorage>
+    <GroupDocsViewerUICore>3.1.1</GroupDocsViewerUICore>
+    <GroupDocsViewerUISelfHostApi>3.1.3</GroupDocsViewerUISelfHostApi>
   </PropertyGroup>
 </Project>
