@@ -138,6 +138,7 @@ services
 In case you would like to cache the output files produced by GroupDocs.Viewer you can use one of the cache providers:
 
 - [GroupDocs.Viewer.UI.Api.Local.Cache](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Api.Local.Cache)
+- [GroupDocs.Viewer.UI.Api.InMemory.Cache](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Api.InMemory.Cache)
 
 All the cache providers are extensions of `GroupDocsViewerUIApiBuilder`:
 
@@ -149,6 +150,16 @@ services
     .AddGroupDocsViewerSelfHostApi()
     .AddLocalStorage("./Files")
     .AddLocalCache("./Cache");
+```
+
+#### InMemory Cache
+
+```cs
+services
+    .AddControllers()
+    .AddGroupDocsViewerSelfHostApi()
+    .AddLocalStorage("./Files")
+    .AddInMemoryCache();
 ```
 
 ## Contributing

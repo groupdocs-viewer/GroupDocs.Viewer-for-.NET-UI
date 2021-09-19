@@ -17,7 +17,7 @@ namespace Microsoft.Extensions.DependencyInjection
             }
 
             // NOTE: Replace is used here as by default we've registered Noop cache 
-            builder.Services.AddTransient<IFileCache>(_ => new FileLocalCache(cachePath));
+            builder.Services.AddTransient<IFileCache>(_ => new LocalFileCache(cachePath));
 
             return builder;
         }
