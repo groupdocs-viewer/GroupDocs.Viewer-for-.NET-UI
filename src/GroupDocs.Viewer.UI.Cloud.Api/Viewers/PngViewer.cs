@@ -36,22 +36,28 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
             {
                 await UploadFileIfNotExistsAsync(filePath);
 
-                var infoApi = CreateInfoApi();
-                var viewOptions = new ViewOptions
-                {
-                    FileInfo = new Viewer.Cloud.Sdk.Model.FileInfo
-                    {
-                        FilePath = filePath,
-                        Password = password,
-                        StorageName = _config.StorageName
-                    }
-                };
-                var request = new GetInfoRequest(viewOptions);
-                var response = infoApi.GetInfo(request);
-                
+                var response = GetInfoResult(filePath, password);
+
                 var documentInfo = ToDocumentDescription(response);
                 return documentInfo;
             });
+
+        private InfoResult GetInfoResult(string filePath, string password)
+        {
+            var infoApi = CreateInfoApi();
+            var viewOptions = new ViewOptions
+            {
+                FileInfo = new Viewer.Cloud.Sdk.Model.FileInfo
+                {
+                    FilePath = filePath,
+                    Password = password,
+                    StorageName = _config.StorageName
+                }
+            };
+            var request = new GetInfoRequest(viewOptions);
+            var response = infoApi.GetInfo(request);
+            return response;
+        }
 
         public Task<byte[]> CreatePdfAsync(string filePath, string password) =>
             _fileCache.GetValueAsync(CacheKeys.PDF_FILE_CACHE_KEY, filePath, async () =>
