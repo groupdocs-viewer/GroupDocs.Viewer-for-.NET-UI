@@ -6,11 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using GroupDocs.Viewer.Options;
 using GroupDocs.Viewer.Results;
+using GroupDocs.Viewer.UI.Api.Caching;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Entities;
 using GroupDocs.Viewer.UI.SelfHost.Api.Configuration;
 using GroupDocs.Viewer.UI.SelfHost.Api.Licensing;
-using GroupDocs.Viewer.UI.SelfHost.Api.Viewers.Caching;
 using GroupDocs.Viewer.UI.SelfHost.Api.Viewers.Extensions;
 using Microsoft.Extensions.Options;
 
