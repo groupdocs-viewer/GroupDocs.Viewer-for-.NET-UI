@@ -54,6 +54,56 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
             return Result.Ok(documentInfo);
         }
 
+        public async Task<Result<byte[]>> GetPdfFileAsync(string filePath, string password, string storageName)
+        {
+            var viewOptions = new ViewOptions
+            {
+                FileInfo = new FileInfo
+                {
+                    FilePath = filePath,
+                    Password = password,
+                    StorageName = storageName
+                },
+
+                RenderOptions = new RenderOptions(),
+
+                ViewFormat = ViewOptions.ViewFormatEnum.PDF
+            };
+
+            var viewResult = await SendPost<ViewResult>("viewer/view", viewOptions);
+            if (!viewResult.IsSuccess)
+                return Result.Fail<byte[]>(viewResult);
+
+            var pdfFile = viewResult.Value.File;
+            var pdfBytesResult = await DownloadFileAsync(pdfFile, storageName);
+
+            return pdfBytesResult;
+        }
+
+        private async Task<Result<byte[]>> DownloadFileAsync(Resource resource, string storageName)
+        {
+            var requestUri = $"viewer/storage/file/{resource.Path}?storageName={storageName}";
+            var response = await _httpClient.GetAsync(requestUri);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseJson = await response.Content.ReadAsStringAsync();
+
+                if (TryDeserialize(responseJson, out ErrorResponse errorResponse) 
+                    && errorResponse.Error != null)
+                    return Result.Fail<byte[]>(errorResponse.Error.Message);
+
+                if (TryDeserialize(responseJson, out Error error) 
+                    && error.Message != null)
+                    return Result.Fail<byte[]>(error.Message);
+
+                return Result.Fail<byte[]>(responseJson);
+            }
+
+            var bytes = await response.Content.ReadAsByteArrayAsync();
+            return Result.Ok(bytes);
+        }
+
         private async Task<Result<T>> SendPost<T>(string requestUri, object request)
         {
             var message = new HttpRequestMessage(HttpMethod.Post, requestUri);

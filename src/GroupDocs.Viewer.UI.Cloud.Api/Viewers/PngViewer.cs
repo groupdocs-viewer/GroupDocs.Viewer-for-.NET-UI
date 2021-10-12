@@ -40,15 +40,21 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
                     throw new Exception(result.Message);
 
                 return result.Value;
-            }); 
+            });
 
-        public Task<byte[]> CreatePdfAsync(string filePath, string password)
-        {
-            throw new System.NotImplementedException();
-        }
+        public Task<byte[]> CreatePdfAsync(string filePath, string password) =>
+            _fileCache.GetValueAsync(CacheKeys.PDF_FILE_CACHE_KEY, filePath, async () =>
+            {
+                var result = await _viewerApiConnect
+                    .GetPdfFileAsync(filePath, password, _config.StorageName);
 
-        public Task<byte[]> GetPageResourceAsync(string filePath, string password, int pageNumber,
-            string resourceName) =>
+                if (result.IsFailure)
+                    throw new Exception(result.Message);
+
+                return result.Value;
+            });
+
+        public Task<byte[]> GetPageResourceAsync(string filePath, string password, int pageNumber,  string resourceName) =>
             Task.FromResult(Array.Empty<byte>());
     }
 }
