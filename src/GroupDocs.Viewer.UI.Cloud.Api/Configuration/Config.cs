@@ -4,6 +4,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Configuration
 {
     public class Config
     {
+        internal string ApiEndpoint = "https://api.groupdocs.cloud/v2.0/";
         internal string ClientId = string.Empty;
         internal string ClientSecret = string.Empty;
         internal string StorageName = string.Empty;
@@ -12,6 +13,12 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Configuration
         // internal readonly PngViewOptions PngViewOptions = new PngViewOptions();
         // internal readonly JpgViewOptions JpgViewOptions = new JpgViewOptions();
         // internal readonly PdfViewOptions PdfViewOptions = new PdfViewOptions();
+
+        public Config SetApiEndpoint(string apiEndpoint)
+        {
+            ApiEndpoint = apiEndpoint;
+            return this;
+        }
 
         public Config SetClientId(string clientId)
         {

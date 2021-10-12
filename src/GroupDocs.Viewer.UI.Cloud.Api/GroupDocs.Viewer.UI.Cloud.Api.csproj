@@ -10,12 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Viewers\HtmlWithEmbeddedResourcesViewer.cs" />
-    <Compile Remove="Viewers\HtmlWithExternalResourcesViewer.cs" />
-    <Compile Remove="Viewers\JpgViewer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="GroupDocs.Viewer-Cloud" Version="$(GroupDocsViewerCloud)" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="$(MicrosoftAspNetCoreMvcCore)" />
   </ItemGroup>

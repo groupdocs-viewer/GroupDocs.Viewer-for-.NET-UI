@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Net.Http.Headers;
 using System.Reflection;
 using GroupDocs.Viewer.UI.Api.Controllers;
+using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect;
+using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts;
+using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Handlers;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Cloud.Api.Configuration;
 using GroupDocs.Viewer.UI.Cloud.Api.Viewers;
@@ -28,6 +32,26 @@ namespace Microsoft.Extensions.DependencyInjection
                     configuration.BindCloudApiSettings(settings);
                     setupConfig?.Invoke(settings);
                 });
+
+            //Register custom Bearer Token Handler. The DelegatingHandler has to be registered as a Transient Service
+            builder.Services.AddTransient<ProtectedApiBearerTokenHandler>();
+
+            //Register a Typed Instance of HttpClientFactory for a Protected Resource
+            //More info see: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-3.1
+            builder.Services.AddHttpClient<IViewerApiConnect, ViewerApiConnect>(client =>
+            {
+                client.BaseAddress = new Uri(config.ApiEndpoint);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            })
+            .AddHttpMessageHandler<ProtectedApiBearerTokenHandler>();
+
+            builder.Services.AddHttpClient<IAuthServerConnect, AuthServerConnect>(client =>
+            {
+                client.BaseAddress = new Uri(config.ApiEndpoint);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            });
 
             builder.Services.AddTransient<IFileCache, NoopFileCache>();
 
