@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using GroupDocs.Viewer.Cloud.Sdk.Model;
 using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts;
 using GroupDocs.Viewer.UI.Cloud.Api.Common;
+using GroupDocs.Viewer.UI.Cloud.Api.Configuration;
 using GroupDocs.Viewer.UI.Core.Entities;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -15,6 +17,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
     internal class ViewerApiConnect : IViewerApiConnect
     {
         private readonly HttpClient _httpClient;
+        private readonly Config _config;
 
         private readonly JsonSerializerOptions _jsonSerializerOptions
             = new JsonSerializerOptions
@@ -24,28 +27,22 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
                 IgnoreNullValues = true
             };
 
-        public ViewerApiConnect(HttpClient httpClient)
+        public ViewerApiConnect(HttpClient httpClient, IOptions<Config> config)
         {
             _httpClient = httpClient;
+            _config = config.Value;
         }
 
-        public async Task<Result<DocumentInfo>> GetDocumentInfoAsync(string filePath, string password, string storageName)
+        public async Task<Result<DocumentInfo>> GetDocumentInfoAsync(ViewOptions.ViewFormatEnum viewFormat, FileInfo fileInfo)
         {
             var viewOptions = new ViewOptions
             {
-                FileInfo = new FileInfo
-                {
-                    FilePath = filePath,
-                    Password = password,
-                    StorageName = storageName
-                },
-
+                FileInfo = fileInfo,
                 RenderOptions = new RenderOptions(),
-
-                ViewFormat = ViewOptions.ViewFormatEnum.PNG
+                ViewFormat = viewFormat
             };
 
-            var result = await SendPost<InfoResult>("viewer/info", viewOptions);
+            var result = await Send<InfoResult>("viewer/info", HttpMethod.Post, viewOptions);
 
             if (!result.IsSuccess)
                 return Result.Fail<DocumentInfo>(result);
@@ -54,33 +51,48 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
             return Result.Ok(documentInfo);
         }
 
-        public async Task<Result<byte[]>> GetPdfFileAsync(string filePath, string password, string storageName)
+        public async Task<Result<byte[]>> GetPdfFileAsync(FileInfo fileInfo)
         {
             var viewOptions = new ViewOptions
             {
-                FileInfo = new FileInfo
-                {
-                    FilePath = filePath,
-                    Password = password,
-                    StorageName = storageName
-                },
-
+                FileInfo = fileInfo,
                 RenderOptions = new RenderOptions(),
-
                 ViewFormat = ViewOptions.ViewFormatEnum.PDF
             };
 
-            var viewResult = await SendPost<ViewResult>("viewer/view", viewOptions);
+            var viewResult = await Send<ViewResult>("viewer/view", HttpMethod.Post, viewOptions);
             if (!viewResult.IsSuccess)
                 return Result.Fail<byte[]>(viewResult);
 
             var pdfFile = viewResult.Value.File;
-            var pdfBytesResult = await DownloadFileAsync(pdfFile, storageName);
+            var pdfBytesResult = await DownloadResourceAsync(pdfFile, fileInfo.StorageName);
 
             return pdfBytesResult;
         }
 
-        private async Task<Result<byte[]>> DownloadFileAsync(Resource resource, string storageName)
+        public async Task<Result<ViewResult>> CreatePagesAsync(int[] pageNumbers,
+            ViewOptions.ViewFormatEnum viewFormat, FileInfo fileInfo)
+        {
+            var viewOptions = new ViewOptions
+            {
+                FileInfo = fileInfo,
+
+                RenderOptions = new RenderOptions
+                {
+                    PagesToRender = pageNumbers.Select(x => (int?)x).ToList()
+                },
+
+                ViewFormat = viewFormat
+            };
+
+            var viewResult = await Send<ViewResult>("viewer/view", HttpMethod.Post, viewOptions);
+            if (!viewResult.IsSuccess)
+                return Result.Fail<ViewResult>(viewResult);
+
+            return Result.Ok(viewResult.Value);
+        }
+
+        public async Task<Result<byte[]>> DownloadResourceAsync(Resource resource, string storageName)
         {
             var requestUri = $"viewer/storage/file/{resource.Path}?storageName={storageName}";
             var response = await _httpClient.GetAsync(requestUri);
@@ -89,11 +101,11 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
             {
                 var responseJson = await response.Content.ReadAsStringAsync();
 
-                if (TryDeserialize(responseJson, out ErrorResponse errorResponse) 
+                if (TryDeserialize(responseJson, out ErrorResponse errorResponse)
                     && errorResponse.Error != null)
                     return Result.Fail<byte[]>(errorResponse.Error.Message);
 
-                if (TryDeserialize(responseJson, out Error error) 
+                if (TryDeserialize(responseJson, out Error error)
                     && error.Message != null)
                     return Result.Fail<byte[]>(error.Message);
 
@@ -104,22 +116,71 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
             return Result.Ok(bytes);
         }
 
-        private async Task<Result<T>> SendPost<T>(string requestUri, object request)
+        public async Task<Result<bool>> CheckFileExistsAsync(string filePath, string storageName)
         {
-            var message = new HttpRequestMessage(HttpMethod.Post, requestUri);
-            var requestJson = JsonSerializer.Serialize(request, _jsonSerializerOptions);
-            message.Content = new StringContent(requestJson, Encoding.UTF8, "application/json");
+            var requestUri = $"viewer/storage/exist/{filePath}?storageName={storageName}";
+            var existResult = await Send<ObjectExist>(requestUri, HttpMethod.Get);
+
+            if (existResult.IsFailure)
+                return Result.Fail<bool>(existResult);
+
+            return Result.Ok(existResult.Value.Exists.GetValueOrDefault());
+        }
+
+        public async Task<Result> UploadFileAsync(string filePath, string storageName, byte[] bytes)
+        {
+            var requestUri = $"viewer/storage/file/{filePath}?storageName={storageName}";
+            var uploadResult = await Upload<FilesUploadResult>(requestUri, bytes);
+
+            if()
+
+        }
+
+        private async Task<Result<T>> Send<T>(string requestUri, HttpMethod method, object request = null)
+        {
+            var message = new HttpRequestMessage(method, requestUri);
+
+            if (request != null)
+            {
+                var requestJson = JsonSerializer.Serialize(request, _jsonSerializerOptions);
+                message.Content = new StringContent(requestJson, Encoding.UTF8, "application/json");
+            }
 
             var response = await _httpClient.SendAsync(message);
             var responseJson = await response.Content.ReadAsStringAsync();
 
             if (!response.IsSuccessStatusCode)
             {
-                if (TryDeserialize(responseJson, out ErrorResponse errorResponse) 
+                if (TryDeserialize(responseJson, out ErrorResponse errorResponse)
                     && errorResponse.Error != null)
                     return Result.Fail<T>(errorResponse.Error.Message);
 
-                if (TryDeserialize(responseJson, out Error error) 
+                if (TryDeserialize(responseJson, out Error error)
+                    && error.Message != null)
+                    return Result.Fail<T>(error.Message);
+
+                return Result.Fail<T>(responseJson);
+            }
+
+            var obj = JsonSerializer.Deserialize<T>(responseJson, _jsonSerializerOptions);
+            return Result.Ok(obj);
+        }
+
+        private async Task<Result<T>> Upload<T>(string requestUri, byte[] data)
+        {
+            var message = new HttpRequestMessage(HttpMethod.Post, requestUri);
+            message.Content = new ByteArrayContent(data);
+
+            var response = await _httpClient.SendAsync(message);
+            var responseJson = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                if (TryDeserialize(responseJson, out ErrorResponse errorResponse)
+                    && errorResponse.Error != null)
+                    return Result.Fail<T>(errorResponse.Error.Message);
+
+                if (TryDeserialize(responseJson, out Error error)
                     && error.Message != null)
                     return Result.Fail<T>(error.Message);
 

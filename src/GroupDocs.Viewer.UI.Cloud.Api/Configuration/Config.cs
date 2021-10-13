@@ -4,7 +4,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Configuration
 {
     public class Config
     {
-        internal string ApiEndpoint = "https://api.groupdocs.cloud/v2.0/";
+        internal string ApiEndpoint = "https://api-qa.groupdocs.cloud/v2.0/";
         internal string ClientId = string.Empty;
         internal string ClientSecret = string.Empty;
         internal string StorageName = string.Empty;

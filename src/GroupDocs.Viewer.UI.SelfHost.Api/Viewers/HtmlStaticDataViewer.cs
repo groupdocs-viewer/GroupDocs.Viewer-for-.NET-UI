@@ -8,7 +8,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 {
     internal class HtmlStaticDataViewer : IViewer
     {
-        public Task<Pages> RenderPagesAsync(string filePath, string password, int[] pageNumbers)
+        public Task<Pages> GetPagesAsync(string filePath, string password, int[] pageNumbers)
         {
             var pageTemplate = @"
                 <!DOCTYPE html>
@@ -50,7 +50,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             return Task.FromResult(documentInfo);
         }
 
-        public Task<byte[]> CreatePdfAsync(string filePath, string password)
+        public Task<byte[]> GetPdfAsync(string filePath, string password)
         {
             var bytes = Encoding.UTF8.GetBytes(@"
 %PDF-1.4

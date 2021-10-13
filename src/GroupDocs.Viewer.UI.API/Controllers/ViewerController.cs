@@ -132,7 +132,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             {
                 var filename = Path.GetFileName(request.Guid);
                 var pdfFileName = Path.ChangeExtension(filename, Keys.PDF_FILE_EXTENSION);
-                var pdfFileBytes = await _viewer.CreatePdfAsync(request.Guid, request.Password);
+                var pdfFileBytes = await _viewer.GetPdfAsync(request.Guid, request.Password);
 
                 return File(pdfFileBytes, Keys.PDF_FILE_CONTENT_TYPE, pdfFileName);
             }
@@ -195,7 +195,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             try
             {
                 var pages =
-                                (await _viewer.RenderPagesAsync(request.Guid, request.Password, request.Pages))
+                                (await _viewer.GetPagesAsync(request.Guid, request.Password, request.Pages))
                                 .Select(page => new PageContent { Number = page.Number, Data = page.Data })
                                 .ToList();
 
@@ -221,7 +221,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         {
             try
             {
-                var pages = await _viewer.RenderPagesAsync(request.Guid, request.Password, request.Pages);
+                var pages = await _viewer.GetPagesAsync(request.Guid, request.Password, request.Pages);
                 var page = pages.FirstOrDefault();
 
                 return OkJsonResult(page);

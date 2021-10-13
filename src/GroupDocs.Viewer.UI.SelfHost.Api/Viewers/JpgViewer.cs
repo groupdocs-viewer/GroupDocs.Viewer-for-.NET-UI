@@ -53,7 +53,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             return viewer;
         }
 
-        public Task<byte[]> CreatePdfAsync(string filePath, string password) =>
+        public Task<byte[]> GetPdfAsync(string filePath, string password) =>
             _fileCache.GetValueAsync(CacheKeys.PDF_FILE_CACHE_KEY, filePath, async () =>
             {
                 var pdfStream = new MemoryStream();
@@ -68,7 +68,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
         public Task<byte[]> GetPageResourceAsync(string filePath, string password, int pageNumber, string resourceName) =>
             Task.FromResult(new byte[0]);
 
-        public async Task<Pages> RenderPagesAsync(string filePath, string password, int[] pageNumbers)
+        public async Task<Pages> GetPagesAsync(string filePath, string password, int[] pageNumbers)
         {
             Viewer viewer = null;
             var pages = new List<Core.Entities.Page>();
