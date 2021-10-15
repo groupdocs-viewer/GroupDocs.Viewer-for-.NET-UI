@@ -217,12 +217,14 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> LoadDocumentPage([FromBody] LoadDocumentPagesRequest request)
+        public async Task<IActionResult> LoadDocumentPage([FromBody] LoadDocumentPageRequest request)
         {
             try
             {
-                var pages = await _viewer.RenderPagesAsync(request.Guid, request.Password, request.Pages);
-                var page = pages.FirstOrDefault();
+                var pages = await _viewer.RenderPagesAsync(request.Guid, request.Password, new int[] {request.Page});
+                var page = pages
+                    .Select(p => new PageContent {Number = p.Number, Data = p.Data})
+                    .FirstOrDefault();
 
                 return OkJsonResult(page);
             }

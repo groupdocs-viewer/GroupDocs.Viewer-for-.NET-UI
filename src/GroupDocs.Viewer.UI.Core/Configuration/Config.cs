@@ -1,6 +1,4 @@
-﻿using GroupDocs.Viewer.UI.Core;
-
-namespace GroupDocs.Viewer.UI.Core.Configuration
+﻿namespace GroupDocs.Viewer.UI.Core.Configuration
 {
     public class Config
     {
@@ -20,6 +18,43 @@ namespace GroupDocs.Viewer.UI.Core.Configuration
         internal bool Browse { get; private set; } = true;
         internal bool PrintAllowed { get; private set; } = true;
         internal bool HtmlMode { get; private set; } = true;
+        //I18n
+        internal bool ShowLanguageMenu { get; private set; } = true;
+        internal string DefaultLanguage { get; private set; } = "en";
+        internal string[] SupportedLanguages { get; private set; } = new string[]
+        {
+            "ar", // ar - العربية
+            "ca", // ca-ES - Català
+            "cs", // cs-CZ - Čeština
+            "da", // da-DK - Dansk
+            "de", // de-DE - Deutsch
+            "el", // el-GR - Ελληνικά
+            "en", // en-US - English
+            "es", // es-ES - Español
+            "fil", // fil-PH - Filipino
+            "fr", // fr-FR - Français
+            "he", // he-IL - עברית
+            "hi", // hi-IN - हिन्दी
+            "id", // id-ID - Indonesia
+            "it", // it-IT - Italiano
+            "ja", // ja-JP - 日本語
+            "kk", // kk-KZ - Қазақ Тілі
+            "ko", // ko-KR - 한국어
+            "ms", // ms-MY - Melayu
+            "nl", // nl-NL - Nederlands
+            "pl", // pl-PL - Polski
+            "pt", // pt-PT - Português
+            "ro", // ro-RO - Română
+            "ru", // ru-RU - Русский
+            "sv", // sv-SE - Svenska
+            "vi", // vi-VN - Tiếng Việt
+            "th", // th-TH - ไทย
+            "tr", // tr-TR - Türkçe
+            "uk", // uk-UA - Українська
+            "zh-hans", // zh-Hans - 中文(简体)
+            "zh-hant", // zh-Hant" - 中文(繁體)
+        };
+
         //TODO: Not implemented
         internal bool Rotate = false;
         internal bool SaveRotateState  = false;
@@ -107,6 +142,94 @@ namespace GroupDocs.Viewer.UI.Core.Configuration
         public Config DisableRightClick()
         {
             EnableRightClick = false;
+            return this;
+        }
+
+        public Config HideLanguageMenu()
+        {
+            ShowLanguageMenu = false;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets default language out of supported:
+        /// "ar" - العربية
+        /// "ca" - Català
+        /// "cs" - Čeština
+        /// "da" - Dansk
+        /// "de" - Deutsch
+        /// "el" - Ελληνικά
+        /// "en" - English
+        /// "es" - Español
+        /// "fil" - Filipino
+        /// "fr" - Français
+        /// "he" - עברית
+        /// "hi" - हिन्दी
+        /// "id" - Indonesia
+        /// "it" - Italiano
+        /// "ja" - 日本語
+        /// "kk" - Қазақ Тілі
+        /// "ko" - 한국어
+        /// "ms" - Melayu
+        /// "nl" - Nederlands
+        /// "pl" - Polski
+        /// "pt" - Português
+        /// "ro" - Română
+        /// "ru" - Русский
+        /// "sv" - Svenska
+        /// "vi" - Tiếng Việt
+        /// "th" - ไทย
+        /// "tr" - Türkçe
+        /// "uk" - Українська
+        /// "zh-hans" - 中文(简体)
+        /// "zh-hant" - 中文(繁體)
+        /// </summary>
+        /// <param name="defaultLanguage">Default language code e.g. `en`.</param>
+        /// <returns>This config instance.</returns>
+        public Config SetDefaultLanguage(string defaultLanguage)
+        {
+            DefaultLanguage = defaultLanguage;
+            return this;
+        }
+
+        /// <summary>
+        /// Set supported UI languages. The following languages are supported:
+        /// "ar" - العربية
+        /// "ca" - Català
+        /// "cs" - Čeština
+        /// "da" - Dansk
+        /// "de" - Deutsch
+        /// "el" - Ελληνικά
+        /// "en" - English
+        /// "es" - Español
+        /// "fil" - Filipino
+        /// "fr" - Français
+        /// "he" - עברית
+        /// "hi" - हिन्दी
+        /// "id" - Indonesia
+        /// "it" - Italiano
+        /// "ja" - 日本語
+        /// "kk" - Қазақ Тілі
+        /// "ko" - 한국어
+        /// "ms" - Melayu
+        /// "nl" - Nederlands
+        /// "pl" - Polski
+        /// "pt" - Português
+        /// "ro" - Română
+        /// "ru" - Русский
+        /// "sv" - Svenska
+        /// "vi" - Tiếng Việt
+        /// "th" - ไทย
+        /// "tr" - Türkçe
+        /// "uk" - Українська
+        /// "zh-hans" - 中文(简体)
+        /// "zh-hant" - 中文(繁體)
+        /// </summary>
+        /// <param name="supportedLanguages">The array of supported language codes.</param>
+        /// <returns>This config instance.</returns>
+        public Config SetSupportedLanguages(string[] supportedLanguages)
+        {
+            SupportedLanguages = supportedLanguages;
             return this;
         }
     }

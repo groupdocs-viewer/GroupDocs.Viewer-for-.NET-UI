@@ -54,8 +54,7 @@ namespace Microsoft.AspNetCore.Builder
             {
                 if (string.IsNullOrEmpty(endpoint))
                 {
-                    throw new ArgumentException(
-                        "The value can't be null or empty.", argument);
+                    throw new ArgumentException("The value can't be null or empty.", argument);
                 }
             };
 
