@@ -131,9 +131,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
         {
             var requestUri = $"viewer/storage/file/{filePath}?storageName={storageName}";
             var uploadResult = await Upload<FilesUploadResult>(requestUri, bytes);
-
-            if()
-
+            return uploadResult;
         }
 
         private async Task<Result<T>> Send<T>(string requestUri, HttpMethod method, object request = null)
@@ -168,7 +166,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
 
         private async Task<Result<T>> Upload<T>(string requestUri, byte[] data)
         {
-            var message = new HttpRequestMessage(HttpMethod.Post, requestUri);
+            var message = new HttpRequestMessage(HttpMethod.Put, requestUri);
             message.Content = new ByteArrayContent(data);
 
             var response = await _httpClient.SendAsync(message);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using GroupDocs.Viewer.Cloud.Sdk.Model;
 using GroupDocs.Viewer.UI.Api.Caching;
@@ -18,6 +19,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
         private readonly IFileCache _fileCache;
         private readonly IFileStorage _fileStorage;
         private readonly IViewerApiConnect _viewerApiConnect;
+        private readonly AsyncDuplicateLock _asyncDuplicateLock = new AsyncDuplicateLock();
 
         public PngViewer(
             IOptions<Config> config,
@@ -33,27 +35,32 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
 
         public async Task<Pages> GetPagesAsync(string filePath, string password, int[] pageNumbers)
         {
-            var pages = new List<Page>();
-            var pagesToCreate = new List<int>();
-
-            foreach (var pageNumber in pageNumbers)
+            using (await _asyncDuplicateLock.LockAsync(filePath))
             {
-                string cacheKey = CacheKeys.GetPngPageCacheKey(pageNumber);
-                var cachedPageData = await _fileCache.TryGetValueAsync<byte[]>(cacheKey, filePath);
-                
-                if (cachedPageData != default)
-                    pages.Add(new PngPage(pageNumber, cachedPageData));
-                else
-                    pagesToCreate.Add(pageNumber);
-            }
+                var pages = new List<Page>();
+                var pagesToCreate = new List<int>();
 
-            if (pagesToCreate.Any())
-            {
-                var createdPages = await CreatePagesAsync(filePath, password, pagesToCreate);
-                pages.AddRange(createdPages);
-            }
+                foreach (var pageNumber in pageNumbers)
+                {
+                    string cacheKey = CacheKeys.GetPngPageCacheKey(pageNumber);
+                    var cachedPageData = await _fileCache.TryGetValueAsync<byte[]>(cacheKey, filePath);
 
-            return new Pages(pages);
+                    if (cachedPageData != default)
+                        pages.Add(new PngPage(pageNumber, cachedPageData));
+                    else
+                        pagesToCreate.Add(pageNumber);
+                }
+
+                if (pagesToCreate.Any())
+                {
+                    await UploadFileIfNotExists(filePath);
+
+                    var createdPages = await CreatePagesAsync(filePath, password, pagesToCreate);
+                    pages.AddRange(createdPages);
+                }
+
+                return new Pages(pages);
+            }
         }
 
         private async Task<List<Page>> CreatePagesAsync(string filePath, string password, List<int> pagesToCreate)
@@ -66,8 +73,6 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
                 Password = password,
                 StorageName = _config.StorageName
             };
-
-            await UploadFileIfNotExists(filePath);
 
             var createPagesResult = await _viewerApiConnect.CreatePagesAsync(
                 pagesToCreate.ToArray(), ViewOptions.ViewFormatEnum.PNG, fileInfo);
@@ -138,16 +143,85 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
 
         private async Task UploadFileIfNotExists(string filePath)
         {
-            var existsResult = await _viewerApiConnect.CheckFileExistsAsync(filePath, _config.StorageName);
-            if (existsResult.IsFailure)
-                throw new Exception(existsResult.Message);
-
-            if (!existsResult.Value)
+            using (await _asyncDuplicateLock.LockAsync(filePath))
             {
-                var bytes = await _fileStorage.ReadFileAsync(filePath);
-                var uploadResult = await _viewerApiConnect.UploadFileAsync(filePath, _config.StorageName, bytes);
-                if (uploadResult.IsFailure)
-                    throw new Exception(uploadResult.Message);
+                var existsResult = await _viewerApiConnect.CheckFileExistsAsync(filePath, _config.StorageName);
+                if (existsResult.IsFailure)
+                    throw new Exception(existsResult.Message);
+
+                if (!existsResult.Value)
+                {
+                    var bytes = await _fileStorage.ReadFileAsync(filePath);
+                    var uploadResult = await _viewerApiConnect.UploadFileAsync(filePath, _config.StorageName, bytes);
+                    if (uploadResult.IsFailure)
+                        throw new Exception(uploadResult.Message);
+                }
+            }
+        }
+    }
+
+    public sealed class AsyncDuplicateLock
+    {
+        private sealed class RefCounted<T>
+        {
+            public RefCounted(T value)
+            {
+                RefCount = 1;
+                Value = value;
+            }
+
+            public int RefCount { get; set; }
+            public T Value { get; private set; }
+        }
+
+        private static readonly Dictionary<object, RefCounted<SemaphoreSlim>> SemaphoreSlims
+            = new Dictionary<object, RefCounted<SemaphoreSlim>>();
+
+        private SemaphoreSlim GetOrCreate(object key)
+        {
+            RefCounted<SemaphoreSlim> item;
+            lock (SemaphoreSlims)
+            {
+                if (SemaphoreSlims.TryGetValue(key, out item))
+                {
+                    ++item.RefCount;
+                }
+                else
+                {
+                    item = new RefCounted<SemaphoreSlim>(new SemaphoreSlim(1, 1));
+                    SemaphoreSlims[key] = item;
+                }
+            }
+            return item.Value;
+        }
+
+        public IDisposable Lock(object key)
+        {
+            GetOrCreate(key).Wait();
+            return new Releaser { Key = key };
+        }
+
+        public async Task<IDisposable> LockAsync(object key)
+        {
+            await GetOrCreate(key).WaitAsync().ConfigureAwait(false);
+            return new Releaser { Key = key };
+        }
+
+        private sealed class Releaser : IDisposable
+        {
+            public object Key { get; set; }
+
+            public void Dispose()
+            {
+                RefCounted<SemaphoreSlim> item;
+                lock (SemaphoreSlims)
+                {
+                    item = SemaphoreSlims[Key];
+                    --item.RefCount;
+                    if (item.RefCount == 0)
+                        SemaphoreSlims.Remove(Key);
+                }
+                item.Value.Release();
             }
         }
     }
