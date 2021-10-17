@@ -1,4 +1,4 @@
-import { Inject, Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { ViewerAppComponent, ViewerService, ViewerConfigService } from '@groupdocs.examples.angular/viewer';
@@ -13,9 +13,10 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AppComponent extends ViewerAppComponent {
 
+    configService: ConfigService;
     viewerService: ViewerService;
-    renderPrintService: RenderPrintService;
     pagesLoading: number[];
+    http: HttpClient;
 
     constructor(viewerService: ViewerService,
         modalService: ModalService,
@@ -28,8 +29,8 @@ export class AppComponent extends ViewerAppComponent {
         passwordService: PasswordService,
         windowService: WindowService,
         loadingMaskService: LoadingMaskService,
-        private http: HttpClient,
-        @Inject(ConfigService) private config: ConfigService,
+        http: HttpClient,
+        configService: ConfigService,
         cdr: ChangeDetectorRef,
         translate: TranslateService) {
 
@@ -47,9 +48,10 @@ export class AppComponent extends ViewerAppComponent {
             cdr,
             translate);
 
-        this.renderPrintService = renderPrintService;
+        this.configService = configService;
         this.viewerService = viewerService;
         this.pagesLoading = [];
+        this.http = http;
     }
 
     preloadPages(start: number, end: number) {
@@ -120,7 +122,7 @@ export class AppComponent extends ViewerAppComponent {
     }
 
     loadPages(credentials: FileCredentials, pages: number[]) {
-        return this.http.post(this.config.getViewerApiEndpoint() + Api.LOAD_DOCUMENT_PAGE + "s", {
+        return this.http.post(this.configService.getViewerApiEndpoint() + Api.LOAD_DOCUMENT_PAGE + "s", {
             'guid': credentials.guid,
             'password': credentials.password,
             'pages': pages

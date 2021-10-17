@@ -44,7 +44,7 @@ export class StaticViewerConfigService {
         showGridLines: true,
         showLanguageMenu: true,
         defaultLanguage: 'en',
-        supportedLanguages: ['en', 'uk']
+        supportedLanguages: ['en', 'fr', 'de']
     }).asObservable();
 
     load(): Promise<void> {
@@ -53,7 +53,7 @@ export class StaticViewerConfigService {
 }
 */
 
-export function endPoint() {
+export function configServiceFactory() {
   let config = new ConfigService();
   config.apiEndpoint = window.apiEndpoint;
   config.getViewerApiEndpoint = () => window.apiEndpoint;
@@ -78,7 +78,7 @@ export function endPoint() {
   ],
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
-    { provide: ConfigService, useFactory: endPoint },
+    { provide: ConfigService, useFactory: configServiceFactory },
 /*
     { provide: ViewerConfigService, useClass: StaticViewerConfigService },
 */

@@ -1,4 +1,6 @@
-﻿namespace GroupDocs.Viewer.UI.Core.Configuration
+﻿using System.Linq;
+
+namespace GroupDocs.Viewer.UI.Core.Configuration
 {
     public class Config
     {
@@ -153,83 +155,83 @@
 
         /// <summary>
         /// Sets default language out of supported:
-        /// "ar" - العربية
-        /// "ca" - Català
-        /// "cs" - Čeština
-        /// "da" - Dansk
-        /// "de" - Deutsch
-        /// "el" - Ελληνικά
-        /// "en" - English
-        /// "es" - Español
-        /// "fil" - Filipino
-        /// "fr" - Français
-        /// "he" - עברית
-        /// "hi" - हिन्दी
-        /// "id" - Indonesia
-        /// "it" - Italiano
-        /// "ja" - 日本語
-        /// "kk" - Қазақ Тілі
-        /// "ko" - 한국어
-        /// "ms" - Melayu
-        /// "nl" - Nederlands
-        /// "pl" - Polski
-        /// "pt" - Português
-        /// "ro" - Română
-        /// "ru" - Русский
-        /// "sv" - Svenska
-        /// "vi" - Tiếng Việt
-        /// "th" - ไทย
-        /// "tr" - Türkçe
-        /// "uk" - Українська
-        /// "zh-hans" - 中文(简体)
-        /// "zh-hant" - 中文(繁體)
+        /// <see cref="Language.Arabic"/>,
+        /// <see cref="Language.Catalan"/>,
+        /// <see cref="Language.Czech"/>,
+        /// <see cref="Language.Danish"/>,
+        /// <see cref="Language.German"/>,
+        /// <see cref="Language.Greek"/>,
+        /// <see cref="Language.English"/>,
+        /// <see cref="Language.Spanish"/>,
+        /// <see cref="Language.Filipino"/>,
+        /// <see cref="Language.French"/>,
+        /// <see cref="Language.Hebrew"/>,
+        /// <see cref="Language.Hindi"/>,
+        /// <see cref="Language.Indonesian"/>,
+        /// <see cref="Language.Italian"/>,
+        /// <see cref="Language.Japanese"/>,
+        /// <see cref="Language.Kazakh"/>,
+        /// <see cref="Language.Korean"/>,
+        /// <see cref="Language.Malay"/>,
+        /// <see cref="Language.Dutch"/>,
+        /// <see cref="Language.Polish"/>,
+        /// <see cref="Language.Portuguese"/>,
+        /// <see cref="Language.Romanian"/>,
+        /// <see cref="Language.Russian"/>,
+        /// <see cref="Language.Swedish"/>,
+        /// <see cref="Language.Vietnamese"/>,
+        /// <see cref="Language.Thai"/>,
+        /// <see cref="Language.Turkish"/>,
+        /// <see cref="Language.Ukrainian"/>,
+        /// <see cref="Language.ChineseSimplified"/>,
+        /// <see cref="Language.ChineseTraditional"/>
         /// </summary>
-        /// <param name="defaultLanguage">Default language code e.g. `en`.</param>
+        /// <param name="language">Default language e.g. <see cref="Language.English"/>.</param>
         /// <returns>This config instance.</returns>
-        public Config SetDefaultLanguage(string defaultLanguage)
+        public Config SetDefaultLanguage(Language language)
         {
-            DefaultLanguage = defaultLanguage;
+            DefaultLanguage = language.Code;
             return this;
         }
 
         /// <summary>
         /// Set supported UI languages. The following languages are supported:
-        /// "ar" - العربية
-        /// "ca" - Català
-        /// "cs" - Čeština
-        /// "da" - Dansk
-        /// "de" - Deutsch
-        /// "el" - Ελληνικά
-        /// "en" - English
-        /// "es" - Español
-        /// "fil" - Filipino
-        /// "fr" - Français
-        /// "he" - עברית
-        /// "hi" - हिन्दी
-        /// "id" - Indonesia
-        /// "it" - Italiano
-        /// "ja" - 日本語
-        /// "kk" - Қазақ Тілі
-        /// "ko" - 한국어
-        /// "ms" - Melayu
-        /// "nl" - Nederlands
-        /// "pl" - Polski
-        /// "pt" - Português
-        /// "ro" - Română
-        /// "ru" - Русский
-        /// "sv" - Svenska
-        /// "vi" - Tiếng Việt
-        /// "th" - ไทย
-        /// "tr" - Türkçe
-        /// "uk" - Українська
-        /// "zh-hans" - 中文(简体)
-        /// "zh-hant" - 中文(繁體)
+        /// <see cref="Language.Arabic"/>,
+        /// <see cref="Language.Catalan"/>,
+        /// <see cref="Language.Czech"/>,
+        /// <see cref="Language.Danish"/>,
+        /// <see cref="Language.German"/>,
+        /// <see cref="Language.Greek"/>,
+        /// <see cref="Language.English"/>,
+        /// <see cref="Language.Spanish"/>,
+        /// <see cref="Language.Filipino"/>,
+        /// <see cref="Language.French"/>,
+        /// <see cref="Language.Hebrew"/>,
+        /// <see cref="Language.Hindi"/>,
+        /// <see cref="Language.Indonesian"/>,
+        /// <see cref="Language.Italian"/>,
+        /// <see cref="Language.Japanese"/>,
+        /// <see cref="Language.Kazakh"/>,
+        /// <see cref="Language.Korean"/>,
+        /// <see cref="Language.Malay"/>,
+        /// <see cref="Language.Dutch"/>,
+        /// <see cref="Language.Polish"/>,
+        /// <see cref="Language.Portuguese"/>,
+        /// <see cref="Language.Romanian"/>,
+        /// <see cref="Language.Russian"/>,
+        /// <see cref="Language.Swedish"/>,
+        /// <see cref="Language.Vietnamese"/>,
+        /// <see cref="Language.Thai"/>,
+        /// <see cref="Language.Turkish"/>,
+        /// <see cref="Language.Ukrainian"/>,
+        /// <see cref="Language.ChineseSimplified"/>,
+        /// <see cref="Language.ChineseTraditional"/>
         /// </summary>
-        /// <param name="supportedLanguages">The array of supported language codes.</param>
+        /// <param name="languages">Supported languages.</param>
         /// <returns>This config instance.</returns>
-        public Config SetSupportedLanguages(string[] supportedLanguages)
+        public Config SetSupportedLanguages(params Language[] languages)
         {
-            SupportedLanguages = supportedLanguages;
+            SupportedLanguages = languages.Select(l => l.Code).ToArray();
             return this;
         }
     }
