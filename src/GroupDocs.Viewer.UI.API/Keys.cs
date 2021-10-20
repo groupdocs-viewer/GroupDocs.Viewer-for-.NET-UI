@@ -7,6 +7,7 @@
         internal const string BINARY_FILE_CONTENT_TYPE = "application/octet-stream";
 
         internal const string CONTROLLER_NAME = "Viewer";
+        internal const string LOAD_CONFIG_ACTION_NAME = "LoadConfig";
         internal const string LOAD_FILE_TREE_ACTION_NAME = "LoadFileTree";
         internal const string DOWNLOAD_DOCUMENT_ACTION_NAME = "DownloadDocument";
         internal const string LOAD_DOCUMENT_PAGE_RESOURCE_ACTION_NAME = "LoadDocumentPageResource";
