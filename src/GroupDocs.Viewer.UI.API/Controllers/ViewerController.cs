@@ -22,9 +22,14 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         private readonly IViewer _viewer;
         private readonly Config _config;
 
-        private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions()
+        private readonly JsonSerializerOptions _defaultSerializerOptions = new JsonSerializerOptions()
         {
             IgnoreNullValues = false
+        };
+
+        private readonly JsonSerializerOptions _configSerializerOptions = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
 
         public ViewerController(IFileStorage fileStorage, IViewer viewer, IOptions<Config> config)
@@ -32,6 +37,32 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             _fileStorage = fileStorage;
             _viewer = viewer;
             _config = config.Value;
+        }
+
+        [HttpGet]
+        public IActionResult LoadConfig()
+        {
+            var config = new
+            {
+                _config.PageSelector,
+                _config.Download,
+                _config.Upload,
+                _config.Print,
+                _config.Browse,
+                _config.Rewrite,
+                _config.EnableRightClick,
+                _config.DefaultDocument,
+                _config.PreloadPageCount,
+                _config.Zoom,
+                _config.Search,
+                _config.Thumbnails,
+                _config.HtmlMode,
+                _config.PrintAllowed,
+                _config.Rotate,
+                _config.SaveRotateState,
+            };
+
+            return new JsonResult(config, _configSerializerOptions);
         }
 
         [HttpPost]
@@ -217,12 +248,16 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> LoadDocumentPage([FromBody] LoadDocumentPagesRequest request)
+        public async Task<IActionResult> LoadDocumentPage([FromBody] LoadDocumentPageRequest request)
         {
             try
             {
-                var pages = await _viewer.RenderPagesAsync(request.Guid, request.Password, request.Pages);
-                var page = pages.FirstOrDefault();
+                var pages = await _viewer.RenderPagesAsync(
+                    request.Guid, request.Password, new int[] { request.Page });
+
+                var page = pages
+                    .Select(page => new PageContent { Number = page.Number, Data = page.Data })
+                    .FirstOrDefault();
 
                 return OkJsonResult(page);
             }
@@ -274,24 +309,24 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         }
 
         private IActionResult ErrorJsonResult(string message) =>
-            new JsonResult(new ErrorResponse(message), _serializerOptions)
+            new JsonResult(new ErrorResponse(message), _defaultSerializerOptions)
             {
                 StatusCode = StatusCodes.Status500InternalServerError
             };
 
         private IActionResult ForbiddenJsonResult(string message) =>
-            new JsonResult(new ErrorResponse(message), _serializerOptions)
+            new JsonResult(new ErrorResponse(message), _defaultSerializerOptions)
             {
                 StatusCode = StatusCodes.Status403Forbidden
             };
 
         private IActionResult NotFoundJsonResult(string message) =>
-            new JsonResult(new ErrorResponse(message), _serializerOptions)
+            new JsonResult(new ErrorResponse(message), _defaultSerializerOptions)
             {
                 StatusCode = StatusCodes.Status404NotFound
             };
 
         private IActionResult OkJsonResult(object result) =>
-            new JsonResult(result, _serializerOptions);
+            new JsonResult(result, _defaultSerializerOptions);
     }
 }

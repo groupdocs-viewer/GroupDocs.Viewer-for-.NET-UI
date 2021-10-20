@@ -26,6 +26,7 @@ namespace Microsoft.AspNetCore.Builder
 
             var actions = new []
             {
+                Keys.LOAD_CONFIG_ACTION_NAME,
                 Keys.LOAD_FILE_TREE_ACTION_NAME,
                 Keys.DOWNLOAD_DOCUMENT_ACTION_NAME,
                 Keys.UPLOAD_DOCUMENT_ACTION_NAME,
