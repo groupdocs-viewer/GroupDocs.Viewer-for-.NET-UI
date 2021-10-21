@@ -58,7 +58,26 @@ public class Startup
 }
 ```
 
-This code registers **/viewer** middleware that will serve SPA and **/viewer-api** middleware that will serve content for the UI to display. The SPA source code can be found at [GitHub](https://github.com/groupdocs-total/GroupDocs.Total-Angular).
+This code registers **/viewer** middleware that will serve SPA and **/viewer-api** middleware that will serve content for the UI to display. 
+
+## UI
+
+The UI is Angular SPA that is build upon [@groupdocs.examples.angular/viewer](https://www.npmjs.com/package/@groupdocs.examples.angular/viewer) package.
+
+### Changing UI Language
+
+The default UI language is English. The list of suported languages can be found in [Language.cs](src/GroupDocs.Viewer.UI.Core/Configuration/Language.cs) file. The default language, supported languages, and language menu visibility can be configured in `ConfigureServices` method:
+```
+services
+    .AddGroupDocsViewerUI(config =>
+    {
+        config.SetDefaultLanguage(Language.French);
+        config.SetSupportedLanguages(Language.English, Language.French, Language.Dutch);
+        config.HideLanguageMenu();
+    });
+``` 
+The SPA can also read language code from path or query string. In case path to the app contains language code e.g. `/fr/` or `/fr-fr/` the default language will be set to French. Or you can specify language code as a `lang` query string parameter e.g. `?lang=fr`. 
+
 
 ## API
 
@@ -161,6 +180,8 @@ services
     .AddLocalStorage("./Files")
     .AddInMemoryCache();
 ```
+
+
 
 ## Contributing
 

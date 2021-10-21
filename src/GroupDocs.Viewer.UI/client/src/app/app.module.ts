@@ -1,36 +1,24 @@
-import { Injectable, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
 
 import { AppComponent } from './app.component';
-
-import { ConfigService, FileCredentials } from '@groupdocs.examples.angular/common-components';
+import { ConfigService } from '@groupdocs.examples.angular/common-components';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ViewerConfigService, ViewerService, ViewerModule } from '@groupdocs.examples.angular/viewer';
+import { ViewerConfigService, ViewerModule } from '@groupdocs.examples.angular/viewer';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { ViewerTranslateLoader } from "@groupdocs.examples.angular/viewer";
 
 declare global {
   interface Window {
-    apiEndpoint:string;
-    uiSettingsPath:string;
+    apiEndpoint: string;
+    uiSettingsPath: string;
   }
 }
 
-@Injectable({
-  providedIn: 'root'
-})
-export class NoThumbnailsViewerService extends ViewerService {
-
-  constructor(http: HttpClient, config: ConfigService) {
-    super(http, config);
-  }
-
-  loadThumbnails(credentials: FileCredentials) : Observable<Object> {
-    return new BehaviorSubject({});
-  }
-}
-
+/*
 export class StaticViewerConfigService {
     public updatedConfig: Observable<any> = new BehaviorSubject({
         pageSelector: true,
@@ -42,26 +30,30 @@ export class StaticViewerConfigService {
         enableRightClick: true,
         filesDirectory: "",
         fontsDirectory: "",
-        defaultDocument: "1-pages.doc",
+        defaultDocument: "",
         watermarkText: "",
         preloadPageCount: 3,
         zoom: true,
         search: true,
         thumbnails: true,
         rotate: false,
-        htmlMode: false,
+        htmlMode: true,
         cache: true,
         saveRotateState: false,
         printAllowed: true,
         showGridLines: true,
+        showLanguageMenu: true,
+        defaultLanguage: 'en',
+        supportedLanguages: ['en', 'fr', 'de']
     }).asObservable();
 
     load(): Promise<void> {
         return Promise.resolve();
     }
 }
+*/
 
-export function endPoint() {
+export function configServiceFactory() {
   let config = new ConfigService();
   config.apiEndpoint = window.apiEndpoint;
   config.getViewerApiEndpoint = () => window.apiEndpoint;
@@ -76,13 +68,20 @@ export function endPoint() {
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     ViewerModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useClass: ViewerTranslateLoader
+      }
+    })
   ],
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
-    { provide: ConfigService, useFactory: endPoint },
-    /*{ provide: ViewerConfigService, useClass: StaticViewerConfigService },*/
-    { provide: ViewerService, useClass: NoThumbnailsViewerService },
+    { provide: ConfigService, useFactory: configServiceFactory },
+/*
+    { provide: ViewerConfigService, useClass: StaticViewerConfigService },
+*/
     { provide: 'WINDOW', useValue: window },
   ],
   bootstrap: [AppComponent]

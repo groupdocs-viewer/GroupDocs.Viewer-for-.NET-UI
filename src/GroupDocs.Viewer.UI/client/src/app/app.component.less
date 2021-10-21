@@ -24,29 +24,16 @@
   height     : 100%;
   width      : 100%;
   position   : fixed;
-  top        : 0px;
+  top        : 0;
   bottom     : 0;
   left       : 0;
   right      : 0;
-}
-
-.wrapper-fullscreen {
-  top        : 0px !important;
-}
-
-.wrapper-with-header {
-  top        : 60px !important;
 }
 
 .doc-panel {
   display       : flex;
   height        : calc(100vh - 60px);
   flex-direction: row;
-}
-
-.thumbnails-button {
-  position: absolute;
-  right   : 3px;
 }
 
 .top-panel {
@@ -58,6 +45,12 @@
 .toolbar-panel {
   background-color: @nav-main-background;
   width           : 100%;
+}
+
+.toolbar-panel-right {
+  display: flex;
+  flex: 1;
+  place-content: flex-end;
 }
 
 .btn-right {
@@ -73,15 +66,30 @@
   }
 }
 
-.smp-close-viewer {
-  ::ng-deep .button {
-    color: #fff;
-    flex-direction: row;
-    border: 1px solid;
-    border-radius: 5px;
-    padding: 0px 10px !important;
+.language-menu {
+  margin-right: 15px;
+}
+
+.select-language-menu {
+  ::ng-deep .select {
+    width: 100%;
+    ::ng-deep .dropdown-menu {
+      overflow-y: scroll;
+      height: 90%;
+    }
+  }
+ 
+  ::ng-deep .selected-value {
+    max-width: 100%;
   }
 }
+
+.thumbnails-button {
+  ::ng-deep .button {
+    margin-left: 0 !important;
+  }
+}
+
 
 ::ng-deep .tools {
 
@@ -199,7 +207,7 @@
   }
 }
 
-::ng-deep .gd-wrapper {
+::ng-deep .page.presentation .gd-wrapper {
   pointer-events: none;
 }
 
@@ -235,22 +243,4 @@
       top: 59px !important;
     }
   }
-
-  ::ng-deep .viewer-header {
-    .mobile-hide {
-      display: none !important;
-    }
-  }
-}
-
-.gd-document-fullscreen {
-  height: 100% !important
-}
-.gd-document-with-header {
-  height: calc(100% - 60px) !important;
-}
-
-::ng-deep .gd-excel-document .panzoom {
-  width: 100% !important;
-  min-width: 100% !important;
 }

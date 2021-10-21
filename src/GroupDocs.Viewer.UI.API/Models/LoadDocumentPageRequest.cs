@@ -17,7 +17,7 @@ namespace GroupDocs.Viewer.UI.Api.Models
         public string Password { get; set; }
 
         /// <summary>
-        /// The pages to return.
+        /// The page to return.
         /// </summary>
         [JsonPropertyName("page")]
         public int Page { get; set; }
