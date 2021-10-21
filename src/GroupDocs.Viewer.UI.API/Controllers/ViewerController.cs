@@ -60,6 +60,9 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                 _config.PrintAllowed,
                 _config.Rotate,
                 _config.SaveRotateState,
+                _config.DefaultLanguage,
+                _config.SupportedLanguages,
+                _config.ShowLanguageMenu
             };
 
             return new JsonResult(config, _configSerializerOptions);
