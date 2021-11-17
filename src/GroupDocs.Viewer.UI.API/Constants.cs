@@ -3,6 +3,7 @@
     public class Constants
     {
         public const string CONTROLLER_NAME = "Viewer";
+        public const string LOAD_CONFIG_ACTION_NAME = "LoadConfig";
         public const string LOAD_FILE_TREE_ACTION_NAME = "LoadFileTree";
         public const string DOWNLOAD_DOCUMENT_ACTION_NAME = "DownloadDocument";
         public const string LOAD_DOCUMENT_PAGE_RESOURCE_ACTION_NAME = "LoadDocumentPageResource";

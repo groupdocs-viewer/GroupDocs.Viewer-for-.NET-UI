@@ -53,6 +53,9 @@ namespace GroupDocs.Viewer.UI.Middleware
                 Config.PrintAllowed,
                 Config.Rotate,
                 Config.SaveRotateState,
+                Config.ShowLanguageMenu,
+                Config.DefaultLanguage,
+                Config.SupportedLanguages
             };
         }
     }
