@@ -25,6 +25,5 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Extensions
         {
             request.SetToken("Bearer", token);
         }
-
     }
 }

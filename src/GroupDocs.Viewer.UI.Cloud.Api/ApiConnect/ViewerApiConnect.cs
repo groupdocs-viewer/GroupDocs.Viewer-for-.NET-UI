@@ -1,47 +1,33 @@
 ﻿using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
-using GroupDocs.Viewer.Cloud.Sdk.Model;
 using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts;
+using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models;
 using GroupDocs.Viewer.UI.Cloud.Api.Common;
-using GroupDocs.Viewer.UI.Cloud.Api.Configuration;
 using GroupDocs.Viewer.UI.Core.Entities;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
 {
     internal class ViewerApiConnect : IViewerApiConnect
     {
         private readonly HttpClient _httpClient;
-        private readonly Config _config;
 
-        private readonly JsonSerializerOptions _jsonSerializerOptions
-            = new JsonSerializerOptions
+        private readonly JsonSerializerSettings _jsonSerializerSettings
+            = new JsonSerializerSettings
             {
-                AllowTrailingCommas = true,
-                PropertyNameCaseInsensitive = true,
-                IgnoreNullValues = true
+                NullValueHandling = NullValueHandling.Ignore, 
             };
 
-        public ViewerApiConnect(HttpClient httpClient, IOptions<Config> config)
+        public ViewerApiConnect(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _config = config.Value;
         }
 
-        public async Task<Result<DocumentInfo>> GetDocumentInfoAsync(ViewOptions.ViewFormatEnum viewFormat, FileInfo fileInfo)
+        public async Task<Result<DocumentInfo>> GetDocumentInfoAsync(FileInfo fileInfo, ViewOptions viewOptions)
         {
-            var viewOptions = new ViewOptions
-            {
-                FileInfo = fileInfo,
-                RenderOptions = new RenderOptions(),
-                ViewFormat = viewFormat
-            };
-
             var result = await Send<InfoResult>("viewer/info", HttpMethod.Post, viewOptions);
 
             if (!result.IsSuccess)
@@ -51,15 +37,8 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
             return Result.Ok(documentInfo);
         }
 
-        public async Task<Result<byte[]>> GetPdfFileAsync(FileInfo fileInfo)
+        public async Task<Result<byte[]>> GetPdfFileAsync(FileInfo fileInfo, ViewOptions viewOptions)
         {
-            var viewOptions = new ViewOptions
-            {
-                FileInfo = fileInfo,
-                RenderOptions = new RenderOptions(),
-                ViewFormat = ViewOptions.ViewFormatEnum.PDF
-            };
-
             var viewResult = await Send<ViewResult>("viewer/view", HttpMethod.Post, viewOptions);
             if (!viewResult.IsSuccess)
                 return Result.Fail<byte[]>(viewResult);
@@ -70,20 +49,10 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
             return pdfBytesResult;
         }
 
-        public async Task<Result<ViewResult>> CreatePagesAsync(int[] pageNumbers,
-            ViewOptions.ViewFormatEnum viewFormat, FileInfo fileInfo)
+        public async Task<Result<ViewResult>> CreatePagesAsync(FileInfo fileInfo, int[] pageNumbers,
+            ViewOptions viewOptions)
         {
-            var viewOptions = new ViewOptions
-            {
-                FileInfo = fileInfo,
-
-                RenderOptions = new RenderOptions
-                {
-                    PagesToRender = pageNumbers.Select(x => (int?)x).ToList()
-                },
-
-                ViewFormat = viewFormat
-            };
+            viewOptions.RenderOptions.PagesToRender = pageNumbers.ToList();
 
             var viewResult = await Send<ViewResult>("viewer/view", HttpMethod.Post, viewOptions);
             if (!viewResult.IsSuccess)
@@ -101,7 +70,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
             {
                 var responseJson = await response.Content.ReadAsStringAsync();
 
-                if (TryDeserialize(responseJson, out ErrorResponse errorResponse)
+                if (TryDeserialize(responseJson, out ErrorResult errorResponse)
                     && errorResponse.Error != null)
                     return Result.Fail<byte[]>(errorResponse.Error.Message);
 
@@ -124,7 +93,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
             if (existResult.IsFailure)
                 return Result.Fail<bool>(existResult);
 
-            return Result.Ok(existResult.Value.Exists.GetValueOrDefault());
+            return Result.Ok(existResult.Value.Exists);
         }
 
         public async Task<Result> UploadFileAsync(string filePath, string storageName, byte[] bytes)
@@ -134,13 +103,25 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
             return uploadResult;
         }
 
+        public async Task<Result> DeleteView(FileInfo fileInfo, string outputPath)
+        {
+            var requestUri = "viewer/view";
+            var request = new DeleteViewOptions
+            {
+                FileInfo = fileInfo,
+                OutputPath = outputPath
+            };
+            var deleteResult = await Delete(requestUri, request);
+            return deleteResult;
+        }
+
         private async Task<Result<T>> Send<T>(string requestUri, HttpMethod method, object request = null)
         {
             var message = new HttpRequestMessage(method, requestUri);
 
             if (request != null)
             {
-                var requestJson = JsonSerializer.Serialize(request, _jsonSerializerOptions);
+                var requestJson = JsonConvert.SerializeObject(request, _jsonSerializerSettings);
                 message.Content = new StringContent(requestJson, Encoding.UTF8, "application/json");
             }
 
@@ -149,7 +130,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
 
             if (!response.IsSuccessStatusCode)
             {
-                if (TryDeserialize(responseJson, out ErrorResponse errorResponse)
+                if (TryDeserialize(responseJson, out ErrorResult errorResponse)
                     && errorResponse.Error != null)
                     return Result.Fail<T>(errorResponse.Error.Message);
 
@@ -160,7 +141,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
                 return Result.Fail<T>(responseJson);
             }
 
-            var obj = JsonSerializer.Deserialize<T>(responseJson, _jsonSerializerOptions);
+            var obj = JsonConvert.DeserializeObject<T>(responseJson, _jsonSerializerSettings);
             return Result.Ok(obj);
         }
 
@@ -174,7 +155,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
 
             if (!response.IsSuccessStatusCode)
             {
-                if (TryDeserialize(responseJson, out ErrorResponse errorResponse)
+                if (TryDeserialize(responseJson, out ErrorResult errorResponse)
                     && errorResponse.Error != null)
                     return Result.Fail<T>(errorResponse.Error.Message);
 
@@ -185,8 +166,37 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
                 return Result.Fail<T>(responseJson);
             }
 
-            var obj = JsonSerializer.Deserialize<T>(responseJson, _jsonSerializerOptions);
+            var obj = JsonConvert.DeserializeObject<T>(responseJson, _jsonSerializerSettings);
             return Result.Ok(obj);
+        }
+
+        private async Task<Result> Delete(string requestUri, object request = null)
+        {
+            var message = new HttpRequestMessage(HttpMethod.Delete, requestUri);
+
+            if (request != null)
+            {
+                var requestJson = JsonConvert.SerializeObject(request, _jsonSerializerSettings);
+                message.Content = new StringContent(requestJson, Encoding.UTF8, "application/json");
+            }
+
+            var response = await _httpClient.SendAsync(message);
+            var responseJson = await response.Content.ReadAsStringAsync();
+
+            if (response.StatusCode != HttpStatusCode.NoContent)
+            {
+                if (TryDeserialize(responseJson, out ErrorResult errorResponse)
+                    && errorResponse.Error != null)
+                    return Result.Fail(errorResponse.Error.Message);
+
+                if (TryDeserialize(responseJson, out Error error)
+                    && error.Message != null)
+                    return Result.Fail(error.Message);
+
+                return Result.Fail(responseJson);
+            }
+
+            return Result.Ok();
         }
 
         private DocumentInfo ToDocumentInfo(InfoResult infoResponse)
@@ -203,7 +213,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
                 });
 
             if (infoResponse.PdfViewInfo?.PrintingAllowed != null)
-                documentInfo.PrintAllowed = infoResponse.PdfViewInfo.PrintingAllowed.Value;
+                documentInfo.PrintAllowed = infoResponse.PdfViewInfo.PrintingAllowed;
 
             return documentInfo;
         }
@@ -212,7 +222,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
         {
             try
             {
-                obj = JsonSerializer.Deserialize<T>(json, _jsonSerializerOptions);
+                obj = JsonConvert.DeserializeObject<T>(json, _jsonSerializerSettings);
             }
             catch (JsonSerializationException)
             {
@@ -221,16 +231,6 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
             }
 
             return true;
-        }
-
-        private class Error
-        {
-            public string Message { get; set; }
-        }
-
-        private class ErrorResponse
-        {
-            public Error Error { get; set; }
         }
     }
 }

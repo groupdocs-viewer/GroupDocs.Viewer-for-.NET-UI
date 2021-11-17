@@ -4,10 +4,15 @@ namespace GroupDocs.Viewer.UI.Core.Entities
 {
     public class PngPage : Page
     {
-        public PngPage(int number, byte[] data) 
-            : base(number, "data:image/png;base64," + Convert.ToBase64String(data))
-        {
+        public static string Extension => ".png";
 
+        public override string GetContent() =>
+            "data:image/png;base64," + Convert.ToBase64String(Data);
+
+        public PngPage(int pageNumber, byte[] data) 
+            : base(pageNumber, data)
+        {
+            
         }
     }
 }

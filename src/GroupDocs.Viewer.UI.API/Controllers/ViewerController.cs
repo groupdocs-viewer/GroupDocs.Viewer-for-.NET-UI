@@ -18,6 +18,10 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public class ViewerController : ControllerBase
     {
+        internal const string PDF_FILE_EXTENSION = ".pdf";
+        internal const string PDF_FILE_CONTENT_TYPE = "application/pdf";
+        internal const string BINARY_FILE_CONTENT_TYPE = "application/octet-stream";
+
         private readonly IFileStorage _fileStorage;
         private readonly IViewer _viewer;
         private readonly Config _config;
@@ -68,7 +72,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                 var fileName = Path.GetFileName(path);
                 var bytes = await _fileStorage.ReadFileAsync(path);
 
-                return File(bytes, Keys.BINARY_FILE_CONTENT_TYPE, fileName);
+                return File(bytes, BINARY_FILE_CONTENT_TYPE, fileName);
             }
             catch (Exception ex)
             {
@@ -131,10 +135,10 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             try
             {
                 var filename = Path.GetFileName(request.Guid);
-                var pdfFileName = Path.ChangeExtension(filename, Keys.PDF_FILE_EXTENSION);
+                var pdfFileName = Path.ChangeExtension(filename, PDF_FILE_EXTENSION);
                 var pdfFileBytes = await _viewer.GetPdfAsync(request.Guid, request.Password);
 
-                return File(pdfFileBytes, Keys.PDF_FILE_CONTENT_TYPE, pdfFileName);
+                return File(pdfFileBytes, PDF_FILE_CONTENT_TYPE, pdfFileName);
             }
             catch (Exception ex)
             {
@@ -196,7 +200,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             {
                 var pages =
                                 (await _viewer.GetPagesAsync(request.Guid, request.Password, request.Pages))
-                                .Select(page => new PageContent { Number = page.Number, Data = page.Data })
+                                .Select(page => new PageContent { Number = page.PageNumber, Data = page.GetContent() })
                                 .ToList();
 
                 return OkJsonResult(pages);

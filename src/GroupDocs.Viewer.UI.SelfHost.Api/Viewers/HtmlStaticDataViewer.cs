@@ -8,9 +8,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 {
     internal class HtmlStaticDataViewer : IViewer
     {
-        public Task<Pages> GetPagesAsync(string filePath, string password, int[] pageNumbers)
-        {
-            var pageTemplate = @"
+        const string PAGE_TEMPLATE = @"
                 <!DOCTYPE html>
                 <html>
                 <head>
@@ -27,7 +25,41 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
                 </html>
             ";
 
-            var pages = pageNumbers.Select(pageNumber => new Page(pageNumber, string.Format(pageTemplate, pageNumber)));
+        public string PageExtension => HtmlPage.Extension;
+
+        public Page CreatePage(int pageNumber, byte[] data) => 
+            new HtmlPage(pageNumber, data);
+
+        public Task<Page> GetPageAsync(string filePath, string password, int pageNumber)
+        {
+            var html = string.Format(PAGE_TEMPLATE, pageNumber);
+            var bytes = Encoding.UTF8.GetBytes(html);
+            var page = new HtmlPage(pageNumber, bytes);
+
+            return Task.FromResult((Page) page);
+        }
+
+        public Task<Pages> GetPagesAsync(string filePath, string password, int[] pageNumbers)
+        {
+            var pages = pageNumbers.Select(pageNumber =>
+            {
+                var html = string.Format(PAGE_TEMPLATE, pageNumber);
+                var pageBytes = Encoding.UTF8.GetBytes(html);
+
+                var page = new HtmlPage(pageNumber, pageBytes);
+                var css = @"
+                    html {
+                        background-color: red;
+                    }
+                ";
+                var resourceBytes = Encoding.UTF8.GetBytes(css);
+                var resource = new PageResource("styles.css", resourceBytes);
+                
+                page.AddResource(resource);
+
+                return page;
+            });
+
             var result = new Pages(pages);
 
             return Task.FromResult(result);

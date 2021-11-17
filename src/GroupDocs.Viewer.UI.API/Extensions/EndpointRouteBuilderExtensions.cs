@@ -26,22 +26,22 @@ namespace Microsoft.AspNetCore.Builder
 
             var actions = new []
             {
-                Keys.LOAD_FILE_TREE_ACTION_NAME,
-                Keys.DOWNLOAD_DOCUMENT_ACTION_NAME,
-                Keys.UPLOAD_DOCUMENT_ACTION_NAME,
-                Keys.LOAD_DOCUMENT_DESCRIPTION_ACTION_NAME,
-                Keys.LOAD_DOCUMENT_PAGES_ACTION_NAME,
-                Keys.LOAD_DOCUMENT_PAGE_ACTION_NAME,
-                Keys.LOAD_DOCUMENT_PAGE_RESOURCE_ACTION_NAME,
-                Keys.LOAD_THUMBNAILS_ACTION_NAME,
-                Keys.PRINT_PDF_ACTION_NAME,
+                Constants.LOAD_FILE_TREE_ACTION_NAME,
+                Constants.DOWNLOAD_DOCUMENT_ACTION_NAME,
+                Constants.UPLOAD_DOCUMENT_ACTION_NAME,
+                Constants.LOAD_DOCUMENT_DESCRIPTION_ACTION_NAME,
+                Constants.LOAD_DOCUMENT_PAGES_ACTION_NAME,
+                Constants.LOAD_DOCUMENT_PAGE_ACTION_NAME,
+                Constants.LOAD_DOCUMENT_PAGE_RESOURCE_ACTION_NAME,
+                Constants.LOAD_THUMBNAILS_ACTION_NAME,
+                Constants.PRINT_PDF_ACTION_NAME,
             };
 
             foreach (var action in actions)
             {
                 builder.MapControllerRoute(
                     name: action, $"{relativeApiPath}/{action}",
-                    new { controller = Keys.CONTROLLER_NAME, action = action });
+                    new { controller = Constants.CONTROLLER_NAME, action = action });
             }
         }
 

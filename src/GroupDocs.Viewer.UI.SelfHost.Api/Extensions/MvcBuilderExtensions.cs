@@ -2,6 +2,9 @@
 using System.Reflection;
 using GroupDocs.Viewer.UI.Api.Controllers;
 using GroupDocs.Viewer.UI.Core;
+using GroupDocs.Viewer.UI.Core.Caching;
+using GroupDocs.Viewer.UI.Core.Caching.Implementation;
+using GroupDocs.Viewer.UI.Core.FileCaching;
 using GroupDocs.Viewer.UI.SelfHost.Api.Configuration;
 using GroupDocs.Viewer.UI.SelfHost.Api.Licensing;
 using GroupDocs.Viewer.UI.SelfHost.Api.Viewers;
@@ -32,22 +35,37 @@ namespace Microsoft.Extensions.DependencyInjection
 
             builder.Services.AddSingleton<IViewerLicenser, ViewerLicenser>();
             builder.Services.AddTransient<IFileCache, NoopFileCache>();
-
-            switch (config.ViewerType)
+            builder.Services.AddTransient<IAsyncLock, AsyncDuplicateLock>();
+            
+            builder.Services.AddTransient<HtmlWithEmbeddedResourcesViewer>();
+            builder.Services.AddTransient<HtmlWithExternalResourcesViewer>();
+            builder.Services.AddTransient<PngViewer>();
+            builder.Services.AddTransient<JpgViewer>();
+            builder.Services.AddTransient<IViewer>(factory =>
             {
-                case ViewerType.HtmlWithExternalResources:
-                    builder.Services.AddTransient<IViewer, HtmlWithExternalResourcesViewer>();
-                    break;
-                case ViewerType.Png:
-                    builder.Services.AddTransient<IViewer, PngViewer>();
-                    break;
-                case ViewerType.Jpg:
-                    builder.Services.AddTransient<IViewer, JpgViewer>();
-                    break;
-                default:
-                    builder.Services.AddTransient<IViewer, HtmlWithEmbeddedResourcesViewer>();
-                    break;
-            }
+                IViewer viewer;
+                switch (config.ViewerType)
+                {
+                    case ViewerType.HtmlWithExternalResources:
+                        viewer = factory.GetRequiredService<HtmlWithExternalResourcesViewer>();
+                        break;
+                    case ViewerType.Png:
+                        viewer = factory.GetRequiredService<PngViewer>();
+                        break;
+                    case ViewerType.Jpg:
+                        viewer = factory.GetRequiredService<JpgViewer>();
+                        break;
+                    default:
+                        viewer = factory.GetRequiredService<HtmlWithEmbeddedResourcesViewer>();
+                        break;
+                }
+
+                return new CachingViewer(
+                    viewer,
+                    factory.GetRequiredService<IFileCache>(),
+                    factory.GetRequiredService<IAsyncLock>()
+                );
+            });
 
             return new GroupDocsViewerUIApiBuilder(builder.Services);
         }

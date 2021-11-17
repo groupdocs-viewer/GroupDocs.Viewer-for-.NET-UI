@@ -1,15 +1,41 @@
-﻿namespace GroupDocs.Viewer.UI.Core.Entities
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace GroupDocs.Viewer.UI.Core.Entities
 {
-    public class Page
+    public abstract class Page
     {
-        public Page(int number, string data)
+        private readonly List<PageResource> _resources = new();
+
+        protected Page(int pageNumber, byte[] data)
         {
-            Number = number;
+            PageNumber = pageNumber;
             Data = data;
         }
 
-        public int Number { get; }
+        protected Page(int pageNumber, byte[] data, IEnumerable<PageResource> resources)
+        {
+            PageNumber = pageNumber;
+            Data = data;
+            _resources.AddRange(resources);
+        }
 
-        public string Data { get; }
+        public IEnumerable<PageResource> Resources => _resources;
+
+        public int PageNumber { get; }
+
+        public byte[] Data { get; }
+
+        public abstract string GetContent();
+
+        public void AddResource(PageResource pageResource)
+        {
+            _resources.Add(pageResource);
+        }
+
+        public PageResource GetResource(string resourceName) =>
+            _resources.First(resource =>
+                resource.ResourceName.Equals(resourceName, StringComparison.InvariantCulture));
     }
-}
+} 

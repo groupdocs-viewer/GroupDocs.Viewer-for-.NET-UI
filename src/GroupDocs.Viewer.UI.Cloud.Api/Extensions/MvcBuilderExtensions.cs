@@ -8,6 +8,9 @@ using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Handlers;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Cloud.Api.Configuration;
 using GroupDocs.Viewer.UI.Cloud.Api.Viewers;
+using GroupDocs.Viewer.UI.Core.Caching;
+using GroupDocs.Viewer.UI.Core.Caching.Implementation;
+using GroupDocs.Viewer.UI.Core.FileCaching;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
 
@@ -21,10 +24,11 @@ namespace Microsoft.Extensions.DependencyInjection
             var config = new Config();
             setupConfig?.Invoke(config);
 
-            // GroupDocs.Viewer API Registration
+            //Register ViewerController
             builder.PartManager.ApplicationParts.Add(new AssemblyPart(
                 Assembly.GetAssembly(typeof(ViewerController))));
 
+            //Add config options and bind configuration
             builder.Services
                 .AddOptions<Config>()
                 .Configure<IConfiguration>((settings, configuration) =>
@@ -53,27 +57,39 @@ namespace Microsoft.Extensions.DependencyInjection
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             });
 
+            builder.Services.AddTransient<PngViewer>();
+            builder.Services.AddTransient<JpgViewer>();
+            builder.Services.AddTransient<HtmlWithEmbeddedResourcesViewer>();
+            builder.Services.AddTransient<HtmlWithExternalResourcesViewer>();
+            builder.Services.AddTransient<IAsyncLock, AsyncDuplicateLock>();
             builder.Services.AddTransient<IFileCache, NoopFileCache>();
-
-            builder.Services.AddTransient<IViewer, PngViewer>();
-
-            /*
-            switch (config.ViewerType)
+            
+            builder.Services.AddTransient<IViewer>(factory =>
             {
-                //case ViewerType.HtmlWithExternalResources:
-                //    builder.Services.AddTransient<IViewer, HtmlWithExternalResourcesViewer>();
-                //    break;
-                //case ViewerType.Png:
-                //    builder.Services.AddTransient<IViewer, PngViewer>();
-                //    break;
-                //case ViewerType.Jpg:
-                //    builder.Services.AddTransient<IViewer, JpgViewer>();
-                //    break;
-                //default:
-                //    builder.Services.AddTransient<IViewer, HtmlWithEmbeddedResourcesViewer>();
-                //    break;
-            }
-            */
+                IViewer viewer;
+                switch (config.ViewerType)
+                {
+                    case ViewerType.HtmlWithExternalResources:
+                        viewer = factory.GetRequiredService<HtmlWithExternalResourcesViewer>();
+                        break;
+                    case ViewerType.Png:
+                        viewer = factory.GetRequiredService<PngViewer>();
+                        break;
+                    case ViewerType.Jpg:
+                        viewer = factory.GetRequiredService<JpgViewer>();
+                        break;
+                    default:
+                        viewer = factory.GetRequiredService<HtmlWithEmbeddedResourcesViewer>();
+                        break;
+                }
+
+                return new CachingViewer(
+                    viewer,
+                    factory.GetRequiredService<IFileCache>(),
+                    factory.GetRequiredService<IAsyncLock>()
+                );
+            });
+
             return new GroupDocsViewerUIApiBuilder(builder.Services);
         }
     }
