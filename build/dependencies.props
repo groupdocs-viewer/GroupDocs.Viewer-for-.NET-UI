@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Package Versions">
-    <GroupDocsViewer>21.10.0</GroupDocsViewer>
+    <GroupDocsViewer>21.11.0</GroupDocsViewer>
     <SkiaSharpNativeAssetsLinuxNoDependencies>2.80.2</SkiaSharpNativeAssetsLinuxNoDependencies>
 
     <MicrosoftExtensionsHttp>3.1.18</MicrosoftExtensionsHttp>
