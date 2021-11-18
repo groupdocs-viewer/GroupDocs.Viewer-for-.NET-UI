@@ -11,12 +11,12 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models
         /// <summary>
         /// List of uploaded file names
         /// </summary>  
-        public List<string> Uploaded { get; set; } = new();
+        public List<string> Uploaded { get; set; } = new List<string>();
 
         /// <summary>
         /// List of errors.
         /// </summary>  
-        public List<Error> Errors { get; set; } = new();
+        public List<Error> Errors { get; set; } = new List<Error>();
 
         /// <summary>
         /// Get the string presentation of the object

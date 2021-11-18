@@ -31,13 +31,13 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models
         /// When enabled prevents adding any fonts into HTML document             
         /// </summary>  
         [JsonProperty]
-        public bool ExcludeFonts { get; set; } = new();
+        public bool ExcludeFonts { get; set; }
 
         /// <summary>
         /// This option is supported for presentations only. The list of font names, to exclude from HTML document             
         /// </summary>  
         [JsonProperty]
-        public List<string> FontsToExclude { get; set; } = new();
+        public List<string> FontsToExclude { get; set; } = new List<string>();
 
         /// <summary>
         /// Indicates whether to optimize output HTML for printing.

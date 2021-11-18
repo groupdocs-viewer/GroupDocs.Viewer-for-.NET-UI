@@ -11,12 +11,12 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models
         /// <summary>
         /// The list of layers contained by the CAD drawing
         /// </summary>  
-        public List<Layer> Layers { get; set; } = new();
+        public List<Layer> Layers { get; set; } = new List<Layer>();
 
         /// <summary>
         /// The list of layouts contained by the CAD drawing
         /// </summary>  
-        public List<Layout> Layouts { get; set; } = new();
+        public List<Layout> Layouts { get; set; } = new List<Layout>();
 
         /// <summary>
         /// Get the string presentation of the object

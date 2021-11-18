@@ -6,7 +6,7 @@ namespace GroupDocs.Viewer.UI.Core.Entities
 {
     public abstract class Page
     {
-        private readonly List<PageResource> _resources = new();
+        private readonly List<PageResource> _resources = new List<PageResource>();
 
         protected Page(int pageNumber, byte[] data)
         {

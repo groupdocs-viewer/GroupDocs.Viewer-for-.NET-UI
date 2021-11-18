@@ -11,7 +11,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models
         /// <summary>
         /// The characters contained by the word
         /// </summary>  
-        public List<Character> Characters { get; set; } = new();
+        public List<Character> Characters { get; set; } = new List<Character>();
 
         /// <summary>
         /// Get the string presentation of the object

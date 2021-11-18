@@ -26,7 +26,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models
         /// <summary>
         /// The drawing regions to render This option supported only for DWG and DWT file types The RenderLayouts and LayoutName options are ignored when rendering by tiles
         /// </summary>  
-        public List<Tile> Tiles { get; set; } = new();
+        public List<Tile> Tiles { get; set; } = new List<Tile>();
 
         /// <summary>
         /// Indicates whether layouts from CAD document should be rendered
@@ -41,7 +41,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models
         /// <summary>
         /// The CAD drawing layers to render By default all layers are rendered; Layer names are case-sensitive
         /// </summary>  
-        public List<string> Layers { get; set; } = new();
+        public List<string> Layers { get; set; } = new List<string>();
 
         /// <summary>
         /// Get the string presentation of the object

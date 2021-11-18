@@ -11,12 +11,12 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models
         /// <summary>
         /// View result pages
         /// </summary>  
-        public List<PageView> Pages { get; set; } = new();
+        public List<PageView> Pages { get; set; } = new List<PageView>();
 
         /// <summary>
         /// Attachments
         /// </summary>  
-        public List<AttachmentView> Attachments { get; set; } = new();
+        public List<AttachmentView> Attachments { get; set; } = new List<AttachmentView>();
 
         /// <summary>
         /// ULR to retrieve file.
