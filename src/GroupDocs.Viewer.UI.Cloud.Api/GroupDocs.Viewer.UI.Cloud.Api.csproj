@@ -7,7 +7,12 @@
     <Version>$(GroupDocsViewerUICloudApi)</Version>
     <Description>GroupDocs.Viewer.UI.Cloud.Api containing API implementation that is based on GroupDocs.Viewer for .NET see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
     <PackageTags>GroupDocs;Viewer;UI;SelftHost;API;ASP.NET Core;</PackageTags>
+    <PackageIcon>images\icon.png</PackageIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\assets\icon.png" Pack="true" Visible="false" PackagePath="images\icon.png" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="$(MicrosoftAspNetCoreMvcCore)" />
