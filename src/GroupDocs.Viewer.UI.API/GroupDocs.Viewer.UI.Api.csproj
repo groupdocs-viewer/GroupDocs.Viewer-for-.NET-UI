@@ -7,7 +7,12 @@
     <Version>$(GroupDocsViewerUIApi)</Version>
     <Description>GroupDocs.Viewer.UI.Api containing base API features required by GroupDocs.Viewer.UI see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
     <PackageTags>GroupDocs;Viewer;UI;API;ASP.NET Core;</PackageTags>
+    <PackageIcon>images\icon.png</PackageIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\assets\icon.png" Pack="true" Visible="false" PackagePath="images\icon.png" />
+  </ItemGroup>
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />

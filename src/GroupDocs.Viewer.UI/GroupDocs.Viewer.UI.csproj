@@ -6,11 +6,16 @@
     <Version>$(GroupDocsViewerUI)</Version>
     <Description>GroupDocs.Viewer.UI is a ASP.NET Core UI viewer of GroupDocs.Viewer for .NET see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
     <PackageTags>GroupDocs;Viewer;UI;Angular;ASP.NET Core;</PackageTags>
-    
+    <PackageIcon>images\icon.png</PackageIcon>
+
     <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
     <ClientRoot>client\</ClientRoot>
     <BuildClientApp>true</BuildClientApp>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\assets\icon.png" Pack="true" Visible="false" PackagePath="images\icon.png" />
+  </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="assets\index.html" />

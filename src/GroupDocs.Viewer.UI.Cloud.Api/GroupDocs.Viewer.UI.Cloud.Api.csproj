@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>$(NetFrameworkVersion)</TargetFramework>
+
+    <PackageId>GroupDocs.Viewer.UI.Cloud.Api</PackageId>
+    <Version>$(GroupDocsViewerUICloudApi)</Version>
+    <Description>GroupDocs.Viewer.UI.Cloud.Api containing API implementation that is based on GroupDocs.Viewer for .NET see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
+    <PackageTags>GroupDocs;Viewer;UI;SelftHost;API;ASP.NET Core;</PackageTags>
+    <PackageIcon>images\icon.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\assets\icon.png" Pack="true" Visible="false" PackagePath="images\icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="$(MicrosoftAspNetCoreMvcCore)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GroupDocs.Viewer.UI.Api\GroupDocs.Viewer.UI.Api.csproj" />
+    <ProjectReference Include="..\GroupDocs.Viewer.UI.Core\GroupDocs.Viewer.UI.Core.csproj" />
+  </ItemGroup>
+
+</Project>
