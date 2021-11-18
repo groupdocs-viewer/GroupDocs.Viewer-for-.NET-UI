@@ -1,4 +1,4 @@
-﻿using GroupDocs.Viewer.Common;
+﻿using System;
 using GroupDocs.Viewer.Options;
 using GroupDocs.Viewer.UI.Core;
 
