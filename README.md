@@ -58,7 +58,7 @@ public class Startup
 }
 ```
 
-This code registers **/viewer** middleware that will serve SPA and **/viewer-api** middleware that will serve content for the UI to display. 
+This code registers **/viewer** middleware that will serve SPA and **/viewer-api** middleware that will serve content for the UI to display.
 
 ## UI
 
@@ -67,7 +67,8 @@ The UI is Angular SPA that is build upon [@groupdocs.examples.angular/viewer](ht
 ### Changing UI Language
 
 The default UI language is English. The list of suported languages can be found in [Language.cs](src/GroupDocs.Viewer.UI.Core/Configuration/Language.cs) file. The default language, supported languages, and language menu visibility can be configured in `ConfigureServices` method:
-```
+
+```cs
 services
     .AddGroupDocsViewerUI(config =>
     {
@@ -75,15 +76,16 @@ services
         config.SetSupportedLanguages(Language.English, Language.French, Language.Dutch);
         config.HideLanguageMenu();
     });
-``` 
-The SPA can also read language code from path or query string. In case path to the app contains language code e.g. `/fr/` or `/fr-fr/` the default language will be set to French. Or you can specify language code as a `lang` query string parameter e.g. `?lang=fr`. 
+```
 
+The SPA can also read language code from path or query string. In case path to the app contains language code e.g. `/fr/` or `/fr-fr/` the default language will be set to French. Or you can specify language code as a `lang` query string parameter e.g. `?lang=fr`.
 
 ## API
 
 The API is used to serve content such as information about a document, document pages in HTML/PNG/JPG format and PDF file for printing. The API can be hosted in the same or a separate application. The following API implementations available at the moment:
 
 - [GroupDocs.Viewer.UI.SelfHost.Api](https://www.nuget.org/packages/GroupDocs.Viewer.UI.SelfHost.Api)
+- [GroupDocs.Viewer.UI.Cloud.Api](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Cloud.Api)
 
 All the API implementations are extensions of `IMvcBuilder`:
 
@@ -109,6 +111,24 @@ services
         config.SetLicensePath(".\GroupDocs.Viewer.lic");
     })
 ```
+
+The sample application that shows how to use Self-Host Api can be found in the [samples](./samples) folder.
+
+### Cloud
+
+In case you want to offload rendering to [GroupDocs Cloud](https://www.groupdocs.cloud/) infrastructure you can opt to use [GroupDocs.Viewer Cloud API](https://products.groupdocs.cloud/viewer/family/). To get started create your first application at <https://dashboard.groupdocs.cloud/applications> and copy your `Client Id` and `Client Secret` keys.
+
+```cs
+services
+    .AddControllers()
+    .AddGroupDocsViewerCloudApi(config => 
+        config
+            .SetClientId("XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX")
+            .SetClientSecret("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+    )
+```
+
+The sample application that shows how to use Cloud Api can be found in the [samples](./samples) folder.
 
 #### Linux dependencies
 
@@ -180,8 +200,6 @@ services
     .AddLocalStorage("./Files")
     .AddInMemoryCache();
 ```
-
-
 
 ## Contributing
 
