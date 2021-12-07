@@ -15,16 +15,23 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Sample
                 .AddGroupDocsViewerUI(config => 
                     config.SetViewerType(viewerType));
 
+            // Get your Client ID and Client Secret at https://dashboard.groupdocs.cloud/applications
+            var clientId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+            var clientSecret = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+
             services
                 .AddControllers()
                 .AddGroupDocsViewerCloudApi(config => 
-                    // Get your Client ID and Client Secret at https://dashboard.groupdocs.cloud/applications
                     config
-                        .SetClientId("XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX")
-                        .SetClientSecret("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+                        .SetClientId(clientId)
+                        .SetClientSecret(clientSecret)
                         .SetViewerType(viewerType)
                 )
-                .AddLocalStorage("./Files")
+                .AddCloudStorage(config => 
+                    config
+                        .SetClientId(clientId)
+                        .SetClientSecret(clientSecret)
+                )
                 .AddLocalCache("./Cache");
         }
 

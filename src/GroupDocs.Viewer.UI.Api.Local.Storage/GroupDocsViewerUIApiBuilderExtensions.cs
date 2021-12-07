@@ -5,9 +5,11 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class GroupDocsViewerUIApiBuilderExtensions
     {
-        public static GroupDocsViewerUIApiBuilder AddLocalStorage(this GroupDocsViewerUIApiBuilder builder, string storagePath)
+        public static GroupDocsViewerUIApiBuilder AddLocalStorage(
+            this GroupDocsViewerUIApiBuilder builder, string storagePath)
         {
-            builder.Services.AddTransient<IFileStorage>(_ => new LocalFileStorage(storagePath));
+            builder.Services.AddTransient<IFileStorage>(_ => 
+                new LocalFileStorage(storagePath));
 
             return builder;
         }

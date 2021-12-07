@@ -62,7 +62,14 @@ This code registers **/viewer** middleware that will serve SPA and **/viewer-api
 
 ## UI
 
-The UI is Angular SPA that is build upon [@groupdocs.examples.angular/viewer](https://www.npmjs.com/package/@groupdocs.examples.angular/viewer) package.
+The UI is Angular SPA that is build upon [@groupdocs.examples.angular/viewer](https://www.npmjs.com/package/@groupdocs.examples.angular/viewer) package. You can change the path where the SPA will be available by setting `UIPath` property e.g.
+
+```cs
+endpoints.MapGroupDocsViewerUI(options =>
+{
+    options.UIPath = "/my-viewer-app";
+});
+```
 
 ### Changing UI Language
 
@@ -160,16 +167,41 @@ As an example the following commands should be executed to install the dependenc
 Storage providers are used to read/write file from/to the storage. The storage provider is mandatory.
 
 - [GroupDocs.Viewer.UI.Api.Local.Storage](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Api.Local.Storage)
+- [GroupDocs.Viewer.UI.Api.Cloud.Storage](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Api.Cloud.Storage)
 
 All the storage providers are extensions of `GroupDocsViewerUIApiBuilder`:
 
 #### Local Storage
+
+To render files from your local drive use local file storage.
 
 ```cs
 services
     .AddControllers()
     .AddGroupDocsViewerSelfHostApi()
     .AddLocalStorage("./Files");
+```
+
+#### Cloud Storage
+
+When rendering files using [GroupDocs Cloud](https://dashboard.groupdocs.cloud/) infrastructure it is reasonable to opt to cloud storage provider. GroupDocs Cloud storage supports number of 3d-party storages including Amazon S3, Google Drive and Cloud, Azure, Dropbox, Box, and FTP. To start using GroupDocs Cloud get your `Client ID` and `Client Secret` at <https://dashboard.groupdocs.cloud/applications>.
+
+```cs
+var clientId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+var clientSecret = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+
+services
+    .AddControllers()
+    .AddGroupDocsViewerCloudApi(config => 
+        config
+            .SetClientId(clientId)
+            .SetClientSecret(clientSecret)
+    )
+    .AddCloudStorage(config => 
+        config
+            .SetClientId(clientId)
+            .SetClientSecret(clientSecret)
+    )
 ```
 
 ### API Cache Providers
