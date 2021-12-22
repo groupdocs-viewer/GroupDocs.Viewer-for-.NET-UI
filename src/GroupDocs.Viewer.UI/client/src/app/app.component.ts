@@ -88,21 +88,6 @@ export class AppComponent extends ViewerAppComponent {
 
             this.loadPages(this.credentials, pagesToLoad).subscribe((
                 (pages: any) => {
-                    if (this.file.thumbnails === undefined) {
-                        this.file.thumbnails = new Array<PageModel>(this.countPages);
-                        for (let thumbIndex = 0; thumbIndex < this.countPages; thumbIndex++) {
-                            const pageNumber = thumbIndex + 1;
-
-                            const thumbnail = new PageModel();
-                            thumbnail.number = pageNumber;
-                            thumbnail.data = `<div style="height: 100%;display: grid;color:#bfbfbf"><div style="font-size: 10vw;margin:auto;text-align:center;">${pageNumber}</div></div>`
-                            thumbnail.width = 800;
-                            thumbnail.height = 800;
-
-                            this.file.thumbnails[thumbIndex] = thumbnail;
-                        }
-                    }
-
                     pages.forEach((page: PageModel) => {
                         const pageIndex = page.number - 1;
                         const currPage = this.file.pages[pageIndex];
