@@ -56,10 +56,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 
         public async Task<DocumentInfo> GetDocumentInfoAsync(string filePath, string password)
         {
-            var fileStream = await GetFileStreamAsync(filePath);
-            var loadOptions = CreateLoadOptions(filePath, password);
-
-            using var viewer = new Viewer(fileStream, loadOptions);
+            using var viewer = await InitViewerAsync(filePath, password);
             var viewInfoOptions = CreateViewInfoOptions();
             var viewInfo = viewer.GetViewInfo(viewInfoOptions);
 
@@ -69,12 +66,10 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 
         public async Task<byte[]> GetPdfAsync(string filePath, string password)
         {
-            var fileStream = await GetFileStreamAsync(filePath);
-            var loadOptions = CreateLoadOptions(filePath, password);
             var pdfStream = new MemoryStream();
             var viewOptions = CreatePdfViewOptions(pdfStream);
 
-            using var viewer = new Viewer(fileStream, loadOptions);
+            using var viewer = await InitViewerAsync(filePath, password);
             viewer.View(viewOptions);
 
             return pdfStream.ToArray();
