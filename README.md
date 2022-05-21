@@ -58,7 +58,48 @@ public class Startup
 }
 ```
 
+Or, if you’re using [new program](https://docs.microsoft.com/en-us/dotnet/core/tutorials/top-level-templates) style with top-level statements, global using directives, and implicit using directives the Program.cs will be a bit shorter.
+
+```cs
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services
+        .AddGroupDocsViewerUI();
+
+builder.Services
+        .AddControllers()
+        .AddGroupDocsViewerSelfHostApi(config =>
+        {
+            //Trial limitations https://docs.groupdocs.com/viewer/net/evaluation-limitations-and-licensing-of-groupdocs-viewer/
+            //Temporary license can be requested at https://purchase.groupdocs.com/temporary-license
+            //config.SetLicensePath("c:\\licenses\\GroupDocs.Viewer.lic"); // or set environment variable 'GROUPDOCS_LIC_PATH'
+        })
+        .AddLocalStorage("./Files")
+        .AddLocalCache("./Cache");
+
+var app = builder.Build();
+
+app
+    .UseRouting()
+    .UseEndpoints(endpoints =>
+    {
+        endpoints.MapGroupDocsViewerUI(options =>
+        {
+            options.UIPath = "/viewer";
+            options.APIEndpoint = "/viewer-api";
+        });
+        endpoints.MapGroupDocsViewerApi(options =>
+        {
+            options.ApiPath = "/viewer-api";
+        });
+    });
+
+app.Run();
+```
+
 This code registers **/viewer** middleware that will serve SPA and **/viewer-api** middleware that will serve content for the UI to display.
+
+ **Please note that Viewer does not create `Files` and `Cache` folders, please make sure to create `Files` and `Cache` folders manually before running the application.**
 
 ## UI
 
