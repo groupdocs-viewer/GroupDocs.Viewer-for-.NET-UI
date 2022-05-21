@@ -10,7 +10,7 @@ namespace GroupDocs.Viewer.UI.Api.Infrastructure
 {
     internal class ViewerActionResultExecutor : ActionResult, IStatusCodeActionResult
     {
-        private readonly JsonSerializerOptions _jsonSerializerOptions = new()
+        private readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions()
         {
             IgnoreNullValues = false
         };
