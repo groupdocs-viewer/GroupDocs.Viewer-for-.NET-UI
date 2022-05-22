@@ -29,6 +29,8 @@
     <NewtonsoftJson>12.0.2</NewtonsoftJson>
     <SystemTextJson>4.7.2</SystemTextJson>
 
+    <AwsSdkS3>3.7.9.4</AwsSdkS3>
+
     <MicrosoftSourceLinkGithub>1.0.0</MicrosoftSourceLinkGithub>
   </PropertyGroup>
 
@@ -39,6 +41,7 @@
     <GroupDocsViewerUIApiInMemoryCache>3.1.1</GroupDocsViewerUIApiInMemoryCache>
     <GroupDocsViewerUIApiLocalStorage>3.1.2</GroupDocsViewerUIApiLocalStorage>
     <GroupDocsViewerUIApiCloudStorage>3.1.0</GroupDocsViewerUIApiCloudStorage>
+    <GroupDocsViewerUIApiAwsS3Storage>3.1.0</GroupDocsViewerUIApiAwsS3Storage>
     <GroupDocsViewerUICore>3.1.3</GroupDocsViewerUICore>
     <GroupDocsViewerUISelfHostApi>3.1.13</GroupDocsViewerUISelfHostApi>
     <GroupDocsViewerUICloudApi>3.1.0</GroupDocsViewerUICloudApi>

@@ -18,8 +18,8 @@ namespace GroupDocs.Viewer.UI.Api.Models
 
         public FileDescription(string guid, string name, bool isDirectory, long size)
         {
-            Guid = guid;
-            Name = name;
+            Guid = guid.Replace("\\", "/");
+            Name = name.Replace("\\", "/");
             IsDirectory = isDirectory;
             Size = size;
         }
