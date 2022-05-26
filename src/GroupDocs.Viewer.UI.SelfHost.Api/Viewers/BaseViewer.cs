@@ -19,12 +19,15 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
         private readonly IOptions<Config> _config;
         private readonly IViewerLicenser _viewerLicenser;
         private readonly IFileStorage _fileStorage;
+        private readonly IFileTypeResolver _fileTypeResolver;
 
-        protected BaseViewer(IOptions<Config> config, IViewerLicenser viewerLicenser, IFileStorage fileStorage)
+        protected BaseViewer(IOptions<Config> config, 
+            IViewerLicenser viewerLicenser, IFileStorage fileStorage, IFileTypeResolver fileTypeResolver)
         {
             _config = config;
             _viewerLicenser = viewerLicenser;
             _fileStorage = fileStorage;
+            _fileTypeResolver = fileTypeResolver;
         }
 
         public abstract string PageExtension { get; }
@@ -92,7 +95,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             _viewerLicenser.SetLicense();
 
             var fileStream = await GetFileStreamAsync(filePath);
-            var loadOptions = CreateLoadOptions(filePath, password);
+            var loadOptions = await CreateLoadOptionsAsync(filePath, password);
             var viewer = new Viewer(fileStream, loadOptions);
             return viewer;
         }
@@ -104,12 +107,12 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             return memoryStream;
         }
 
-        private static LoadOptions CreateLoadOptions(string filePath, string password)
+        private async Task<LoadOptions> CreateLoadOptionsAsync(string filePath, string password)
         {
-            string extension = Path.GetExtension(filePath);
+            FileType fileType = await _fileTypeResolver.ResolveFileTypeAsync(filePath);
             LoadOptions loadOptions = new LoadOptions
             {
-                FileType = FileType.FromExtension(extension),
+                FileType = FileType.FromExtension(fileType.Extension),
                 Password = password,
                 ResourceLoadingTimeout = TimeSpan.FromSeconds(3)
             };

@@ -25,7 +25,9 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             IOptions<Config> config,
             IOptions<UI.Api.Configuration.Options> options,
             IViewerLicenser licenser,
-            IFileStorage fileStorage) : base(config, licenser, fileStorage)
+            IFileStorage fileStorage,
+            IFileTypeResolver fileTypeResolver) 
+            : base(config, licenser, fileStorage, fileTypeResolver)
         {
             _config = config.Value;
             _options = options.Value;

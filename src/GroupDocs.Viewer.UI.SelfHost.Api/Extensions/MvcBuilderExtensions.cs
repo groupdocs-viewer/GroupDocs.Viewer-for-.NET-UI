@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using GroupDocs.Viewer.UI.Api.Controllers;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Caching;
 using GroupDocs.Viewer.UI.Core.Caching.Implementation;
 using GroupDocs.Viewer.UI.Core.FileCaching;
+using GroupDocs.Viewer.UI.SelfHost.Api;
 using GroupDocs.Viewer.UI.SelfHost.Api.Configuration;
 using GroupDocs.Viewer.UI.SelfHost.Api.Licensing;
 using GroupDocs.Viewer.UI.SelfHost.Api.Viewers;
@@ -37,6 +39,13 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.AddTransient<IFileCache, NoopFileCache>();
             builder.Services.AddTransient<IAsyncLock, AsyncDuplicateLock>();
             
+            ServiceDescriptor registeredFileTypeResolver = builder.Services.FirstOrDefault(
+                s => s.ServiceType == typeof(IFileTypeResolver));
+            if (registeredFileTypeResolver == null)
+            {
+                builder.Services.AddSingleton<IFileTypeResolver, FileExtensionFileTypeResolver>();
+            }
+
             builder.Services.AddTransient<HtmlWithEmbeddedResourcesViewer>();
             builder.Services.AddTransient<HtmlWithExternalResourcesViewer>();
             builder.Services.AddTransient<PngViewer>();

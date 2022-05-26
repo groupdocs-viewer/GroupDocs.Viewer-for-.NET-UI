@@ -16,8 +16,8 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
         private readonly Config _config;
 
         public HtmlWithEmbeddedResourcesViewer(IOptions<Config> config, 
-            IViewerLicenser licenser, IFileStorage fileStorage)
-            : base(config, licenser, fileStorage)
+            IViewerLicenser licenser, IFileStorage fileStorage, IFileTypeResolver fileTypeResolver)
+            : base(config, licenser, fileStorage, fileTypeResolver)
         {
             _config = config.Value;
         }
