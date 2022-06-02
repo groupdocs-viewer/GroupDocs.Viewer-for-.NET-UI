@@ -11,6 +11,7 @@ using GroupDocs.Viewer.UI.Core.Entities;
 using GroupDocs.Viewer.UI.Core.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace GroupDocs.Viewer.UI.Api.Controllers
@@ -20,12 +21,17 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
     {
         private readonly IFileStorage _fileStorage;
         private readonly IViewer _viewer;
+        private readonly ILogger<ViewerController> _logger;
         private readonly Config _config;
 
-        public ViewerController(IFileStorage fileStorage, IViewer viewer, IOptions<Config> config)
+        public ViewerController(IFileStorage fileStorage, 
+            IViewer viewer, 
+            IOptions<Config> config, 
+            ILogger<ViewerController> logger)
         {
             _fileStorage = fileStorage;
             _viewer = viewer;
+            _logger = logger;
             _config = config.Value;
         }
 
@@ -77,6 +83,8 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Failed to load file tree.");
+
                 return ErrorJsonResult(ex.Message);
             }
         }
@@ -96,6 +104,8 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Failed to download a document.");
+
                 return ErrorJsonResult(ex.Message);
             }
         }
@@ -119,6 +129,8 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Failed to load document page resource.");
+
                 return ErrorJsonResult(ex.Message);
             }
         }
@@ -142,6 +154,8 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Failed to upload document.");
+
                 return ErrorJsonResult(ex.Message);
             }
         }
@@ -170,6 +184,8 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
 
                     return ForbiddenJsonResult(message);
                 }
+
+                _logger.LogError(ex, "Failed to create PDF file.");
 
                 return ErrorJsonResult(ex.Message);
             }
@@ -209,6 +225,8 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                     return ForbiddenJsonResult(message);
                 }
 
+                _logger.LogError(ex, "Failed to read document description.");
+
                 return ErrorJsonResult(ex.Message);
             }
         }
@@ -236,6 +254,8 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                     return ForbiddenJsonResult(message);
                 }
 
+                _logger.LogError(ex, "Failed to retrieve document pages.");
+
                 return ErrorJsonResult(ex.Message);
             }
         }
@@ -245,6 +265,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         {
             try
             {
+                throw new Exception("TEST");
                 var page = await _viewer.GetPageAsync(request.Guid, request.Password, request.Page);
                 var pageContent = new PageContent { Number = page.PageNumber, Data = page.GetContent() };
 
@@ -260,6 +281,8 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
 
                     return ForbiddenJsonResult(message);
                 }
+
+                _logger.LogError(ex, "Failed to retrieve document page.");
 
                 return ErrorJsonResult(ex.Message);
             }
