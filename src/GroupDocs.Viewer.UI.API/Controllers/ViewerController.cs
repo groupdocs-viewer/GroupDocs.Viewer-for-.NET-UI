@@ -265,7 +265,6 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         {
             try
             {
-                throw new Exception("TEST");
                 var page = await _viewer.GetPageAsync(request.Guid, request.Password, request.Page);
                 var pageContent = new PageContent { Number = page.PageNumber, Data = page.GetContent() };
 
