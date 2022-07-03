@@ -11,6 +11,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
+      "hotReloadEnabled": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -18,6 +19,7 @@
     "GroupDocs.Viewer.UI.SelfHost.Api.Service.Sample": {
       "commandName": "Project",
       "launchBrowser": true,
+      "hotReloadEnabled": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

@@ -12,6 +12,7 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "launchUrl": "viewer",
+      "hotReloadEnabled": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -20,6 +21,7 @@
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "viewer",
+      "hotReloadEnabled": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

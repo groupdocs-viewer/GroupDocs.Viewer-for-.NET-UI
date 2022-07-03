@@ -9,6 +9,8 @@
     <Content Remove="wwwroot\**" />
     <EmbeddedResource Remove="wwwroot\**" />
     <None Remove="wwwroot\**" />
+    <Compile Remove="Cache\**" />
+    <Compile Remove="Files\**" />
   </ItemGroup>
 
   <ItemGroup>
