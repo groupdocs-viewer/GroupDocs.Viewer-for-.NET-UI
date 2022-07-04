@@ -27,8 +27,8 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
         public override Page CreatePage(int pageNumber, byte[] data) =>
             new JpgPage(pageNumber, data);
 
-        public override Task<byte[]> GetPageResourceAsync(string filePath, 
-            string password, int pageNumber, string resourceName) => 
+        public override Task<byte[]> GetPageResourceAsync(
+            FileCredentials fileCredentials, int pageNumber, string resourceName) => 
             throw new System.NotImplementedException(
                 $"{nameof(JpgViewer)} does not support retrieving external HTML resources.");
 

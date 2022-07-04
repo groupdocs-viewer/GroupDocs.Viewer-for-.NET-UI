@@ -38,28 +38,9 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 
         protected abstract ViewInfoOptions CreateViewInfoOptions();
 
-        public async Task<Page> GetPageAsync(string filePath, string password, int pageNumber)
+        public async Task<DocumentInfo> GetDocumentInfoAsync(FileCredentials fileCredentials)
         {
-            using var viewer = await InitViewerAsync(filePath, password);
-            var page = RenderPage(viewer, filePath, pageNumber);
-
-            return page;
-        }
-
-        public async Task<Pages> GetPagesAsync(string filePath, string password, int[] pageNumbers)
-        {
-            using var viewer = await InitViewerAsync(filePath, password);
-
-            var pages = pageNumbers
-                .Select(pageNumber => RenderPage(viewer, filePath, pageNumber))
-                .ToList();
-
-            return new Pages(pages);
-        }
-
-        public async Task<DocumentInfo> GetDocumentInfoAsync(string filePath, string password)
-        {
-            using var viewer = await InitViewerAsync(filePath, password);
+            using var viewer = await InitViewerAsync(fileCredentials);
             var viewInfoOptions = CreateViewInfoOptions();
             var viewInfo = viewer.GetViewInfo(viewInfoOptions);
 
@@ -67,19 +48,37 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             return documentInfo;
         }
 
-        public async Task<byte[]> GetPdfAsync(string filePath, string password)
+        public async Task<Page> GetPageAsync(FileCredentials fileCredentials, int pageNumber)
+        {
+            using var viewer = await InitViewerAsync(fileCredentials);
+            var page = RenderPage(viewer, fileCredentials.FilePath, pageNumber);
+
+            return page;
+        }
+
+        public async Task<Pages> GetPagesAsync(FileCredentials fileCredentials, int[] pageNumbers)
+        {
+            using var viewer = await InitViewerAsync(fileCredentials);
+
+            var pages = pageNumbers
+                .Select(pageNumber => RenderPage(viewer, fileCredentials.FilePath, pageNumber))
+                .ToList();
+
+            return new Pages(pages);
+        }
+
+        public async Task<byte[]> GetPdfAsync(FileCredentials fileCredentials)
         {
             var pdfStream = new MemoryStream();
             var viewOptions = CreatePdfViewOptions(pdfStream);
 
-            using var viewer = await InitViewerAsync(filePath, password);
+            using var viewer = await InitViewerAsync(fileCredentials);
             viewer.View(viewOptions);
 
             return pdfStream.ToArray();
         }
 
-        public abstract Task<byte[]> GetPageResourceAsync(string filePath, string password, int pageNumber,
-            string resourceName);
+        public abstract Task<byte[]> GetPageResourceAsync(FileCredentials fileCredentials, int pageNumber, string resourceName);
 
         private PdfViewOptions CreatePdfViewOptions(MemoryStream pdfStream)
         {
@@ -90,12 +89,12 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             return viewOptions;
         }
 
-        private async Task<Viewer> InitViewerAsync(string filePath, string password)
+        private async Task<Viewer> InitViewerAsync(FileCredentials fileCredentials)
         {
             _viewerLicenser.SetLicense();
 
-            var fileStream = await GetFileStreamAsync(filePath);
-            var loadOptions = await CreateLoadOptionsAsync(filePath, password);
+            var fileStream = await GetFileStreamAsync(fileCredentials.FilePath);
+            var loadOptions = await CreateLoadOptionsAsync(fileCredentials);
             var viewer = new Viewer(fileStream, loadOptions);
             return viewer;
         }
@@ -107,13 +106,16 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             return memoryStream;
         }
 
-        private async Task<LoadOptions> CreateLoadOptionsAsync(string filePath, string password)
+        private async Task<LoadOptions> CreateLoadOptionsAsync(FileCredentials fileCredentials)
         {
-            FileType fileType = await _fileTypeResolver.ResolveFileTypeAsync(filePath);
+            FileType loadFileType = FileType.FromExtension(fileCredentials.FileType);
+            if(loadFileType == FileType.Unknown)
+                  loadFileType = await _fileTypeResolver.ResolveFileTypeAsync(fileCredentials.FilePath);
+            
             LoadOptions loadOptions = new LoadOptions
             {
-                FileType = FileType.FromExtension(fileType.Extension),
-                Password = password,
+                FileType = FileType.FromExtension(loadFileType.Extension),
+                Password = fileCredentials.Password,
                 ResourceLoadingTimeout = TimeSpan.FromSeconds(3)
             };
             return loadOptions;
@@ -125,8 +127,12 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             if (viewInfo is PdfViewInfo info)
                 printAllowed = info.PrintingAllowed;
 
+            var fileType = viewInfo.FileType.Extension
+                .Replace(".", string.Empty);
+
             return new DocumentInfo
             {
+                FileType = fileType,
                 PrintAllowed = printAllowed,
                 Pages = viewInfo.Pages.Select(page => new PageInfo
                 {
