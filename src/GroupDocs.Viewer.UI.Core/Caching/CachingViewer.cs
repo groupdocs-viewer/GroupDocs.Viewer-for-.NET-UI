@@ -24,33 +24,33 @@ namespace GroupDocs.Viewer.UI.Core.Caching
             _asyncLock = asyncLock;
         }
 
-        public async Task<Pages> GetPagesAsync(string filePath, string password, int[] pageNumbers)
+        public async Task<Pages> GetPagesAsync(FileCredentials fileCredentials, int[] pageNumbers)
         {
-            var pagesOrNulls = GetPagesOrNullsFromCache(filePath, pageNumbers);
+            var pagesOrNulls = GetPagesOrNullsFromCache(fileCredentials.FilePath, pageNumbers);
             var missingPageNumbers = GetMissingPageNumbers(pagesOrNulls);
 
             if (missingPageNumbers.Length == 0)
                 return ToPages(pagesOrNulls);
 
-            var createdPages = await CreatePages(filePath, password, missingPageNumbers);
+            var createdPages = await CreatePages(fileCredentials, missingPageNumbers);
 
             var pages = Combine(pagesOrNulls, createdPages);
 
             return pages;
         }
 
-        public async Task<Page> GetPageAsync(string filePath, string password, int pageNumber)
+        public async Task<Page> GetPageAsync(FileCredentials fileCredentials, int pageNumber)
         {
             var cacheKey = CacheKeys.GetPageCacheKey(pageNumber, PageExtension);
-            var bytes = await _fileCache.GetValueAsync(cacheKey, filePath, async () =>
+            var bytes = await _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, async () =>
             {
-                using (await _asyncLock.LockAsync(filePath))
+                using (await _asyncLock.LockAsync(fileCredentials.FilePath))
                 {
-                    return await _fileCache.GetValueAsync(cacheKey, filePath, async () =>
+                    return await _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, async () =>
                     {
-                        var page = await _viewer.GetPageAsync(filePath, password, pageNumber);
+                        var page = await _viewer.GetPageAsync(fileCredentials, pageNumber);
 
-                        await SaveResourcesAsync(filePath, page.PageNumber, page.Resources);
+                        await SaveResourcesAsync(fileCredentials.FilePath, page.PageNumber, page.Resources);
 
                         return page.Data;
                     });
@@ -61,43 +61,43 @@ namespace GroupDocs.Viewer.UI.Core.Caching
             return page;
         }
 
-        public Task<DocumentInfo> GetDocumentInfoAsync(string filePath, string password)
+        public Task<DocumentInfo> GetDocumentInfoAsync(FileCredentials fileCredentials)
         {
             var cacheKey = CacheKeys.FILE_INFO_CACHE_KEY;
-            return _fileCache.GetValueAsync(cacheKey, filePath, async () =>
+            return _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, async () =>
             {
-                using (await _asyncLock.LockAsync(filePath))
+                using (await _asyncLock.LockAsync(fileCredentials.FilePath))
                 {
-                    return await _fileCache.GetValueAsync(cacheKey, filePath, () =>
-                        _viewer.GetDocumentInfoAsync(filePath, password));
+                    return await _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, () =>
+                        _viewer.GetDocumentInfoAsync(fileCredentials));
                 }
             });
         }
 
-        public Task<byte[]> GetPdfAsync(string filePath, string password)
+        public Task<byte[]> GetPdfAsync(FileCredentials fileCredentials)
         {
             var cacheKey = CacheKeys.PDF_FILE_CACHE_KEY;
-            return _fileCache.GetValueAsync(cacheKey, filePath, async () =>
+            return _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, async () =>
             {
-                using (await _asyncLock.LockAsync(filePath))
+                using (await _asyncLock.LockAsync(fileCredentials.FilePath))
                 {
-                    return await _fileCache.GetValueAsync(cacheKey, filePath, () =>
-                        _viewer.GetPdfAsync(filePath, password));
+                    return await _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, () =>
+                        _viewer.GetPdfAsync(fileCredentials));
                 }
             });
         }
 
-        public Task<byte[]> GetPageResourceAsync(string filePath, string password, int pageNumber,
+        public Task<byte[]> GetPageResourceAsync(FileCredentials fileCredentials, int pageNumber,
             string resourceName)
         {
             var cacheKey = CacheKeys.GetHtmlPageResourceCacheKey(pageNumber, resourceName);
-            return _fileCache.GetValueAsync(cacheKey, filePath,
+            return _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath,
                 async () =>
                 {
-                    using (await _asyncLock.LockAsync(filePath))
+                    using (await _asyncLock.LockAsync(fileCredentials.FilePath))
                     {
-                        return await _fileCache.GetValueAsync(cacheKey, filePath, () =>
-                            _viewer.GetPageResourceAsync(filePath, password, pageNumber, resourceName));
+                        return await _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, () =>
+                            _viewer.GetPageResourceAsync(fileCredentials, pageNumber, resourceName));
                     }
                 });
         }
@@ -115,19 +115,19 @@ namespace GroupDocs.Viewer.UI.Core.Caching
             await Task.WhenAll(tasks);
         }
 
-        private async Task<Pages> CreatePages(string filePath, string password, int[] pageNumbers)
+        private async Task<Pages> CreatePages(FileCredentials fileCredentials, int[] pageNumbers)
         {
-            using (await _asyncLock.LockAsync(filePath))
+            using (await _asyncLock.LockAsync(fileCredentials.FilePath))
             {
-                var pagesOrNulls = GetPagesOrNullsFromCache(filePath, pageNumbers);
+                var pagesOrNulls = GetPagesOrNullsFromCache(fileCredentials.FilePath, pageNumbers);
                 var missingPageNumbers = GetMissingPageNumbers(pagesOrNulls);
 
                 if (missingPageNumbers.Length == 0)
                     return ToPages(pagesOrNulls);
 
-                var createdPages = await _viewer.GetPagesAsync(filePath, password, missingPageNumbers);
+                var createdPages = await _viewer.GetPagesAsync(fileCredentials, missingPageNumbers);
 
-                await SaveToCache(filePath, createdPages);
+                await SaveToCache(fileCredentials.FilePath, createdPages);
 
                 var pages = Combine(pagesOrNulls, createdPages);
 

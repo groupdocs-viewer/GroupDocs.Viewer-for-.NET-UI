@@ -73,7 +73,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             try
             {
                 var files =
-                await _fileStorage.ListDirsAndFilesAsync(request.Path);
+                    await _fileStorage.ListDirsAndFilesAsync(request.Path);
 
                 var result = files
                     .Select(entity => new FileDescription(entity.FilePath, entity.FilePath, entity.IsDirectory, entity.Size))
@@ -111,14 +111,17 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> LoadDocumentPageResource([FromQuery] LoadDocumentPageResource request)
+        public async Task<IActionResult> LoadDocumentPageResource([FromQuery] LoadDocumentPageResourceRequest request)
         {
             if (!_config.HtmlMode)
                 return ErrorJsonResult("Loading page resources is disabled in image mode.");
 
             try
             {
-                var bytes = await _viewer.GetPageResourceAsync(request.Guid, request.Password, request.PageNumber, request.ResourceName);
+                var fileCredentials = 
+                    new FileCredentials(request.Guid, request.FileType, request.Password);
+                var bytes = 
+                    await _viewer.GetPageResourceAsync(fileCredentials, request.PageNumber, request.ResourceName);
 
                 if (bytes.Length == 0)
                     return NotFoundJsonResult($"Resource {request.ResourceName} was not found");
@@ -168,9 +171,12 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
 
             try
             {
+                var fileCredentials = 
+                    new FileCredentials(request.Guid, request.FileType, request.Password);
+
                 var filename = Path.GetFileName(request.Guid);
                 var pdfFileName = Path.ChangeExtension(filename, ".pdf");
-                var pdfFileBytes = await _viewer.GetPdfAsync(request.Guid, request.Password);
+                var pdfFileBytes = await _viewer.GetPdfAsync(fileCredentials);
 
                 return File(pdfFileBytes, "application/pdf", pdfFileName);
             }
@@ -196,12 +202,15 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         {
             try
             {
-                DocumentInfo documentDescription =
-                    await _viewer.GetDocumentInfoAsync(request.Guid, request.Password);
+                var fileCredentials = 
+                    new FileCredentials(request.Guid, request.FileType, request.Password);
+                var documentDescription =
+                    await _viewer.GetDocumentInfoAsync(fileCredentials);
 
                 var result = new LoadDocumentDescriptionResponse
                 {
                     Guid = request.Guid,
+                    FileType = documentDescription.FileType,
                     PrintAllowed = documentDescription.PrintAllowed,
                     Pages = documentDescription.Pages.Select(p => new PageDescription
                     {
@@ -236,7 +245,9 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         {
             try
             {
-                var pages = await _viewer.GetPagesAsync(request.Guid, request.Password, request.Pages);
+                var fileCredentials = 
+                    new FileCredentials(request.Guid, request.FileType, request.Password);
+                var pages = await _viewer.GetPagesAsync(fileCredentials, request.Pages);
                 var pageContents = pages
                     .Select(page => new PageContent { Number = page.PageNumber, Data = page.GetContent() })
                     .ToList();
@@ -265,7 +276,9 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         {
             try
             {
-                var page = await _viewer.GetPageAsync(request.Guid, request.Password, request.Page);
+                var fileCredentials = 
+                    new FileCredentials(request.Guid, request.FileType, request.Password);
+                var page = await _viewer.GetPageAsync(fileCredentials, request.Page);
                 var pageContent = new PageContent { Number = page.PageNumber, Data = page.GetContent() };
 
                 return OkJsonResult(pageContent);

@@ -62,10 +62,10 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
         protected override ViewInfoOptions CreateViewInfoOptions() =>
             ViewInfoOptions.FromHtmlViewOptions(_config.HtmlViewOptions);
 
-        public override async Task<byte[]> GetPageResourceAsync(string filePath, 
-            string password, int pageNumber, string resourceName)
+        public override async Task<byte[]> GetPageResourceAsync(
+            FileCredentials fileCredentials, int pageNumber, string resourceName)
         {
-            var page = await GetPageAsync(filePath, password, pageNumber);
+            var page = await GetPageAsync(fileCredentials, pageNumber);
             var resource = page.GetResource(resourceName);
 
             return resource.Data;

@@ -52,30 +52,30 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
             return viewOptions;
         }
 
-        public async Task<Page> GetPageAsync(string filePath, string password, int pageNumber)
+        public async Task<Page> GetPageAsync(FileCredentials fileCredentials, int pageNumber)
         {
-            await UploadFileIfNotExists(filePath);
+            await UploadFileIfNotExists(fileCredentials.FilePath);
 
-            var pages = await CreatePagesAsync(filePath, password, new[] { pageNumber });
+            var pages = await CreatePagesAsync(fileCredentials, new[] { pageNumber });
             var page = pages.FirstOrDefault();
 
             return page;
         }
 
-        public async Task<Pages> GetPagesAsync(string filePath, string password, int[] pageNumbers)
+        public async Task<Pages> GetPagesAsync(FileCredentials fileCredentials, int[] pageNumbers)
         {
-            await UploadFileIfNotExists(filePath);
+            await UploadFileIfNotExists(fileCredentials.FilePath);
 
-            var pages = await CreatePagesAsync(filePath, password, pageNumbers);
+            var pages = await CreatePagesAsync(fileCredentials, pageNumbers);
 
             return new Pages(pages);
         }
 
-        private async Task<List<Page>> CreatePagesAsync(string filePath, string password, int[] pagesToCreate)
+        private async Task<List<Page>> CreatePagesAsync(FileCredentials fileCredentials, int[] pagesToCreate)
         {
             var pages = new List<Page>();
 
-            var fileInfo = CreateFileInfo(filePath, password);
+            var fileInfo = CreateFileInfo(fileCredentials);
             var viewOptions = CreateViewOptions(fileInfo);
 
             var createPagesResult = await _viewerApiConnect.CreatePagesAsync(fileInfo, pagesToCreate, viewOptions);
@@ -126,11 +126,11 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
             return resources;
         }
 
-        public async Task<DocumentInfo> GetDocumentInfoAsync(string filePath, string password)
+        public async Task<DocumentInfo> GetDocumentInfoAsync(FileCredentials fileCredentials)
         {
-            await UploadFileIfNotExists(filePath);
+            await UploadFileIfNotExists(fileCredentials.FilePath);
 
-            var fileInfo = CreateFileInfo(filePath, password);
+            var fileInfo = CreateFileInfo(fileCredentials);
             var viewOptions = CreateViewOptions(fileInfo);
             var result =
                 await _viewerApiConnect.GetDocumentInfoAsync(fileInfo, viewOptions);
@@ -141,22 +141,22 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
             return result.Value;
         }
 
-        private FileInfo CreateFileInfo(string filePath, string password)
+        private FileInfo CreateFileInfo(FileCredentials fileCredentials)
         {
             var fileInfo = new FileInfo
             {
-                FilePath = filePath,
-                Password = password,
+                FilePath = fileCredentials.FilePath,
+                Password = fileCredentials.Password,
                 StorageName = Config.StorageName
             };
             return fileInfo;
         }
 
-        public async Task<byte[]> GetPdfAsync(string filePath, string password)
+        public async Task<byte[]> GetPdfAsync(FileCredentials fileCredentials)
         {
-            await UploadFileIfNotExists(filePath);
+            await UploadFileIfNotExists(fileCredentials.FilePath);
 
-            var fileInfo = CreateFileInfo(filePath, password);
+            var fileInfo = CreateFileInfo(fileCredentials);
             var viewOptions = CreatePdfViewOptions(fileInfo);
 
             var result = await _viewerApiConnect
@@ -171,10 +171,10 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
             return result.Value;
         }
 
-        public async Task<byte[]> GetPageResourceAsync(string filePath, string password, int pageNumber,
+        public async Task<byte[]> GetPageResourceAsync(FileCredentials fileCredentials, int pageNumber,
             string resourceName)
         {
-            var page = await GetPageAsync(filePath, password, pageNumber);
+            var page = await GetPageAsync(fileCredentials, pageNumber);
             var bytes =
                 page.Resources
                     .Where(resource => resource.ResourceName == resourceName)

@@ -2,7 +2,7 @@ import { Component, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { ViewerAppComponent, ViewerService, ViewerConfigService } from '@groupdocs.examples.angular/viewer';
-import { Api, ConfigService, ModalService, UploadFilesService, NavigateService, ZoomService, PagePreloadService, RenderPrintService, PasswordService, WindowService, LoadingMaskService, PageModel, FileCredentials } from '@groupdocs.examples.angular/common-components';
+import { Api, ConfigService, ModalService, UploadFilesService, NavigateService, ZoomService, PagePreloadService, RenderPrintService, PasswordService, WindowService, LoadingMaskService, PageModel, TypedFileCredentials } from '@groupdocs.examples.angular/common-components';
 
 import { TranslateService } from '@ngx-translate/core';
 
@@ -106,9 +106,10 @@ export class AppComponent extends ViewerAppComponent {
         }
     }
 
-    loadPages(credentials: FileCredentials, pages: number[]) {
+    loadPages(credentials: TypedFileCredentials, pages: number[]) {
         return this.http.post(this.configService.getViewerApiEndpoint() + Api.LOAD_DOCUMENT_PAGE + "s", {
             'guid': credentials.guid,
+            'fileType': credentials.fileType,
             'password': credentials.password,
             'pages': pages
         }, Api.httpOptionsJson);

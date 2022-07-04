@@ -4,6 +4,9 @@ namespace GroupDocs.Viewer.UI.Api.Models
 {
     public class ErrorResponse
     {
+        /// <summary>
+        /// The error message.
+        /// </summary>
         [JsonPropertyName("message")]
         public string Message { get; set; }
 

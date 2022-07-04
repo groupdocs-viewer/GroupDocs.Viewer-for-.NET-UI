@@ -101,7 +101,7 @@
   </gd-init-state>
 
   <gd-browse-files-modal (urlForUpload)="upload($event)" [files]="files" (selectedDirectory)="selectDir($event)"
-                         (selectedFileGuid)="selectFile($event, '', browseFilesModal)"
+                         (selectedFileGuid)="selectFile($event, '', browseFilesModal, '')"
                          [uploadConfig]="uploadConfig"></gd-browse-files-modal>
 
   <gd-error-modal></gd-error-modal>

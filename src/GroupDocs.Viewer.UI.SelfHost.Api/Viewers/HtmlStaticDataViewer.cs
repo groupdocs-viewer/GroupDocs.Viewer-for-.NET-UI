@@ -30,7 +30,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
         public Page CreatePage(int pageNumber, byte[] data) => 
             new HtmlPage(pageNumber, data);
 
-        public Task<Page> GetPageAsync(string filePath, string password, int pageNumber)
+        public Task<Page> GetPageAsync(FileCredentials fileCredentials, int pageNumber)
         {
             var html = string.Format(PAGE_TEMPLATE, pageNumber);
             var bytes = Encoding.UTF8.GetBytes(html);
@@ -39,7 +39,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             return Task.FromResult((Page) page);
         }
 
-        public Task<Pages> GetPagesAsync(string filePath, string password, int[] pageNumbers)
+        public Task<Pages> GetPagesAsync(FileCredentials fileCredentials, int[] pageNumbers)
         {
             var pages = pageNumbers.Select(pageNumber =>
             {
@@ -65,7 +65,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             return Task.FromResult(result);
         }
 
-        public Task<DocumentInfo> GetDocumentInfoAsync(string filePath, string password)
+        public Task<DocumentInfo> GetDocumentInfoAsync(FileCredentials fileCredentials)
         {
             var documentInfo = new DocumentInfo
             {
@@ -82,7 +82,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             return Task.FromResult(documentInfo);
         }
 
-        public Task<byte[]> GetPdfAsync(string filePath, string password)
+        public Task<byte[]> GetPdfAsync(FileCredentials fileCredentials)
         {
             var bytes = Encoding.UTF8.GetBytes(@"
 %PDF-1.4
@@ -126,7 +126,7 @@ startxref
             return Task.FromResult(bytes);
         }
 
-        public Task<byte[]> GetPageResourceAsync(string filePath, string password, int pageNumber, string resourceName)
+        public Task<byte[]> GetPageResourceAsync(FileCredentials fileCredentials,int pageNumber, string resourceName)
         {
             var css = @"
                 html {
