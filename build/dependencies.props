@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup Label="SDK Versions">
-    <NetFrameworkVersion>netcoreapp3.1</NetFrameworkVersion>
+    <NetFrameworkVersion>net60</NetFrameworkVersion>
     <NetStandardVersion>netstandard2.0</NetStandardVersion>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Package Versions">
-    <GroupDocsViewer>22.5</GroupDocsViewer>
+    <GroupDocsTotal>22.7</GroupDocsTotal>
     <SkiaSharpNativeAssetsLinuxNoDependencies>2.80.3</SkiaSharpNativeAssetsLinuxNoDependencies>
 
     <MicrosoftExtensionsHttp>3.1.18</MicrosoftExtensionsHttp>
