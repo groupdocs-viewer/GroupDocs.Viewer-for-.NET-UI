@@ -17,8 +17,9 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
             IOptions<Config> config,
             IOptions<Options> options,
             IFileStorage fileStorage, 
-            IViewerApiConnect viewerApiConnect)
-            : base(config, fileStorage, viewerApiConnect)
+            IViewerApiConnect viewerApiConnect,
+            IPageFormatter pageFormatter)
+            : base(config, fileStorage, viewerApiConnect, pageFormatter)
         {
             _options = options.Value;
         }

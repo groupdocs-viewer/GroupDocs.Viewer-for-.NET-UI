@@ -9,8 +9,11 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
 {
     internal class JpgViewer : BaseViewer
     {
-        public JpgViewer(IOptions<Config> config, IFileStorage fileStorage, IViewerApiConnect viewerApiConnect) 
-            : base (config, fileStorage, viewerApiConnect)
+        public JpgViewer(IOptions<Config> config, 
+            IFileStorage fileStorage, 
+            IViewerApiConnect viewerApiConnect,
+            IPageFormatter pageFormatter) 
+            : base (config, fileStorage, viewerApiConnect, pageFormatter)
         {
         }
 

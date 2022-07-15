@@ -12,8 +12,9 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
         public HtmlWithEmbeddedResourcesViewer(
             IOptions<Config> config, 
             IFileStorage fileStorage, 
-            IViewerApiConnect viewerApiConnect)
-            : base(config, fileStorage, viewerApiConnect)
+            IViewerApiConnect viewerApiConnect,
+            IPageFormatter pageFormatter)
+            : base(config, fileStorage, viewerApiConnect, pageFormatter)
         {
         }
 
