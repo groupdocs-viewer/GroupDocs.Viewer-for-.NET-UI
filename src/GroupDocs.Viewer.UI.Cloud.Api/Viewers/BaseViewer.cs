@@ -18,15 +18,18 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
         protected readonly Config Config;
         private readonly IFileStorage _fileStorage;
         private readonly IViewerApiConnect _viewerApiConnect;
+        private readonly IPageFormatter _pageFormatter;
 
         protected BaseViewer(
             IOptions<Config> config,
             IFileStorage fileStorage,
-            IViewerApiConnect viewerApiConnect)
+            IViewerApiConnect viewerApiConnect, 
+            IPageFormatter pageFormatter)
         {
             Config = config.Value;
             _fileStorage = fileStorage;
             _viewerApiConnect = viewerApiConnect;
+            _pageFormatter = pageFormatter;
         }
 
         public abstract string PageExtension { get; }
@@ -90,16 +93,16 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
                 if (downloadResult.IsFailure)
                     throw new Exception(downloadResult.Message);
 
-                var bytes = downloadResult.Value;
-                var page = CreatePage(pageView.Number, bytes);
+                var page = CreatePage(pageView.Number, downloadResult.Value);
 
                 if (pageView.Resources != null && pageView.Resources.Any())
                 {
                     var resources = await DownloadResourcesAsync(pageView.Resources,
                         Config.StorageName);
-
                     resources.ForEach(resource => page.AddResource(resource));
                 }
+
+                page = await _pageFormatter.FormatAsync(fileCredentials, page);
 
                 pages.Add(page);
             }

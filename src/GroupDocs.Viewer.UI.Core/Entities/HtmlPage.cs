@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 
 namespace GroupDocs.Viewer.UI.Core.Entities
 {
@@ -9,6 +8,11 @@ namespace GroupDocs.Viewer.UI.Core.Entities
 
         public override string GetContent() =>
             Encoding.UTF8.GetString(Data);
+
+        public override void SetContent(string contents)
+        {
+            Data = Encoding.UTF8.GetBytes(contents);
+        }
 
         public HtmlPage(int pageNumber, byte[] data) 
             : base(pageNumber, data)

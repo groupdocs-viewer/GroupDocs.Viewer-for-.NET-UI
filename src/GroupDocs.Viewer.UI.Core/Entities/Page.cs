@@ -25,9 +25,11 @@ namespace GroupDocs.Viewer.UI.Core.Entities
 
         public int PageNumber { get; }
 
-        public byte[] Data { get; }
+        public byte[] Data { get; protected set; }
 
         public abstract string GetContent();
+
+        public abstract void SetContent(string content);
 
         public void AddResource(PageResource pageResource)
         {

@@ -6,12 +6,14 @@ using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Caching;
 using GroupDocs.Viewer.UI.Core.Caching.Implementation;
 using GroupDocs.Viewer.UI.Core.FileCaching;
+using GroupDocs.Viewer.UI.Core.PageFormatting;
 using GroupDocs.Viewer.UI.SelfHost.Api;
 using GroupDocs.Viewer.UI.SelfHost.Api.Configuration;
 using GroupDocs.Viewer.UI.SelfHost.Api.Licensing;
 using GroupDocs.Viewer.UI.SelfHost.Api.Viewers;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -38,14 +40,9 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.AddSingleton<IViewerLicenser, ViewerLicenser>();
             builder.Services.AddTransient<IFileCache, NoopFileCache>();
             builder.Services.AddTransient<IAsyncLock, AsyncDuplicateLock>();
-            
-            ServiceDescriptor registeredFileTypeResolver = builder.Services.FirstOrDefault(
-                s => s.ServiceType == typeof(IFileTypeResolver));
-            if (registeredFileTypeResolver == null)
-            {
-                builder.Services.AddSingleton<IFileTypeResolver, FileExtensionFileTypeResolver>();
-            }
-
+            builder.Services.TryAddSingleton<IFileTypeResolver, FileExtensionFileTypeResolver>();
+            builder.Services.TryAddSingleton<IPageFormatter, NoopPageFormatter>();
+           
             builder.Services.AddTransient<HtmlWithEmbeddedResourcesViewer>();
             builder.Services.AddTransient<HtmlWithExternalResourcesViewer>();
             builder.Services.AddTransient<PngViewer>();
