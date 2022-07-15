@@ -1,9 +1,10 @@
 ﻿using System.Threading.Tasks;
 using GroupDocs.Viewer.UI.Core.Entities;
 
-namespace GroupDocs.Viewer.UI.Core;
-
-public interface IPageFormatter
+namespace GroupDocs.Viewer.UI.Core
 {
-    Task<Page> FormatAsync(FileCredentials fileCredentials, Page page);
+    public interface IPageFormatter
+    {
+        Task<Page> FormatAsync(FileCredentials fileCredentials, Page page);
+    }
 }
