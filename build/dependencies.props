@@ -39,8 +39,8 @@
     <GroupDocsViewerUIApiInMemoryCache>3.1.1</GroupDocsViewerUIApiInMemoryCache>
     <GroupDocsViewerUIApiLocalStorage>3.1.2</GroupDocsViewerUIApiLocalStorage>
     <GroupDocsViewerUIApiCloudStorage>3.1.0</GroupDocsViewerUIApiCloudStorage>
-    <GroupDocsViewerUICore>3.1.4</GroupDocsViewerUICore>
-    <GroupDocsViewerUISelfHostApi>3.1.17</GroupDocsViewerUISelfHostApi>
-    <GroupDocsViewerUICloudApi>3.1.3</GroupDocsViewerUICloudApi>
+    <GroupDocsViewerUICore>3.1.5</GroupDocsViewerUICore>
+    <GroupDocsViewerUISelfHostApi>3.1.18</GroupDocsViewerUISelfHostApi>
+    <GroupDocsViewerUICloudApi>3.1.4</GroupDocsViewerUICloudApi>
   </PropertyGroup>
 </Project>

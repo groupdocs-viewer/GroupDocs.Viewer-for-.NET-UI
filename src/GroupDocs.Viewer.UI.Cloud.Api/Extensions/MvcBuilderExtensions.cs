@@ -11,8 +11,10 @@ using GroupDocs.Viewer.UI.Cloud.Api.Viewers;
 using GroupDocs.Viewer.UI.Core.Caching;
 using GroupDocs.Viewer.UI.Core.Caching.Implementation;
 using GroupDocs.Viewer.UI.Core.FileCaching;
+using GroupDocs.Viewer.UI.Core.PageFormatting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -63,6 +65,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.AddTransient<HtmlWithExternalResourcesViewer>();
             builder.Services.AddTransient<IAsyncLock, AsyncDuplicateLock>();
             builder.Services.AddTransient<IFileCache, NoopFileCache>();
+            builder.Services.TryAddSingleton<IPageFormatter, NoopPageFormatter>();
             
             builder.Services.AddTransient<IViewer>(factory =>
             {
