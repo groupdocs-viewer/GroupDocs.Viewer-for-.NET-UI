@@ -68,13 +68,13 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 
             var pages = new Pages();
 
-            for (int pageNumber = 1; pageNumber <= pageNumbers.Length; pageNumber++)
+            foreach (var pageNumber in pageNumbers)
             {
                 var page = await RenderPageInternalAsync(viewer, fileCredentials, pageNumber);
                 pages.Add(page);
             }
 
-            return new Pages(pages);
+            return pages;
         }
 
         public async Task<byte[]> GetPdfAsync(FileCredentials fileCredentials)
