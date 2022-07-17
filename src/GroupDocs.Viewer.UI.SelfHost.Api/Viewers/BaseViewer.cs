@@ -14,13 +14,14 @@ using Page = GroupDocs.Viewer.UI.Core.Entities.Page;
 
 namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 {
-    internal abstract class BaseViewer : IViewer
+    internal abstract class BaseViewer : IViewer, IDisposable
     {
         private readonly IOptions<Config> _config;
         private readonly IViewerLicenser _viewerLicenser;
         private readonly IFileStorage _fileStorage;
         private readonly IFileTypeResolver _fileTypeResolver;
         private readonly IPageFormatter _pageFormatter;
+        private Viewer _viewer;
 
         protected BaseViewer(IOptions<Config> config, 
             IViewerLicenser viewerLicenser, 
@@ -41,12 +42,11 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 
         protected abstract Page RenderPage(Viewer viewer, string filePath, int pageNumber);
 
-
         protected abstract ViewInfoOptions CreateViewInfoOptions();
 
         public async Task<DocumentInfo> GetDocumentInfoAsync(FileCredentials fileCredentials)
         {
-            using var viewer = await InitViewerAsync(fileCredentials);
+            var viewer = await InitViewerAsync(fileCredentials);
             var viewInfoOptions = CreateViewInfoOptions();
             var viewInfo = viewer.GetViewInfo(viewInfoOptions);
 
@@ -56,7 +56,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 
         public async Task<Page> GetPageAsync(FileCredentials fileCredentials, int pageNumber)
         {
-            using var viewer = await InitViewerAsync(fileCredentials);
+            var viewer = await InitViewerAsync(fileCredentials);
             var page = await RenderPageInternalAsync(viewer, fileCredentials, pageNumber);
 
             return page;
@@ -64,7 +64,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 
         public async Task<Pages> GetPagesAsync(FileCredentials fileCredentials, int[] pageNumbers)
         {
-            using var viewer = await InitViewerAsync(fileCredentials);
+            var viewer = await InitViewerAsync(fileCredentials);
 
             var pages = new Pages();
 
@@ -82,7 +82,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             var pdfStream = new MemoryStream();
             var viewOptions = CreatePdfViewOptions(pdfStream);
 
-            using var viewer = await InitViewerAsync(fileCredentials);
+            var viewer = await InitViewerAsync(fileCredentials);
             viewer.View(viewOptions);
 
             return pdfStream.ToArray();
@@ -101,12 +101,16 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 
         private async Task<Viewer> InitViewerAsync(FileCredentials fileCredentials)
         {
-            _viewerLicenser.SetLicense();
+            if (_viewer == null)
+            {
+                _viewerLicenser.SetLicense();
 
-            var fileStream = await GetFileStreamAsync(fileCredentials.FilePath);
-            var loadOptions = await CreateLoadOptionsAsync(fileCredentials);
-            var viewer = new Viewer(fileStream, loadOptions);
-            return viewer;
+                var fileStream = await GetFileStreamAsync(fileCredentials.FilePath);
+                var loadOptions = await CreateLoadOptionsAsync(fileCredentials);
+                _viewer = new Viewer(fileStream, loadOptions);
+            }
+
+            return _viewer;
         }
 
         private async Task<MemoryStream> GetFileStreamAsync(string filePath)
@@ -161,6 +165,12 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
                     Name = page.Name
                 })
             };
+        }
+
+        public void Dispose()
+        {
+            _viewer?.Dispose();
+            _viewer = null;
         }
     }
 }

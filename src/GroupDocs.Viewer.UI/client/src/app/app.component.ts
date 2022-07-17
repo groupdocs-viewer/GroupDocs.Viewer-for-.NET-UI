@@ -60,12 +60,17 @@ export class AppComponent extends ViewerAppComponent {
         const minPagesToLoad = this.viewerConfig.preloadPageCount;
         const countPages = this.file.pages.length;
         this.selectedPageNumber = 1;
-
+        
         if (isInitialLoad) {
             this.pagesLoading = [];
         }
-
+        
         for (let i = start; i <= end; i++) {
+            const page = this.file.pages.find(p => p.number === i);
+            if(page && page.data) {
+                continue;
+            }
+            
             if (this.pagesLoading.indexOf(i) === -1) {
                 this.pagesLoading.push(i);
                 pagesToLoad.push(i);
@@ -76,7 +81,7 @@ export class AppComponent extends ViewerAppComponent {
             const last = pagesToLoad[pagesToLoad.length - 1];
             if (!isInitialLoad && pagesToLoad.length < minPagesToLoad) {
                 const addPages = minPagesToLoad - pagesToLoad.length;
-                for (let i = last; i <= last + addPages; i++) {
+                for (let i = last; i < last + addPages; i++) {
                     const pageNumber = i + 1;
 
                     if (pageNumber <= countPages && this.pagesLoading.indexOf(pageNumber) === -1) {

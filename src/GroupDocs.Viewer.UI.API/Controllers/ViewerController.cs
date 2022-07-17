@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -207,18 +208,31 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                 var documentDescription =
                     await _viewer.GetDocumentInfoAsync(fileCredentials);
 
+                var pageNumbers = GetPageNumbers(documentDescription.Pages.Count());
+                var pagesData = await _viewer.GetPagesAsync(fileCredentials, pageNumbers);
+
+                var pages = new List<PageDescription>();
+                foreach (PageInfo pageInfo in documentDescription.Pages)
+                {
+                    var pageData = pagesData.FirstOrDefault(p => p.PageNumber == pageInfo.Number);
+                    var pageDescription = new PageDescription
+                    {
+                        Width = pageInfo.Width,
+                        Height = pageInfo.Height,
+                        Number = pageInfo.Number,
+                        SheetName = pageInfo.Name,
+                        Data = pageData?.GetContent()
+                    };
+
+                    pages.Add(pageDescription);
+                }
+
                 var result = new LoadDocumentDescriptionResponse
                 {
                     Guid = request.Guid,
                     FileType = documentDescription.FileType,
                     PrintAllowed = documentDescription.PrintAllowed,
-                    Pages = documentDescription.Pages.Select(p => new PageDescription
-                    {
-                        Width = p.Width,
-                        Height = p.Height,
-                        Number = p.Number,
-                        SheetName = p.Name,
-                    }).ToList()
+                    Pages = pages
                 };
 
                 return OkJsonResult(result);
@@ -238,6 +252,17 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
 
                 return ErrorJsonResult(ex.Message);
             }
+        }
+
+        private int[] GetPageNumbers(int totalPageCount)
+        {
+            if (_config.PreloadPageCount == 0)
+                return Enumerable.Range(1, totalPageCount).ToArray();
+
+            var pageCount = 
+                Math.Min(totalPageCount, _config.PreloadPageCount);
+
+            return Enumerable.Range(1, pageCount).ToArray();
         }
 
         [HttpPost]

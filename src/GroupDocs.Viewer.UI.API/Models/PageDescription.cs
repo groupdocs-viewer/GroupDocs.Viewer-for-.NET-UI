@@ -2,7 +2,7 @@
 
 namespace GroupDocs.Viewer.UI.Api.Models
 {
-    public class PageDescription
+    public class PageDescription : PageContent
     {
         /// <summary>
         /// Page with in pixels.
@@ -15,12 +15,6 @@ namespace GroupDocs.Viewer.UI.Api.Models
         /// </summary>
         [JsonPropertyName("height")]
         public int Height { get; set; }
-
-        /// <summary>
-        /// Page number.
-        /// </summary>
-        [JsonPropertyName("number")]
-        public int Number { get; set; }
 
         /// <summary>
         /// Worksheet name for spreadsheets.

@@ -6,7 +6,7 @@
       <gd-button [icon]="'folder-open'" title="{{'Browse files' | translate}}" (click)="openModal(browseFilesModal)"
                  *ngIf="browseConfig" ></gd-button>
 
-      <gd-select class="mobile-hide select-left" [disabled]="formatDisabled" [options]="options" (selected)="selectZoom($event)"
+      <gd-select class="mobile-hide select-left noselect" [disabled]="formatDisabled" [options]="options" (selected)="selectZoom($event)"
                  [showSelected]="{ name: zoom+'%', value : zoom, separator:false }" *ngIf="zoomConfig" ></gd-select>
       <gd-button class="mobile-hide" [disabled]="formatDisabled" [icon]="'search-plus'" title="{{'Zoom In' | translate}}" (click)="zoomIn()"
                  *ngIf="zoomConfig" ></gd-button>
@@ -17,7 +17,7 @@
                  (click)="toFirstPage()" *ngIf="pageSelectorConfig && formatIcon !== 'file-excel'" ></gd-button>
       <gd-button class="mobile-hide" [disabled]="formatDisabled" [icon]="'angle-left'" title="{{'Previous Page' | translate}}"
                  (click)="prevPage()" *ngIf="pageSelectorConfig && formatIcon !== 'file-excel'" ></gd-button>
-      <div class="current-page-number" [ngClass]="{'active': !formatDisabled}" *ngIf="formatIcon !== 'file-excel'">{{currentPage}}/{{countPages}}</div>
+      <div class="current-page-number noselect" [ngClass]="{'active': !formatDisabled}" *ngIf="formatIcon !== 'file-excel'">{{currentPage}}/{{countPages}}</div>
       <gd-button class="mobile-hide" [disabled]="formatDisabled" [icon]="'angle-right'" title="{{'Next Page' | translate }}"
                  (click)="nextPage()" *ngIf="pageSelectorConfig && formatIcon !== 'file-excel'" ></gd-button>
       <gd-button class="mobile-hide" [disabled]="formatDisabled" [icon]="'angle-double-right'" title="{{'Last Page' | translate }}"
@@ -39,7 +39,7 @@
 
       <div class="toolbar-panel-right">
         <div class="language-menu mobile-hide" *ngIf="showLanguageMenu">
-          <gd-select class="select-language-menu" [disabled]="false" [options]="supportedLanguages"
+          <gd-select class="select-language-menu noselect" [disabled]="false" [options]="supportedLanguages"
             (selected)="selectLanguage($event)" [showSelected]="selectedLanguage"></gd-select>
         </div>
 

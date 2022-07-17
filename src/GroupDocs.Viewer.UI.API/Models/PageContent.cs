@@ -8,8 +8,7 @@ namespace GroupDocs.Viewer.UI.Api.Models
         /// Page number.
         /// </summary>
         [JsonPropertyName("number")]
-        public int Number
-        { get; set; }
+        public int Number { get; set; }
 
         /// <summary>
         /// Page contents. It can be HTML or base64-encoded image.
