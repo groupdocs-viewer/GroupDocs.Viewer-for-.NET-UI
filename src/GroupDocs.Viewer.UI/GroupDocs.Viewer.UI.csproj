@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>$(NetFrameworkVersion)</TargetFramework>
+    <TargetFramework>$(NetVersion)</TargetFramework>
 
     <PackageId>GroupDocs.Viewer.UI</PackageId>
     <Version>$(GroupDocsViewerUI)</Version>

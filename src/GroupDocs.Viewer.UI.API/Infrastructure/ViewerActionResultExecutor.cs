@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -10,9 +11,9 @@ namespace GroupDocs.Viewer.UI.Api.Infrastructure
 {
     internal class ViewerActionResultExecutor : ActionResult, IStatusCodeActionResult
     {
-        private readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions()
+        private readonly JsonSerializerOptions _jsonSerializerOptions = new()
         {
-            IgnoreNullValues = false
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         };
 
         private static readonly string DefaultContentType = new MediaTypeHeaderValue("application/json")
