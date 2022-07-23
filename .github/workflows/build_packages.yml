@@ -1,4 +1,4 @@
-name: publish_stage
+name: build_packages
 on:
   workflow_dispatch:
 jobs:
