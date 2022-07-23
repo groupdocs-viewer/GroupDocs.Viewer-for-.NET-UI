@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup Label="SDK Versions">
-    <NetFrameworkVersion>netcoreapp3.1</NetFrameworkVersion>
+    <NetVersion>net6.0</NetVersion>
     <NetStandardVersion>netstandard2.0</NetStandardVersion>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
@@ -19,28 +19,28 @@
     <GroupDocsViewer>22.5</GroupDocsViewer>
     <SkiaSharpNativeAssetsLinuxNoDependencies>2.80.3</SkiaSharpNativeAssetsLinuxNoDependencies>
 
-    <MicrosoftExtensionsHttp>3.1.18</MicrosoftExtensionsHttp>
+    <MicrosoftExtensionsHttp>6.0.0</MicrosoftExtensionsHttp>
     <MicrosoftAspNetCoreMvcCore>2.2.5</MicrosoftAspNetCoreMvcCore>
-    <MicrosoftExtensionsDependencyInjectionAbstractions>3.1.18</MicrosoftExtensionsDependencyInjectionAbstractions>
-    <MicrosoftExtensionsConfiguration>3.1.18</MicrosoftExtensionsConfiguration>
-    <MicrosoftExtensionsConfigurationBinder>3.1.18</MicrosoftExtensionsConfigurationBinder>
-    <MicrosoftExtensionsCachingMemory>3.1.18</MicrosoftExtensionsCachingMemory>
+    <MicrosoftExtensionsDependencyInjectionAbstractions>6.0.0</MicrosoftExtensionsDependencyInjectionAbstractions>
+    <MicrosoftExtensionsConfiguration>6.0.1</MicrosoftExtensionsConfiguration>
+    <MicrosoftExtensionsConfigurationBinder>6.0.0</MicrosoftExtensionsConfigurationBinder>
+    <MicrosoftExtensionsCachingMemory>6.0.1</MicrosoftExtensionsCachingMemory>
 
-    <NewtonsoftJson>12.0.2</NewtonsoftJson>
-    <SystemTextJson>4.7.2</SystemTextJson>
+    <NewtonsoftJson>13.0.1</NewtonsoftJson>
+    <SystemTextJson>6.0.5</SystemTextJson>
 
-    <MicrosoftSourceLinkGithub>1.0.0</MicrosoftSourceLinkGithub>
+    <MicrosoftSourceLinkGithub>1.1.1</MicrosoftSourceLinkGithub>
   </PropertyGroup>
 
   <PropertyGroup Label="GroupDocs.Viewer UI Package Versions">
-    <GroupDocsViewerUI>3.1.9</GroupDocsViewerUI>
-    <GroupDocsViewerUIApi>3.1.9</GroupDocsViewerUIApi>
-    <GroupDocsViewerUIApiLocalCache>3.1.3</GroupDocsViewerUIApiLocalCache>
-    <GroupDocsViewerUIApiInMemoryCache>3.1.1</GroupDocsViewerUIApiInMemoryCache>
-    <GroupDocsViewerUIApiLocalStorage>3.1.2</GroupDocsViewerUIApiLocalStorage>
-    <GroupDocsViewerUIApiCloudStorage>3.1.0</GroupDocsViewerUIApiCloudStorage>
-    <GroupDocsViewerUICore>3.1.5</GroupDocsViewerUICore>
-    <GroupDocsViewerUISelfHostApi>3.1.20</GroupDocsViewerUISelfHostApi>
-    <GroupDocsViewerUICloudApi>3.1.5</GroupDocsViewerUICloudApi>
+    <GroupDocsViewerUI>6.0.0</GroupDocsViewerUI>
+    <GroupDocsViewerUIApi>6.0.0</GroupDocsViewerUIApi>
+    <GroupDocsViewerUIApiLocalCache>6.0.0</GroupDocsViewerUIApiLocalCache>
+    <GroupDocsViewerUIApiInMemoryCache>6.0.0</GroupDocsViewerUIApiInMemoryCache>
+    <GroupDocsViewerUIApiLocalStorage>6.0.0</GroupDocsViewerUIApiLocalStorage>
+    <GroupDocsViewerUIApiCloudStorage>6.0.0</GroupDocsViewerUIApiCloudStorage>
+    <GroupDocsViewerUICore>6.0.0</GroupDocsViewerUICore>
+    <GroupDocsViewerUISelfHostApi>6.0.0</GroupDocsViewerUISelfHostApi>
+    <GroupDocsViewerUICloudApi>6.0.0</GroupDocsViewerUICloudApi>
   </PropertyGroup>
 </Project>

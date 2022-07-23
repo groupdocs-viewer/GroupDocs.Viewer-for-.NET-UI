@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using GroupDocs.Viewer.UI.Api.Infrastructure;
 using GroupDocs.Viewer.UI.Api.Models;
@@ -346,13 +347,12 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
 
         private async Task<(string, byte[])> DownloadFileAsync(string url)
         {
+            using HttpClient httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Add("User-Agent", "Other");
+
             Uri uri = new Uri(url);
-
-            using WebClient client = new WebClient();
-            client.Headers.Add("User-Agent: Other");
-
-            byte[] bytes = await client.DownloadDataTaskAsync(uri);
             string fileName = Path.GetFileName(uri.LocalPath);
+            byte[] bytes = await httpClient.GetByteArrayAsync(uri);
 
             return (fileName, bytes);
         }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>$(NetFrameworkVersion)</TargetFramework>
+    <TargetFramework>$(NetVersion)</TargetFramework>
 
     <PackageId>GroupDocs.Viewer.UI.SelfHost.Api</PackageId>
     <Version>$(GroupDocsViewerUISelfHostApi)</Version>
