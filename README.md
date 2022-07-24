@@ -1,4 +1,4 @@
-![Build](https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/actions/workflows/build_packages/badge.svg)
+![Build Packages](https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/actions/workflows/build_packages.yml/badge.svg)
 
 # UI for GroupDocs.Viewer for .NET
 

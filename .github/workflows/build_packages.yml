@@ -1,4 +1,5 @@
-name: build_packages
+name: Build Packages
+
 on:
   push:
   workflow_dispatch:
