@@ -43,10 +43,9 @@ namespace GroupDocs.Viewer.UI.Core
                 styleSheets.Add(UIStylesheet.Create(options, stylesheet));
             }
 
-            var htmlStyles = styleSheets.Select
-                (s =>
+            var htmlStyles = styleSheets.Select(s =>
             {
-                var linkHref = s.ResourcePath.AsRelativeResource();
+                var linkHref = s.ResourceRelativePath.AsRelativeResource();
                 return $"<link rel='stylesheet' href='{linkHref}'/>";
             });
 
