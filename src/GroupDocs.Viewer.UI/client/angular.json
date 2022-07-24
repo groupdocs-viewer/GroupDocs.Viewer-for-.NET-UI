@@ -70,6 +70,7 @@
                 "input": "src/index.prod.html",
                 "output": "index.html"
               },
+              "outputPath": "../assets",
               "optimization": true,
               "outputHashing": "none",
               "sourceMap": false,
@@ -111,6 +112,5 @@
         }
       }
     }
-  },
-  "defaultProject": "groupdocs-viewer-ui"
+  }
 }
