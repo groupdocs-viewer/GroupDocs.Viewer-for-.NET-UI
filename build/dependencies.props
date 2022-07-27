@@ -38,7 +38,7 @@
     <GroupDocsViewerUIApiLocalCache>6.0.0</GroupDocsViewerUIApiLocalCache>
     <GroupDocsViewerUIApiInMemoryCache>6.0.0</GroupDocsViewerUIApiInMemoryCache>
     <GroupDocsViewerUIApiLocalStorage>6.0.0</GroupDocsViewerUIApiLocalStorage>
-    <GroupDocsViewerUIApiCloudStorage>6.0.0</GroupDocsViewerUIApiCloudStorage>
+    <GroupDocsViewerUIApiCloudStorage>6.0.1</GroupDocsViewerUIApiCloudStorage>
     <GroupDocsViewerUICore>6.0.0</GroupDocsViewerUICore>
     <GroupDocsViewerUISelfHostApi>6.0.0</GroupDocsViewerUISelfHostApi>
     <GroupDocsViewerUICloudApi>6.0.0</GroupDocsViewerUICloudApi>

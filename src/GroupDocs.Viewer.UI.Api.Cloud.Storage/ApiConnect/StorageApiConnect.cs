@@ -97,8 +97,11 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect
 
         private async Task<Result<T>> Upload<T>(string requestUri, byte[] data)
         {
+            var formDataContent = new MultipartFormDataContent();
+            formDataContent.Add(new ByteArrayContent(data), "File", "File");
+
             var message = new HttpRequestMessage(HttpMethod.Put, requestUri);
-            message.Content = new ByteArrayContent(data);
+            message.Content = formDataContent;
 
             var response = await _httpClient.SendAsync(message);
             var responseJson = await response.Content.ReadAsStringAsync();

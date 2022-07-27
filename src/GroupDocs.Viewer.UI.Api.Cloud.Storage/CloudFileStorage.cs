@@ -32,9 +32,16 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage
                 throw new Exception(result.Message);
 
             var entries = result.Value.Value
-                .Select(file => file.IsFolder
-                    ? FileSystemEntry.Directory(file.Name, file.Path, file.Size)
-                    : FileSystemEntry.File(file.Name, file.Path, file.Size))
+                .Select(file =>
+                {
+                    var path = file.Path.StartsWith('/')
+                        ? file.Path.Substring(1)
+                        : file.Path;
+
+                    return file.IsFolder
+                        ? FileSystemEntry.Directory(file.Name, path, file.Size)
+                        : FileSystemEntry.File(file.Name, path, file.Size);
+                })
                 .ToList();
 
             return entries;
