@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Package Versions">
-    <GroupDocsViewer>22.5</GroupDocsViewer>
+    <GroupDocsViewer>22.9</GroupDocsViewer>
     <SkiaSharpNativeAssetsLinuxNoDependencies>2.80.3</SkiaSharpNativeAssetsLinuxNoDependencies>
 
     <MicrosoftExtensionsHttp>6.0.0</MicrosoftExtensionsHttp>
@@ -40,7 +40,7 @@
     <GroupDocsViewerUIApiLocalStorage>6.0.0</GroupDocsViewerUIApiLocalStorage>
     <GroupDocsViewerUIApiCloudStorage>6.0.1</GroupDocsViewerUIApiCloudStorage>
     <GroupDocsViewerUICore>6.0.0</GroupDocsViewerUICore>
-    <GroupDocsViewerUISelfHostApi>6.0.0</GroupDocsViewerUISelfHostApi>
+    <GroupDocsViewerUISelfHostApi>6.0.1</GroupDocsViewerUISelfHostApi>
     <GroupDocsViewerUICloudApi>6.0.0</GroupDocsViewerUICloudApi>
   </PropertyGroup>
 </Project>
