@@ -1,6 +1,8 @@
-![Build Packages](https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/actions/workflows/build_packages.yml/badge.svg)
-
 # UI for GroupDocs.Viewer for .NET
+
+![Build Packages](https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/actions/workflows/build_packages.yml/badge.svg)
+![Nuget](https://img.shields.io/nuget/v/groupdocs.viewer.ui?label=GroupDocs.Viewer.UI)
+![Nuget](https://img.shields.io/nuget/dt/GroupDocs.Viewer.UI?label=GroupDocs.Viewer.UI)
 
 ![GroupDocs.Viewer.UI](./doc/images/viewer-ui.png)
 
