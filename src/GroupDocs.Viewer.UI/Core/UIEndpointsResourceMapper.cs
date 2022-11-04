@@ -34,7 +34,7 @@ namespace GroupDocs.Viewer.UI.Core
                 }));
             }
 
-            endpoints.Add(builder.MapGet($"{options.UIPath}", async context =>
+            endpoints.Add(builder.MapGet(options.UIPath, async context =>
             {
                 context.Response.OnStarting(() =>
                 {
