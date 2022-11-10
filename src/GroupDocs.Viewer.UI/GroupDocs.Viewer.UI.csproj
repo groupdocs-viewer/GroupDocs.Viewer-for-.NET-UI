@@ -10,7 +10,7 @@
 
     <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
     <ClientRoot>client\</ClientRoot>
-    <BuildClientApp>true</BuildClientApp>
+    <BuildClientApp>false</BuildClientApp>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GroupDocs.Viewer.UI.Api\GroupDocs.Viewer.UI.Api.csproj" />
     <ProjectReference Include="..\GroupDocs.Viewer.UI.Core\GroupDocs.Viewer.UI.Core.csproj" />
   </ItemGroup>
 

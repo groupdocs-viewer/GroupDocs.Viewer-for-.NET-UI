@@ -1,31 +1,46 @@
-﻿using GroupDocs.Viewer.UI.Configuration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GroupDocs.Viewer.UI.Configuration;
 
-namespace GroupDocs.Viewer.UI.Core
+namespace GroupDocs.Viewer.UI.Core.Extensions
 {
     internal static class UIResourceExtensions
     {
-        public static UIResource GetMainUI(this IEnumerable<UIResource> resources, Options options)
+        public static UIResource GetIndexPage(this IEnumerable<UIResource> resources)
         {
             var index = resources
-                .FirstOrDefault(r => r.ContentType == ContentType.HTML && r.FileName == Keys.GROUPDOCSVIEWERUI_MAIN_UI_RESOURCE);
+                .FirstOrDefault(r => 
+                    r.ContentType == ContentType.HTML && r.FileName == Keys.GROUPDOCSVIEWERUI_MAIN_UI_RESOURCE);
 
-            var uiPath = options.UIPath.WithTrailingSlash();
+            return index;
+        }
+
+        public static string SetMainUIResourcePaths(this UIResource index, 
+            Options options, Dictionary<string, string> routeValues)
+        {
+            var uiPath = options.UIPath
+                .ReplacePatternsWithRouteValues(routeValues)
+                .WithTrailingSlash();
 
             index.Content = index.Content
                 .Replace(Keys.GROUPDOCSVIEWERUI_MAIN_UI_PATH, uiPath);
 
-            var apiPath = options.APIEndpoint;
+            var apiPath = options.APIEndpoint
+                .ReplacePatternsWithRouteValues(routeValues)
+                .TrimTrailingSlash();
 
             index.Content = index.Content
-                .Replace(Keys.GROUPDOCSVIEWERUI_MAIN_UI_API_TARGET, apiPath.TrimTrailingSlash());
+                .Replace(Keys.GROUPDOCSVIEWERUI_MAIN_UI_API_TARGET, apiPath);
+
+            var uiConfigPath =
+                options.UIConfigEndpoint
+                    .ReplacePatternsWithRouteValues(routeValues);
 
             index.Content = index.Content
-                .Replace(Keys.GROUPDOCSVIEWERUI_MAIN_UI_SETTINGS_PATH_TARGET, options.UIConfigEndpoint);
+                .Replace(Keys.GROUPDOCSVIEWERUI_MAIN_UI_SETTINGS_PATH_TARGET, uiConfigPath);
 
-            return index;
+            return index.Content;
         }
 
         public static ICollection<UIStylesheet> GetCustomStylesheets(this UIResource resource, Options options)

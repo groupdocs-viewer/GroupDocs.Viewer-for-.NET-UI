@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using GroupDocs.Viewer.UI.Configuration;
+using GroupDocs.Viewer.UI.Core.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -22,8 +23,8 @@ namespace GroupDocs.Viewer.UI.Core
             var endpoints = new List<IEndpointConventionBuilder>();
 
             var resources = _reader.UIResources;
-            var ui = resources.GetMainUI(options);
-            var styleSheets = ui.GetCustomStylesheets(options);
+            var indexPage = resources.GetIndexPage();
+            var styleSheets = indexPage.GetCustomStylesheets(options);
 
             foreach (var resource in resources)
             {
@@ -46,8 +47,11 @@ namespace GroupDocs.Viewer.UI.Core
                     return Task.CompletedTask;
                 });
 
-                context.Response.ContentType = ui.ContentType;
-                await context.Response.WriteAsync(ui.Content);
+                var routeValues = context.Request.RouteValues.ToDictionary();
+                var content = indexPage.SetMainUIResourcePaths(options, routeValues);
+
+                context.Response.ContentType = indexPage.ContentType;
+                await context.Response.WriteAsync(content);
             }));
 
             foreach (var item in styleSheets)
