@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
 using GroupDocs.Viewer.UI.Core;
@@ -23,7 +25,12 @@ namespace GroupDocs.Viewer.UI.Api.AwsS3.Storage
             if (awsS3Options.S3Config == null)
                 throw new ArgumentNullException(nameof(awsS3Options.S3Config));
 
+            if(string.IsNullOrEmpty(awsS3Options.Region))
+                throw new ArgumentNullException(nameof(awsS3Options.Region));
+
             _awsS3Options = awsS3Options;
+
+            _awsS3Options.S3Config.RegionEndpoint = RegionEndpoint.EnumerableAllRegions.FirstOrDefault(x => x.SystemName == _awsS3Options.Region);
         }
 
         public async Task<IEnumerable<FileSystemEntry>> ListDirsAndFilesAsync(string folderPath)
@@ -122,67 +129,48 @@ namespace GroupDocs.Viewer.UI.Api.AwsS3.Storage
 
         public async Task<string> WriteFileAsync(string fileName, byte[] bytes, bool rewrite)
         {
-            throw new NotImplementedException();
+			using (IAmazonS3 client = CreateS3Client())
+            using (MemoryStream stream = new MemoryStream(bytes))
+			{
+			    var newFileName = rewrite ? fileName : await GetFreeFileName(client, fileName);
 
-            //var newFileName = rewrite ? fileName : GetFreeFileName(fileName);
-            //var fullPath = Path.Combine(_storagePath, newFileName);
-            //var fileMode = rewrite ? FileMode.Create : FileMode.CreateNew;
+                PutObjectRequest request = new PutObjectRequest
+                {
+                    BucketName = _awsS3Options.BucketName,
+                    Key = newFileName,
+                    InputStream = stream,
+                };
+                
+                await client.PutObjectAsync(request);
 
-            //await using FileStream fs = GetStream(fullPath, fileMode, FileAccess.Write, FileShare.None);
-            //await fs.WriteAsync(bytes, 0, bytes.Length);
-
-            //return newFileName;
+                return newFileName;
+			}
         }
 
-        //private FileStream GetStream(string path, FileMode mode, FileAccess access, FileShare share)
-        //{
-        //    FileStream stream = null;
-        //    TimeSpan interval = new TimeSpan(0, 0, 0, 0, 50);
-        //    TimeSpan totalTime = new TimeSpan();
+        private async Task<string> GetFreeFileName(IAmazonS3 client, string filePath)
+        {
+            string dirPath = Path.GetDirectoryName(filePath);
 
-        //    while (stream == null)
-        //    {
-        //        try
-        //        {
-        //            stream = File.Open(path, mode, access, share);
-        //        }
-        //        catch (IOException)
-        //        {
-        //            Thread.Sleep(interval);
-        //            totalTime += interval;
+            IEnumerable<string> dirFiles = (await ListingObjectsAsync(client, _awsS3Options.BucketName, dirPath))
+                .Where(x => !x.IsDirectory)
+                .Select(x => x.FilePath);
 
-        //            if (_waitTimeout.Ticks != 0 && totalTime > _waitTimeout)
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //    }
+            if(!dirFiles.Contains(filePath))
+                return filePath;
 
-        //    return stream;
-        //}
+            var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(filePath);
+            var number = 1;
+            string fileNameCandidate;
 
-        //private string GetFreeFileName(string fileName)
-        //{
-        //    var fullPath = Path.Combine(_storagePath, fileName);
+            do
+            {
+                string newFileName = $"{fileNameWithoutExtension} ({number})";
+                fileNameCandidate = filePath.Replace(fileNameWithoutExtension, newFileName);
+                ++number;
+            }
+            while(dirFiles.Contains(fileNameCandidate));
 
-        //    if (!File.Exists(fullPath))
-        //        return fileName;
-
-        //    List<string> dirFiles = Directory.GetFiles(_storagePath)
-        //        .Select(filePath => Path.GetFileName(filePath))
-        //        .ToList();
-
-        //    var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
-        //    var number = 1;
-        //    string fileNameCandidate;
-        //    do
-        //    {
-        //        string newFileName = $"{fileNameWithoutExtension} ({number})";
-        //        fileNameCandidate = fileName.Replace(fileNameWithoutExtension, newFileName);
-        //        number++;
-        //    } while (dirFiles.Contains(fileNameCandidate));
-
-        //    return fileNameCandidate;
-        //}
+            return fileNameCandidate;
+        }
     }
 }

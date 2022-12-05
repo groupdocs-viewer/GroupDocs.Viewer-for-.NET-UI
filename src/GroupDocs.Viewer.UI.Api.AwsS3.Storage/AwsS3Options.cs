@@ -5,6 +5,11 @@ namespace GroupDocs.Viewer.UI.Api.AwsS3.Storage
     public class AwsS3Options
     {
         /// <summary>
+        /// The region constant that determines the endpoint to use.
+        /// </summary>
+        public string Region { get; set; }
+
+        /// <summary>
         /// Access Key. Ignore in case credentials are set globally.
         /// </summary>
         public string AccessKey { get; set; }
