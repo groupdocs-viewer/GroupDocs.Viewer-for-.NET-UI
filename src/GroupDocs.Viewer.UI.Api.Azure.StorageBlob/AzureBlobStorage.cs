@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 using Azure.Storage;
 using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Entities;
 
-namespace GroupDocs.Viewer.UI.Api.Azure.Storage
+namespace GroupDocs.Viewer.UI.Api.Azure.StorageBlob
 {
 	public class AzureBlobStorage : IFileStorage
 	{
@@ -28,17 +29,30 @@ namespace GroupDocs.Viewer.UI.Api.Azure.Storage
 			_options = options;
 		}
 
-		public Task<IEnumerable<FileSystemEntry>> ListDirsAndFilesAsync(string dirPath)
-		{
-			BlobContainerClient client = CreateClient();
+        public async Task<IEnumerable<FileSystemEntry>> ListDirsAndFilesAsync(string dirPath)
+        {
+            BlobContainerClient client = CreateClient();
 
-			return Task.FromResult(
-				client.GetBlobs(prefix: dirPath).Select(
-					x => FileSystemEntry.File(x.Name, dirPath, x.Properties.ContentLength ?? 0L)
-			) );
-		}
+            var fileSystemEntries = new List<FileSystemEntry>();
 
-		public async Task<byte[]> ReadFileAsync(string filePath)
+            await foreach(var item in client.GetBlobsByHierarchyAsync(prefix: dirPath, delimiter: "/"))
+            {
+                if(item.IsPrefix)
+                {
+                    fileSystemEntries.Add(
+                        FileSystemEntry.Directory(item.Prefix, item.Prefix, 0L));
+                }
+                else if(item.IsBlob)
+                {
+                    fileSystemEntries.Add(
+                        FileSystemEntry.File(GetObjectName(item.Blob.Name), item.Blob.Name, item.Blob.Properties.ContentLength ?? 0L));
+                }
+            }
+
+            return fileSystemEntries;
+        }
+
+        public async Task<byte[]> ReadFileAsync(string filePath)
 		{
 			BlobContainerClient client = CreateClient();
 			BlobClient blob = client.GetBlobClient(filePath);
@@ -65,13 +79,16 @@ namespace GroupDocs.Viewer.UI.Api.Azure.Storage
 			return newFilePah;
 		}
 
+		private static string GetObjectName(string key) =>
+			key.Split('/', StringSplitOptions.RemoveEmptyEntries).Last();
+
 		private string GetFreeFileName(BlobContainerClient client, string filePath)
 		{
 			string dirPath = Path.GetDirectoryName(filePath);
 
-			IEnumerable<string> dirFiles = client.GetBlobs(prefix: dirPath).Select(x => x.Name);
+			IEnumerable<BlobItem> dirFiles = client.GetBlobs(prefix: dirPath);
 
-			if(!dirFiles.Contains(filePath))
+			if(!dirFiles.Any(x => x.Name == filePath))
 				return filePath;
 
 			var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(filePath);
@@ -84,21 +101,21 @@ namespace GroupDocs.Viewer.UI.Api.Azure.Storage
 				fileNameCandidate = filePath.Replace(fileNameWithoutExtension, newFileName);
 				++number;
 			}
-			while(dirFiles.Contains(fileNameCandidate));
+			while(dirFiles.Any(x => x.Name == fileNameCandidate));
 
 			return fileNameCandidate;
 		}
 
 		private BlobContainerClient CreateClient()
 		{
-			BlobContainerClient client = new BlobContainerClient(_connectionString, _options.ContainerName, _options.ClientOptions);
+			BlobContainerClient client = new BlobContainerClient(ConnectionString, _options.ContainerName, _options.ClientOptions);
 
 			client.CreateIfNotExists();
 
 			return client;
 		}
 
-		private string _connectionString
+		private string ConnectionString
 		{
 			get
 			{

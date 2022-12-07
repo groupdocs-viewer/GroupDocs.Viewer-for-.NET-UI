@@ -1,6 +1,6 @@
 ﻿using System;
 using GroupDocs.Viewer.UI.Core;
-using GroupDocs.Viewer.UI.Api.Azure.Storage;
+using GroupDocs.Viewer.UI.Api.Azure.StorageBlob;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

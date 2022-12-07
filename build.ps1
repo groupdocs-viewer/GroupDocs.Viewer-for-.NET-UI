@@ -56,4 +56,4 @@ exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.Local.Cache\GroupDocs.Viewer.
 exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.InMemory.Cache\GroupDocs.Viewer.UI.Api.InMemory.Cache.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
 exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.Cloud.Storage\GroupDocs.Viewer.UI.Api.Cloud.Storage.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
 exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.Local.Storage\GroupDocs.Viewer.UI.Api.Local.Storage.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
-exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.Azure.Storage\GroupDocs.Viewer.UI.Api.Azure.Storage.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
+exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.Azure.StorageBlob\GroupDocs.Viewer.UI.Api.Azure.StorageBlob.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
