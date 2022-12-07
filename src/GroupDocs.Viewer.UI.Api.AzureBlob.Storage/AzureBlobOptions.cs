@@ -1,6 +1,6 @@
 ﻿using Azure.Storage.Blobs;
 
-namespace GroupDocs.Viewer.UI.Api.Azure.StorageBlob
+namespace GroupDocs.Viewer.UI.Api.AzureBlob.Storage
 {
     public class AzureBlobOptions
     {

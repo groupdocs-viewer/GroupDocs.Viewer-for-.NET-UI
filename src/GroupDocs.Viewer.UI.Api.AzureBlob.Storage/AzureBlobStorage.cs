@@ -12,7 +12,7 @@ using Azure.Storage.Blobs.Models;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Entities;
 
-namespace GroupDocs.Viewer.UI.Api.Azure.StorageBlob
+namespace GroupDocs.Viewer.UI.Api.AzureBlob.Storage
 {
 	public class AzureBlobStorage : IFileStorage
 	{

@@ -36,7 +36,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GroupDocs.Viewer.UI.Cloud.A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GroupDocs.Viewer.UI.Api.Cloud.Storage", "src\GroupDocs.Viewer.UI.Api.Cloud.Storage\GroupDocs.Viewer.UI.Api.Cloud.Storage.csproj", "{A59FCB54-07FE-48DE-A727-39678BF90D4A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GroupDocs.Viewer.UI.Api.Azure.StorageBlob", "src\GroupDocs.Viewer.UI.Api.Azure.StorageBlob\GroupDocs.Viewer.UI.Api.Azure.StorageBlob.csproj", "{4F215AF6-1966-4484-BAE3-7BC0B9629F6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GroupDocs.Viewer.UI.Api.AzureBlob.Storage", "src\GroupDocs.Viewer.UI.Api.AzureBlob.Storage\GroupDocs.Viewer.UI.Api.AzureBlob.Storage.csproj", "{4F215AF6-1966-4484-BAE3-7BC0B9629F6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
