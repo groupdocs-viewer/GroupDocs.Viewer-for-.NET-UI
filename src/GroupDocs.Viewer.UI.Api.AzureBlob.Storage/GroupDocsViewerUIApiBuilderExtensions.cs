@@ -6,7 +6,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class GroupDocsViewerUIApiBuilderExtensions
     {
-        public static GroupDocsViewerUIApiBuilder AddAzureStorage(this GroupDocsViewerUIApiBuilder builder, Action<AzureBlobOptions> setupOptions)
+        public static GroupDocsViewerUIApiBuilder AddAzureBlobStorage(this GroupDocsViewerUIApiBuilder builder, Action<AzureBlobOptions> setupOptions)
         {
             var options = new AzureBlobOptions();
 
