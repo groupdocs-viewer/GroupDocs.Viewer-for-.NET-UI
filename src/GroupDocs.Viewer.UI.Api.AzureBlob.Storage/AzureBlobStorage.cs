@@ -70,7 +70,7 @@ namespace GroupDocs.Viewer.UI.Api.AzureBlob.Storage
 		{
 			BlobContainerClient client = CreateClient();
 			
-            var newFilePah = rewrite ? filePath : GetFreeFileName(client, filePath);
+            var newFilePah = rewrite ? filePath : await GetFreeFileName(client, filePath);
 
 			BlobClient blob = client.GetBlobClient(newFilePah);
 
@@ -82,11 +82,16 @@ namespace GroupDocs.Viewer.UI.Api.AzureBlob.Storage
 		private static string GetObjectName(string key) =>
 			key.Split('/', StringSplitOptions.RemoveEmptyEntries).Last();
 
-		private string GetFreeFileName(BlobContainerClient client, string filePath)
+		private async Task<string> GetFreeFileName(BlobContainerClient client, string filePath)
 		{
 			string dirPath = Path.GetDirectoryName(filePath);
 
-			IEnumerable<BlobItem> dirFiles = client.GetBlobs(prefix: dirPath);
+			var dirFiles = new List<BlobItem>();
+			
+			await foreach(var blob in client.GetBlobsAsync(prefix: dirPath))
+            {
+				dirFiles.Add(blob);
+            }
 
 			if(!dirFiles.Any(x => x.Name == filePath))
 				return filePath;
