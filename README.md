@@ -249,6 +249,22 @@ services
     )
 ```
 
+#### Azure Blob Storage
+
+You can also use [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs/) as a storage provider for Viewer.
+
+```cs
+services
+    .AddControllers()
+    .AddGroupDocsViewerSelfHostApi()
+    .AddAzureBlobStorage(options =>
+    {
+        options.AccountName = "<account name here>";
+        options.AccountKey = "<account key here>";
+        options.ContainerName = "<conainer name here>";
+    });
+```
+
 ### API Cache Providers
 
 In case you would like to cache the output files produced by GroupDocs.Viewer you can use one of the cache providers:
