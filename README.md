@@ -253,6 +253,8 @@ services
 
 You can also use [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs/) as a storage provider for Viewer.
 
+- [GroupDocs.Viewer.UI.Api.AzureBlob.Storage](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Api.AzureBlob.Storage)
+
 ```cs
 services
     .AddControllers()
@@ -268,6 +270,8 @@ services
 ### Amazon S3 Storage
 
 Viewer also supports the [Amazon S3 Storage](https://aws.amazon.com/s3/) storage provider.
+
+- [GroupDocs.Viewer.UI.Api.AwsS3.Storage](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Api.AwsS3.Storage)
 
 ```cs
 services
