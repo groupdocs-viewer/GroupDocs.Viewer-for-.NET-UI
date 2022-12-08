@@ -265,6 +265,25 @@ services
     });
 ```
 
+### Amazon S3 Storage
+
+Viewer also supports the [Amazon S3 Storage](https://aws.amazon.com/s3/) storage provider.
+
+```cs
+services
+    .AddControllers()
+    .AddGroupDocsViewerSelfHostApi()
+    .AddAwsS3Storage(options =>
+    {
+        {
+            options.Region = "<region>";
+            options.BucketName = "<bucket name>";
+            options.AccessKey = "<access key>";
+            options.SecretKey = "<secret key>";
+        }
+    });
+```
+
 ### API Cache Providers
 
 In case you would like to cache the output files produced by GroupDocs.Viewer you can use one of the cache providers:
