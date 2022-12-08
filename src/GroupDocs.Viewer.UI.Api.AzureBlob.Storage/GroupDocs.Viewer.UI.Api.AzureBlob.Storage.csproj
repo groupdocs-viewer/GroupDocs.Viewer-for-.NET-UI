@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>$(NetVersion)</TargetFramework>
+    
+    <PackageId>GroupDocs.Viewer.UI.Api.AzureBlob.Storage</PackageId>
+    <Version>$(GroupDocsViewerUIApiAzureStorage)</Version>
+    <Description>GroupDocs.Viewer.UI.Api.AzureBlob.Storage containing Microsoft Azure file-storage implementation that can be used with GroupDocs.Viewer.UI.Api see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
+    <PackageTags>GroupDocs;Viewer;UI;API;Azure;Azure;File;Storage;ASP.NET Core;</PackageTags>
+    <PackageIcon>images\icon.png</PackageIcon>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <None Include="..\..\assets\icon.png" Pack="true" Visible="false" PackagePath="images\icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Storage.Blobs" Version="$(AzureBlobs)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GroupDocs.Viewer.UI.Core\GroupDocs.Viewer.UI.Core.csproj" />
+  </ItemGroup>
+
+</Project>

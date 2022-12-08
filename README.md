@@ -249,6 +249,43 @@ services
     )
 ```
 
+#### Azure Blob Storage
+
+You can also use [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs/) as a storage provider for Viewer.
+
+- [GroupDocs.Viewer.UI.Api.AzureBlob.Storage](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Api.AzureBlob.Storage)
+
+```cs
+services
+    .AddControllers()
+    .AddGroupDocsViewerSelfHostApi()
+    .AddAzureBlobStorage(options =>
+    {
+        options.AccountName = "<account name here>";
+        options.AccountKey = "<account key here>";
+        options.ContainerName = "<conainer name here>";
+    });
+```
+
+### Amazon S3 Storage
+
+Viewer also supports the [Amazon S3 Storage](https://aws.amazon.com/s3/) storage provider.
+
+- [GroupDocs.Viewer.UI.Api.AwsS3.Storage](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Api.AwsS3.Storage)
+
+```cs
+services
+    .AddControllers()
+    .AddGroupDocsViewerSelfHostApi()
+    .AddAwsS3Storage(options =>
+    {
+        options.Region = "<region>";
+        options.BucketName = "<bucket name>";
+        options.AccessKey = "<access key>";
+        options.SecretKey = "<secret key>";
+    });
+```
+
 ### API Cache Providers
 
 In case you would like to cache the output files produced by GroupDocs.Viewer you can use one of the cache providers:
