@@ -279,12 +279,10 @@ services
     .AddGroupDocsViewerSelfHostApi()
     .AddAwsS3Storage(options =>
     {
-        {
-            options.Region = "<region>";
-            options.BucketName = "<bucket name>";
-            options.AccessKey = "<access key>";
-            options.SecretKey = "<secret key>";
-        }
+        options.Region = "<region>";
+        options.BucketName = "<bucket name>";
+        options.AccessKey = "<access key>";
+        options.SecretKey = "<secret key>";
     });
 ```
 
