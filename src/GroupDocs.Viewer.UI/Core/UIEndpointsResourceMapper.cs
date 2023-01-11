@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using GroupDocs.Viewer.UI.Configuration;
 using GroupDocs.Viewer.UI.Core.Extensions;
@@ -22,9 +23,9 @@ namespace GroupDocs.Viewer.UI.Core
         {
             var endpoints = new List<IEndpointConventionBuilder>();
 
-            var resources = _reader.UIResources;
-            var indexPage = resources.GetIndexPage();
-            var styleSheets = indexPage.GetCustomStylesheets(options);
+            var resources = _reader.UIResources.ToList();
+            var stylesheets = resources.GetIndexPage()
+                .GetCustomStylesheets(options);
 
             foreach (var resource in resources)
             {
@@ -47,14 +48,16 @@ namespace GroupDocs.Viewer.UI.Core
                     return Task.CompletedTask;
                 });
 
+                var indexPage = resources.GetIndexPage();
+                var pathBase = context.Request.PathBase;
                 var routeValues = context.Request.RouteValues.ToDictionary();
-                var content = indexPage.SetMainUIResourcePaths(options, routeValues);
+                var content = indexPage.GetIndexPageHtml(options, pathBase, routeValues);
 
                 context.Response.ContentType = indexPage.ContentType;
                 await context.Response.WriteAsync(content);
             }));
 
-            foreach (var item in styleSheets)
+            foreach (var item in stylesheets)
             {
                 endpoints.Add(builder.MapGet(item.ResourcePath, async context =>
                 {

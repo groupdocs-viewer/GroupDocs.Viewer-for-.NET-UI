@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using GroupDocs.Viewer.UI.Configuration;
+using Microsoft.AspNetCore.Http;
 
 namespace GroupDocs.Viewer.UI.Core.Extensions
 {
@@ -16,31 +18,31 @@ namespace GroupDocs.Viewer.UI.Core.Extensions
             return index;
         }
 
-        public static string SetMainUIResourcePaths(this UIResource index, 
-            Options options, Dictionary<string, string> routeValues)
+        public static string GetIndexPageHtml(this UIResource index,
+            Options options, PathString pathBase, Dictionary<string, string> routeValues)
         {
             var uiPath = options.UIPath
+                .AppendPathBase(pathBase)
                 .ReplacePatternsWithRouteValues(routeValues)
                 .WithTrailingSlash();
 
-            index.Content = index.Content
-                .Replace(Keys.GROUPDOCSVIEWERUI_MAIN_UI_PATH, uiPath);
+            var html = new StringBuilder(index.Content);
+
+            html.Replace(Keys.GROUPDOCSVIEWERUI_MAIN_UI_PATH, uiPath);
 
             var apiPath = options.APIEndpoint
                 .ReplacePatternsWithRouteValues(routeValues)
                 .TrimTrailingSlash();
 
-            index.Content = index.Content
-                .Replace(Keys.GROUPDOCSVIEWERUI_MAIN_UI_API_TARGET, apiPath);
+            html.Replace(Keys.GROUPDOCSVIEWERUI_MAIN_UI_API_TARGET, apiPath);
 
             var uiConfigPath =
                 options.UIConfigEndpoint
                     .ReplacePatternsWithRouteValues(routeValues);
 
-            index.Content = index.Content
-                .Replace(Keys.GROUPDOCSVIEWERUI_MAIN_UI_SETTINGS_PATH_TARGET, uiConfigPath);
+            html.Replace(Keys.GROUPDOCSVIEWERUI_MAIN_UI_SETTINGS_PATH_TARGET, uiConfigPath);
 
-            return index.Content;
+            return html.ToString();
         }
 
         public static ICollection<UIStylesheet> GetCustomStylesheets(this UIResource resource, Options options)
