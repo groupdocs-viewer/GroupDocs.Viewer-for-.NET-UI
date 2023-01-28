@@ -31,6 +31,7 @@ namespace GroupDocs.Viewer.UI.Core.Extensions
             html.Replace(Keys.GROUPDOCSVIEWERUI_MAIN_UI_PATH, uiPath);
 
             var apiPath = options.APIEndpoint
+                .AppendPathBase(pathBase)
                 .ReplacePatternsWithRouteValues(routeValues)
                 .TrimTrailingSlash();
 
@@ -38,6 +39,7 @@ namespace GroupDocs.Viewer.UI.Core.Extensions
 
             var uiConfigPath =
                 options.UIConfigEndpoint
+                    .AppendPathBase(pathBase)
                     .ReplacePatternsWithRouteValues(routeValues);
 
             html.Replace(Keys.GROUPDOCSVIEWERUI_MAIN_UI_SETTINGS_PATH_TARGET, uiConfigPath);
