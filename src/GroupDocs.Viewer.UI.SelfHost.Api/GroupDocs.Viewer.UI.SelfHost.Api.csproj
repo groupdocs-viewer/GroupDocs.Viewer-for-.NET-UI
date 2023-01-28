@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <PackageReference Include="GroupDocs.Viewer" Version="$(GroupDocsViewer)" />
-    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="$(SkiaSharpNativeAssetsLinuxNoDependencies)" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="$(MicrosoftAspNetCoreMvcCore)" />
   </ItemGroup>
 

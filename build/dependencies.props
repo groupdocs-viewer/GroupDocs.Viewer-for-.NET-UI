@@ -16,8 +16,7 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Package Versions">
-    <GroupDocsViewer>22.11</GroupDocsViewer>
-    <SkiaSharpNativeAssetsLinuxNoDependencies>2.80.3</SkiaSharpNativeAssetsLinuxNoDependencies>
+    <GroupDocsViewer>23.1</GroupDocsViewer>
 
     <MicrosoftExtensionsHttp>6.0.0</MicrosoftExtensionsHttp>
     <MicrosoftAspNetCoreMvcCore>2.2.5</MicrosoftAspNetCoreMvcCore>
@@ -45,7 +44,7 @@
     <GroupDocsViewerUIApiAzureStorage>6.0.0</GroupDocsViewerUIApiAzureStorage>
     <GroupDocsViewerUIApiAwsS3Storage>6.0.0</GroupDocsViewerUIApiAwsS3Storage>
     <GroupDocsViewerUICore>6.0.1</GroupDocsViewerUICore>
-    <GroupDocsViewerUISelfHostApi>6.0.2</GroupDocsViewerUISelfHostApi>
+    <GroupDocsViewerUISelfHostApi>6.0.3</GroupDocsViewerUISelfHostApi>
     <GroupDocsViewerUICloudApi>6.0.0</GroupDocsViewerUICloudApi>
   </PropertyGroup>
 </Project>
