@@ -36,7 +36,7 @@
 
   <PropertyGroup Label="GroupDocs.Viewer UI Package Versions">
     <GroupDocsViewerUI>6.0.5</GroupDocsViewerUI>
-    <GroupDocsViewerUIApi>6.0.1</GroupDocsViewerUIApi>
+    <GroupDocsViewerUIApi>6.0.2</GroupDocsViewerUIApi>
     <GroupDocsViewerUIApiLocalCache>6.0.0</GroupDocsViewerUIApiLocalCache>
     <GroupDocsViewerUIApiInMemoryCache>6.0.0</GroupDocsViewerUIApiInMemoryCache>
     <GroupDocsViewerUIApiLocalStorage>6.0.0</GroupDocsViewerUIApiLocalStorage>
@@ -44,7 +44,7 @@
     <GroupDocsViewerUIApiAzureStorage>6.0.0</GroupDocsViewerUIApiAzureStorage>
     <GroupDocsViewerUIApiAwsS3Storage>6.0.0</GroupDocsViewerUIApiAwsS3Storage>
     <GroupDocsViewerUICore>6.0.1</GroupDocsViewerUICore>
-    <GroupDocsViewerUISelfHostApi>6.0.3</GroupDocsViewerUISelfHostApi>
-    <GroupDocsViewerUICloudApi>6.0.0</GroupDocsViewerUICloudApi>
+    <GroupDocsViewerUISelfHostApi>6.0.4</GroupDocsViewerUISelfHostApi>
+    <GroupDocsViewerUICloudApi>6.0.1</GroupDocsViewerUICloudApi>
   </PropertyGroup>
 </Project>

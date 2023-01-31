@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using GroupDocs.Viewer.UI.Api.Infrastructure;
@@ -22,16 +21,19 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
     public class ViewerController : ControllerBase
     {
         private readonly IFileStorage _fileStorage;
+        private readonly IFileNameResolver _fileNameResolver;
         private readonly IViewer _viewer;
         private readonly ILogger<ViewerController> _logger;
         private readonly Config _config;
 
         public ViewerController(IFileStorage fileStorage, 
+            IFileNameResolver  fileNameResolver,
             IViewer viewer, 
             IOptions<Config> config, 
             ILogger<ViewerController> logger)
         {
             _fileStorage = fileStorage;
+            _fileNameResolver = fileNameResolver;
             _viewer = viewer;
             _logger = logger;
             _config = config.Value;
@@ -99,7 +101,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
 
             try
             {
-                var fileName = Path.GetFileName(path);
+                var fileName = await _fileNameResolver.ResolveFileNameAsync(path);
                 var bytes = await _fileStorage.ReadFileAsync(path);
 
                 return File(bytes, "application/octet-stream", fileName);
@@ -176,8 +178,8 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                 var fileCredentials = 
                     new FileCredentials(request.Guid, request.FileType, request.Password);
 
-                var filename = Path.GetFileName(request.Guid);
-                var pdfFileName = Path.ChangeExtension(filename, ".pdf");
+                var fileName = await _fileNameResolver.ResolveFileNameAsync(request.Guid);
+                var pdfFileName = Path.ChangeExtension(fileName, ".pdf");
                 var pdfFileBytes = await _viewer.GetPdfAsync(fileCredentials);
 
                 return File(pdfFileBytes, "application/pdf", pdfFileName);

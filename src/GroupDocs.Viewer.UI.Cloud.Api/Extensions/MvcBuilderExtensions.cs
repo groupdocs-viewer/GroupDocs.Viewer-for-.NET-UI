@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http.Headers;
 using System.Reflection;
+using GroupDocs.Viewer.UI.Api;
 using GroupDocs.Viewer.UI.Api.Controllers;
 using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect;
 using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts;
@@ -65,6 +66,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.AddTransient<HtmlWithExternalResourcesViewer>();
             builder.Services.AddTransient<IAsyncLock, AsyncDuplicateLock>();
             builder.Services.AddTransient<IFileCache, NoopFileCache>();
+            builder.Services.TryAddSingleton<IFileNameResolver, FilePathFileNameResolver>();
             builder.Services.TryAddSingleton<IPageFormatter, NoopPageFormatter>();
             
             builder.Services.AddTransient<IViewer>(factory =>

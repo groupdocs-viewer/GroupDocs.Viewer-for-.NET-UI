@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
+using GroupDocs.Viewer.UI.Api;
 using GroupDocs.Viewer.UI.Api.Controllers;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Caching;
@@ -40,6 +40,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.AddSingleton<IViewerLicenser, ViewerLicenser>();
             builder.Services.AddTransient<IFileCache, NoopFileCache>();
             builder.Services.AddTransient<IAsyncLock, AsyncDuplicateLock>();
+            builder.Services.TryAddSingleton<IFileNameResolver, FilePathFileNameResolver>();
             builder.Services.TryAddSingleton<IFileTypeResolver, FileExtensionFileTypeResolver>();
             builder.Services.TryAddSingleton<IPageFormatter, NoopPageFormatter>();
            
