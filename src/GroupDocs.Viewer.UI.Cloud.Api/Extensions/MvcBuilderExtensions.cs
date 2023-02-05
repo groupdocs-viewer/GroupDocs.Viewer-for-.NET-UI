@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Net.Http.Headers;
 using System.Reflection;
+using AsyncKeyedLock;
 using GroupDocs.Viewer.UI.Api;
 using GroupDocs.Viewer.UI.Api.Controllers;
 using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect;
 using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts;
 using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Handlers;
-using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Cloud.Api.Configuration;
 using GroupDocs.Viewer.UI.Cloud.Api.Viewers;
+using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Caching;
-using GroupDocs.Viewer.UI.Core.Caching.Implementation;
 using GroupDocs.Viewer.UI.Core.FileCaching;
 using GroupDocs.Viewer.UI.Core.PageFormatting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
@@ -64,7 +64,11 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.AddTransient<JpgViewer>();
             builder.Services.AddTransient<HtmlWithEmbeddedResourcesViewer>();
             builder.Services.AddTransient<HtmlWithExternalResourcesViewer>();
-            builder.Services.AddTransient<IAsyncLock, AsyncDuplicateLock>();
+            builder.Services.AddSingleton(new AsyncKeyedLocker<string>(o =>
+            {
+                o.PoolSize = 20;
+                o.PoolInitialFill = 1;
+            }));
             builder.Services.AddTransient<IFileCache, NoopFileCache>();
             builder.Services.TryAddSingleton<IFileNameResolver, FilePathFileNameResolver>();
             builder.Services.TryAddSingleton<IPageFormatter, NoopPageFormatter>();
@@ -91,7 +95,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 return new CachingViewer(
                     viewer,
                     factory.GetRequiredService<IFileCache>(),
-                    factory.GetRequiredService<IAsyncLock>()
+                    factory.GetRequiredService<AsyncKeyedLocker<string>>()
                 );
             });
 

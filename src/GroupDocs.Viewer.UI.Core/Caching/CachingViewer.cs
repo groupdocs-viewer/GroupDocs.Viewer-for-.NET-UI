@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AsyncKeyedLock;
 using GroupDocs.Viewer.UI.Core.Entities;
 
 namespace GroupDocs.Viewer.UI.Core.Caching
@@ -9,7 +10,7 @@ namespace GroupDocs.Viewer.UI.Core.Caching
     {
         private readonly IViewer _viewer;
         private readonly IFileCache _fileCache;
-        private readonly IAsyncLock _asyncLock;
+        private readonly AsyncKeyedLocker<string> _asyncLock;
 
         public string PageExtension =>
             _viewer.PageExtension;
@@ -17,7 +18,7 @@ namespace GroupDocs.Viewer.UI.Core.Caching
         public Page CreatePage(int pageNumber, byte[] data) =>
             _viewer.CreatePage(pageNumber, data);
 
-        public CachingViewer(IViewer viewer, IFileCache fileCache, IAsyncLock asyncLock)
+        public CachingViewer(IViewer viewer, IFileCache fileCache, AsyncKeyedLocker<string> asyncLock)
         {
             _viewer = viewer;
             _fileCache = fileCache;
@@ -44,7 +45,7 @@ namespace GroupDocs.Viewer.UI.Core.Caching
             var cacheKey = CacheKeys.GetPageCacheKey(pageNumber, PageExtension);
             var bytes = await _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, async () =>
             {
-                using (await _asyncLock.LockAsync(fileCredentials.FilePath))
+                using (await _asyncLock.LockAsync(fileCredentials.FilePath).ConfigureAwait(false))
                 {
                     return await _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, async () =>
                     {
@@ -66,7 +67,7 @@ namespace GroupDocs.Viewer.UI.Core.Caching
             var cacheKey = CacheKeys.FILE_INFO_CACHE_KEY;
             return _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, async () =>
             {
-                using (await _asyncLock.LockAsync(fileCredentials.FilePath))
+                using (await _asyncLock.LockAsync(fileCredentials.FilePath).ConfigureAwait(false))
                 {
                     return await _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, () =>
                         _viewer.GetDocumentInfoAsync(fileCredentials));
@@ -79,7 +80,7 @@ namespace GroupDocs.Viewer.UI.Core.Caching
             var cacheKey = CacheKeys.PDF_FILE_CACHE_KEY;
             return _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, async () =>
             {
-                using (await _asyncLock.LockAsync(fileCredentials.FilePath))
+                using (await _asyncLock.LockAsync(fileCredentials.FilePath).ConfigureAwait(false))
                 {
                     return await _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, () =>
                         _viewer.GetPdfAsync(fileCredentials));
@@ -94,7 +95,7 @@ namespace GroupDocs.Viewer.UI.Core.Caching
             return _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath,
                 async () =>
                 {
-                    using (await _asyncLock.LockAsync(fileCredentials.FilePath))
+                    using (await _asyncLock.LockAsync(fileCredentials.FilePath).ConfigureAwait(false))
                     {
                         return await _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, () =>
                             _viewer.GetPageResourceAsync(fileCredentials, pageNumber, resourceName));
@@ -117,7 +118,7 @@ namespace GroupDocs.Viewer.UI.Core.Caching
 
         private async Task<Pages> CreatePages(FileCredentials fileCredentials, int[] pageNumbers)
         {
-            using (await _asyncLock.LockAsync(fileCredentials.FilePath))
+            using (await _asyncLock.LockAsync(fileCredentials.FilePath).ConfigureAwait(false))
             {
                 var pagesOrNulls = GetPagesOrNullsFromCache(fileCredentials.FilePath, pageNumbers);
                 var missingPageNumbers = GetMissingPageNumbers(pagesOrNulls);

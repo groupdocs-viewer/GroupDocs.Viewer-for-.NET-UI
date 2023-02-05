@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Reflection;
+using AsyncKeyedLock;
 using GroupDocs.Viewer.UI.Api;
 using GroupDocs.Viewer.UI.Api.Controllers;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Caching;
-using GroupDocs.Viewer.UI.Core.Caching.Implementation;
 using GroupDocs.Viewer.UI.Core.FileCaching;
 using GroupDocs.Viewer.UI.Core.PageFormatting;
 using GroupDocs.Viewer.UI.SelfHost.Api;
@@ -39,7 +39,11 @@ namespace Microsoft.Extensions.DependencyInjection
 
             builder.Services.AddSingleton<IViewerLicenser, ViewerLicenser>();
             builder.Services.AddTransient<IFileCache, NoopFileCache>();
-            builder.Services.AddTransient<IAsyncLock, AsyncDuplicateLock>();
+            builder.Services.AddSingleton(new AsyncKeyedLocker<string>(o =>
+            {
+                o.PoolSize = 20;
+                o.PoolInitialFill = 1;
+            }));
             builder.Services.TryAddSingleton<IFileNameResolver, FilePathFileNameResolver>();
             builder.Services.TryAddSingleton<IFileTypeResolver, FileExtensionFileTypeResolver>();
             builder.Services.TryAddSingleton<IPageFormatter, NoopPageFormatter>();
@@ -70,7 +74,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 return new CachingViewer(
                     viewer,
                     factory.GetRequiredService<IFileCache>(),
-                    factory.GetRequiredService<IAsyncLock>()
+                    factory.GetRequiredService<AsyncKeyedLocker<string>>()
                 );
             });
 
