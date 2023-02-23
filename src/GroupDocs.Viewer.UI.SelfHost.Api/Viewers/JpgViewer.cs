@@ -4,6 +4,7 @@ using GroupDocs.Viewer.Options;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Entities;
 using GroupDocs.Viewer.UI.SelfHost.Api.Configuration;
+using GroupDocs.Viewer.UI.SelfHost.Api.InternalCaching;
 using GroupDocs.Viewer.UI.SelfHost.Api.Licensing;
 using GroupDocs.Viewer.UI.SelfHost.Api.Viewers.Extensions;
 using Microsoft.Extensions.Options;
@@ -16,11 +17,12 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
         private readonly Config _config;
 
         public JpgViewer(IOptions<Config> config,
-            IViewerLicenser licenser, 
+            IViewerLicenser licenser,
+            IInternalCache internalCache,
             IFileStorage fileStorage, 
             IFileTypeResolver fileTypeResolver,
             IPageFormatter pageFormatter)
-            : base(config, licenser, fileStorage, fileTypeResolver, pageFormatter)
+            : base(config, licenser, internalCache, fileStorage, fileTypeResolver, pageFormatter)
         {
             _config = config.Value;
         }

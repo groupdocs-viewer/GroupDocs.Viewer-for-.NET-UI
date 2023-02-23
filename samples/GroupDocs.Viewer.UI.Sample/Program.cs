@@ -1,7 +1,11 @@
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
-    .AddGroupDocsViewerUI();
+    .AddGroupDocsViewerUI(config =>
+    {
+        //Preload first three pages
+        config.SetPreloadPageCount(3);
+    });
 
 builder.Services
     .AddControllers()
