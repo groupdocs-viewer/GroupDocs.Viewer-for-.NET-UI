@@ -7,6 +7,7 @@ using GroupDocs.Viewer.Results;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Entities;
 using GroupDocs.Viewer.UI.SelfHost.Api.Configuration;
+using GroupDocs.Viewer.UI.SelfHost.Api.InternalCaching;
 using GroupDocs.Viewer.UI.SelfHost.Api.Licensing;
 using GroupDocs.Viewer.UI.SelfHost.Api.Viewers.Extensions;
 using Microsoft.Extensions.Options;
@@ -16,21 +17,27 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 {
     internal abstract class BaseViewer : IViewer, IDisposable
     {
-        private readonly IOptions<Config> _config;
+        private readonly Config _config;
         private readonly IViewerLicenser _viewerLicenser;
+        private readonly IInternalCache _viewerCache;
+        private readonly InternalCacheOptions _internalCacheOptions;
         private readonly IFileStorage _fileStorage;
         private readonly IFileTypeResolver _fileTypeResolver;
         private readonly IPageFormatter _pageFormatter;
         private Viewer _viewer;
 
-        protected BaseViewer(IOptions<Config> config, 
-            IViewerLicenser viewerLicenser, 
-            IFileStorage fileStorage, 
-            IFileTypeResolver fileTypeResolver, 
+        protected BaseViewer(
+            IOptions<Config> config,
+            IViewerLicenser viewerLicenser,
+            IInternalCache viewerCache,
+            IFileStorage fileStorage,
+            IFileTypeResolver fileTypeResolver,
             IPageFormatter pageFormatter)
         {
-            _config = config;
+            _config = config.Value;
             _viewerLicenser = viewerLicenser;
+            _viewerCache = viewerCache;
+            _internalCacheOptions = config.Value.InternalCacheOptions;
             _fileStorage = fileStorage;
             _fileTypeResolver = fileTypeResolver;
             _pageFormatter = pageFormatter;
@@ -58,7 +65,6 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
         {
             var viewer = await InitViewerAsync(fileCredentials);
             var page = await RenderPageInternalAsync(viewer, fileCredentials, pageNumber);
-
             return page;
         }
 
@@ -67,7 +73,6 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             var viewer = await InitViewerAsync(fileCredentials);
 
             var pages = new Pages();
-
             foreach (var pageNumber in pageNumbers)
             {
                 var page = await RenderPageInternalAsync(viewer, fileCredentials, pageNumber);
@@ -94,7 +99,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
         {
             var viewOptions = new PdfViewOptions(() => pdfStream, _ => { /* NOTE: nothing to do here */ });
 
-            viewOptions.CopyViewOptions(_config.Value.PdfViewOptions);
+            viewOptions.CopyViewOptions(_config.PdfViewOptions);
 
             return viewOptions;
         }
@@ -105,9 +110,14 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             {
                 _viewerLicenser.SetLicense();
 
-                var fileStream = await GetFileStreamAsync(fileCredentials.FilePath);
-                var loadOptions = await CreateLoadOptionsAsync(fileCredentials);
-                _viewer = new Viewer(fileStream, loadOptions);
+                if (!_viewerCache.TryGet(fileCredentials, out _viewer))
+                {
+                    var fileStream = await GetFileStreamAsync(fileCredentials.FilePath);
+                    var loadOptions = await CreateLoadOptionsAsync(fileCredentials);
+                    _viewer = new Viewer(fileStream, loadOptions);
+
+                    _viewerCache.Set(fileCredentials, _viewer);
+                } 
             }
 
             return _viewer;
@@ -123,9 +133,9 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
         private async Task<LoadOptions> CreateLoadOptionsAsync(FileCredentials fileCredentials)
         {
             FileType loadFileType = FileType.FromExtension(fileCredentials.FileType);
-            if(loadFileType == FileType.Unknown)
-                  loadFileType = await _fileTypeResolver.ResolveFileTypeAsync(fileCredentials.FilePath);
-            
+            if (loadFileType == FileType.Unknown)
+                loadFileType = await _fileTypeResolver.ResolveFileTypeAsync(fileCredentials.FilePath);
+
             LoadOptions loadOptions = new LoadOptions
             {
                 FileType = FileType.FromExtension(loadFileType.Extension),
@@ -169,8 +179,12 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 
         public void Dispose()
         {
-            _viewer?.Dispose();
-            _viewer = null;
+            // NOTE: dispose when we're not going to reuse the object
+            if (_internalCacheOptions.IsCacheDisabled)
+            {
+                _viewer?.Dispose();
+                _viewer = null;
+            }
         }
     }
 }

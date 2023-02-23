@@ -9,9 +9,11 @@ using GroupDocs.Viewer.UI.Core.FileCaching;
 using GroupDocs.Viewer.UI.Core.PageFormatting;
 using GroupDocs.Viewer.UI.SelfHost.Api;
 using GroupDocs.Viewer.UI.SelfHost.Api.Configuration;
+using GroupDocs.Viewer.UI.SelfHost.Api.InternalCaching;
 using GroupDocs.Viewer.UI.SelfHost.Api.Licensing;
 using GroupDocs.Viewer.UI.SelfHost.Api.Viewers;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -43,7 +45,22 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.TryAddSingleton<IFileNameResolver, FilePathFileNameResolver>();
             builder.Services.TryAddSingleton<IFileTypeResolver, FileExtensionFileTypeResolver>();
             builder.Services.TryAddSingleton<IPageFormatter, NoopPageFormatter>();
-           
+
+            if (config.InternalCacheOptions.IsCacheEnabled)
+            {
+                builder.Services.TryAddSingleton<IMemoryCache, MemoryCache>();
+                builder.Services.AddOptions<InternalCacheOptions>();
+                builder.Services.TryAddSingleton<IInternalCache>(factory =>
+                {
+                    var memoryCache = factory.GetRequiredService<IMemoryCache>();
+                    return new InMemoryInternalCache(memoryCache, config.InternalCacheOptions);
+                });
+            }
+            else
+            {
+                builder.Services.TryAddSingleton<IInternalCache, NoopInternalCache>();
+            }
+
             builder.Services.AddTransient<HtmlWithEmbeddedResourcesViewer>();
             builder.Services.AddTransient<HtmlWithExternalResourcesViewer>();
             builder.Services.AddTransient<PngViewer>();

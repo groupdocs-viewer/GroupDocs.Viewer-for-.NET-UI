@@ -12,6 +12,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Configuration
         internal readonly PngViewOptions PngViewOptions = new PngViewOptions();
         internal readonly JpgViewOptions JpgViewOptions = new JpgViewOptions();
         internal readonly PdfViewOptions PdfViewOptions = new PdfViewOptions();
+        internal readonly InternalCacheOptions InternalCacheOptions = InternalCacheOptions.CacheForFiveMinutes;
 
         public Config SetLicensePath(string licensePath)
         {
@@ -46,6 +47,20 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Configuration
         public Config ConfigurePdfViewOptions(Action<PdfViewOptions> setupOptions)
         {
             setupOptions?.Invoke(PdfViewOptions);
+            return this;
+        }
+
+        /// <summary>
+        /// Call this method to configure internal objects caching.
+        /// Internal caching makes objects available between requests to speed up rendering when document is rendered in chunks.
+        /// Default cache entry lifetime is 5 minutes.
+        /// Internal cache is based on MemoryCache (ConcurrentDictionary), so the object are stored in memory. 
+        /// </summary>
+        /// <param name="setupOptions">Setup delegate.</param>
+        /// <returns>This instance.</returns>
+        public Config ConfigureInternalCaching(Action<InternalCacheOptions> setupOptions)
+        {
+            setupOptions?.Invoke(InternalCacheOptions);
             return this;
         }
     }
