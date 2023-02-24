@@ -26,7 +26,7 @@
         }
 
         /// <summary>
-        /// Set the expiration timeout of each cache entry in minutes.
+        /// Set the sliding expiration timeout of each cache entry in minutes.
         /// The default value is 5 minutes.
         /// </summary>
         /// <param name="cacheEntryExpirationTimeoutMinutes">The expiration timeout in minutes.</param>

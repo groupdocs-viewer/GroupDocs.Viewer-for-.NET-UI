@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Threading;
 using GroupDocs.Viewer.UI.Core.Entities;
 using GroupDocs.Viewer.UI.SelfHost.Api.Configuration;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Primitives;
 
 // ReSharper disable once CheckNamespace
 namespace GroupDocs.Viewer.UI.SelfHost.Api.InternalCaching
@@ -34,48 +32,24 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.InternalCaching
 
         public void Set(FileCredentials fileCredentials, Viewer entry)
         {
-            MemoryCacheEntryOptions entryOptions;
-            string key = GetKey(fileCredentials);
-
-            if (_options.CacheEntryExpirationTimeoutMinutes > 0)
+            var entryKey = GetKey(fileCredentials);
+            if (!_cache.TryGetValue(entryKey, out var obj))
             {
-                var cts = GetOrCreateCancellationTokenSource(key);
-                entryOptions = CreateCacheEntryOptions(cts);
+                var entryOptions = CreateCacheEntryOptions();
+                _cache.Set(entryKey, entry, entryOptions);
             }
-            else
-            {
-                entryOptions = CreateCacheEntryOptions();
-            }
-
-            _cache.Set(key, entry, entryOptions);
         }
 
         private string GetKey(FileCredentials fileCredentials) => 
             $"{fileCredentials.FilePath}_{fileCredentials.Password}__VC";
 
-        private CancellationTokenSource GetOrCreateCancellationTokenSource(string key)
-        {
-            var ctsCacheKey = $"{key}_CTS";
-
-            var cts = _cache.Get<CancellationTokenSource>(ctsCacheKey);
-            if (cts == null || cts.IsCancellationRequested)
-            {
-                using (var ctsEntry = _cache.CreateEntry(ctsCacheKey))
-                {
-                    cts = CreateCancellationTokenSource();
-
-                    ctsEntry.Value = cts;
-                    ctsEntry.AddExpirationToken(CreateCancellationChangeToken(cts));
-                }
-            }
-
-            return cts;
-        }
-
-        private MemoryCacheEntryOptions CreateCacheEntryOptions(CancellationTokenSource cts)
+        private MemoryCacheEntryOptions CreateCacheEntryOptions()
         {
             var entryOptions = new MemoryCacheEntryOptions();
-            entryOptions.AddExpirationToken(CreateCancellationChangeToken(cts));
+
+            if (_options.CacheEntryExpirationTimeoutMinutes > 0)
+                entryOptions.SlidingExpiration = TimeSpan.FromMinutes(_options.CacheEntryExpirationTimeoutMinutes);
+
             entryOptions.RegisterPostEvictionCallback(
                 callback: (key, value, evictionReason, state) =>
                 {
@@ -85,17 +59,5 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.InternalCaching
 
             return entryOptions;
         }
-
-        private MemoryCacheEntryOptions CreateCacheEntryOptions()
-        {
-            var entryOptions = new MemoryCacheEntryOptions();
-            return entryOptions;
-        }
-
-        private CancellationChangeToken CreateCancellationChangeToken(CancellationTokenSource cancellationTokenSource)
-            => new CancellationChangeToken(cancellationTokenSource.Token);
-
-        private CancellationTokenSource CreateCancellationTokenSource() =>
-            new CancellationTokenSource(TimeSpan.FromMinutes(_options.CacheEntryExpirationTimeoutMinutes));
     }
 }

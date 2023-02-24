@@ -16,13 +16,15 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
     {
         private readonly Config _config;
 
-        public PngViewer(IOptions<Config> config,
+        public PngViewer(
+            IOptions<Config> config,
+            IAsyncLock asyncLock,
             IViewerLicenser licenser,
             IInternalCache internalCache,
             IFileStorage fileStorage, 
             IFileTypeResolver fileTypeResolver, 
             IPageFormatter pageFormatter)
-            : base(config, licenser, internalCache, fileStorage, fileTypeResolver, pageFormatter)
+            : base(config, asyncLock, licenser, internalCache, fileStorage, fileTypeResolver, pageFormatter)
         {
             _config = config.Value;
         }

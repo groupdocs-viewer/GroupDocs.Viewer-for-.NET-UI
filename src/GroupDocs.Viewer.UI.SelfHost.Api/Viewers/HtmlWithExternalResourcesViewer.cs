@@ -24,13 +24,14 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 
         public HtmlWithExternalResourcesViewer(
             IOptions<Config> config,
+            IAsyncLock asyncLock,
             IOptions<UI.Api.Configuration.Options> options,
             IViewerLicenser licenser,
             IInternalCache internalCache,
             IFileStorage fileStorage,
             IFileTypeResolver fileTypeResolver,
             IPageFormatter pageFormatter) 
-            : base(config, licenser, internalCache, fileStorage, fileTypeResolver, pageFormatter)
+            : base(config, asyncLock, licenser, internalCache, fileStorage, fileTypeResolver, pageFormatter)
         {
             _config = config.Value;
             _options = options.Value;
