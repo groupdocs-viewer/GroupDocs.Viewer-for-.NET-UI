@@ -18,6 +18,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
     internal abstract class BaseViewer : IViewer, IDisposable
     {
         private readonly Config _config;
+        private readonly IAsyncLock _asyncLock;
         private readonly IViewerLicenser _viewerLicenser;
         private readonly IInternalCache _viewerCache;
         private readonly InternalCacheOptions _internalCacheOptions;
@@ -28,6 +29,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 
         protected BaseViewer(
             IOptions<Config> config,
+            IAsyncLock asyncLock,
             IViewerLicenser viewerLicenser,
             IInternalCache viewerCache,
             IFileStorage fileStorage,
@@ -35,6 +37,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             IPageFormatter pageFormatter)
         {
             _config = config.Value;
+            _asyncLock = asyncLock;
             _viewerLicenser = viewerLicenser;
             _viewerCache = viewerCache;
             _internalCacheOptions = config.Value.InternalCacheOptions;
@@ -106,21 +109,41 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 
         private async Task<Viewer> InitViewerAsync(FileCredentials fileCredentials)
         {
-            if (_viewer == null)
+            if (_viewer != null)
+                return _viewer;
+
+            _viewerLicenser.SetLicense();
+
+            if (_internalCacheOptions.IsCacheDisabled)
             {
-                _viewerLicenser.SetLicense();
+                _viewer = await CreateViewer(fileCredentials);
+                return _viewer;
+            }
 
-                if (!_viewerCache.TryGet(fileCredentials, out _viewer))
+            var key = $"VI__{fileCredentials.FilePath}";
+            using (await _asyncLock.LockAsync(key))
+            {
+                if (_viewerCache.TryGet(fileCredentials, out var viewer))
                 {
-                    var fileStream = await GetFileStreamAsync(fileCredentials.FilePath);
-                    var loadOptions = await CreateLoadOptionsAsync(fileCredentials);
-                    _viewer = new Viewer(fileStream, loadOptions);
-
+                    _viewer = viewer;
+                }
+                else
+                {
+                    _viewer = await CreateViewer(fileCredentials);
                     _viewerCache.Set(fileCredentials, _viewer);
-                } 
+                }
             }
 
             return _viewer;
+        }
+
+        private async Task<Viewer> CreateViewer(FileCredentials fileCredentials)
+        {
+            var fileStream = await GetFileStreamAsync(fileCredentials.FilePath);
+            var loadOptions = await CreateLoadOptionsAsync(fileCredentials);
+            var viewer = new Viewer(fileStream, loadOptions);
+
+            return viewer;
         }
 
         private async Task<MemoryStream> GetFileStreamAsync(string filePath)
