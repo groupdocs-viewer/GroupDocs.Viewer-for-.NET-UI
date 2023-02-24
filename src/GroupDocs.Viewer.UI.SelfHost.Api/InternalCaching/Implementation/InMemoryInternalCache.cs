@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using GroupDocs.Viewer.UI.Core.Entities;
 using GroupDocs.Viewer.UI.SelfHost.Api.Configuration;
 using Microsoft.Extensions.Caching.Memory;
