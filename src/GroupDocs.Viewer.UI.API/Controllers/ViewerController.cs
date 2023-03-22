@@ -22,18 +22,21 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
     {
         private readonly IFileStorage _fileStorage;
         private readonly IFileNameResolver _fileNameResolver;
+        private readonly ISearchTermResolver _searchTermResolver;
         private readonly IViewer _viewer;
         private readonly ILogger<ViewerController> _logger;
         private readonly Config _config;
 
         public ViewerController(IFileStorage fileStorage, 
             IFileNameResolver  fileNameResolver,
+            ISearchTermResolver searchTermResolver,
             IViewer viewer, 
             IOptions<Config> config, 
             ILogger<ViewerController> logger)
         {
             _fileStorage = fileStorage;
             _fileNameResolver = fileNameResolver;
+            _searchTermResolver = searchTermResolver;
             _viewer = viewer;
             _logger = logger;
             _config = config.Value;
@@ -215,6 +218,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                 var pagesData = await _viewer.GetPagesAsync(fileCredentials, pageNumbers);
 
                 var pages = new List<PageDescription>();
+                var searchTerm = await _searchTermResolver.ResolveSearchTermAsync();
                 foreach (PageInfo pageInfo in documentDescription.Pages)
                 {
                     var pageData = pagesData.FirstOrDefault(p => p.PageNumber == pageInfo.Number);
@@ -235,7 +239,8 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                     Guid = request.Guid,
                     FileType = documentDescription.FileType,
                     PrintAllowed = documentDescription.PrintAllowed,
-                    Pages = pages
+                    Pages = pages,
+                    SearchTerm = searchTerm
                 };
 
                 return OkJsonResult(result);

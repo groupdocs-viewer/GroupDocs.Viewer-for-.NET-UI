@@ -67,6 +67,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.AddTransient<IAsyncLock, AsyncDuplicateLock>();
             builder.Services.AddTransient<IFileCache, NoopFileCache>();
             builder.Services.TryAddSingleton<IFileNameResolver, FilePathFileNameResolver>();
+            builder.Services.TryAddSingleton<ISearchTermResolver, SearchTermResolver>();
             builder.Services.TryAddSingleton<IPageFormatter, NoopPageFormatter>();
             
             builder.Services.AddTransient<IViewer>(factory =>
