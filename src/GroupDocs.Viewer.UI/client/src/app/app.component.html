@@ -35,7 +35,7 @@
 
       <gd-button [disabled]="formatDisabled" [icon]="'search'" title="{{'Search' | translate}}" (click)="openSearch()"
                  *ngIf="searchConfig && !ifPresentation()" ></gd-button>
-      <gd-search (hidePanel)="showSearch = !$event" *ngIf="showSearch" ></gd-search>
+      <gd-search (hidePanel)="openSearch(false)" #search [hidden]="!showSearch" ></gd-search>
 
       <div class="toolbar-panel-right">
         <div class="language-menu mobile-hide" *ngIf="showLanguageMenu">

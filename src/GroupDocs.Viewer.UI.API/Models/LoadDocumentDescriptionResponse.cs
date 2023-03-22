@@ -28,5 +28,11 @@ namespace GroupDocs.Viewer.UI.Api.Models
         /// </summary>
         [JsonPropertyName("pages")]
         public List<PageDescription> Pages { get; set; }
+
+        /// <summary>
+        /// Search term from back to UI search after load document.
+        /// </summary>
+        [JsonPropertyName("searchTerm")]
+        public string SearchTerm { get; set; }
     }
 }
