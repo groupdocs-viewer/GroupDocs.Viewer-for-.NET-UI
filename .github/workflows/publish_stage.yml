@@ -31,7 +31,7 @@ jobs:
         env:
           PFX_PATH: ${{ secrets.PFX_PATH }}
         run: |
-          rm ${PFX_PATH}
+          rm $env:PFX_PATH
       - name: Publish to Stage
         env:
           NUGET_API_KEY_STAGE: ${{ secrets.NUGET_API_KEY_STAGE }}
