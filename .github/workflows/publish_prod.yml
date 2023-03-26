@@ -14,14 +14,11 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           global-json-file: global.json
-      - name: Setup node
-        uses: actions/setup-node@v2
       - name: Write cert
         env:
-          PFX: ${{ secrets.PFX_IN_BASE64 }}
+          PFX_IN_BASE64: ${{ secrets.PFX_IN_BASE64 }}
           PFX_PATH: ${{ secrets.PFX_PATH }}
-        run: |
-          echo "$PFX" | base64 --decode > ${PFX_PATH}
+        run: $env:PFX_IN_BASE64 | certutil -decode > ${PFX_PATH}
       - name: Build packages
         env:
           BUILD_TYPE: PROD
