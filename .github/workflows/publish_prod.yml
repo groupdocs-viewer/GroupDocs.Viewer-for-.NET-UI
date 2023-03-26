@@ -37,7 +37,7 @@ jobs:
           NUGET_API_KEY_PROD: ${{ secrets.NUGET_API_KEY_PROD }}
         run: .\publish_prod.ps1
       - name: Archive packages
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: artifacts
           path: artifacts
