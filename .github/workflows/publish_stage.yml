@@ -5,9 +5,6 @@ on:
 jobs:
   build_and_publish:
     runs-on: windows-latest
-    env:
-      BUILD_TYPE: STAGE
-      NUGET_API_KEY_STAGE: ${{ secrets.NUGET_API_KEY_STAGE }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -17,9 +14,27 @@ jobs:
           global-json-file: global.json
       - name: Setup node
         uses: actions/setup-node@v2
+      - name: Write cert
+        env:
+          PFX: ${{ secrets.PFX_IN_BASE64 }}
+          PFX_PATH: ${{ secrets.PFX_PATH }}
+        run: |
+          echo "$PFX" | base64 --decode > ${PFX_PATH}
       - name: Build packages
+        env:
+          BUILD_TYPE: STAGE
+          PFX_PWD: ${{ secrets.PFX_PWD }}
+          PFX_TMS: ${{ secrets.PFX_TMS }}
+          PFX_PATH: ${{ secrets.PFX_PATH }}
         run: .\build.ps1
+      - name: Remove cert
+        env:
+          PFX_PATH: ${{ secrets.PFX_PATH }}
+        run: |
+          rm ${PFX_PATH}
       - name: Publish to Stage
+        env:
+          NUGET_API_KEY_STAGE: ${{ secrets.NUGET_API_KEY_STAGE }}
         run: .\publish-stage.ps1
       - name: Archive packages
         uses: actions/upload-artifact@v2
