@@ -19,7 +19,7 @@ jobs:
           PFX_IN_BASE64: ${{ secrets.PFX_IN_BASE64 }}
           PFX_PATH: ${{ secrets.PFX_PATH }}
         run: |
-          [System.IO.File]::WriteAllBytes(${PFX_PATH}, [System.Convert]::FromBase64String($env:PFX_IN_BASE64))
+          [System.IO.File]::WriteAllBytes($env:PFX_PATH, [System.Convert]::FromBase64String($env:PFX_IN_BASE64))
       - name: Build packages
         env:
           BUILD_TYPE: PROD
