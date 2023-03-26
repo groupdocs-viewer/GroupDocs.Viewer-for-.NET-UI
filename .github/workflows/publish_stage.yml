@@ -26,6 +26,7 @@ jobs:
           PFX_PWD: ${{ secrets.PFX_PWD }}
           PFX_TMS: ${{ secrets.PFX_TMS }}
           PFX_PATH: ${{ secrets.PFX_PATH }}
+          PFX_TMS: ${{ secrets.PFX_TMS }}
         run: .\build.ps1
       - name: Remove cert
         env:
