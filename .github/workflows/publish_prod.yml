@@ -3,24 +3,41 @@ name: Publish Prod
 on:
   workflow_dispatch:
 jobs:
-  build_and_publish:
+  publish_prod:
     runs-on: windows-latest
     env:
-      BUILD_TYPE: PROD
-      NUGET_API_KEY_PROD: ${{ secrets.NUGET_API_KEY_PROD }}
+      DOTNET_CLI_TELEMETRY_OPTOUT: true
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v3
         with:
           global-json-file: global.json
       - name: Setup node
         uses: actions/setup-node@v2
+      - name: Write cert
+        env:
+          PFX: ${{ secrets.PFX_IN_BASE64 }}
+          PFX_PATH: ${{ secrets.PFX_PATH }}
+        run: |
+          echo "$PFX" | base64 --decode > ${PFX_PATH}
       - name: Build packages
+        env:
+          BUILD_TYPE: PROD
+          PFX_PATH: ${{ secrets.PFX_PATH }}
+          PFX_PWD: ${{ secrets.PFX_PWD }}
+          PFX_TMS: ${{ secrets.PFX_TMS }}
         run: .\build.ps1
+      - name: Remove cert
+        env:
+          PFX_PATH: ${{ secrets.PFX_PATH }}
+        run: |
+          rm ${PFX_PATH}
       - name: Publish to Prod
-        run: .\publish-prod.ps1
+        env:
+          NUGET_API_KEY_PROD: ${{ secrets.NUGET_API_KEY_PROD }}
+        run: .\publish_prod.ps1
       - name: Archive packages
         uses: actions/upload-artifact@v2
         with:
