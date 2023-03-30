@@ -218,7 +218,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                 var pagesData = await _viewer.GetPagesAsync(fileCredentials, pageNumbers);
 
                 var pages = new List<PageDescription>();
-                var searchTerm = await _searchTermResolver.ResolveSearchTermAsync();
+                var searchTerm = await _searchTermResolver.ResolveSearchTermAsync(request.Guid);
                 foreach (PageInfo pageInfo in documentDescription.Pages)
                 {
                     var pageData = pagesData.FirstOrDefault(p => p.PageNumber == pageInfo.Number);
