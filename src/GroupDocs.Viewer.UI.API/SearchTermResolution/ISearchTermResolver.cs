@@ -4,6 +4,6 @@ namespace GroupDocs.Viewer.UI.Api
 {
     public interface ISearchTermResolver
     {
-        Task<string> ResolveSearchTermAsync();
+        Task<string> ResolveSearchTermAsync(string filepath);
     }
 }
