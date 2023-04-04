@@ -44,7 +44,7 @@
     <GroupDocsViewerUIApiAzureStorage>6.0.0</GroupDocsViewerUIApiAzureStorage>
     <GroupDocsViewerUIApiAwsS3Storage>6.0.0</GroupDocsViewerUIApiAwsS3Storage>
     <GroupDocsViewerUICore>6.0.1</GroupDocsViewerUICore>
-    <GroupDocsViewerUISelfHostApi>6.0.9</GroupDocsViewerUISelfHostApi>
+    <GroupDocsViewerUISelfHostApi>6.0.10</GroupDocsViewerUISelfHostApi>
     <GroupDocsViewerUICloudApi>6.0.3</GroupDocsViewerUICloudApi>
   </PropertyGroup>
 </Project>
