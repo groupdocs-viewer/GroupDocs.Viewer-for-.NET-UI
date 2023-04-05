@@ -15,7 +15,7 @@ namespace GroupDocs.Viewer.UI.Middleware
         private static IUIConfigProvider ConfigProvider { get; set; }
 
         private readonly JsonSerializerSettings _jsonSerializationSettings;
-        
+
         public UISettingsMiddleware(RequestDelegate next,
             IOptions<Config> settings,
             IUIConfigProvider uIConfigProvider)
@@ -32,10 +32,7 @@ namespace GroupDocs.Viewer.UI.Middleware
 
         public async Task InvokeAsync(HttpContext context)
         {
-            if (ConfigProvider != default(IUIConfigProvider))
-            { 
-                ConfigProvider.ConfigureUI(Config);
-            }
+            ConfigProvider.ConfigureUI(Config);
             string content = JsonConvert.SerializeObject(GetUIOutputSettings(), _jsonSerializationSettings);
             context.Response.ContentType = Keys.DEFAULT_RESPONSE_CONTENT_TYPE;
 

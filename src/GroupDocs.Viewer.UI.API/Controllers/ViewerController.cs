@@ -70,10 +70,8 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                 SupportedLanguages = _config.SupportedLanguages,
                 ShowLanguageMenu = _config.ShowLanguageMenu
             };
-            if (_uiConfigProvider != default(IUIConfigProvider))
-            {
-                _uiConfigProvider.ConfigureUI(_config);
-            }
+            
+            _uiConfigProvider.ConfigureUI(_config);
 
             return OkJsonResult(config);
         }
