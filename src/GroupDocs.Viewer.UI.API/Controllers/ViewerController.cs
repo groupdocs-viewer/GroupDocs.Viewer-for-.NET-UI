@@ -23,15 +23,17 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         private readonly IFileStorage _fileStorage;
         private readonly IFileNameResolver _fileNameResolver;
         private readonly ISearchTermResolver _searchTermResolver;
+        private readonly IUIConfigProvider _uiConfigProvider;
         private readonly IViewer _viewer;
         private readonly ILogger<ViewerController> _logger;
         private readonly Config _config;
 
-        public ViewerController(IFileStorage fileStorage, 
-            IFileNameResolver  fileNameResolver,
+        public ViewerController(IFileStorage fileStorage,
+            IFileNameResolver fileNameResolver,
             ISearchTermResolver searchTermResolver,
-            IViewer viewer, 
-            IOptions<Config> config, 
+            IUIConfigProvider uiConfigProvider,
+            IViewer viewer,
+            IOptions<Config> config,
             ILogger<ViewerController> logger)
         {
             _fileStorage = fileStorage;
@@ -40,6 +42,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             _viewer = viewer;
             _logger = logger;
             _config = config.Value;
+            _uiConfigProvider = uiConfigProvider;
         }
 
         [HttpGet]
@@ -67,6 +70,8 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                 SupportedLanguages = _config.SupportedLanguages,
                 ShowLanguageMenu = _config.ShowLanguageMenu
             };
+            
+            _uiConfigProvider.ConfigureUI(_config);
 
             return OkJsonResult(config);
         }
@@ -125,9 +130,9 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
 
             try
             {
-                var fileCredentials = 
+                var fileCredentials =
                     new FileCredentials(request.Guid, request.FileType, request.Password);
-                var bytes = 
+                var bytes =
                     await _viewer.GetPageResourceAsync(fileCredentials, request.PageNumber, request.ResourceName);
 
                 if (bytes.Length == 0)
@@ -178,7 +183,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
 
             try
             {
-                var fileCredentials = 
+                var fileCredentials =
                     new FileCredentials(request.Guid, request.FileType, request.Password);
 
                 var fileName = await _fileNameResolver.ResolveFileNameAsync(request.Guid);
@@ -209,7 +214,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         {
             try
             {
-                var fileCredentials = 
+                var fileCredentials =
                     new FileCredentials(request.Guid, request.FileType, request.Password);
                 var documentDescription =
                     await _viewer.GetDocumentInfoAsync(fileCredentials);
@@ -267,7 +272,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             if (_config.PreloadPageCount == 0)
                 return Enumerable.Range(1, totalPageCount).ToArray();
 
-            var pageCount = 
+            var pageCount =
                 Math.Min(totalPageCount, _config.PreloadPageCount);
 
             return Enumerable.Range(1, pageCount).ToArray();
@@ -278,7 +283,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         {
             try
             {
-                var fileCredentials = 
+                var fileCredentials =
                     new FileCredentials(request.Guid, request.FileType, request.Password);
                 var pages = await _viewer.GetPagesAsync(fileCredentials, request.Pages);
                 var pageContents = pages
@@ -309,7 +314,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         {
             try
             {
-                var fileCredentials = 
+                var fileCredentials =
                     new FileCredentials(request.Guid, request.FileType, request.Password);
                 var page = await _viewer.GetPageAsync(fileCredentials, request.Page);
                 var pageContent = new PageContent { Number = page.PageNumber, Data = page.GetContent() };

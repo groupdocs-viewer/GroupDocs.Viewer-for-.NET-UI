@@ -5,25 +5,25 @@ namespace GroupDocs.Viewer.UI.Core.Configuration
     public class Config
     {
         //Client-side config
-        internal string DefaultDocument { get; private set; } = string.Empty;
-        internal int PreloadPageCount { get; private set; } = 3;
-        internal bool PageSelector { get; private set; } = true;
-        internal bool Thumbnails { get; private set; } = true;
-        internal bool Zoom { get; private set; } = true;
-        internal bool Search { get; private set; } = true;
-        internal bool EnableRightClick { get; private set; } = true;
+        internal string DefaultDocument { get; set; } = string.Empty;
+        internal int PreloadPageCount { get; set; } = 3;
+        internal bool PageSelector { get; set; } = true;
+        internal bool Thumbnails { get; set; } = true;
+        internal bool Zoom { get; set; } = true;
+        internal bool Search { get; set; } = true;
+        internal bool EnableRightClick { get; set; } = true;
         //Client-side and server-side config
-        internal bool Download { get; private set; } = true;
-        internal bool Upload { get; private set; } = true;
-        internal bool Rewrite { get; private set; } = false;
-        internal bool Print { get; private set; } = true;
-        internal bool Browse { get; private set; } = true;
-        internal bool PrintAllowed { get; private set; } = true;
-        internal bool HtmlMode { get; private set; } = true;
+        internal bool Download { get; set; } = true;
+        internal bool Upload { get; set; } = true;
+        internal bool Rewrite { get; set; } = false;
+        internal bool Print { get; set; } = true;
+        internal bool Browse { get; set; } = true;
+        internal bool PrintAllowed { get; set; } = true;
+        internal bool HtmlMode { get; set; } = true;
         //I18n
-        internal bool ShowLanguageMenu { get; private set; } = true;
-        internal string DefaultLanguage { get; private set; } = "en";
-        internal string[] SupportedLanguages { get; private set; } = new string[]
+        internal bool ShowLanguageMenu { get; set; } = true;
+        internal string DefaultLanguage { get; set; } = "en";
+        internal string[] SupportedLanguages { get; set; } = new string[]
         {
             "ar", // ar - العربية
             "ca", // ca-ES - Català

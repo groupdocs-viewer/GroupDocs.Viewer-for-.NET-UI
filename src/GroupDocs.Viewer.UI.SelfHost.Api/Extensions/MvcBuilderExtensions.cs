@@ -46,6 +46,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.TryAddSingleton<IFileTypeResolver, FileExtensionFileTypeResolver>();
             builder.Services.TryAddSingleton<IPageFormatter, NoopPageFormatter>();
             builder.Services.TryAddSingleton<ISearchTermResolver, SearchTermResolver>();
+            builder.Services.TryAddSingleton<IUIConfigProvider, UIConfigProvider>();
 
             if (config.InternalCacheOptions.IsCacheEnabled)
             {
