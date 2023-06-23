@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="GroupDocs.Viewer" Version="23.6.0" />
+    <PackageReference Include="GroupDocs.Viewer" Version="$(GroupDocsViewer)" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="$(MicrosoftAspNetCoreMvcCore)" />
   </ItemGroup>
 
