@@ -10,7 +10,7 @@
 
     <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
     <ClientRoot>client\</ClientRoot>
-    <BuildClientApp>false</BuildClientApp>
+    <BuildClientApp>true</BuildClientApp>
   </PropertyGroup>
 
   <ItemGroup>
