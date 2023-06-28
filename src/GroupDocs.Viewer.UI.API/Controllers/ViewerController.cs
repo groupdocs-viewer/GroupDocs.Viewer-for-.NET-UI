@@ -48,6 +48,8 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         [HttpGet]
         public IActionResult LoadConfig()
         {
+            _uiConfigProvider.ConfigureUI(_config);
+
             var config = new LoadConfigResponse
             {
                 PageSelector = _config.PageSelector,
@@ -68,11 +70,10 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                 SaveRotateState = _config.SaveRotateState,
                 DefaultLanguage = _config.DefaultLanguage,
                 SupportedLanguages = _config.SupportedLanguages,
-                ShowLanguageMenu = _config.ShowLanguageMenu
+                ShowLanguageMenu = _config.ShowLanguageMenu,
+                ShowToolBar = _config.IsShowToolBar,
             };
             
-            _uiConfigProvider.ConfigureUI(_config);
-
             return OkJsonResult(config);
         }
 

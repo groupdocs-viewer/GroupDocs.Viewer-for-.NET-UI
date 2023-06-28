@@ -11,6 +11,7 @@ namespace GroupDocs.Viewer.UI.Core.Configuration
         internal bool Thumbnails { get; set; } = true;
         internal bool Zoom { get; set; } = true;
         internal bool Search { get; set; } = true;
+        internal bool IsShowToolBar { get; set; } = true;
         internal bool EnableRightClick { get; set; } = true;
         //Client-side and server-side config
         internal bool Download { get; set; } = true;
@@ -132,6 +133,17 @@ namespace GroupDocs.Viewer.UI.Core.Configuration
         public Config HideSearchControl()
         {
             Search = false;
+            return this;
+        }
+
+        public Config ShowToolBar()
+        {
+            IsShowToolBar = true;
+            return this;
+        }
+        public Config HideToolBar()
+        {
+            IsShowToolBar = false;
             return this;
         }
 

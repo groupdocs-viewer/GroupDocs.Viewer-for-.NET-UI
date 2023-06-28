@@ -117,5 +117,11 @@ namespace GroupDocs.Viewer.UI.Api.Models
         /// </summary>
         [JsonPropertyName("showLanguageMenu")]
         public bool ShowLanguageMenu { get; set; }
+
+        /// <summary>
+        /// Top toolbar show flag
+        /// </summary>
+        [JsonPropertyName("showToolBar")]
+        public bool ShowToolBar { get; set; }
     }
 }
