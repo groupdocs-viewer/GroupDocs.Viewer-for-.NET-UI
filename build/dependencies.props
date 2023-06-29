@@ -35,16 +35,16 @@
   </PropertyGroup>
 
   <PropertyGroup Label="GroupDocs.Viewer UI Package Versions">
-    <GroupDocsViewerUI>6.0.12</GroupDocsViewerUI>
-    <GroupDocsViewerUIApi>6.0.6</GroupDocsViewerUIApi>
-    <GroupDocsViewerUIApiLocalCache>6.0.1</GroupDocsViewerUIApiLocalCache>
-    <GroupDocsViewerUIApiInMemoryCache>6.0.1</GroupDocsViewerUIApiInMemoryCache>
-    <GroupDocsViewerUIApiLocalStorage>6.0.1</GroupDocsViewerUIApiLocalStorage>
-    <GroupDocsViewerUIApiCloudStorage>6.0.2</GroupDocsViewerUIApiCloudStorage>
-    <GroupDocsViewerUIApiAzureStorage>6.0.1</GroupDocsViewerUIApiAzureStorage>
-    <GroupDocsViewerUIApiAwsS3Storage>6.0.1</GroupDocsViewerUIApiAwsS3Storage>
-    <GroupDocsViewerUICore>6.0.3</GroupDocsViewerUICore>
-    <GroupDocsViewerUISelfHostApi>6.0.14</GroupDocsViewerUISelfHostApi>
-    <GroupDocsViewerUICloudApi>6.0.5</GroupDocsViewerUICloudApi>
+    <GroupDocsViewerUI>6.0.13</GroupDocsViewerUI>
+    <GroupDocsViewerUIApi>6.0.7</GroupDocsViewerUIApi>
+    <GroupDocsViewerUIApiLocalCache>6.0.2</GroupDocsViewerUIApiLocalCache>
+    <GroupDocsViewerUIApiInMemoryCache>6.0.2</GroupDocsViewerUIApiInMemoryCache>
+    <GroupDocsViewerUIApiLocalStorage>6.0.2</GroupDocsViewerUIApiLocalStorage>
+    <GroupDocsViewerUIApiCloudStorage>6.0.3</GroupDocsViewerUIApiCloudStorage>
+    <GroupDocsViewerUIApiAzureStorage>6.0.2</GroupDocsViewerUIApiAzureStorage>
+    <GroupDocsViewerUIApiAwsS3Storage>6.0.2</GroupDocsViewerUIApiAwsS3Storage>
+    <GroupDocsViewerUICore>6.0.4</GroupDocsViewerUICore>
+    <GroupDocsViewerUISelfHostApi>6.0.15</GroupDocsViewerUISelfHostApi>
+    <GroupDocsViewerUICloudApi>6.0.6</GroupDocsViewerUICloudApi>
   </PropertyGroup>
 </Project>

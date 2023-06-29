@@ -1,8 +1,8 @@
 <gd-loading-mask [loadingMask]="isLoading"></gd-loading-mask>
 <div class="wrapper" (contextmenu)="onRightClick()">
   <div class="top-panel" *ngIf="!runPresentation">
-    <gd-logo [logo]="'viewer'" icon="eye"></gd-logo>
-    <gd-top-toolbar class="toolbar-panel">
+    <gd-logo [logo]="'viewer'" icon="eye" *ngIf="showToolBar"></gd-logo>
+    <gd-top-toolbar class="toolbar-panel" *ngIf="showToolBar">
       <gd-button [icon]="'folder-open'" title="{{'Browse files' | translate}}" (click)="openModal(browseFilesModal)"
                  *ngIf="browseConfig" ></gd-button>
 

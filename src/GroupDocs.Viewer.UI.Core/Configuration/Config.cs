@@ -7,22 +7,22 @@ namespace GroupDocs.Viewer.UI.Core.Configuration
         //Client-side config
         internal string DefaultDocument { get; set; } = string.Empty;
         internal int PreloadPageCount { get; set; } = 3;
-        internal bool PageSelector { get; set; } = true;
-        internal bool Thumbnails { get; set; } = true;
-        internal bool Zoom { get; set; } = true;
-        internal bool Search { get; set; } = true;
+        internal bool IsPageSelector { get; set; } = true;
+        internal bool IsThumbnails { get; set; } = true;
+        internal bool IsZoom { get; set; } = true;
+        internal bool IsSearch { get; set; } = true;
         internal bool IsShowToolBar { get; set; } = true;
-        internal bool EnableRightClick { get; set; } = true;
+        internal bool IsEnableRightClick { get; set; } = true;
         //Client-side and server-side config
-        internal bool Download { get; set; } = true;
-        internal bool Upload { get; set; } = true;
+        internal bool IsDownload { get; set; } = true;
+        internal bool IsUpload { get; set; } = true;
         internal bool Rewrite { get; set; } = false;
-        internal bool Print { get; set; } = true;
-        internal bool Browse { get; set; } = true;
-        internal bool PrintAllowed { get; set; } = true;
+        internal bool IsPrint { get; set; } = true;
+        internal bool IsBrowse { get; set; } = true;
+        internal bool IsPrintAllowed { get; set; } = true;
         internal bool HtmlMode { get; set; } = true;
         //I18n
-        internal bool ShowLanguageMenu { get; set; } = true;
+        internal bool IsShowLanguageMenu { get; set; } = true;
         internal string DefaultLanguage { get; set; } = "en";
         internal string[] SupportedLanguages { get; set; } = new string[]
         {
@@ -59,7 +59,7 @@ namespace GroupDocs.Viewer.UI.Core.Configuration
         };
 
         //TODO: Not implemented
-        internal bool Rotate = false;
+        internal bool IsRotate = false;
         internal bool SaveRotateState  = false;
 
         public Config SetViewerType(ViewerType viewerType)
@@ -83,25 +83,46 @@ namespace GroupDocs.Viewer.UI.Core.Configuration
 
         public Config HidePageSelectorControl()
         {
-            PageSelector = false;
+            IsPageSelector = false;
+            return this;
+        }
+
+        public Config ShowPageSelectorControl()
+        {
+            IsPageSelector = true;
             return this;
         }
 
         public Config HideThumbnailsControl()
         {
-            Thumbnails = false;
+            IsThumbnails = false;
+            return this;
+        }
+        public Config ShowThumbnailsControl()
+        {
+            IsThumbnails = true;
             return this;
         }
 
         public Config DisableFileDownload()
         {
-            Download = false;
+            IsDownload = false;
+            return this;
+        }
+        public Config EnableFileDownload()
+        {
+            IsDownload = true;
             return this;
         }
 
         public Config DisableFileUpload()
         {
-            Upload = false;
+            IsUpload = false;
+            return this;
+        }
+        public Config EnableFileUpload()
+        {
+            IsUpload = true;
             return this;
         }
 
@@ -113,32 +134,46 @@ namespace GroupDocs.Viewer.UI.Core.Configuration
 
         public Config DisablePrint()
         {
-            Print = false;
-            PrintAllowed = false;
+            IsPrint = false;
+            IsPrintAllowed = false;
+            return this;
+        }
+        public Config EnablePrint()
+        {
+            IsPrint = true;
+            IsPrintAllowed = true;
             return this;
         }
 
         public Config DisableFileBrowsing()
         {
-            Browse = false;
+            IsBrowse = false;
+            return this;
+        }
+        public Config EnableFileBrowsing()
+        {
+            IsBrowse = true;
             return this;
         }
 
         public Config HideZoomButton()
         {
-            Zoom = false;
+            IsZoom = false;
             return this;
         }
-
+        public Config ShowZoomButton()
+        {
+            IsZoom = true;
+            return this;
+        }
         public Config HideSearchControl()
         {
-            Search = false;
+            IsSearch = false;
             return this;
         }
-
-        public Config ShowToolBar()
+        public Config ShowSearchControl()
         {
-            IsShowToolBar = true;
+            IsSearch = true;
             return this;
         }
         public Config HideToolBar()
@@ -146,22 +181,44 @@ namespace GroupDocs.Viewer.UI.Core.Configuration
             IsShowToolBar = false;
             return this;
         }
+        public Config ShowToolBar()
+        {
+            IsShowToolBar = true;
+            return this;
+        }
+
 
         public Config HidePageRotationControl()
         {
-            Rotate = false;
+            IsRotate = false;
+            return this;
+        }
+        public Config ShowPageRotationControl()
+        {
+            IsRotate = true;
             return this;
         }
 
         public Config DisableRightClick()
         {
-            EnableRightClick = false;
+            IsEnableRightClick = false;
+            return this;
+        }
+
+        public Config EnableRightClick()
+        {
+            IsEnableRightClick = true;
             return this;
         }
 
         public Config HideLanguageMenu()
         {
-            ShowLanguageMenu = false;
+            IsShowLanguageMenu = false;
+            return this;
+        }
+        public Config ShowLanguageMenu()
+        {
+            IsShowLanguageMenu = true;
             return this;
         }
 
