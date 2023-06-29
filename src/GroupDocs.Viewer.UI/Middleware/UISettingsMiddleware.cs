@@ -43,25 +43,26 @@ namespace GroupDocs.Viewer.UI.Middleware
         {
             return new
             {
-                Config.PageSelector,
-                Config.Download,
-                Config.Upload,
-                Config.Print,
-                Config.Browse,
-                Config.Rewrite,
-                Config.EnableRightClick,
-                Config.DefaultDocument,
-                Config.PreloadPageCount,
-                Config.Zoom,
-                Config.Search,
-                Config.Thumbnails,
-                Config.HtmlMode,
-                Config.PrintAllowed,
-                Config.Rotate,
-                Config.SaveRotateState,
-                Config.ShowLanguageMenu,
-                Config.DefaultLanguage,
-                Config.SupportedLanguages
+                PageSelector = Config.IsPageSelector,
+                Download = Config.IsDownload,
+                Upload = Config.IsUpload,
+                Print = Config.IsPrint,
+                Browse = Config.IsBrowse,
+                Rewrite = Config.Rewrite,
+                EnableRightClick = Config.IsEnableRightClick,
+                DefaultDocument = Config.DefaultDocument,
+                PreloadPageCount = Config.PreloadPageCount,
+                Zoom = Config.IsZoom,
+                Search = Config.IsSearch,
+                Thumbnails = Config.IsThumbnails,
+                HtmlMode = Config.HtmlMode,
+                PrintAllowed = Config.IsPrintAllowed,
+                Rotate = Config.IsRotate,
+                SaveRotateState = Config.SaveRotateState,
+                DefaultLanguage = Config.DefaultLanguage,
+                SupportedLanguages = Config.SupportedLanguages,
+                ShowLanguageMenu = Config.IsShowLanguageMenu,
+                ShowToolBar = Config.IsShowToolBar
             };
         }
     }

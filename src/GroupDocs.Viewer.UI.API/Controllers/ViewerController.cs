@@ -52,25 +52,25 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
 
             var config = new LoadConfigResponse
             {
-                PageSelector = _config.PageSelector,
-                Download = _config.Download,
-                Upload = _config.Upload,
-                Print = _config.Print,
-                Browse = _config.Browse,
+                PageSelector = _config.IsPageSelector,
+                Download = _config.IsDownload,
+                Upload = _config.IsUpload,
+                Print = _config.IsPrint,
+                Browse = _config.IsBrowse,
                 Rewrite = _config.Rewrite,
-                EnableRightClick = _config.EnableRightClick,
+                EnableRightClick = _config.IsEnableRightClick,
                 DefaultDocument = _config.DefaultDocument,
                 PreloadPageCount = _config.PreloadPageCount,
-                Zoom = _config.Zoom,
-                Search = _config.Search,
-                Thumbnails = _config.Thumbnails,
+                Zoom = _config.IsZoom,
+                Search = _config.IsSearch,
+                Thumbnails = _config.IsThumbnails,
                 HtmlMode = _config.HtmlMode,
-                PrintAllowed = _config.PrintAllowed,
-                Rotate = _config.Rotate,
+                PrintAllowed = _config.IsPrintAllowed,
+                Rotate = _config.IsRotate,
                 SaveRotateState = _config.SaveRotateState,
                 DefaultLanguage = _config.DefaultLanguage,
                 SupportedLanguages = _config.SupportedLanguages,
-                ShowLanguageMenu = _config.ShowLanguageMenu,
+                ShowLanguageMenu = _config.IsShowLanguageMenu,
                 ShowToolBar = _config.IsShowToolBar,
             };
             
@@ -80,7 +80,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> LoadFileTree([FromBody] LoadFileTreeRequest request)
         {
-            if (!_config.Browse)
+            if (!_config.IsBrowse)
                 return ErrorJsonResult("Browsing files is disabled.");
 
             try
@@ -105,7 +105,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> DownloadDocument([FromQuery] string path)
         {
-            if (!_config.Download)
+            if (!_config.IsDownload)
                 return ErrorJsonResult("Downloading files is disabled.");
 
             try
@@ -154,7 +154,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadDocument()
         {
-            if (!_config.Upload)
+            if (!_config.IsUpload)
                 return ErrorJsonResult("Uploading files is disabled.");
 
             try
@@ -179,7 +179,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> PrintPdf([FromBody] PrintPdfRequest request)
         {
-            if (!_config.Print)
+            if (!_config.IsPrint)
                 return ErrorJsonResult("Printing files is disabled.");
 
             try
