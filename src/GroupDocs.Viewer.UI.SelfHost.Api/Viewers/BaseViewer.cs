@@ -15,7 +15,7 @@ using Page = GroupDocs.Viewer.UI.Core.Entities.Page;
 
 namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 {
-    internal abstract class BaseViewer : IViewer, IDisposable
+    public abstract class BaseViewer : IViewer, IDisposable
     {
         private readonly Config _config;
         private readonly IAsyncLock _asyncLock;

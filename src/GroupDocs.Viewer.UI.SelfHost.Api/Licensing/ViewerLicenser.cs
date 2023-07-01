@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 
 namespace GroupDocs.Viewer.UI.SelfHost.Api.Licensing
 {
-    internal class ViewerLicenser : IViewerLicenser
+    public class ViewerLicenser : IViewerLicenser
     {
         private readonly Config _config;
         private readonly object _lock = new object();

@@ -6,7 +6,7 @@ using GroupDocs.Viewer.UI.Core.Entities;
 
 namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 {
-    internal class HtmlStaticDataViewer : IViewer
+    public class HtmlStaticDataViewer : IViewer
     {
         const string PAGE_TEMPLATE = @"
                 <!DOCTYPE html>

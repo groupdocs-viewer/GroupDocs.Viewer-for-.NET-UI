@@ -1,6 +1,6 @@
 ﻿namespace GroupDocs.Viewer.UI.SelfHost.Api.Licensing
 {
-    internal interface IViewerLicenser
+    public interface IViewerLicenser
     {
         void SetLicense();
     }

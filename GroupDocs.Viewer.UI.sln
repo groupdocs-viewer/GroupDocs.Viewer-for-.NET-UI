@@ -40,6 +40,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GroupDocs.Viewer.UI.Api.Azu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GroupDocs.Viewer.UI.Api.AwsS3.Storage", "src\GroupDocs.Viewer.UI.Api.AwsS3.Storage\GroupDocs.Viewer.UI.Api.AwsS3.Storage.csproj", "{95C17FC9-AFDB-478F-B309-DA17E10916B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupDocs.Viewer.UI.CacheFactory.Sample", "samples\GroupDocs.Viewer.UI.CacheFactory.Sample\GroupDocs.Viewer.UI.CacheFactory.Sample.csproj", "{2B3688B1-E410-4ABF-8F3C-5AB08CC61194}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -218,6 +220,18 @@ Global
 		{95C17FC9-AFDB-478F-B309-DA17E10916B3}.Release|x64.Build.0 = Release|Any CPU
 		{95C17FC9-AFDB-478F-B309-DA17E10916B3}.Release|x86.ActiveCfg = Release|Any CPU
 		{95C17FC9-AFDB-478F-B309-DA17E10916B3}.Release|x86.Build.0 = Release|Any CPU
+		{2B3688B1-E410-4ABF-8F3C-5AB08CC61194}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B3688B1-E410-4ABF-8F3C-5AB08CC61194}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B3688B1-E410-4ABF-8F3C-5AB08CC61194}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2B3688B1-E410-4ABF-8F3C-5AB08CC61194}.Debug|x64.Build.0 = Debug|Any CPU
+		{2B3688B1-E410-4ABF-8F3C-5AB08CC61194}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2B3688B1-E410-4ABF-8F3C-5AB08CC61194}.Debug|x86.Build.0 = Debug|Any CPU
+		{2B3688B1-E410-4ABF-8F3C-5AB08CC61194}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B3688B1-E410-4ABF-8F3C-5AB08CC61194}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B3688B1-E410-4ABF-8F3C-5AB08CC61194}.Release|x64.ActiveCfg = Release|Any CPU
+		{2B3688B1-E410-4ABF-8F3C-5AB08CC61194}.Release|x64.Build.0 = Release|Any CPU
+		{2B3688B1-E410-4ABF-8F3C-5AB08CC61194}.Release|x86.ActiveCfg = Release|Any CPU
+		{2B3688B1-E410-4ABF-8F3C-5AB08CC61194}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -237,6 +251,7 @@ Global
 		{A59FCB54-07FE-48DE-A727-39678BF90D4A} = {F01C54A8-0505-4D3F-B12C-FEB3F827509E}
 		{4F215AF6-1966-4484-BAE3-7BC0B9629F6B} = {F01C54A8-0505-4D3F-B12C-FEB3F827509E}
 		{95C17FC9-AFDB-478F-B309-DA17E10916B3} = {F01C54A8-0505-4D3F-B12C-FEB3F827509E}
+		{2B3688B1-E410-4ABF-8F3C-5AB08CC61194} = {98234968-D728-4D2D-B985-88A63DF6541A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D7F2C427-C9AB-4B55-B1F9-C41195D7CD6C}

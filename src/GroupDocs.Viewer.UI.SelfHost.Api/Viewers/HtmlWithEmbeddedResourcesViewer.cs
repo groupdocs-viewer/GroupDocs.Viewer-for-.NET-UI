@@ -12,7 +12,7 @@ using Page = GroupDocs.Viewer.UI.Core.Entities.Page;
 
 namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 {
-    internal class HtmlWithEmbeddedResourcesViewer : BaseViewer
+    public class HtmlWithEmbeddedResourcesViewer : BaseViewer
     {
         private readonly Config _config;
 
