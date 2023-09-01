@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Package Versions">
-    <GroupDocsViewer>23.6</GroupDocsViewer>
+    <GroupDocsViewer>23.8</GroupDocsViewer>
 
     <MicrosoftExtensionsHttp>6.0.0</MicrosoftExtensionsHttp>
     <MicrosoftAspNetCoreMvcCore>2.2.5</MicrosoftAspNetCoreMvcCore>
