@@ -19,6 +19,6 @@ namespace GroupDocs.Viewer.UI.Core
         };
 
         public static string FromExtension(string fileExtension)
-            => SupportedContent.TryGetValue(fileExtension, out var result) ? result : PLAIN;
+            => SupportedContent.TryGetValue(fileExtension.ToLowerInvariant(), out var result) ? result : PLAIN;
     }
 }

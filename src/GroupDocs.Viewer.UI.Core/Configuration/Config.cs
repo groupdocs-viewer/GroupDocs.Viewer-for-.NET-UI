@@ -55,7 +55,7 @@ namespace GroupDocs.Viewer.UI.Core.Configuration
             "tr", // tr-TR - Türkçe
             "uk", // uk-UA - Українська
             "zh-hans", // zh-Hans - 中文(简体)
-            "zh-hant", // zh-Hant" - 中文(繁體)
+            "zh-hant", // zh-Hant - 中文(繁體)
         };
 
         //TODO: Not implemented
@@ -71,6 +71,10 @@ namespace GroupDocs.Viewer.UI.Core.Configuration
 
         public Config SetPreloadPageCount(int countPages)
         {
+            if (countPages < 0)
+            {
+                throw new System.ArgumentOutOfRangeException(nameof(countPages), countPages, $"Specified page count '{countPages}' is negative, which is prohibited");
+            }
             PreloadPageCount = countPages;
             return this;
         }

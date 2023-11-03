@@ -10,25 +10,31 @@ namespace GroupDocs.Viewer.UI.Core
     {
         private readonly Assembly _assembly;
 
+        private IReadOnlyCollection<UIResource> _cachedUiResources = null;
+
         public UIEmbeddedResourcesReader(Assembly assembly)
         {
             _assembly = assembly ?? throw new ArgumentNullException(nameof(assembly));
         }
 
-        public IEnumerable<UIResource> UIResources
+        public IReadOnlyCollection<UIResource> UIResources
         {
             get
             {
-                var embeddedResources = _assembly.GetManifestResourceNames();
-                return ParseEmbeddedResources(embeddedResources);
+                if (_cachedUiResources == null)
+                {
+                    var embeddedResources = _assembly.GetManifestResourceNames();
+                    _cachedUiResources = ParseEmbeddedResources(embeddedResources);
+                }
+                return _cachedUiResources;
             }
         }
 
-        private IEnumerable<UIResource> ParseEmbeddedResources(string[] embeddedFiles)
+        private IReadOnlyCollection<UIResource> ParseEmbeddedResources(string[] embeddedFiles)
         {
             const char SPLIT_SEPARATOR = '.';
 
-            var resourceList = new List<UIResource>();
+            List<UIResource> resourceList = new List<UIResource>();
 
             foreach (var file in embeddedFiles)
             {
