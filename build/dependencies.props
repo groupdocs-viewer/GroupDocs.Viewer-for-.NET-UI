@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Package Versions">
-    <GroupDocsViewer>23.10</GroupDocsViewer>
+    <GroupDocsViewer>23.11</GroupDocsViewer>
 
     <MicrosoftExtensionsHttp>6.0.0</MicrosoftExtensionsHttp>
     <MicrosoftAspNetCoreMvcCore>2.2.5</MicrosoftAspNetCoreMvcCore>
@@ -44,7 +44,7 @@
     <GroupDocsViewerUIApiAzureStorage>6.0.2</GroupDocsViewerUIApiAzureStorage>
     <GroupDocsViewerUIApiAwsS3Storage>6.0.2</GroupDocsViewerUIApiAwsS3Storage>
     <GroupDocsViewerUICore>6.0.4</GroupDocsViewerUICore>
-    <GroupDocsViewerUISelfHostApi>6.0.17</GroupDocsViewerUISelfHostApi>
+    <GroupDocsViewerUISelfHostApi>6.0.18</GroupDocsViewerUISelfHostApi>
     <GroupDocsViewerUICloudApi>6.0.6</GroupDocsViewerUICloudApi>
   </PropertyGroup>
 </Project>
