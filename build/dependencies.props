@@ -35,7 +35,7 @@
   </PropertyGroup>
 
   <PropertyGroup Label="GroupDocs.Viewer UI Package Versions">
-    <GroupDocsViewerUI>6.0.15</GroupDocsViewerUI>
+    <GroupDocsViewerUI>6.0.16</GroupDocsViewerUI>
     <GroupDocsViewerUIApi>6.0.7</GroupDocsViewerUIApi>
     <GroupDocsViewerUIApiLocalCache>6.0.2</GroupDocsViewerUIApiLocalCache>
     <GroupDocsViewerUIApiInMemoryCache>6.0.2</GroupDocsViewerUIApiInMemoryCache>
