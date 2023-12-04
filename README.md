@@ -116,7 +116,7 @@ endpoints.MapGroupDocsViewerUI(options =>
 });
 ```
 
-### Changing UI Language
+### Changing UI language
 
 The default UI language is English. The list of suported languages can be found in [Language.cs](src/GroupDocs.Viewer.UI.Core/Configuration/Language.cs) file. The default language, supported languages, and language menu visibility can be configured in `ConfigureServices` method:
 
@@ -141,7 +141,7 @@ The API is used to serve content such as information about a document, document 
 
 All the API implementations are extensions of `IMvcBuilder`:
 
-### Self-Host
+### Self-host
 
 Self-Host API uses [GroupDocs.Viewer for .NET](https://www.nuget.org/packages/groupdocs.viewer) to convert documents to HTML, PNG, JPG, and PDF. All the conversions are performed on the host where the application is running.
 
@@ -184,39 +184,31 @@ The sample application that shows how to use Cloud Api can be found in the [samp
 
 #### Linux dependencies
 
-When running Self-Host API on Linux the following packages have to be installed:
+When running Self-Host API on Linux the two groups of packages packages are required.
+First group is `System.Drawing` implementaiton on Linux that is based on `libgdiplus`.
+The second group is Microsoft fonts and tools for creating font cache.  
 
-- `apt-transport-https`
-- `dirmngr`
-- `gnupg`
-- `libc6-dev`
-- `libgdiplus`
-- `libx11-dev`
-- `ttf-mscorefonts-installer`
+- [libgdiplus](https://packages.debian.org/sid/libgdiplus) - Interface library for `System.Drawing` of Mono.
+- [libc6-dev](https://packages.debian.org/sid/libc6-dev) - GNU C Library: Development Libraries and Header Files.
+- [libx11-dev](https://packages.debian.org/sid/libx11-dev) - X11 client-side library (development headers)
+- [fontconfig](https://packages.debian.org/sid/fontconfig) - Generic font configuration library - support binaries.
+- [ttf-mscorefonts-installer] - Microsoft TrueType core fonts like Arial, Times New Roman etc.
 
-As an example the following commands should be executed to install the dependencies on [Ubuntu 18.04.5 LTS (Bionic Beaver)](https://releases.ubuntu.com/18.04.5/):
+See how to install this packages in [Dockerfile](samples/GroupDocs.Viewer.UI.Sample/Dockerfile).
 
-- `apt-get update`
-- `apt-get install -y apt-transport-https`
-- `apt-get install -y dirmngr`
-- `apt-get install -y gnupg`
-- `apt-get install -y ca-certificates`
-- `apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys $ 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF`
-- `echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic $ main" >> /etc/apt/sources.list.d/mono-official-stable.list`
-- `apt-get update`
-- `apt-get install -y --allow-unauthenticated libc6-dev libgdiplus libx11-dev`
-- `apt-get install -y ttf-mscorefonts-installer`
-
-### API Storage Providers
+### API storage providers
 
 Storage providers are used to read/write file from/to the storage. The storage provider is mandatory.
 
 - [GroupDocs.Viewer.UI.Api.Local.Storage](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Api.Local.Storage)
 - [GroupDocs.Viewer.UI.Api.Cloud.Storage](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Api.Cloud.Storage)
+- [GroupDocs.Viewer.UI.Api.AzureBlob.Storage](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Api.AzureBlob.Storage)
+- [GroupDocs.Viewer.UI.Api.AwsS3.Storage](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Api.AwsS3.Storage)
+
 
 All the storage providers are extensions of `GroupDocsViewerUIApiBuilder`:
 
-#### Local Storage
+#### Local storage
 
 To render files from your local drive use local file storage.
 
@@ -227,7 +219,7 @@ services
     .AddLocalStorage("./Files");
 ```
 
-#### Cloud Storage
+#### Cloud storage
 
 When rendering files using [GroupDocs Cloud](https://dashboard.groupdocs.cloud/) infrastructure it is reasonable to opt to cloud storage provider. GroupDocs Cloud storage supports number of 3d-party storages including Amazon S3, Google Drive and Cloud, Azure, Dropbox, Box, and FTP. To start using GroupDocs Cloud get your `Client ID` and `Client Secret` at <https://dashboard.groupdocs.cloud/applications>.
 
@@ -249,7 +241,7 @@ services
     )
 ```
 
-#### Azure Blob Storage
+#### Azure Blob storage
 
 You can also use [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs/) as a storage provider for Viewer.
 
@@ -267,7 +259,7 @@ services
     });
 ```
 
-### Amazon S3 Storage
+### Amazon S3 storage
 
 Viewer also supports the [Amazon S3 Storage](https://aws.amazon.com/s3/) storage provider.
 
@@ -286,7 +278,7 @@ services
     });
 ```
 
-### API Cache Providers
+### API cache providers
 
 In case you would like to cache the output files produced by GroupDocs.Viewer you can use one of the cache providers:
 
@@ -295,7 +287,7 @@ In case you would like to cache the output files produced by GroupDocs.Viewer yo
 
 All the cache providers are extensions of `GroupDocsViewerUIApiBuilder`:
 
-#### Local Cache
+#### Local cache
 
 ```cs
 services
@@ -305,7 +297,7 @@ services
     .AddLocalCache("./Cache");
 ```
 
-#### InMemory Cache
+#### In-memory cache
 
 ```cs
 services
