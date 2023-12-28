@@ -61,7 +61,6 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers.Extensions
 
         private static void CopyPdfViewOptions(this PdfViewOptions dst, PdfViewOptions src)
         {
-            dst.JpgQuality = src.JpgQuality;
             dst.Security = src.Security;
             dst.ImageMaxWidth = src.ImageMaxWidth;
             dst.ImageMaxHeight = src.ImageMaxHeight;
