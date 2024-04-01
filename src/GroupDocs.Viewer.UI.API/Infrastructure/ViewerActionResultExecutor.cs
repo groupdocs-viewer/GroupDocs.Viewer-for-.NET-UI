@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -13,7 +14,8 @@ namespace GroupDocs.Viewer.UI.Api.Infrastructure
     {
         private readonly JsonSerializerOptions _jsonSerializerOptions = new()
         {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
         };
 
         private static readonly string DefaultContentType = new MediaTypeHeaderValue("application/json")
