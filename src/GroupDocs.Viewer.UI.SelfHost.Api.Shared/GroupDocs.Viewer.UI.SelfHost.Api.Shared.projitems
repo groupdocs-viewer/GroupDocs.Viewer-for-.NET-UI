@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>cd2cffff-ec3b-4709-bcfd-fae4b05d3769</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>GroupDocs.Viewer.UI.SelfHost.Api.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Config.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\InternalCacheOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ConfigurationExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\MvcBuilderExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileTypeResolution\IFileTypeResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileTypeResolution\Implementation\FileExtensionFileTypeResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InternalCaching\IInternalCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InternalCaching\Implementation\InMemoryInternalCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InternalCaching\Implementation\NoopInternalCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Keys.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Licensing\IViewerLicenser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Licensing\ViewerLicenser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Viewers\BaseViewer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Viewers\Extensions\ViewOptionsExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Viewers\HtmlStaticDataViewer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Viewers\HtmlWithEmbeddedResourcesViewer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Viewers\HtmlWithExternalResourcesViewer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Viewers\JpgViewer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Viewers\PngViewer.cs" />
+  </ItemGroup>
+</Project>

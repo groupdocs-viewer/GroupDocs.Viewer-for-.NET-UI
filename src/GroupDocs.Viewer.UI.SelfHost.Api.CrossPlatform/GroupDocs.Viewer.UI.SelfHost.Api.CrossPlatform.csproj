@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>$(NetVersion)</TargetFramework>
+
+    <PackageId>GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform</PackageId>
+    <Version>$(GroupDocsViewerUISelfHostApiCrossPlatform)</Version>
+    <Description>GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform containing API implementation that is based on GroupDocs.Viewer for .NET cross-platform version see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
+    <PackageTags>GroupDocs;Viewer;UI;SelftHost;API;ASP.NET Core;CrossPlatform;</PackageTags>
+    <PackageIcon>images\icon.png</PackageIcon>
+    <DefineConstants>CROSS_PLATFORM</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\assets\icon.png" Pack="true" Visible="false" PackagePath="images\icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GroupDocs.Viewer.CrossPlatform" Version="$(GroupDocsViewer)" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="$(MicrosoftAspNetCoreMvcCore)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GroupDocs.Viewer.UI.Api\GroupDocs.Viewer.UI.Api.csproj" />
+    <ProjectReference Include="..\GroupDocs.Viewer.UI.Core\GroupDocs.Viewer.UI.Core.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\GroupDocs.Viewer.UI.SelfHost.Api.Shared\GroupDocs.Viewer.UI.SelfHost.Api.Shared.projitems" Label="Shared" />
+
+</Project>

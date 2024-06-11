@@ -25,7 +25,7 @@
     <MicrosoftExtensionsConfigurationBinder>6.0.0</MicrosoftExtensionsConfigurationBinder>
     <MicrosoftExtensionsCachingMemory>6.0.1</MicrosoftExtensionsCachingMemory>
 
-    <NewtonsoftJson>13.0.1</NewtonsoftJson>
+    <NewtonsoftJson>13.0.3</NewtonsoftJson>
     <SystemTextJson>6.0.5</SystemTextJson>
 
     <AzureBlobs>12.14.1</AzureBlobs>
@@ -35,16 +35,18 @@
   </PropertyGroup>
 
   <PropertyGroup Label="GroupDocs.Viewer UI Package Versions">
-    <GroupDocsViewerUI>6.0.18</GroupDocsViewerUI>
-    <GroupDocsViewerUIApi>6.0.8</GroupDocsViewerUIApi>
-    <GroupDocsViewerUIApiLocalCache>6.0.2</GroupDocsViewerUIApiLocalCache>
-    <GroupDocsViewerUIApiInMemoryCache>6.0.2</GroupDocsViewerUIApiInMemoryCache>
-    <GroupDocsViewerUIApiLocalStorage>6.0.2</GroupDocsViewerUIApiLocalStorage>
-    <GroupDocsViewerUIApiCloudStorage>6.0.3</GroupDocsViewerUIApiCloudStorage>
-    <GroupDocsViewerUIApiAzureStorage>6.0.2</GroupDocsViewerUIApiAzureStorage>
-    <GroupDocsViewerUIApiAwsS3Storage>6.0.2</GroupDocsViewerUIApiAwsS3Storage>
-    <GroupDocsViewerUICore>6.0.4</GroupDocsViewerUICore>
-    <GroupDocsViewerUISelfHostApi>6.0.25</GroupDocsViewerUISelfHostApi>
-    <GroupDocsViewerUICloudApi>6.0.7</GroupDocsViewerUICloudApi>
+    <GroupDocsViewerUI>6.0.19</GroupDocsViewerUI>
+    <GroupDocsViewerUIApi>6.0.9</GroupDocsViewerUIApi>
+    <GroupDocsViewerUIApiLocalCache>6.0.3</GroupDocsViewerUIApiLocalCache>
+    <GroupDocsViewerUIApiInMemoryCache>6.0.3</GroupDocsViewerUIApiInMemoryCache>
+    <GroupDocsViewerUIApiLocalStorage>6.0.3</GroupDocsViewerUIApiLocalStorage>
+    <GroupDocsViewerUIApiCloudStorage>6.0.4</GroupDocsViewerUIApiCloudStorage>
+    <GroupDocsViewerUIApiAzureStorage>6.0.3</GroupDocsViewerUIApiAzureStorage>
+    <GroupDocsViewerUIApiAwsS3Storage>6.0.3</GroupDocsViewerUIApiAwsS3Storage>
+    <GroupDocsViewerUICore>6.0.5</GroupDocsViewerUICore>
+    <GroupDocsViewerUISelfHostApi>6.0.26</GroupDocsViewerUISelfHostApi>
+    <GroupDocsViewerUISelfHostApiCrossPlatform>6.0.1</GroupDocsViewerUISelfHostApiCrossPlatform>
+    <GroupDocsViewerUICloudApi>6.0.8</GroupDocsViewerUICloudApi>
   </PropertyGroup>
+
 </Project>

@@ -51,6 +51,7 @@ exec { & dotnet pack .\src\GroupDocs.Viewer.UI\GroupDocs.Viewer.UI.csproj -c Rel
 exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api\GroupDocs.Viewer.UI.Api.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
 exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Core\GroupDocs.Viewer.UI.Core.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
 exec { & dotnet pack .\src\GroupDocs.Viewer.UI.SelfHost.Api\GroupDocs.Viewer.UI.SelfHost.Api.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
+exec { & dotnet pack .\src\GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform\GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
 exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Cloud.Api\GroupDocs.Viewer.UI.Cloud.Api.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
 exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.Local.Cache\GroupDocs.Viewer.UI.Api.Local.Cache.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
 exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.InMemory.Cache\GroupDocs.Viewer.UI.Api.InMemory.Cache.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }

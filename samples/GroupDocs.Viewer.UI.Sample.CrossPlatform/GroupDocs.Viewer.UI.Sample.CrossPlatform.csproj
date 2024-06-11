@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>$(NetVersion)</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>3c745707-d311-4f47-b10e-612feb4d182e</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\**" />
+    <Content Remove="wwwroot\**" />
+    <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="wwwroot\**" />
+    <Compile Remove="Cache\**" />
+    <Compile Remove="Files\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\GroupDocs.Viewer.UI\GroupDocs.Viewer.UI.csproj" />
+    <ProjectReference Include="..\..\src\GroupDocs.Viewer.UI.Api\GroupDocs.Viewer.UI.Api.csproj" />
+    <ProjectReference Include="..\..\src\GroupDocs.Viewer.UI.Api.Local.Cache\GroupDocs.Viewer.UI.Api.Local.Cache.csproj" />
+    <ProjectReference Include="..\..\src\GroupDocs.Viewer.UI.Api.Local.Storage\GroupDocs.Viewer.UI.Api.Local.Storage.csproj" />
+    <ProjectReference Include="..\..\src\GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform\GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Files\password.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Files\sample.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Files\sample.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Files\sample.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Files\sample.pptx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Cache\" />
+  </ItemGroup>
+
+</Project>

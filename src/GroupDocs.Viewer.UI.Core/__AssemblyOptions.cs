@@ -4,3 +4,4 @@
 [assembly: InternalsVisibleTo("GroupDocs.Viewer.UI.Api")]
 [assembly: InternalsVisibleTo("GroupDocs.Viewer.UI.Cloud.Api")]
 [assembly: InternalsVisibleTo("GroupDocs.Viewer.UI.SelfHost.Api")]
+[assembly: InternalsVisibleTo("GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform")]

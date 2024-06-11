@@ -5,6 +5,7 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{B7F3B853-EC0B-4FE6-88E0-AF66444F523B}"
 	ProjectSection(SolutionItems) = preProject
+		build.ps1 = build.ps1
 		build\dependencies.props = build\dependencies.props
 	EndProjectSection
 EndProject
@@ -40,7 +41,22 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GroupDocs.Viewer.UI.Api.Azu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GroupDocs.Viewer.UI.Api.AwsS3.Storage", "src\GroupDocs.Viewer.UI.Api.AwsS3.Storage\GroupDocs.Viewer.UI.Api.AwsS3.Storage.csproj", "{95C17FC9-AFDB-478F-B309-DA17E10916B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupDocs.Viewer.UI.CacheFactory.Sample", "samples\GroupDocs.Viewer.UI.CacheFactory.Sample\GroupDocs.Viewer.UI.CacheFactory.Sample.csproj", "{2B3688B1-E410-4ABF-8F3C-5AB08CC61194}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GroupDocs.Viewer.UI.CacheFactory.Sample", "samples\GroupDocs.Viewer.UI.CacheFactory.Sample\GroupDocs.Viewer.UI.CacheFactory.Sample.csproj", "{2B3688B1-E410-4ABF-8F3C-5AB08CC61194}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform", "src\GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform\GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform.csproj", "{1C1ABD7F-DEF9-4BDC-85E0-D71E9F69B1EB}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "GroupDocs.Viewer.UI.SelfHost.Api.Shared", "src\GroupDocs.Viewer.UI.SelfHost.Api.Shared\GroupDocs.Viewer.UI.SelfHost.Api.Shared.shproj", "{CD2CFFFF-EC3B-4709-BCFD-FAE4B05D3769}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{90B29C0F-7451-444C-B814-1B75EE88E1CB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{09F5C6E7-90C5-4C0F-A7CC-45BBD70B1A2F}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build_packages.yml = .github\workflows\build_packages.yml
+		.github\workflows\publish_prod.yml = .github\workflows\publish_prod.yml
+		.github\workflows\publish_stage.yml = .github\workflows\publish_stage.yml
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GroupDocs.Viewer.UI.Sample.CrossPlatform", "samples\GroupDocs.Viewer.UI.Sample.CrossPlatform\GroupDocs.Viewer.UI.Sample.CrossPlatform.csproj", "{A13FA861-68E3-4478-9698-1061C62C0CE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -232,6 +248,30 @@ Global
 		{2B3688B1-E410-4ABF-8F3C-5AB08CC61194}.Release|x64.Build.0 = Release|Any CPU
 		{2B3688B1-E410-4ABF-8F3C-5AB08CC61194}.Release|x86.ActiveCfg = Release|Any CPU
 		{2B3688B1-E410-4ABF-8F3C-5AB08CC61194}.Release|x86.Build.0 = Release|Any CPU
+		{1C1ABD7F-DEF9-4BDC-85E0-D71E9F69B1EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C1ABD7F-DEF9-4BDC-85E0-D71E9F69B1EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C1ABD7F-DEF9-4BDC-85E0-D71E9F69B1EB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1C1ABD7F-DEF9-4BDC-85E0-D71E9F69B1EB}.Debug|x64.Build.0 = Debug|Any CPU
+		{1C1ABD7F-DEF9-4BDC-85E0-D71E9F69B1EB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1C1ABD7F-DEF9-4BDC-85E0-D71E9F69B1EB}.Debug|x86.Build.0 = Debug|Any CPU
+		{1C1ABD7F-DEF9-4BDC-85E0-D71E9F69B1EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C1ABD7F-DEF9-4BDC-85E0-D71E9F69B1EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C1ABD7F-DEF9-4BDC-85E0-D71E9F69B1EB}.Release|x64.ActiveCfg = Release|Any CPU
+		{1C1ABD7F-DEF9-4BDC-85E0-D71E9F69B1EB}.Release|x64.Build.0 = Release|Any CPU
+		{1C1ABD7F-DEF9-4BDC-85E0-D71E9F69B1EB}.Release|x86.ActiveCfg = Release|Any CPU
+		{1C1ABD7F-DEF9-4BDC-85E0-D71E9F69B1EB}.Release|x86.Build.0 = Release|Any CPU
+		{A13FA861-68E3-4478-9698-1061C62C0CE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A13FA861-68E3-4478-9698-1061C62C0CE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A13FA861-68E3-4478-9698-1061C62C0CE6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A13FA861-68E3-4478-9698-1061C62C0CE6}.Debug|x64.Build.0 = Debug|Any CPU
+		{A13FA861-68E3-4478-9698-1061C62C0CE6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A13FA861-68E3-4478-9698-1061C62C0CE6}.Debug|x86.Build.0 = Debug|Any CPU
+		{A13FA861-68E3-4478-9698-1061C62C0CE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A13FA861-68E3-4478-9698-1061C62C0CE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A13FA861-68E3-4478-9698-1061C62C0CE6}.Release|x64.ActiveCfg = Release|Any CPU
+		{A13FA861-68E3-4478-9698-1061C62C0CE6}.Release|x64.Build.0 = Release|Any CPU
+		{A13FA861-68E3-4478-9698-1061C62C0CE6}.Release|x86.ActiveCfg = Release|Any CPU
+		{A13FA861-68E3-4478-9698-1061C62C0CE6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -252,8 +292,17 @@ Global
 		{4F215AF6-1966-4484-BAE3-7BC0B9629F6B} = {F01C54A8-0505-4D3F-B12C-FEB3F827509E}
 		{95C17FC9-AFDB-478F-B309-DA17E10916B3} = {F01C54A8-0505-4D3F-B12C-FEB3F827509E}
 		{2B3688B1-E410-4ABF-8F3C-5AB08CC61194} = {98234968-D728-4D2D-B985-88A63DF6541A}
+		{1C1ABD7F-DEF9-4BDC-85E0-D71E9F69B1EB} = {F01C54A8-0505-4D3F-B12C-FEB3F827509E}
+		{CD2CFFFF-EC3B-4709-BCFD-FAE4B05D3769} = {F01C54A8-0505-4D3F-B12C-FEB3F827509E}
+		{09F5C6E7-90C5-4C0F-A7CC-45BBD70B1A2F} = {90B29C0F-7451-444C-B814-1B75EE88E1CB}
+		{A13FA861-68E3-4478-9698-1061C62C0CE6} = {98234968-D728-4D2D-B985-88A63DF6541A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D7F2C427-C9AB-4B55-B1F9-C41195D7CD6C}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		src\GroupDocs.Viewer.UI.SelfHost.Api.Shared\GroupDocs.Viewer.UI.SelfHost.Api.Shared.projitems*{1c1abd7f-def9-4bdc-85e0-d71e9f69b1eb}*SharedItemsImports = 5
+		src\GroupDocs.Viewer.UI.SelfHost.Api.Shared\GroupDocs.Viewer.UI.SelfHost.Api.Shared.projitems*{aad560b8-55db-44ee-91ac-5f3449537d0d}*SharedItemsImports = 5
+		src\GroupDocs.Viewer.UI.SelfHost.Api.Shared\GroupDocs.Viewer.UI.SelfHost.Api.Shared.projitems*{cd2cffff-ec3b-4709-bcfd-fae4b05d3769}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

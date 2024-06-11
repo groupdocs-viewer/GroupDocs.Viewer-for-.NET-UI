@@ -4,6 +4,9 @@
     <TargetFramework>$(NetVersion)</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>a52f64d4-c7f0-4bcf-aac8-1b16167d24e2</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +27,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Files\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Cache\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,6 +54,10 @@
     <None Update="Files\sample.pptx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup Label="runtimeconfig.json">
+    <RuntimeHostConfigurationOption Include="System.Drawing.EnableUnixSupport" Value="true" />
   </ItemGroup>
 
 </Project>

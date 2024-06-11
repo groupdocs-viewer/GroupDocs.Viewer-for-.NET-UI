@@ -2,7 +2,7 @@
 
 namespace GroupDocs.Viewer.UI.Core.FileCaching
 {
-    internal class NoopFileCache : IFileCache
+    public class NoopFileCache : IFileCache
     {
         public TEntry TryGetValue<TEntry>(string cacheKey, string filePath) => 
             default(TEntry);

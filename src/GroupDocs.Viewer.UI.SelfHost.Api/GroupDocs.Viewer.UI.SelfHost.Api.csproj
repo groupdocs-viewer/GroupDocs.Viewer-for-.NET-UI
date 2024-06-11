@@ -24,4 +24,6 @@
     <ProjectReference Include="..\GroupDocs.Viewer.UI.Core\GroupDocs.Viewer.UI.Core.csproj" />
   </ItemGroup>
 
+  <Import Project="..\GroupDocs.Viewer.UI.SelfHost.Api.Shared\GroupDocs.Viewer.UI.SelfHost.Api.Shared.projitems" Label="Shared" />
+
 </Project>
