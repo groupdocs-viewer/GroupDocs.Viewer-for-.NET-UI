@@ -1,19 +1,25 @@
-# GroupdocsViewerUI
+# Angular UI for GorupDocs.Viewer.UI
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.3.
+Building this app requires legacy tools that can be installed with `nvm`.
 
-## Development server
+### Prepare
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+```bash
+nvm install 14.15  
+nvm use 14.15.5  
+npm install -g @angular/cli@14.2.13  
+npm install  
+```
 
-## Code scaffolding
+### Start dev server 
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```bash
+ng serve
+```
 
-## Build
+### Build release packages
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+```bash
+npm run build
+```
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
