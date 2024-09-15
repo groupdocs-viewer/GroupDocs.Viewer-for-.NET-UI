@@ -241,7 +241,7 @@ export class AppComponent extends ViewerAppComponent {
         let images = "";
         for (let index = 0; index < pages.length; index++) {
             const page = pages[index];
-            images += `<div><img src="${page.data}" alt="Page ${page.number}"></div>`;
+            images += `<img src="${page.data}" alt="Page ${page.number}">`;
         }
 
         let srcdoc = `
@@ -269,12 +269,8 @@ export class AppComponent extends ViewerAppComponent {
                       body * {
                           display: none !important;
                       }
-
-                      body div {
-                          display:block !important;
-                      }
                       
-                      body div img {
+                      body img {
                           display:block !important;
                           max-width: 100%;
                           max-height: 100%;
