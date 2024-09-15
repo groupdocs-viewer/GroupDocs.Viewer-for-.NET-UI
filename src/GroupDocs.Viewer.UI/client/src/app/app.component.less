@@ -221,6 +221,40 @@
   pointer-events: none;
 }
 
+::ng-deep .gd-modal-information {
+  display: inline-flex;
+  flex-direction: column;
+  flex: 1;
+  .gd-modal-information-message {
+    font-size: 12px;
+    margin: 0px 24px 24px 0px;
+    word-break: break-word;
+  }
+  .gd-modal-information-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 14px 0px 10px 0px;
+  }
+}
+
+::ng-deep #gd-information-section {
+  width: 368px;
+  height: 107px;
+  display: flex;
+  fa-icon {
+    flex: 1;
+    color: @brand;
+    font-size: 40px;
+    margin: 13px 23px 90px 23px;
+    text-align: center;
+    max-width: 46px;
+  }
+}
+
+::ng-deep .gd-modal-dialog {
+  overflow: auto !important;
+}
+
 @media (max-width: 1037px) {
 
   .mobile-hide,

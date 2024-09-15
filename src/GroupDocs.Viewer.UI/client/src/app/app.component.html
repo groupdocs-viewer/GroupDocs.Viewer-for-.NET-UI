@@ -106,4 +106,13 @@
 
   <gd-error-modal></gd-error-modal>
   <gd-password-required></gd-password-required>
+  <gd-modal id="preparing-to-print" [title]="'Information'">
+    <section id="gd-information-section">
+      <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+      <div class="gd-modal-information">
+        <div class="gd-modal-information-title">{{ printTitle }}</div>
+        <div class="gd-modal-information-message">{{ printMessage }}</div>
+      </div>
+    </section>
+  </gd-modal>
 </div>

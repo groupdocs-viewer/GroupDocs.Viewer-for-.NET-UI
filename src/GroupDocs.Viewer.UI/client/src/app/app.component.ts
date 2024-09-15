@@ -2,7 +2,7 @@ import { Component, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { ViewerAppComponent, ViewerService, ViewerConfigService } from '@groupdocs.examples.angular/viewer';
-import { Api, ConfigService, ModalService, UploadFilesService, NavigateService, ZoomService, PagePreloadService, RenderPrintService, PasswordService, WindowService, LoadingMaskService, PageModel, TypedFileCredentials } from '@groupdocs.examples.angular/common-components';
+import { Api, ConfigService, ModalService, UploadFilesService, NavigateService, ZoomService, PagePreloadService, RenderPrintService, PasswordService, WindowService, LoadingMaskService, PageModel, TypedFileCredentials, CommonModals } from '@groupdocs.examples.angular/common-components';
 
 import { TranslateService } from '@ngx-translate/core';
 
@@ -19,6 +19,8 @@ export class AppComponent extends ViewerAppComponent {
     viewerService: ViewerService;
     pagesLoading: number[];
     http: HttpClient;
+    printTitle: string;
+    printMessage: string;
 
     constructor(viewerService: ViewerService,
         modalService: ModalService,
@@ -54,6 +56,8 @@ export class AppComponent extends ViewerAppComponent {
         this.viewerService = viewerService;
         this.pagesLoading = [];
         this.http = http;
+        this.printTitle = 'Preparing to print';
+        this.printMessage = 'Loading pages.';
     }
 
     preloadPages(start: number, end: number) {
@@ -124,15 +128,43 @@ export class AppComponent extends ViewerAppComponent {
                 pagesToLoad.push(i);
             }
         }
+        
+        this.openPrintModal();
 
         if (pagesToLoad.length > 0) {
-            this.loadPages(this.credentials, pagesToLoad).subscribe((
-                (pages: any) => {
-                    this.setPagesData(pages);
-                    onAllPagesLoaded();
-                }
-            ));
+            for (let index = 0; index < pagesToLoad.length; index++) {
+                const pageNumber = pagesToLoad[index];
+                
+                this.loadPage(this.credentials, pageNumber).subscribe((
+                    (page: any) => {
+                        this.setPagesData([page]);
+                        const loadedPages = this.file.pages.filter(p => p.data !== undefined).length;
+                        const countPages = this.file.pages.length;
+                        this.setPrintMessage(`Loaded ${loadedPages} of ${countPages} pages.`);
+
+                        if(countPages == loadedPages) {
+                            this.closePrintModal();
+                            onAllPagesLoaded();
+                            return; 
+                        }
+                    }
+                ));
+            }
         }
+    }
+
+    setPrintMessage(message: string) {
+        this.printMessage = message;
+    }
+
+    openPrintModal() {
+        this.printMessage = `Loading pages.`;
+        this.openModal("preparing-to-print");
+    }
+
+    closePrintModal() {
+        this.printMessage = `Loading pages.`;
+        this.closeModal("preparing-to-print");
     }
 
     setPagesData(pages: any) {
@@ -149,6 +181,15 @@ export class AppComponent extends ViewerAppComponent {
                 }
             }
         });
+    }
+
+    loadPage(credentials: TypedFileCredentials, pageNumber: number) {
+        return this.http.post(this.configService.getViewerApiEndpoint() + Api.LOAD_DOCUMENT_PAGE, {
+            'guid': credentials.guid,
+            'fileType': credentials.fileType,
+            'password': credentials.password,
+            'page': pageNumber
+        }, Api.httpOptionsJson);
     }
 
     loadPages(credentials: TypedFileCredentials, pages: number[]) {
@@ -173,11 +214,13 @@ export class AppComponent extends ViewerAppComponent {
 
     private printPages() {
         this.loadAllPages(() => {
-            this.printInFrame(this.file.pages);
+            const fileName = this.getFileName();
+            const pages = this.file.pages;
+            this.printInFrame(fileName, pages);
         });
     }
 
-    private printInFrame(pages: PageModel[]) {
+    private printInFrame(fileName: string, pages: PageModel[]) {
         const iframeId = 'print-window';
 
         // Remove previous iframe if exists
@@ -191,23 +234,52 @@ export class AppComponent extends ViewerAppComponent {
         iframe.setAttribute('style', 'visibility: hidden; height: 0; width: 0; position: absolute; border: 0');
         iframe.setAttribute('id', iframeId)
 
+        const firstPage = pages[0];
+        const firstPagePortrait = firstPage.width < firstPage.height;
+        const pageSize = firstPagePortrait ? 'portrait' : 'landscape';
+
         let images = "";
         for (let index = 0; index < pages.length; index++) {
             const page = pages[index];
-            images += `<img src="${page.data}" alt="Page ${page.number}">`;
+            images += `<div><img src="${page.data}" alt="Page ${page.number}"></div>`;
         }
 
         let srcdoc = `
             <html>
               <head>
-                <title>Print window</title>
+                <title>Print Preview - ${fileName}</title>
                 <style>
-                  body { text-align: center; }
-                  img { max-width: 100%; height: auto; }
-                  @media print { 
-                    @page {
-                      size: auto;
-                    }
+                  @media print {
+                      @page {
+                        size: ${pageSize};
+                      }
+
+                      * { 
+                          margin: 0 !important; padding: 0 !important; 
+                      }
+                      
+                      html, body {
+                          height:100% !important;
+                      }
+                      
+                      body {
+                          overflow: visible !important;
+                      }
+                      
+                      body * {
+                          display: none !important;
+                      }
+
+                      body div {
+                          display:block !important;
+                      }
+                      
+                      body div img {
+                          display:block !important;
+                          max-width: 100%;
+                          max-height: 100%;
+                          page-break-after: always;
+                      }
                   }
                 </style>
               </head>
