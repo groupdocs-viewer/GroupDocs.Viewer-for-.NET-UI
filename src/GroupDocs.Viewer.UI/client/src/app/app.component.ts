@@ -236,7 +236,8 @@ export class AppComponent extends ViewerAppComponent {
 
         const firstPage = pages[0];
         const firstPagePortrait = firstPage.width < firstPage.height;
-        const pageSize = firstPagePortrait ? 'portrait' : 'landscape';
+        const dynamicPageSize = firstPagePortrait ? 'portrait' : 'landscape';
+        const autoPageSize = 'auto';
 
         let images = "";
         for (let index = 0; index < pages.length; index++) {
@@ -251,7 +252,7 @@ export class AppComponent extends ViewerAppComponent {
                 <style>
                   @media print {
                       @page {
-                        size: ${pageSize};
+                        size: ${autoPageSize};
                       }
 
                       * { 
