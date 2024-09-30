@@ -47,6 +47,12 @@ namespace GroupDocs.Viewer.UI.Api.Models
         public bool EnableRightClick { get; set; }
 
         /// <summary>
+        /// When enabled prevents links to be clicked.
+        /// </summary>
+        [JsonPropertyName("preventLinkClick")]
+        public bool PreventLinkClick { get; set; }
+
+        /// <summary>
         /// The default document to view.
         /// </summary>
         [JsonPropertyName("defaultDocument")]

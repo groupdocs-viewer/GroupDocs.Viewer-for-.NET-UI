@@ -7,12 +7,46 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Configuration
     public class Config
     {
         internal string LicensePath = string.Empty;
+        
         internal ViewerType ViewerType = ViewerType.HtmlWithEmbeddedResources;
-        internal readonly HtmlViewOptions HtmlViewOptions = HtmlViewOptions.ForEmbeddedResources();
-        internal readonly PngViewOptions PngViewOptions = new PngViewOptions();
-        internal readonly JpgViewOptions JpgViewOptions = new JpgViewOptions();
-        internal readonly PdfViewOptions PdfViewOptions = new PdfViewOptions();
+
+        internal readonly SpreadsheetOptions SpreadsheetOptions = CreateSpreadsheetOptions();
+
+        internal readonly HtmlViewOptions HtmlViewOptions = CreateHtmlViewOptions();
+       
+        internal readonly PngViewOptions PngViewOptions = new PngViewOptions
+        {
+            SpreadsheetOptions = CreateSpreadsheetOptions()
+        };
+
+        internal readonly JpgViewOptions JpgViewOptions = new JpgViewOptions
+        {
+            SpreadsheetOptions = CreateSpreadsheetOptions()
+        };
+
+        internal readonly PdfViewOptions PdfViewOptions = new PdfViewOptions
+        {
+            SpreadsheetOptions = CreateSpreadsheetOptions()
+        };
+
         internal readonly InternalCacheOptions InternalCacheOptions = InternalCacheOptions.CacheForFiveMinutes;
+
+        private static SpreadsheetOptions CreateSpreadsheetOptions()
+        {
+            SpreadsheetOptions spreadsheetOptions = SpreadsheetOptions.ForOnePagePerSheet();
+            spreadsheetOptions.RenderGridLines = true;
+            spreadsheetOptions.RenderHeadings = true;
+
+            return spreadsheetOptions;
+        }
+
+        private static HtmlViewOptions CreateHtmlViewOptions()
+        {
+            HtmlViewOptions htmlViewOptions = HtmlViewOptions.ForEmbeddedResources();
+            htmlViewOptions.SpreadsheetOptions = CreateSpreadsheetOptions();
+
+            return htmlViewOptions;
+        }
 
         public Config SetLicensePath(string licensePath)
         {

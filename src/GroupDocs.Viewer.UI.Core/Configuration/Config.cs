@@ -13,6 +13,7 @@ namespace GroupDocs.Viewer.UI.Core.Configuration
         internal bool IsSearch { get; set; } = true;
         internal bool IsShowToolBar { get; set; } = true;
         internal bool IsEnableRightClick { get; set; } = true;
+        internal bool IsPreventLinkClick { get; set; } = false;
         //Client-side and server-side config
         internal bool IsDownload { get; set; } = true;
         internal bool IsUpload { get; set; } = true;
@@ -305,6 +306,19 @@ namespace GroupDocs.Viewer.UI.Core.Configuration
         public Config SetSupportedLanguages(params Language[] languages)
         {
             SupportedLanguages = languages.Select(l => l.Code).ToArray();
+            return this;
+        }
+
+        /// <summary>
+        /// Configures the UI to prevent link clicks.
+        /// By default, link clicks are allowed <c>preventLinkClick</c> setting is set to <c>false</c>.
+        /// This method sets the <c>preventLinkClick</c> to <c>true</c> 
+        /// and returns the updated configuration object.
+        /// </summary>
+        /// <returns>Returns the current configuration object with link click prevention enabled.</returns>
+        public Config PreventLinkClick()
+        {
+            IsPreventLinkClick = true;
             return this;
         }
     }

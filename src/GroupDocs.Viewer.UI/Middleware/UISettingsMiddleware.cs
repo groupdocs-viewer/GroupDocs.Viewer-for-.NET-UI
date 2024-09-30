@@ -50,6 +50,7 @@ namespace GroupDocs.Viewer.UI.Middleware
                 Browse = Config.IsBrowse,
                 Rewrite = Config.Rewrite,
                 EnableRightClick = Config.IsEnableRightClick,
+                PreventLinkClick = Config.IsPreventLinkClick,
                 DefaultDocument = Config.DefaultDocument,
                 PreloadPageCount = Config.PreloadPageCount,
                 Zoom = Config.IsZoom,
