@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <PackageReference Include="GroupDocs.Viewer.CrossPlatform" Version="$(GroupDocsViewer)" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="$(MicrosoftAspNetCoreMvcCore)" />
   </ItemGroup>
 
   <ItemGroup>

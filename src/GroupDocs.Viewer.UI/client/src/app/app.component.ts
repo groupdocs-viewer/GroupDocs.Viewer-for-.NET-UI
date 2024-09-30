@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, Renderer2, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { ViewerAppComponent, ViewerService, ViewerConfigService } from '@groupdocs.examples.angular/viewer';
@@ -36,7 +36,10 @@ export class AppComponent extends ViewerAppComponent {
         http: HttpClient,
         configService: ConfigService,
         cdr: ChangeDetectorRef,
-        translate: TranslateService) {
+        translate: TranslateService,
+        renderer: Renderer2, 
+        elRef: ElementRef
+    ) {
 
         super(viewerService,
             modalService,
@@ -50,7 +53,9 @@ export class AppComponent extends ViewerAppComponent {
             windowService,
             loadingMaskService,
             cdr,
-            translate);
+            translate,
+            renderer,
+            elRef);
 
         this.configService = configService;
         this.viewerService = viewerService;

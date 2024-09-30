@@ -59,6 +59,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                 Browse = _config.IsBrowse,
                 Rewrite = _config.Rewrite,
                 EnableRightClick = _config.IsEnableRightClick,
+                PreventLinkClick = _config.IsPreventLinkClick,
                 DefaultDocument = _config.DefaultDocument,
                 PreloadPageCount = _config.PreloadPageCount,
                 Zoom = _config.IsZoom,

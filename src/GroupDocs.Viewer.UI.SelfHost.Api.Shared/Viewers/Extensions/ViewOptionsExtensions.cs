@@ -38,12 +38,17 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers.Extensions
             dst.CadOptions = src.CadOptions;
             dst.EmailOptions = src.EmailOptions;
             dst.OutlookOptions = src.OutlookOptions;
+            dst.MailStorageOptions = src.MailStorageOptions;
             dst.PdfOptions = src.PdfOptions;
 #if !CROSS_PLATFORM
             dst.ProjectManagementOptions = src.ProjectManagementOptions;
 #endif
             dst.SpreadsheetOptions = src.SpreadsheetOptions;
             dst.WordProcessingOptions = src.WordProcessingOptions;
+            dst.VisioRenderingOptions = src.VisioRenderingOptions;
+            dst.TextOptions = src.TextOptions;
+            dst.PresentationOptions = src.PresentationOptions;
+            dst.WebDocumentOptions = src.WebDocumentOptions;
         }
 
         private static void CopyHtmlViewOptions(this HtmlViewOptions dst, HtmlViewOptions src)
