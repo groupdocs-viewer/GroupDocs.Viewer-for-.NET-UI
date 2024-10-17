@@ -1,10 +1,8 @@
 using GroupDocs.Viewer.UI;
-using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Middleware;
 using Microsoft.AspNetCore.Routing;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Options = GroupDocs.Viewer.UI.Configuration.Options;
 
 namespace Microsoft.AspNetCore.Builder
@@ -14,6 +12,8 @@ namespace Microsoft.AspNetCore.Builder
         public static IEndpointConventionBuilder MapGroupDocsViewerUI(this IEndpointRouteBuilder builder,
             Action<Options> setupOptions = null)
         {
+
+
             var options = new Options();
             setupOptions?.Invoke(options);
 
@@ -23,18 +23,14 @@ namespace Microsoft.AspNetCore.Builder
                 .UseMiddleware<UISettingsMiddleware>()
                 .Build();
 
-            var embeddedResourcesAssembly = typeof(UIResource).Assembly;
 
-            var resourcesEndpoints =
-                new UIEndpointsResourceMapper(new UIEmbeddedResourcesReader(embeddedResourcesAssembly))
-                    .Map(builder, options);
 
             var settingsEndpoint =
                 builder.Map(options.UIConfigEndpoint, settingsDelegate);
 
             var endpointConventionBuilders =
                 new List<IEndpointConventionBuilder>(
-                    new[] { settingsEndpoint }.Union(resourcesEndpoints));
+                    new[] { settingsEndpoint });
 
             return new GroupDocsViewerUIConventionBuilder(endpointConventionBuilders);
         }

@@ -1,5 +1,17 @@
-var builder = WebApplication.CreateBuilder(args);
+using GroupDocs.Viewer.UI.Middleware;
 
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policyBuilder =>
+        {
+            policyBuilder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+});
 builder.Services
     .AddGroupDocsViewerUI(config =>
     {
@@ -19,18 +31,15 @@ builder.Services
     .AddLocalCache("./Cache");
 
 var app = builder.Build();
-
+app.UseCors();
+// Use the embedded resource middleware to serve static files
+app.UseMiddleware<EmbeddedResourceMiddleware>("viewer");
 app
     .UseRouting()
     .UseEndpoints(endpoints =>
     {
-        endpoints.MapGet("/", async context =>
-        {
-            await context.Response.WriteAsync("Viewer UI can be accessed at '/viewer' endpoint.");
-        });
         endpoints.MapGroupDocsViewerUI(options =>
         {
-            options.UIPath = "/viewer";
             options.APIEndpoint = "/viewer-api";
         });
         endpoints.MapGroupDocsViewerApi(options =>

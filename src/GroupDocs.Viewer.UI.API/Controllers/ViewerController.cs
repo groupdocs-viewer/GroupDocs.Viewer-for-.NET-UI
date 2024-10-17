@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using GroupDocs.Viewer.UI.Api.Infrastructure;
+﻿using GroupDocs.Viewer.UI.Api.Infrastructure;
 using GroupDocs.Viewer.UI.Api.Models;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Configuration;
@@ -14,6 +8,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace GroupDocs.Viewer.UI.Api.Controllers
 {
@@ -74,7 +74,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                 ShowLanguageMenu = _config.IsShowLanguageMenu,
                 ShowToolBar = _config.IsShowToolBar,
             };
-            
+
             return OkJsonResult(config);
         }
 
@@ -235,7 +235,8 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                         Height = pageInfo.Height,
                         Number = pageInfo.Number,
                         SheetName = pageInfo.Name,
-                        Data = pageData?.GetContent()
+
+                        HtmlData = pageData?.GetContent()
                     };
 
                     pages.Add(pageDescription);
@@ -249,7 +250,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                     Pages = pages,
                     SearchTerm = searchTerm
                 };
-
+                return Ok(result);
                 return OkJsonResult(result);
             }
             catch (Exception ex)

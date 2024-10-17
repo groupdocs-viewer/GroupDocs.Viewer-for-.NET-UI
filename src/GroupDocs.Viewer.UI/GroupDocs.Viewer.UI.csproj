@@ -7,42 +7,21 @@
     <Description>GroupDocs.Viewer.UI is a ASP.NET Core UI viewer of GroupDocs.Viewer for .NET see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
     <PackageTags>GroupDocs;Viewer;UI;Angular;ASP.NET Core;</PackageTags>
     <PackageIcon>images\icon.png</PackageIcon>
-
-    <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
-    <ClientRoot>client\</ClientRoot>
-    <BuildClientApp>false</BuildClientApp>
+    <AppsComitSha>355d3f7283b5eba961af6d00dfd7b6e1dca19bce</AppsComitSha>
   </PropertyGroup>
-
   <ItemGroup>
     <None Include="..\..\assets\icon.png" Pack="true" Visible="false" PackagePath="images\icon.png" />
   </ItemGroup>
-
   <ItemGroup>
-    <EmbeddedResource Include="assets\index.html" />
-    <EmbeddedResource Include="assets\runtime.js" />
-    <EmbeddedResource Include="assets\polyfills.js" />
-    <EmbeddedResource Include="assets\main.js" />
+    <EmbeddedResource Include="assets\**\*" />
   </ItemGroup>
-
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="$(MicrosoftExtensionsHttp)" />
     <PackageReference Include="Newtonsoft.Json" Version="$(NewtonsoftJson)" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\GroupDocs.Viewer.UI.Api\GroupDocs.Viewer.UI.Api.csproj" />
     <ProjectReference Include="..\GroupDocs.Viewer.UI.Core\GroupDocs.Viewer.UI.Core.csproj" />
   </ItemGroup>
-
-  <Target Name="InstallPackages" BeforeTargets="BeforeBuild" Condition="'$(BuildClientApp)' == 'True'">
-    <Message Importance="high" Text="*** Installing npm packages ***" />
-    <Exec WorkingDirectory="$(ClientRoot)" Command="npm install" ContinueOnError="false" />
-  </Target>
-
-  <Target Name="BuildClient" BeforeTargets="BeforeBuild" DependsOnTargets="InstallPackages" Condition="'$(BuildClientApp)' == 'True'">
-    <Message Importance="high" Text="*** Bundling client files ***" />
-    <Exec WorkingDirectory="$(ClientRoot)" Command="npm run build" ContinueOnError="false" />
-  </Target>
-
 </Project>

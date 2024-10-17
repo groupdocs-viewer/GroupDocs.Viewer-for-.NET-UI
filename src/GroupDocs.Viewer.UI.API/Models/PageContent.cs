@@ -15,5 +15,8 @@ namespace GroupDocs.Viewer.UI.Api.Models
         /// </summary>
         [JsonPropertyName("data")]
         public string Data { get; set; }
+
+        [JsonPropertyName("htmlData")]
+        public string HtmlData { get; set; }
     }
 }
