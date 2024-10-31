@@ -1,5 +1,4 @@
 using GroupDocs.Viewer.UI;
-using GroupDocs.Viewer.UI.Middleware;
 using Microsoft.AspNetCore.Routing;
 using System;
 using System.Collections.Generic;
@@ -20,10 +19,7 @@ namespace Microsoft.AspNetCore.Builder
             EnsureValidApiOptions(options);
 
             var settingsDelegate = builder.CreateApplicationBuilder()
-                .UseMiddleware<UISettingsMiddleware>()
                 .Build();
-
-
 
             var settingsEndpoint =
                 builder.Map(options.UIConfigEndpoint, settingsDelegate);

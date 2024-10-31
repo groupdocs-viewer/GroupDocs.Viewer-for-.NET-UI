@@ -1,8 +1,8 @@
-﻿using System.Linq;
+﻿using GroupDocs.Viewer.UI.Core;
+using GroupDocs.Viewer.UI.Core.Entities;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GroupDocs.Viewer.UI.Core;
-using GroupDocs.Viewer.UI.Core.Entities;
 
 namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 {
@@ -27,7 +27,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 
         public string PageExtension => HtmlPage.Extension;
 
-        public Page CreatePage(int pageNumber, byte[] data) => 
+        public Page CreatePage(int pageNumber, byte[] data) =>
             new HtmlPage(pageNumber, data);
 
         public Task<Page> GetPageAsync(FileCredentials fileCredentials, int pageNumber)
@@ -36,7 +36,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             var bytes = Encoding.UTF8.GetBytes(html);
             var page = new HtmlPage(pageNumber, bytes);
 
-            return Task.FromResult((Page) page);
+            return Task.FromResult((Page)page);
         }
 
         public Task<Pages> GetPagesAsync(FileCredentials fileCredentials, int[] pageNumbers)
@@ -54,7 +54,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
                 ";
                 var resourceBytes = Encoding.UTF8.GetBytes(css);
                 var resource = new PageResource("styles.css", resourceBytes);
-                
+
                 page.AddResource(resource);
 
                 return page;
@@ -69,13 +69,13 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
         {
             var documentInfo = new DocumentInfo
             {
-                PrintAllowed = true,
+                PrintingAllowed = true,
                 Pages = Enumerable.Range(1, 5).Select(pageNumber => new PageInfo
                 {
-                    Number = pageNumber,
+                    PageNumber = pageNumber,
                     Width = 800,
                     Height = 800,
-                    Name = $"Page {pageNumber}"
+                    PageName = $"Page {pageNumber}"
                 })
             };
 
@@ -126,7 +126,7 @@ startxref
             return Task.FromResult(bytes);
         }
 
-        public Task<byte[]> GetPageResourceAsync(FileCredentials fileCredentials,int pageNumber, string resourceName)
+        public Task<byte[]> GetPageResourceAsync(FileCredentials fileCredentials, int pageNumber, string resourceName)
         {
             var css = @"
                 html {

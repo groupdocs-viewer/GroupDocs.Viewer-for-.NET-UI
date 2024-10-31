@@ -1,13 +1,13 @@
-﻿using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts;
+﻿using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts;
 using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models;
 using GroupDocs.Viewer.UI.Cloud.Api.Common;
 using GroupDocs.Viewer.UI.Core.Entities;
 using Newtonsoft.Json;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
 {
@@ -18,7 +18,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
         private readonly JsonSerializerSettings _jsonSerializerSettings
             = new JsonSerializerSettings
             {
-                NullValueHandling = NullValueHandling.Ignore, 
+                NullValueHandling = NullValueHandling.Ignore,
             };
 
         public ViewerApiConnect(HttpClient httpClient)
@@ -208,12 +208,12 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
                 {
                     Height = p.Height.GetValueOrDefault(),
                     Width = p.Width.GetValueOrDefault(),
-                    Name = $"Page {p.Number.GetValueOrDefault()}",
-                    Number = p.Number.GetValueOrDefault()
+                    PageName = $"Page {p.Number.GetValueOrDefault()}",
+                    PageNumber = p.Number.GetValueOrDefault()
                 });
 
             if (infoResponse.PdfViewInfo?.PrintingAllowed != null)
-                documentInfo.PrintAllowed = infoResponse.PdfViewInfo.PrintingAllowed;
+                documentInfo.PrintingAllowed = infoResponse.PdfViewInfo.PrintingAllowed;
 
             return documentInfo;
         }

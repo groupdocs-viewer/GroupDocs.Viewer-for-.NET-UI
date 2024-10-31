@@ -2,7 +2,7 @@
 
 namespace GroupDocs.Viewer.UI.Api.Models
 {
-    public class PageDescription : PageContent
+    public class PageDescription
     {
         /// <summary>
         /// Page with in pixels.
@@ -21,5 +21,33 @@ namespace GroupDocs.Viewer.UI.Api.Models
         /// </summary>
         [JsonPropertyName("sheetName")]
         public string SheetName { get; set; }
+
+        /// <summary>
+        /// Page number.
+        /// </summary>
+        [JsonPropertyName("number")]
+        public int Number { get; set; }
+
+        /// <summary>
+        /// Page rotation angle.
+        /// </summary>
+        [JsonPropertyName("angle")]
+        public int Angle { get; set; }
+
+        /// <summary>
+        /// Page content data.
+        /// </summary>
+        [JsonPropertyName("data")]
+        public string Data { get; set; }
+
+        [JsonPropertyName("htmlData")]
+        public string HtmlData { get; set; }
+
+        /// <summary>
+        /// Thumbnail content data.
+        /// </summary>
+        [JsonPropertyName("thumbnail")]
+        public string Thumbnail { get; set; }
+
     }
 }

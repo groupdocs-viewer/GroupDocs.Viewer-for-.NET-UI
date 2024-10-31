@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using GroupDocs.Viewer.UI.Api.DTO;
+using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace GroupDocs.Viewer.UI.Api.Models
 {
@@ -11,15 +13,16 @@ namespace GroupDocs.Viewer.UI.Api.Models
         public string Guid { get; set; }
 
         /// <summary>
-        /// File type e.g "docx".
-        /// </summary>
-        [JsonPropertyName("fileType")]
-        public string FileType { get; set; }
-
-        /// <summary>
         /// The password to open a document.
         /// </summary>
         [JsonPropertyName("password")]
         public string Password { get; set; }
+
+        internal FileEntry ToFileEntry()
+        {
+            string[] names = Guid.Split("/");
+
+            return new FileEntry(fileName: names.Last(), folderName: names.First());
+        }
     }
 }

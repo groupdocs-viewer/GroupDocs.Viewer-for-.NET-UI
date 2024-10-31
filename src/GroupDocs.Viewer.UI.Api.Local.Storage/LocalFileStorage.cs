@@ -1,11 +1,11 @@
-﻿using System;
+﻿using GroupDocs.Viewer.UI.Core;
+using GroupDocs.Viewer.UI.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using GroupDocs.Viewer.UI.Core;
-using GroupDocs.Viewer.UI.Core.Entities;
 
 namespace GroupDocs.Viewer.UI.Api.Local.Storage
 {
@@ -30,7 +30,7 @@ namespace GroupDocs.Viewer.UI.Api.Local.Storage
                 .Where(fileInfo => !fileInfo.Attributes.HasFlag(FileAttributes.Hidden))
                 .OrderBy(fileInfo => fileInfo.Name)
                 .ThenByDescending(fileInfo => fileInfo.CreationTime)
-                .Select(directory => 
+                .Select(directory =>
                      FileSystemEntry.Directory(directory.Name, Path.GetRelativePath(_storagePath, directory.FullName), 0L));
 
             var files = Directory
@@ -46,7 +46,7 @@ namespace GroupDocs.Viewer.UI.Api.Local.Storage
             return dirsAndFiles;
         }
 
-        public Task<IEnumerable<FileSystemEntry>> ListDirsAndFilesAsync(string dirPath) => 
+        public Task<IEnumerable<FileSystemEntry>> ListDirsAndFilesAsync(string dirPath) =>
             Task.FromResult(ListFiles(dirPath));
 
         public async Task<byte[]> ReadFileAsync(string filePath)
@@ -69,6 +69,11 @@ namespace GroupDocs.Viewer.UI.Api.Local.Storage
             await fs.WriteAsync(bytes, 0, bytes.Length);
 
             return newFileName;
+        }
+
+        public string GetFileLink(string fileKey, int pageNumber)
+        {
+            return $"storage/{fileKey}/{pageNumber}";
         }
 
         private FileStream GetStream(string path, FileMode mode, FileAccess access, FileShare share)
@@ -106,7 +111,7 @@ namespace GroupDocs.Viewer.UI.Api.Local.Storage
                 return fileName;
 
             List<string> dirFiles = Directory.GetFiles(_storagePath)
-                .Select(filePath => Path.GetFileName(filePath))
+                .Select(Path.GetFileName)
                 .ToList();
 
             var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);

@@ -2,9 +2,10 @@
 {
     public class PageInfo
     {
+        public string Data { get; set; }
+        public int PageNumber { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-        public int Number { get; set; }
-        public string Name { get; set; }
+        public string PageName { get; set; }
     }
 }

@@ -1,7 +1,7 @@
-using System;
 using GroupDocs.Viewer.UI.Api;
 using GroupDocs.Viewer.UI.Api.Configuration;
 using Microsoft.AspNetCore.Routing;
+using System;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -17,14 +17,14 @@ namespace Microsoft.AspNetCore.Builder
 
             MapControllerRoutes(builder, options);
 
-            return new GroupDocsViewerApiConventionBuilder(new IEndpointConventionBuilder[0]);
+            return new GroupDocsViewerApiConventionBuilder(Array.Empty<IEndpointConventionBuilder>());
         }
 
         private static void MapControllerRoutes(IEndpointRouteBuilder builder, Options options)
         {
             var relativeApiPath = options.ApiPath.AsRelativeResource();
 
-            var actions = new []
+            var actions = new[]
             {
                 Constants.LOAD_CONFIG_ACTION_NAME,
                 Constants.LOAD_FILE_TREE_ACTION_NAME,

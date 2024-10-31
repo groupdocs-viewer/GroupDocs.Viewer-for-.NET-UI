@@ -1,8 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using GroupDocs.Viewer.Options;
+﻿using GroupDocs.Viewer.Options;
 using GroupDocs.Viewer.Results;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Entities;
@@ -11,6 +7,10 @@ using GroupDocs.Viewer.UI.SelfHost.Api.InternalCaching;
 using GroupDocs.Viewer.UI.SelfHost.Api.Licensing;
 using GroupDocs.Viewer.UI.SelfHost.Api.Viewers.Extensions;
 using Microsoft.Extensions.Options;
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Page = GroupDocs.Viewer.UI.Core.Entities.Page;
 
 namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
@@ -188,14 +188,13 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 
             return new DocumentInfo
             {
-                FileType = fileType,
-                PrintAllowed = printAllowed,
+                PrintingAllowed = printAllowed,
                 Pages = viewInfo.Pages.Select(page => new PageInfo
                 {
-                    Number = page.Number,
+                    PageNumber = page.Number,
                     Width = page.Width,
                     Height = page.Height,
-                    Name = page.Name
+                    PageName = page.Name
                 })
             };
         }

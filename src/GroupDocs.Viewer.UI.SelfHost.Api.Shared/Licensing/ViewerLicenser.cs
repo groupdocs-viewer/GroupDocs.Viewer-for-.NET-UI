@@ -1,9 +1,9 @@
-﻿using System;
+﻿using GroupDocs.Viewer.UI.SelfHost.Api.Configuration;
+using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using GroupDocs.Viewer.UI.SelfHost.Api.Configuration;
-using Microsoft.Extensions.Options;
 
 namespace GroupDocs.Viewer.UI.SelfHost.Api.Licensing
 {
@@ -19,6 +19,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Licensing
         }
 
         public void SetLicense()
+
         {
             bool isUseEvaluationLic = true;
 

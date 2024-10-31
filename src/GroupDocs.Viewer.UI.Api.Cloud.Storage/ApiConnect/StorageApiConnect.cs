@@ -1,12 +1,12 @@
-﻿using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect.Contracts;
+﻿using GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect.Contracts;
 using GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect.Requests;
 using GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect.Responses;
 using GroupDocs.Viewer.UI.Api.Cloud.Storage.Common;
 using Newtonsoft.Json;
+using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect
 {
@@ -29,7 +29,6 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect
         {
             var uri = $"viewer/storage/folder/{request.Path}?storageName={request.StorageName}";
             Result<FilesList> result = await Send<FilesList>(uri, HttpMethod.Get);
-
             return result;
         }
 
@@ -37,7 +36,6 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect
         {
             var requestUri = $"viewer/storage/file/{request.Path}?storageName={request.StorageName}";
             Result<byte[]> result = await Download<FilesList>(requestUri);
-
             return result;
         }
 
@@ -52,6 +50,11 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect
                 return Result.Fail(string.Join("; ", uploadResult.Value.Errors));
 
             return Result.Ok();
+        }
+
+        public Result<string> FileLink(DownloadFileRequest request)
+        {
+            return Result.Ok($"viewer/storage/file/{request.Path}?storageName={request.StorageName}");
         }
 
         public async Task<Result<bool>> CheckObjectExistsAsync(ObjectExistRequest request)
@@ -164,7 +167,7 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect
 
     /// <summary>
     /// The error result
-    /// </summary>  
+    /// </summary>
     public class ErrorResult
     {
         /// <summary>
@@ -188,17 +191,17 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect
 
     /// <summary>
     /// Object exists
-    /// </summary>  
+    /// </summary>
     public class ObjectExist
     {
         /// <summary>
         /// Indicates that the file or folder exists.
-        /// </summary>  
+        /// </summary>
         public bool Exists { get; set; }
 
         /// <summary>
         /// True if it is a folder, false if it is a file.
-        /// </summary>  
+        /// </summary>
         public bool IsFolder { get; set; }
 
         /// <summary>

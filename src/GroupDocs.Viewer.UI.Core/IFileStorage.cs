@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using GroupDocs.Viewer.UI.Core.Entities;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using GroupDocs.Viewer.UI.Core.Entities;
 
 namespace GroupDocs.Viewer.UI.Core
 {

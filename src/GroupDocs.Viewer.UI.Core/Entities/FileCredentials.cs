@@ -6,10 +6,9 @@
         public string FileType { get; }
         public string Password { get; }
 
-        public FileCredentials(string filePath, string fileType, string password)
+        public FileCredentials(string filePath, string password)
         {
             FilePath = filePath;
-            FileType = fileType;
             Password = password;
         }
     }

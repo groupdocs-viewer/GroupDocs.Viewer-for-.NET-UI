@@ -22,4 +22,8 @@
     <ProjectReference Include="..\GroupDocs.Viewer.UI.Core\GroupDocs.Viewer.UI.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ConfigProvider\Implementation\" />
+  </ItemGroup>
+
 </Project>

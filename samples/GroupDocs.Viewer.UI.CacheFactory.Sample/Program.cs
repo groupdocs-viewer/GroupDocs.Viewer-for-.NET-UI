@@ -24,7 +24,7 @@ namespace GroupDocs.Viewer.UI.CacheFactory.Sample
             //config.SetLicensePath("license-path");
 
             // Build up the services
-            IOptions<Config> configOptions = 
+            IOptions<Config> configOptions =
                 new OptionsWrapper<Config>(config);
             IAsyncLock asyncLock = new AsyncDuplicateLock();
             IViewerLicenser licenser = new ViewerLicenser(configOptions);
@@ -34,7 +34,7 @@ namespace GroupDocs.Viewer.UI.CacheFactory.Sample
             IPageFormatter pageFormatter = new NoopPageFormatter();
             IFileCache cache = new LocalFileCache(cachePath);
 
-            IEnumerable<FileSystemEntry> filesAndDirs = 
+            IEnumerable<FileSystemEntry> filesAndDirs =
                 await fileStorage.ListDirsAndFilesAsync(".");
 
             foreach (var fileSystemEntry in filesAndDirs)
@@ -56,21 +56,20 @@ namespace GroupDocs.Viewer.UI.CacheFactory.Sample
 
                     IViewer cachingViewer = new CachingViewer(htmlViewer, cache, asyncLock);
 
-                    string extension = Path.GetExtension(fileSystemEntry.FilePath);
                     string password = string.Empty;
                     FileCredentials fileCredentials =
-                        new FileCredentials(fileSystemEntry.FilePath, extension, password);
-                    
+                        new FileCredentials(fileSystemEntry.FilePath, password);
+
                     // Create document info
                     DocumentInfo documentInfo =
                         await cachingViewer.GetDocumentInfoAsync(fileCredentials);
 
-                    Console.WriteLine($"FileType: {documentInfo.FileType}; Pages count: {documentInfo.Pages.Count()}");
+                    Console.WriteLine($"File: {fileSystemEntry.FilePath}; Pages count: {documentInfo.Pages.Count()}");
 
-                    int[] pageNumbers = documentInfo.Pages.Select(p => p.Number).ToArray();
+                    int[] pageNumbers = documentInfo.Pages.Select(p => p.PageNumber).ToArray();
 
                     // Create pages
-                    Pages pages = 
+                    Pages pages =
                         await cachingViewer.GetPagesAsync(fileCredentials, pageNumbers);
 
                     Console.WriteLine($"Created pages: {pages.Count()}");

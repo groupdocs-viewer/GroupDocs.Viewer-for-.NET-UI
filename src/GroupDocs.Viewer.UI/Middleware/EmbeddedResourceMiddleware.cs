@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using GroupDocs.Viewer.UI.Core;
+using GroupDocs.Viewer.UI.Core.Entities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -13,10 +16,12 @@ namespace GroupDocs.Viewer.UI.Middleware
         private readonly Assembly _assembly;
         private readonly string _namespace = "GroupDocs.Viewer.UI.assets";
         private readonly string _urlPrefix;
+        private readonly IViewer _viewer;
 
-        public EmbeddedResourceMiddleware(RequestDelegate next, string urlPrefix = "viewer")
+        public EmbeddedResourceMiddleware(RequestDelegate next, IViewer viewer, string urlPrefix = "viewer")
         {
             _next = next;
+            _viewer = viewer;
             _urlPrefix = urlPrefix;
             _assembly = typeof(EmbeddedResourceMiddleware).Assembly;
         }
@@ -27,6 +32,14 @@ namespace GroupDocs.Viewer.UI.Middleware
             if (string.IsNullOrWhiteSpace(path) || !path.StartsWith(_urlPrefix) && !path.StartsWith("assets/config/config.json"))
             {
                 await _next(context);
+                return;
+            }
+            else if (path.StartsWith($"{_urlPrefix}/storage"))
+            {
+                var pathSegments = path.Split('/');
+                var pageNumber = int.TryParse(Path.GetFileNameWithoutExtension(pathSegments.Last()), out var result);
+                var data = await _viewer.GetPageAsync(new FileCredentials(Path.GetFileName(pathSegments[^2]), null), pageNumber ? result : 1);
+                await context.Response.WriteAsync(data.GetContent());
                 return;
             }
             else if (path.Equals("assets/config/config.json", System.StringComparison.InvariantCultureIgnoreCase))
