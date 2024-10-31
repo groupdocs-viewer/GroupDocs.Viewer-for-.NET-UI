@@ -52,11 +52,6 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect
             return Result.Ok();
         }
 
-        public Result<string> FileLink(DownloadFileRequest request)
-        {
-            return Result.Ok($"viewer/storage/file/{request.Path}?storageName={request.StorageName}");
-        }
-
         public async Task<Result<bool>> CheckObjectExistsAsync(ObjectExistRequest request)
         {
             var requestUri = $"viewer/storage/exist/{request.Path}?storageName={request.StorageName}";

@@ -71,11 +71,6 @@ namespace GroupDocs.Viewer.UI.Api.Local.Storage
             return newFileName;
         }
 
-        public string GetFileLink(string fileKey, int pageNumber)
-        {
-            return $"storage/{fileKey}/{pageNumber}";
-        }
-
         private FileStream GetStream(string path, FileMode mode, FileAccess access, FileShare share)
         {
             FileStream stream = null;
