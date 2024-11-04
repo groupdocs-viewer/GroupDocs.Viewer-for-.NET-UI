@@ -127,7 +127,6 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                     Height = pageInfo.Height,
                     Number = pageInfo.PageNumber,
                     SheetName = pageInfo.PageName,
-                    HtmlData = _configuration.HtmlMode ? pagesData.FirstOrDefault(a => a.PageNumber == pageInfo.PageNumber)?.GetContent() : null,
                     Data = $"storage/{request.Guid}/{pageInfo.PageNumber}.html"
                 })
                     .ToList();
@@ -170,7 +169,6 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                     .Select(page => new PageDescription
                     {
                         Number = page.PageNumber,
-                        HtmlData = _configuration.HtmlMode ? page.GetContent() : null,
                         Data = $"storage/{request.Guid}/{page.PageNumber}.html"
                     });
 

@@ -46,7 +46,7 @@ namespace GroupDocs.Viewer.UI.Middleware
             {
                 path = $"{_namespace}.{path.Replace("/", ".")}";
             }
-            else if (path.Equals("viewer", System.StringComparison.InvariantCultureIgnoreCase) || path.EndsWith("index.html", StringComparison.CurrentCultureIgnoreCase))
+            else if (path.Equals(_urlPrefix, System.StringComparison.InvariantCultureIgnoreCase) || path.EndsWith("index.html", StringComparison.CurrentCultureIgnoreCase))
             {
                 path = $"{_namespace}.index.html";
                 await using Stream indexStream = _assembly.GetManifestResourceStream(path);
@@ -70,16 +70,39 @@ namespace GroupDocs.Viewer.UI.Middleware
             }
             else
             {
-                path = path.Replace("/", ".").Replace("viewer", _namespace);
+                var localResourcePath = path.Replace("/", ".").Replace("viewer", _namespace);
+                await using Stream stream = _assembly.GetManifestResourceStream(localResourcePath);
+                if (stream != null)
+                {
+                    context.Response.ContentType = MimeMapping.GetContentType(localResourcePath);
+                    await stream.CopyToAsync(context.Response.Body);
+                    return;
+                }
+                else if (path.StartsWith($"{_urlPrefix}/", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var localIndexPath = $"{_namespace}.index.html";
+                    await using Stream indexStream = _assembly.GetManifestResourceStream(localIndexPath);
+                    if (indexStream != null)
+                    {
+                        using (StreamReader reader = new StreamReader(indexStream))
+                        {
+                            var htmlContent = await reader.ReadToEndAsync();
+
+                            // Modify the <title> and <base> tags
+                            htmlContent = SetTitleAndBaseHref(htmlContent, "GroupDocs.Viewer UI application", _urlPrefix);
+
+                            // Return the modified HTML content
+                            context.Response.ContentType = MimeMapping.GetContentType(localIndexPath);
+                            await context.Response.WriteAsync(htmlContent);
+                            return;
+                        }
+                    }
+
+                    throw new InvalidDataException("missing index.html for Angular App");
+                }
             }
 
-            await using Stream stream = _assembly.GetManifestResourceStream(path);
-            if (stream != null)
-            {
-                context.Response.ContentType = MimeMapping.GetContentType(path);
-                await stream.CopyToAsync(context.Response.Body);
-                return;
-            }
+
 
             await _next(context); // If not found, proceed to next middleware
         }

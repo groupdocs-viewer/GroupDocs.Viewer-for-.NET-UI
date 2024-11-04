@@ -47,7 +47,7 @@ namespace GroupDocs.Viewer.UI.Api.Responses
         public bool Zoom { get; set; } = true;
 
         [JsonPropertyName("search")]
-        public bool Search { get; set; } = false;
+        public bool Search { get; set; } = true;
 
         [JsonPropertyName("thumbnails")]
         public bool Thumbnails { get; set; } = false;
@@ -56,7 +56,7 @@ namespace GroupDocs.Viewer.UI.Api.Responses
         public bool Rotate { get; set; } = false;
 
         [JsonPropertyName("htmlMode")]
-        public bool HtmlMode { get; set; } = false;
+        public bool HtmlMode { get; set; } = true;
 
         [JsonPropertyName("cache")]
         public bool Cache { get; set; } = true;
