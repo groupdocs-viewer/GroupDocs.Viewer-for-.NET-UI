@@ -1,3 +1,4 @@
+using GroupDocs.Viewer.UI.Api.Configuration;
 using GroupDocs.Viewer.UI.Api.Extensions;
 using GroupDocs.Viewer.UI.Middleware;
 
@@ -31,6 +32,7 @@ builder.Services
     })
     .AddLocalStorage("./Files")
     .AddLocalCache("./Cache");
+builder.Services.Configure<Options>(builder.Configuration.GetSection("Options"));
 
 var app = builder.Build();
 app.UseCors();
@@ -40,14 +42,7 @@ app
     .UseRouting()
     .UseEndpoints(endpoints =>
     {
-        //endpoints.MapGroupDocsViewerUI(options =>
-        //{
-        //    options.APIEndpoint = "/viewer-api";
-        //});
-        endpoints.MapGroupDocsViewerApi(options =>
-        {
-            options.ApiPath = "/viewer-api";
-        });
+        endpoints.MapGroupDocsViewerApi();
     });
 
 app.Run();

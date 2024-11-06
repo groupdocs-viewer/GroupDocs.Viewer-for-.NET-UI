@@ -14,7 +14,7 @@ namespace GroupDocs.Viewer.UI.Api.Responses
         public bool Download { get; set; } = false;
 
         [JsonPropertyName("upload")]
-        public bool Upload { get; set; } = false;
+        public bool Upload { get; set; } = true;
 
         [JsonPropertyName("print")]
         public bool Print { get; set; } = true;
@@ -73,5 +73,4 @@ namespace GroupDocs.Viewer.UI.Api.Responses
         [JsonPropertyName("cacheFolderName")]
         public string CacheFolderName { get; set; } = string.Empty;
     }
-
 }

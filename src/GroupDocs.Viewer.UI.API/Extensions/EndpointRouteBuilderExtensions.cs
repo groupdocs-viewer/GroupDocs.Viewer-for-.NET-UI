@@ -1,7 +1,9 @@
 using GroupDocs.Viewer.UI.Api;
-using GroupDocs.Viewer.UI.Api.Configuration;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
+using Options = GroupDocs.Viewer.UI.Api.Configuration.Options;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -10,11 +12,21 @@ namespace Microsoft.AspNetCore.Builder
         public static IEndpointConventionBuilder MapGroupDocsViewerApi(this IEndpointRouteBuilder builder,
             Action<Options> setupOptions = null)
         {
-            var options = new Options();
-            setupOptions?.Invoke(options);
+            var optionsMonitor = builder.ServiceProvider.GetRequiredService<IOptionsMonitor<Options>>();
+
+            // Use the provided setupOptions or the current value from optionsMonitor
+            Options options = new Options();
+
+            if (setupOptions != null)
+            {
+                setupOptions(options);
+            }
+            else
+            {
+                options = optionsMonitor.CurrentValue;
+            }
 
             EnsureValidApiOptions(options);
-
             MapControllerRoutes(builder, options);
 
             return new GroupDocsViewerApiConventionBuilder(Array.Empty<IEndpointConventionBuilder>());
@@ -36,6 +48,7 @@ namespace Microsoft.AspNetCore.Builder
                 Constants.LOAD_DOCUMENT_PAGE_RESOURCE_ACTION_NAME,
                 Constants.LOAD_THUMBNAILS_ACTION_NAME,
                 Constants.PRINT_PDF_ACTION_NAME,
+                Constants.CREATE_PDF_ACTION_NAME,
             };
 
             foreach (var action in actions)

@@ -75,7 +75,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadDocument([FromForm(Name = "files")] IFormFile file, [FromForm(Name = "url")] string url, CancellationToken cancellationToken)
+        public async Task<IActionResult> UploadDocument([FromForm] IFormFile file, [FromForm(Name = "url")] string url, CancellationToken cancellationToken)
         {
             if (!_configuration.Upload)
                 return BadRequest("Uploading files is disabled.");
@@ -83,22 +83,22 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             try
             {
                 (string fileName, byte[] bytes) fileTuple;
-                if (string.IsNullOrWhiteSpace(url))
+                if (!string.IsNullOrWhiteSpace(url))
                 {
                     fileTuple = await DownloadFileAsync(url);
 
                 }
                 else
                 {
-                    using var stream = new MemoryStream();
+                    using MemoryStream stream = new();
                     await file.CopyToAsync(stream, cancellationToken);
                     fileTuple = (file.FileName, stream.ToArray());
                 }
 
 
-                var filePath = await _fileStorage.WriteFileAsync(fileTuple.fileName, fileTuple.bytes, TryParse(Request.Form["rewrite"], out var rewrite) && rewrite);
-                var result = new UploadFileResponse { FileName = filePath, FolderName = string.Empty };
-                return Ok(result);
+                string filePath = await _fileStorage.WriteFileAsync(fileTuple.fileName, fileTuple.bytes, TryParse(Request.Form["rewrite"], out bool rewrite) && rewrite);
+                UploadFileResponse result = new() { FileName = filePath, FolderName = string.Empty };
+                return this.Ok(result);
             }
             catch (Exception ex)
             {
@@ -113,25 +113,21 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         {
             try
             {
-                var fileCredentials =
-                    new FileCredentials(request.Guid, request.Password);
-                var documentDescription =
+                FileCredentials fileCredentials = new(request.Guid, request.Password);
+                DocumentInfo documentDescription =
                     await _viewer.GetDocumentInfoAsync(fileCredentials);
-
-                var pageNumbers = GetPageNumbers(documentDescription.Pages.Count());
-                var pagesData = await _viewer.GetPagesAsync(fileCredentials, pageNumbers);
-
                 var pages = documentDescription.Pages.Select(pageInfo => new PageDescription
                 {
                     Width = pageInfo.Width,
                     Height = pageInfo.Height,
                     Number = pageInfo.PageNumber,
                     SheetName = pageInfo.PageName,
-                    Data = $"storage/{request.Guid}/{pageInfo.PageNumber}.html"
+                    Data = $"storage/page/{request.Guid}/{pageInfo.PageNumber}",
+                    //Thumbnail = $"storage/thumbnail/{request.Guid}/{pageInfo.PageNumber}.png"
                 })
                     .ToList();
 
-                var result = new DocumentDescriptionResponse
+                DocumentDescriptionResponse result = new()
                 {
                     Guid = request.Guid,
                     PrintAllowed = documentDescription.PrintingAllowed,
@@ -144,7 +140,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             {
                 if (ex.Message.Contains("password", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    var message = string.IsNullOrEmpty(request.Password)
+                    string message = string.IsNullOrEmpty(request.Password)
                             ? "Password Required"
                             : "Incorrect Password";
 
@@ -162,14 +158,14 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         {
             try
             {
-                var fileCredentials =
-                    new FileCredentials(request.Guid, request.Password);
-                var pages = await _viewer.GetPagesAsync(fileCredentials, request.Pages);
+                FileCredentials fileCredentials = new(request.Guid, request.Password);
+                Pages pages = await _viewer.GetPagesAsync(fileCredentials, request.Pages);
                 var pageContents = pages
                     .Select(page => new PageDescription
                     {
                         Number = page.PageNumber,
-                        Data = $"storage/{request.Guid}/{page.PageNumber}.html"
+                        Data = $"storage/page/{request.Guid}/{page.PageNumber}.html",
+                        //Thumbnail = $"storage/thumbnail/{request.Guid}/{page.PageNumber}.png"
                     });
 
                 return Ok(pageContents);
@@ -178,7 +174,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             {
                 if (ex.Message.Contains("password", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    var message = string.IsNullOrEmpty(request.Password)
+                    string message = string.IsNullOrEmpty(request.Password)
                         ? "Password Required"
                         : "Incorrect Password";
 
@@ -199,8 +195,8 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
 
             try
             {
-                var fileName = await _fileNameResolver.ResolveFileNameAsync(path);
-                var bytes = await _fileStorage.ReadFileAsync(path);
+                string fileName = await _fileNameResolver.ResolveFileNameAsync(path);
+                byte[] bytes = await _fileStorage.ReadFileAsync(path);
 
                 return File(bytes, "application/octet-stream", fileName);
             }
@@ -211,6 +207,11 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                 return NotFound(ex.Message);
             }
         }
+        [HttpPost]
+        public IActionResult CreatePdf([FromBody] CreatePdfFileRequest request)
+        {
+            return this.Ok(new CreatePdfFileResponse() { DownloadUrl = $"storage/pdf/{request.Guid}/{Path.GetFileNameWithoutExtension(request.Guid)}.pdf" });
+        }
 
         [HttpPost]
         public async Task<IActionResult> PrintPdf([FromBody] PrintPdfRequest request)
@@ -220,12 +221,11 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
 
             try
             {
-                var fileCredentials =
-                    new FileCredentials(request.Guid, request.Password);
+                FileCredentials fileCredentials = new(request.Guid, request.Password);
 
-                var fileName = await _fileNameResolver.ResolveFileNameAsync(request.Guid);
-                var pdfFileName = Path.ChangeExtension(fileName, ".pdf");
-                var pdfFileBytes = await _viewer.GetPdfAsync(fileCredentials);
+                string fileName = await _fileNameResolver.ResolveFileNameAsync(request.Guid);
+                string pdfFileName = Path.ChangeExtension(fileName, ".pdf");
+                byte[] pdfFileBytes = await _viewer.GetPdfAsync(fileCredentials);
 
                 return File(pdfFileBytes, "application/pdf", pdfFileName);
             }
@@ -233,7 +233,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             {
                 if (ex.Message.Contains("password", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    var message = string.IsNullOrEmpty(request.Password)
+                    string message = string.IsNullOrEmpty(request.Password)
                         ? "Password Required"
                         : "Incorrect Password";
 
@@ -251,7 +251,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             if (_configuration.PreloadPageCount == 0)
                 return Enumerable.Range(1, totalPageCount).ToArray();
 
-            var pageCount =
+            int pageCount =
                 Math.Min(totalPageCount, _configuration.PreloadPageCount);
 
             return Enumerable.Range(1, pageCount).ToArray();
@@ -261,10 +261,10 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
 
         private static async Task<(string, byte[])> DownloadFileAsync(string url)
         {
-            using HttpClient httpClient = new HttpClient();
+            using HttpClient httpClient = new();
             httpClient.DefaultRequestHeaders.Add("User-Agent", "Other");
 
-            Uri uri = new Uri(url);
+            Uri uri = new(url);
             string fileName = Path.GetFileName(uri.LocalPath);
             byte[] bytes = await httpClient.GetByteArrayAsync(uri);
 

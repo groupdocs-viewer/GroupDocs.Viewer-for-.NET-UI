@@ -26,6 +26,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
         private readonly IFileTypeResolver _fileTypeResolver;
         private readonly IPageFormatter _pageFormatter;
         private Viewer _viewer;
+        private FileCredentials _fileCredentials;
 
         protected BaseViewer(
             IOptions<Config> config,
@@ -109,13 +110,16 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 
         private async Task<Viewer> InitViewerAsync(FileCredentials fileCredentials)
         {
-            if (_viewer != null)
+            if (_viewer != null && fileCredentials.FilePath == _fileCredentials.FilePath)
+            {
                 return _viewer;
+            }
 
             _viewerLicenser.SetLicense();
 
             if (_internalCacheOptions.IsCacheDisabled)
             {
+                _fileCredentials = fileCredentials;
                 _viewer = await CreateViewer(fileCredentials);
                 return _viewer;
             }
@@ -125,10 +129,12 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             {
                 if (_viewerCache.TryGet(fileCredentials, out var viewer))
                 {
+                    _fileCredentials = fileCredentials;
                     _viewer = viewer;
                 }
                 else
                 {
+                    _fileCredentials = fileCredentials;
                     _viewer = await CreateViewer(fileCredentials);
                     _viewerCache.Set(fileCredentials, _viewer);
                 }

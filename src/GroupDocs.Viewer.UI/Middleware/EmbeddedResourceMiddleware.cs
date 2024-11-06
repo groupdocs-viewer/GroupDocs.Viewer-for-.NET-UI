@@ -1,12 +1,15 @@
 ﻿using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Entities;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
+using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Options = GroupDocs.Viewer.UI.Api.Configuration.Options;
 
 namespace GroupDocs.Viewer.UI.Middleware
 {
@@ -17,105 +20,160 @@ namespace GroupDocs.Viewer.UI.Middleware
         private readonly string _namespace = "GroupDocs.Viewer.UI.assets";
         private readonly string _urlPrefix;
         private readonly IViewer _viewer;
+        private readonly Options _options;
 
-        public EmbeddedResourceMiddleware(RequestDelegate next, IViewer viewer, string urlPrefix = "viewer")
+        public EmbeddedResourceMiddleware(
+            RequestDelegate next,
+            IViewer viewer,
+            IOptions<Options> options,
+            string urlPrefix = "viewer")
         {
             _next = next;
             _viewer = viewer;
             _urlPrefix = urlPrefix;
             _assembly = typeof(EmbeddedResourceMiddleware).Assembly;
+            _options = options.Value;
         }
 
         public async Task InvokeAsync(HttpContext context)
         {
-            string path = context.Request.Path.Value?.Trim('/') ?? string.Empty;
-            if (string.IsNullOrWhiteSpace(path) || !path.StartsWith(_urlPrefix) && !path.StartsWith("assets/config/config.json"))
+            string lang = context.Request.Query["lang"].Count > 0 ? $"/{context.Request.Query["lang"]}" : string.Empty;
+            string file = context.Request.Query["file"].Count > 0 ? $"/{context.Request.Query["file"]}" : string.Empty;
+            string path = $"{context.Request.Path.Value?.Trim('/')}{lang}{file}";
+
+            if (string.IsNullOrWhiteSpace(path) || !path.Equals(_urlPrefix) && !path.StartsWith($"{_urlPrefix}/") && !path.StartsWith("assets/config/config.json"))
             {
                 await _next(context);
                 return;
             }
-            else if (path.StartsWith($"{_urlPrefix}/storage"))
+
+            if (path.Equals("assets/config/config.json", StringComparison.InvariantCultureIgnoreCase))
             {
-                var pathSegments = path.Split('/');
-                var pageNumber = int.TryParse(Path.GetFileNameWithoutExtension(pathSegments.Last()), out var result);
-                var data = await _viewer.GetPageAsync(new FileCredentials(Path.GetFileName(pathSegments[^2]), null), pageNumber ? result : 1);
-                await context.Response.WriteAsync(data.GetContent());
+                await ServeConfigJson(context);
                 return;
             }
-            else if (path.Equals("assets/config/config.json", System.StringComparison.InvariantCultureIgnoreCase))
+
+            if (path.Equals(_urlPrefix, StringComparison.InvariantCultureIgnoreCase) || path.EndsWith("index.html", StringComparison.CurrentCultureIgnoreCase))
             {
-                path = $"{_namespace}.{path.Replace("/", ".")}";
+                await ServeIndexHtml(context);
+                return;
             }
-            else if (path.Equals(_urlPrefix, System.StringComparison.InvariantCultureIgnoreCase) || path.EndsWith("index.html", StringComparison.CurrentCultureIgnoreCase))
+            if (path.StartsWith($"{_urlPrefix}/storage/pdf/"))
             {
-                path = $"{_namespace}.index.html";
-                await using Stream indexStream = _assembly.GetManifestResourceStream(path);
-                if (indexStream != null)
-                {
-                    using (StreamReader reader = new StreamReader(indexStream))
-                    {
-                        var htmlContent = await reader.ReadToEndAsync();
-
-                        // Modify the <title> and <base> tags
-                        htmlContent = SetTitleAndBaseHref(htmlContent, "GroupDocs.Viewer UI application", _urlPrefix);
-
-                        // Return the modified HTML content
-                        context.Response.ContentType = MimeMapping.GetContentType(path);
-                        await context.Response.WriteAsync(htmlContent);
-                        return;
-                    }
-                }
-
-                throw new InvalidDataException("missing index.html for Angular App");
+                await ServePdf(context, path);
+                return;
             }
-            else
+            if (path.StartsWith($"{_urlPrefix}/storage/page/"))
             {
-                var localResourcePath = path.Replace("/", ".").Replace("viewer", _namespace);
-                await using Stream stream = _assembly.GetManifestResourceStream(localResourcePath);
-                if (stream != null)
-                {
-                    context.Response.ContentType = MimeMapping.GetContentType(localResourcePath);
-                    await stream.CopyToAsync(context.Response.Body);
-                    return;
-                }
-                else if (path.StartsWith($"{_urlPrefix}/", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    var localIndexPath = $"{_namespace}.index.html";
-                    await using Stream indexStream = _assembly.GetManifestResourceStream(localIndexPath);
-                    if (indexStream != null)
-                    {
-                        using (StreamReader reader = new StreamReader(indexStream))
-                        {
-                            var htmlContent = await reader.ReadToEndAsync();
-
-                            // Modify the <title> and <base> tags
-                            htmlContent = SetTitleAndBaseHref(htmlContent, "GroupDocs.Viewer UI application", _urlPrefix);
-
-                            // Return the modified HTML content
-                            context.Response.ContentType = MimeMapping.GetContentType(localIndexPath);
-                            await context.Response.WriteAsync(htmlContent);
-                            return;
-                        }
-                    }
-
-                    throw new InvalidDataException("missing index.html for Angular App");
-                }
+                await ServePageContent(context, path);
+                return;
+            }
+            if (path.StartsWith($"{_urlPrefix}/storage/thumbnail/"))
+            {
+                // Placeholder for thumbnail handling
+                // await ServeThumbnail(context, path);
+                return;
             }
 
-
-
-            await _next(context); // If not found, proceed to next middleware
+            await ServeEmbeddedFile(context, path);
         }
 
-        private string SetTitleAndBaseHref(string htmlContent, string title, string baseHref)
+        private async Task ServeConfigJson(HttpContext context)
+        {
+            string configJson = ConfigHelper.GenerateConfigJson(context, _options);
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync(configJson);
+        }
+
+        private async Task ServeIndexHtml(HttpContext context)
+        {
+            string path = $"{_namespace}.index.html";
+            await using Stream indexStream = _assembly.GetManifestResourceStream(path);
+
+            if (indexStream == null)
+            {
+                throw new InvalidDataException("Missing index.html for Angular App");
+            }
+
+            using StreamReader reader = new(indexStream);
+            string htmlContent = await reader.ReadToEndAsync();
+
+            // Modify the <title> and <base> tags
+            htmlContent = SetTitleAndBaseHref(htmlContent, "GroupDocs.Viewer UI Application", _urlPrefix);
+
+            context.Response.ContentType = MimeMapping.GetContentType(path);
+            await context.Response.WriteAsync(htmlContent);
+        }
+
+        private async Task ServePdf(HttpContext context, string path)
+        {
+            string[] pathSegments = path.Split('/');
+            byte[] data = await _viewer.GetPdfAsync(new FileCredentials(Path.GetFileName(pathSegments[^2]), null));
+            context.Response.ContentType = "application/pdf";
+            context.Response.ContentLength = data.Length;
+            await context.Response.Body.WriteAsync(data, 0, data.Length);
+        }
+
+        private async Task ServePageContent(HttpContext context, string path)
+        {
+            string[] pathSegments = path.Split('/');
+            bool pageNumber = int.TryParse(pathSegments[^1], out int result);
+            Page data = await _viewer.GetPageAsync(new FileCredentials(Path.GetFileName(pathSegments[^2]), null), pageNumber ? result : 1);
+            await context.Response.WriteAsync(data.GetContent());
+        }
+
+        private async Task ServeEmbeddedFile(HttpContext context, string path)
+        {
+            string resourcePath = path.Replace("/", ".").Replace("viewer", _namespace);
+
+            // Try to get the requested resource
+            await using Stream stream = _assembly.GetManifestResourceStream(resourcePath);
+            if (stream != null)
+            {
+                context.Response.ContentType = MimeMapping.GetContentType(resourcePath);
+                await stream.CopyToAsync(context.Response.Body);
+                return;
+            }
+
+            // Handle requests to index.html for Angular App
+            if (path.StartsWith($"{_urlPrefix}/", StringComparison.InvariantCultureIgnoreCase))
+            {
+                await ServeIndexHtml(context);
+                return;
+            }
+
+            // If no file was found, return 404
+            context.Response.StatusCode = StatusCodes.Status404NotFound;
+        }
+
+
+        private static string SetTitleAndBaseHref(string htmlContent, string title, string baseHref)
         {
             // Modify the <title> tag
-            htmlContent = System.Text.RegularExpressions.Regex.Replace(htmlContent, "<title>(.*?)</title>", $"<title>{title}</title>", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            htmlContent = Regex.Replace(htmlContent, "<title>(.*?)</title>", $"<title>{title}</title>", RegexOptions.IgnoreCase);
 
             // Modify the <base> tag
-            htmlContent = System.Text.RegularExpressions.Regex.Replace(htmlContent, "<base href=\"(.*?)\">", $"<base href=\"/{baseHref}/\">", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            htmlContent = Regex.Replace(htmlContent, "<base href=\"(.*?)\">", $"<base href=\"/{baseHref}/\">", RegexOptions.IgnoreCase);
 
             return htmlContent;
+        }
+    }
+
+    public static class ConfigHelper
+    {
+        public static string GenerateConfigJson(HttpContext context, Options options)
+        {
+            HttpRequest request = context.Request;
+            string currentUrl = $"{request.Scheme}://{request.Host}{request.PathBase}";
+
+            var config = new
+            {
+                apiEndpoint = $"{currentUrl}{options.ApiPath}",
+                configEndpoint = string.Empty,
+                closeViewerUrl = "/"
+            };
+
+            return JsonSerializer.Serialize(config, new JsonSerializerOptions { WriteIndented = true });
         }
     }
 
@@ -125,38 +183,21 @@ namespace GroupDocs.Viewer.UI.Middleware
         {
             { ".txt", "text/plain" },
             { ".html", "text/html" },
-            { ".htm", "text/html" },
             { ".css", "text/css" },
             { ".js", "application/javascript" },
             { ".json", "application/json" },
-            { ".xml", "application/xml" },
+            { ".png", "image/png" },
             { ".jpg", "image/jpeg" },
             { ".jpeg", "image/jpeg" },
-            { ".png", "image/png" },
             { ".gif", "image/gif" },
             { ".svg", "image/svg+xml" },
-            { ".pdf", "application/pdf" },
-            { ".zip", "application/zip" },
-            { ".mp4", "video/mp4" },
-            { ".woff", "font/woff" },
-            { ".woff2", "font/woff2" },
-            { ".ttf", "font/ttf" },
-            { ".otf", "font/otf" }
+            { ".pdf", "application/pdf" }
         };
 
         public static string GetContentType(string path)
         {
-            // Get the file extension
-            var extension = System.IO.Path.GetExtension(path);
-
-            // Check if the extension exists in the dictionary
-            if (extension != null && MimeTypes.TryGetValue(extension, out string contentType))
-            {
-                return contentType;
-            }
-
-            // Return a default content type if not found
-            return "application/octet-stream";
+            string extension = Path.GetExtension(path);
+            return MimeTypes.TryGetValue(extension, out string contentType) ? contentType : "application/octet-stream";
         }
     }
 }
