@@ -13,5 +13,6 @@
         public const string LOAD_DOCUMENT_PAGE_ACTION_NAME = "LoadDocumentPage";
         public const string LOAD_THUMBNAILS_ACTION_NAME = "LoadThumbnails";
         public const string PRINT_PDF_ACTION_NAME = "PrintPdf";
+        public const string CREATE_PDF_ACTION_NAME = "CreatePdf";
     }
 }

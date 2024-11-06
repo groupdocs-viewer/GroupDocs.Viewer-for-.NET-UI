@@ -1,0 +1,5 @@
+{
+  "apiEndpoint": "https://localhost:5001/viewer-api",
+  "configEndpoint": "",
+  "closeViewerUrl": "/"
+}

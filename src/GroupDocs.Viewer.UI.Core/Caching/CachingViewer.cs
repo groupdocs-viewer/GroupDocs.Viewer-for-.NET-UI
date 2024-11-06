@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using GroupDocs.Viewer.UI.Core.Entities;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GroupDocs.Viewer.UI.Core.Entities;
 
 namespace GroupDocs.Viewer.UI.Core.Caching
 {
@@ -41,7 +41,7 @@ namespace GroupDocs.Viewer.UI.Core.Caching
 
         public async Task<Page> GetPageAsync(FileCredentials fileCredentials, int pageNumber)
         {
-            var cacheKey = CacheKeys.GetPageCacheKey(pageNumber, PageExtension);
+            var cacheKey = CacheKeys.GetPageCacheKey(pageNumber, $"{fileCredentials.FilePath}_{PageExtension}");
             var bytes = await _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, async () =>
             {
                 using (await _asyncLock.LockAsync(fileCredentials.FilePath))
@@ -132,7 +132,7 @@ namespace GroupDocs.Viewer.UI.Core.Caching
                 var pages = Combine(pagesOrNulls, createdPages);
 
                 return pages;
-            }   
+            }
         }
 
         private Pages Combine(List<CachedPage> dst, Pages missing)
@@ -166,7 +166,7 @@ namespace GroupDocs.Viewer.UI.Core.Caching
                     var savePageTask = _fileCache.SetAsync(cacheKey, filePath, page.Data);
                     var saveResourcesTask = SaveResourcesAsync(filePath, page.PageNumber, page.Resources);
 
-                    return new[] {savePageTask, saveResourcesTask};
+                    return new[] { savePageTask, saveResourcesTask };
                 });
 
             return Task.WhenAll(tasks);

@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect.Requests;
+﻿using GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect.Requests;
 using GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect.Responses;
 using GroupDocs.Viewer.UI.Api.Cloud.Storage.Common;
+using System.Threading.Tasks;
 
 namespace GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect.Contracts
 {

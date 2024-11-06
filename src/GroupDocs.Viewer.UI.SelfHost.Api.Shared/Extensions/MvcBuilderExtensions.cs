@@ -1,6 +1,4 @@
-﻿using System;
-using System.Reflection;
-using GroupDocs.Viewer.UI.Api;
+﻿using GroupDocs.Viewer.UI.Api;
 using GroupDocs.Viewer.UI.Api.Controllers;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Caching;
@@ -16,14 +14,17 @@ using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using System;
+using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
     public static class MvcBuilderExtensions
     {
-        public static GroupDocsViewerUIApiBuilder AddGroupDocsViewerSelfHostApi(this IMvcBuilder builder, 
+        public static GroupDocsViewerUIApiBuilder AddGroupDocsViewerSelfHostApi(this IMvcBuilder builder,
             Action<Config> setupConfig = null)
         {
+
             var config = new Config();
             setupConfig?.Invoke(config);
 
@@ -46,7 +47,6 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.TryAddSingleton<IFileTypeResolver, FileExtensionFileTypeResolver>();
             builder.Services.TryAddSingleton<IPageFormatter, NoopPageFormatter>();
             builder.Services.TryAddSingleton<ISearchTermResolver, SearchTermResolver>();
-            builder.Services.TryAddSingleton<IUIConfigProvider, UIConfigProvider>();
 
             if (config.InternalCacheOptions.IsCacheEnabled)
             {

@@ -334,3 +334,4 @@ ASALocalRun/
 
 # Angular
 .angular/
+/samples/GroupDocs.Viewer.UI.Sample/Cache

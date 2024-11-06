@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-using Amazon;
+﻿using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Entities;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GroupDocs.Viewer.UI.Api.AwsS3.Storage
 {
@@ -25,7 +23,7 @@ namespace GroupDocs.Viewer.UI.Api.AwsS3.Storage
             if (awsS3Options.S3Config == null)
                 throw new ArgumentNullException(nameof(awsS3Options.S3Config));
 
-            if(string.IsNullOrEmpty(awsS3Options.Region))
+            if (string.IsNullOrEmpty(awsS3Options.Region))
                 throw new ArgumentNullException(nameof(awsS3Options.Region));
 
             _awsS3Options = awsS3Options;
@@ -129,10 +127,10 @@ namespace GroupDocs.Viewer.UI.Api.AwsS3.Storage
 
         public async Task<string> WriteFileAsync(string fileName, byte[] bytes, bool rewrite)
         {
-			using (IAmazonS3 client = CreateS3Client())
+            using (IAmazonS3 client = CreateS3Client())
             using (MemoryStream stream = new MemoryStream(bytes))
-			{
-			    var newFileName = rewrite ? fileName : await GetFreeFileName(client, fileName);
+            {
+                var newFileName = rewrite ? fileName : await GetFreeFileName(client, fileName);
 
                 PutObjectRequest request = new PutObjectRequest
                 {
@@ -140,11 +138,11 @@ namespace GroupDocs.Viewer.UI.Api.AwsS3.Storage
                     Key = newFileName,
                     InputStream = stream,
                 };
-                
+
                 await client.PutObjectAsync(request);
 
                 return newFileName;
-			}
+            }
         }
 
         private async Task<string> GetFreeFileName(IAmazonS3 client, string filePath)
@@ -155,7 +153,7 @@ namespace GroupDocs.Viewer.UI.Api.AwsS3.Storage
                 .Where(x => !x.IsDirectory)
                 .Select(x => x.FilePath);
 
-            if(!dirFiles.Contains(filePath))
+            if (!dirFiles.Contains(filePath))
                 return filePath;
 
             var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(filePath);
@@ -168,7 +166,7 @@ namespace GroupDocs.Viewer.UI.Api.AwsS3.Storage
                 fileNameCandidate = filePath.Replace(fileNameWithoutExtension, newFileName);
                 ++number;
             }
-            while(dirFiles.Contains(fileNameCandidate));
+            while (dirFiles.Contains(fileNameCandidate));
 
             return fileNameCandidate;
         }

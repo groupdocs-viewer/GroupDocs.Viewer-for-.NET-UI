@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect.Contracts;
+﻿using GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect.Contracts;
 using GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect.Requests;
 using GroupDocs.Viewer.UI.Api.Cloud.Storage.Configuration;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Entities;
 using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GroupDocs.Viewer.UI.Api.Cloud.Storage
 {
@@ -88,7 +88,7 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage
                 string newFileName = $"{fileNameWithoutExtension} ({number})";
                 fileNameCandidate = fileName.Replace(fileNameWithoutExtension, newFileName);
                 number++;
-            } while (dirFiles.Any(dirFile => 
+            } while (dirFiles.Any(dirFile =>
                 dirFile.FileName.Equals(fileNameCandidate, StringComparison.InvariantCultureIgnoreCase)));
 
             return fileNameCandidate;
