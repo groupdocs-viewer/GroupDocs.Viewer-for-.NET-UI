@@ -71,7 +71,7 @@ namespace GroupDocs.Viewer.UI.Middleware
             if (path.StartsWith($"{_urlPrefix}/storage/thumbnail/"))
             {
                 // Placeholder for thumbnail handling
-                // await ServeThumbnail(context, path);
+                //TODO await ServeThumbnail(context, path);
                 return;
             }
 
@@ -177,7 +177,7 @@ namespace GroupDocs.Viewer.UI.Middleware
         }
     }
 
-    public class MimeMapping
+    public static class MimeMapping
     {
         private static readonly IDictionary<string, string> MimeTypes = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
         {

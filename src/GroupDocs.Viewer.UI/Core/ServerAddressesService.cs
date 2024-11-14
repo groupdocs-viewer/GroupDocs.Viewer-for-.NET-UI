@@ -21,14 +21,14 @@ namespace GroupDocs.Viewer.UI.Core
 
         internal string AbsoluteUriFromRelative(string relativeUrl)
         {
-            var targetAddress = AddressesFeature.Addresses.First();
+            string targetAddress = AddressesFeature.Addresses.First();
 
-            if (targetAddress.EndsWith("/"))
+            if (targetAddress.EndsWith('/'))
             {
                 targetAddress = targetAddress[0..^1];
             }
 
-            if (!relativeUrl.StartsWith("/"))
+            if (!relativeUrl.StartsWith('/'))
             {
                 relativeUrl = $"/{relativeUrl}";
             }

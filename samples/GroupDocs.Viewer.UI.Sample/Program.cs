@@ -42,7 +42,11 @@ app
     .UseRouting()
     .UseEndpoints(endpoints =>
     {
-        endpoints.MapGroupDocsViewerApi();
+        endpoints.MapGroupDocsViewerApi(options =>
+        {
+            options.ApiEndpoint = "/viewer-api";
+        });
     });
 
-app.Run();
+await app.RunAsync();
+

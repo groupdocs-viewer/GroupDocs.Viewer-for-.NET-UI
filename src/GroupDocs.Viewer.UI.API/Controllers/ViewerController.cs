@@ -50,6 +50,10 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> LoadFileTree([FromBody] LoadFileTreeRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             if (!_configuration.Browse)
             {
                 return BadRequest("Browsing files is disabled.");
@@ -77,6 +81,10 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadDocument([FromForm] IFormFile file, [FromForm(Name = "url")] string url, CancellationToken cancellationToken)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             if (!_configuration.Upload)
                 return BadRequest("Uploading files is disabled.");
 
@@ -111,6 +119,10 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> LoadDocumentDescription([FromBody] LoadDocumentDescriptionRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             try
             {
                 FileCredentials fileCredentials = new(request.Guid, request.Password);
@@ -156,6 +168,10 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> LoadDocumentPages([FromBody] DocumentPagesRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             try
             {
                 FileCredentials fileCredentials = new(request.Guid, request.Password);
@@ -190,6 +206,10 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> DownloadDocument([FromQuery] string path)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             if (!_configuration.Download)
                 return BadRequest("Downloading files is disabled.");
 
@@ -210,12 +230,20 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         [HttpPost]
         public IActionResult CreatePdf([FromBody] CreatePdfFileRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             return this.Ok(new CreatePdfFileResponse() { DownloadUrl = $"storage/pdf/{request.Guid}/{Path.GetFileNameWithoutExtension(request.Guid)}.pdf" });
         }
 
         [HttpPost]
         public async Task<IActionResult> PrintPdf([FromBody] PrintPdfRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             if (!_configuration.Print)
                 return BadRequest("Printing files is disabled.");
 
@@ -245,19 +273,6 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                 return NotFound(ex.Message);
             }
         }
-
-        private int[] GetPageNumbers(int totalPageCount)
-        {
-            if (_configuration.PreloadPageCount == 0)
-                return Enumerable.Range(1, totalPageCount).ToArray();
-
-            int pageCount =
-                Math.Min(totalPageCount, _configuration.PreloadPageCount);
-
-            return Enumerable.Range(1, pageCount).ToArray();
-        }
-
-
 
         private static async Task<(string, byte[])> DownloadFileAsync(string url)
         {
