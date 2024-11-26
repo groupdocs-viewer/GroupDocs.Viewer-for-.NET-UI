@@ -1,5 +1,12 @@
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin", builder =>
+        builder.WithOrigins("http://localhost:4200") // Allow specific origin
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials());
+});
 builder.Services
     .AddGroupDocsViewerUI(config =>
     {
@@ -13,12 +20,13 @@ builder.Services
     {
         //Trial limitations https://docs.groupdocs.com/viewer/net/evaluation-limitations-and-licensing-of-groupdocs-viewer/
         //Temporary license can be requested at https://purchase.groupdocs.com/temporary-license
-        //config.SetLicensePath("c:\\licenses\\GroupDocs.Viewer.lic"); // or set environment variable 'GROUPDOCS_LIC_PATH'
+        config.SetLicensePath("c:\\licenses\\GroupDocs.Viewer.lic"); // or set environment variable 'GROUPDOCS_LIC_PATH'
     })
     .AddLocalStorage("./Files")
     .AddLocalCache("./Cache");
 
 var app = builder.Build();
+app.UseCors("AllowSpecificOrigin");
 
 app
     .UseRouting()
@@ -38,5 +46,4 @@ app
             options.ApiPath = "/viewer-api";
         });
     });
-
 app.Run();
