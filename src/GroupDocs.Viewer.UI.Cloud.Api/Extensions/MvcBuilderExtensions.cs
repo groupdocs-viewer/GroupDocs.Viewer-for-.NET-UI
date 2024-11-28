@@ -16,6 +16,7 @@ using GroupDocs.Viewer.UI.Core.PageFormatting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using GroupDocs.Viewer.UI.Api.Utils;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -60,6 +61,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             });
 
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddTransient<IApiUrlBuilder, ApiUrlBuilder>();
             builder.Services.AddTransient<PngViewer>();
             builder.Services.AddTransient<JpgViewer>();
             builder.Services.AddTransient<HtmlWithEmbeddedResourcesViewer>();

@@ -1,5 +1,7 @@
-﻿using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts;
+﻿using GroupDocs.Viewer.UI.Api.Configuration;
+using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts;
 using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models;
+using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Utils;
 using GroupDocs.Viewer.UI.Cloud.Api.Configuration;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Entities;
@@ -19,14 +21,19 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
 
         public override string PageExtension => JpgPage.Extension;
 
+        public override string ThumbExtension => JpgThumb.Extension;
+
         public override Page CreatePage(int pageNumber, byte[] data) =>
             new JpgPage(pageNumber, data);
 
-        public override ViewOptions CreateViewOptions(FileInfo fileInfo)
+        public override Thumb CreateThumb(int pageNumber, byte[] data) =>
+            new JpgThumb(pageNumber, data);
+
+        public override ViewOptions CreatePagesViewOptions(FileInfo fileInfo)
         {
             var jpgOptions = new ImageOptions();
             
-            Config.PngViewOptionsSetupAction(jpgOptions);
+            Config.JpgViewOptionsSetupAction(jpgOptions);
 
             var viewOptions = new ViewOptions
             {
@@ -34,6 +41,30 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
                 ViewFormat = ViewFormat.JPG,
                 RenderOptions = jpgOptions,
                 OutputPath = Config.OutputFolderPath
+            };
+
+            return viewOptions;
+        }
+
+        public override ViewOptions CreateThumbsViewOptions(FileInfo fileInfo)
+        {
+            var imageOptions = new ImageOptions
+            {
+                MaxWidth = ThumbSettings.MaxThumbWidth,
+                MaxHeight = ThumbSettings.MaxThumbHeight,
+                JpegQuality = ThumbSettings.ThumbQuality
+            };
+
+            var tempImageOptions = new ImageOptions();
+            Config.JpgViewOptionsSetupAction(tempImageOptions);
+            RenderOptionsUtils.CopyRenderOptions(imageOptions, tempImageOptions);
+
+            var viewOptions = new ViewOptions
+            {
+                FileInfo = fileInfo,
+                ViewFormat = ViewFormat.JPG,
+                RenderOptions = imageOptions,
+                OutputPath = Config.OutputFolderPath,
             };
 
             return viewOptions;

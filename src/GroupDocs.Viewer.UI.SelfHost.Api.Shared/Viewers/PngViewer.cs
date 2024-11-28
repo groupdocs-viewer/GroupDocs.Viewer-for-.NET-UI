@@ -1,6 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using GroupDocs.Viewer.Options;
+using GroupDocs.Viewer.UI.Api.Configuration;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Entities;
 using GroupDocs.Viewer.UI.SelfHost.Api.Configuration;
@@ -19,20 +21,25 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
         public PngViewer(
             IOptions<Config> config,
             IAsyncLock asyncLock,
-            IViewerLicenser licenser,
+            IViewerLicenseManager licenseManager,
             IInternalCache internalCache,
             IFileStorage fileStorage, 
             IFileTypeResolver fileTypeResolver, 
             IPageFormatter pageFormatter)
-            : base(config, asyncLock, licenser, internalCache, fileStorage, fileTypeResolver, pageFormatter)
+            : base(config, asyncLock, licenseManager, internalCache, fileStorage, fileTypeResolver, pageFormatter)
         {
             _config = config.Value;
         }
 
         public override string PageExtension => PngPage.Extension;
 
+        public override string ThumbExtension => PngThumb.Extension;
+
         public override Page CreatePage(int pageNumber, byte[] data) =>
             new PngPage(pageNumber, data);
+
+        public override Thumb CreateThumb(int pageNumber, byte[] data)
+            => new PngThumb(pageNumber, data);
 
         public override Task<byte[]> GetPageResourceAsync(
             FileCredentials fileCredentials, int pageNumber, string resourceName) => 
@@ -42,25 +49,48 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
         protected override Page RenderPage(Viewer viewer, string filePath, int pageNumber)
         {
             var pageStream = new MemoryStream();
-            var viewOptions = CreateViewOptions(pageStream);
-
-            viewer.View(viewOptions, pageNumber);
+            var pageViewOptions = CreatePageViewOptions(pageStream);
+            viewer.View(pageViewOptions, pageNumber);
 
             var bytes = pageStream.ToArray();
+            
             var page = CreatePage(pageNumber, bytes);
-
             return page;
+        }
+
+        protected override Thumb RenderThumb(Viewer viewer, string filePath, int pageNumber)
+        {
+            var thumbStream = new MemoryStream();
+            var thumbViewOptions = CreateThumbViewOptions(thumbStream);
+            viewer.View(thumbViewOptions, pageNumber);
+
+            var thumbBytes = thumbStream.ToArray();
+
+            var thumb = CreateThumb(pageNumber, thumbBytes);
+            return thumb;
         }
 
         protected override ViewInfoOptions CreateViewInfoOptions() =>
             ViewInfoOptions.FromJpgViewOptions(_config.JpgViewOptions);
 
-        private PngViewOptions CreateViewOptions(MemoryStream pageStream)
+        private PngViewOptions CreatePageViewOptions(MemoryStream pageStream)
         {
             var viewOptions = new PngViewOptions(_ => pageStream,
                 (_, __) => { /*NOTE: Do nothing here*/ });
 
             viewOptions.CopyViewOptions(_config.PngViewOptions);
+
+            return viewOptions;
+        }
+
+        private PngViewOptions CreateThumbViewOptions(MemoryStream thumbStream)
+        {
+            var viewOptions = new PngViewOptions(_ => thumbStream,
+                (_, __) => { /*NOTE: Do nothing here*/ });
+
+            viewOptions.CopyViewOptions(_config.PngViewOptions);
+            viewOptions.MaxWidth = ThumbSettings.MaxThumbWidth;
+            viewOptions.MaxHeight = ThumbSettings.MaxThumbHeight;
 
             return viewOptions;
         }

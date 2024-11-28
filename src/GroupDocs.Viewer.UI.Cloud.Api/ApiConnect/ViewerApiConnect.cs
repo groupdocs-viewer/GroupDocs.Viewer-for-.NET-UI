@@ -61,6 +61,18 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
             return Result.Ok(viewResult.Value);
         }
 
+        public async Task<Result<ViewResult>> CreateThumbsAsync(FileInfo fileInfo, int[] pageNumbers,
+            ViewOptions viewOptions)
+        {
+            viewOptions.RenderOptions.PagesToRender = pageNumbers.ToList();
+
+            var viewResult = await Send<ViewResult>("viewer/view", HttpMethod.Post, viewOptions);
+            if (!viewResult.IsSuccess)
+                return Result.Fail<ViewResult>(viewResult);
+
+            return Result.Ok(viewResult.Value);
+        }
+
         public async Task<Result<byte[]>> DownloadResourceAsync(Resource resource, string storageName)
         {
             var requestUri = $"viewer/storage/file/{resource.Path}?storageName={storageName}";

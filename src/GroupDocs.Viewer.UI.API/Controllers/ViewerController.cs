@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using GroupDocs.Viewer.UI.Api.Infrastructure;
 using GroupDocs.Viewer.UI.Api.Models;
+using GroupDocs.Viewer.UI.Api.Utils;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Configuration;
 using GroupDocs.Viewer.UI.Core.Entities;
@@ -20,68 +21,36 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public class ViewerController : ControllerBase
     {
+        private readonly IViewer _viewer;
         private readonly IFileStorage _fileStorage;
         private readonly IFileNameResolver _fileNameResolver;
         private readonly ISearchTermResolver _searchTermResolver;
-        private readonly IUIConfigProvider _uiConfigProvider;
-        private readonly IViewer _viewer;
+        private readonly IApiUrlBuilder _apiUrlBuilder;
         private readonly ILogger<ViewerController> _logger;
         private readonly Config _config;
 
-        public ViewerController(IFileStorage fileStorage,
+        public ViewerController(
+            IViewer viewer,
+            IFileStorage fileStorage,
             IFileNameResolver fileNameResolver,
             ISearchTermResolver searchTermResolver,
-            IUIConfigProvider uiConfigProvider,
-            IViewer viewer,
             IOptions<Config> config,
+            IApiUrlBuilder apiUrlBuilder,
             ILogger<ViewerController> logger)
         {
             _fileStorage = fileStorage;
             _fileNameResolver = fileNameResolver;
             _searchTermResolver = searchTermResolver;
+            _apiUrlBuilder = apiUrlBuilder;
             _viewer = viewer;
             _logger = logger;
             _config = config.Value;
-            _uiConfigProvider = uiConfigProvider;
-        }
-
-        [HttpGet]
-        public IActionResult LoadConfig()
-        {
-            _uiConfigProvider.ConfigureUI(_config);
-
-            var config = new LoadConfigResponse
-            {
-                PageSelector = _config.IsPageSelector,
-                Download = _config.IsDownload,
-                Upload = _config.IsUpload,
-                Print = _config.IsPrint,
-                Browse = _config.IsBrowse,
-                Rewrite = _config.Rewrite,
-                EnableRightClick = _config.IsEnableRightClick,
-                PreventLinkClick = _config.IsPreventLinkClick,
-                DefaultDocument = _config.DefaultDocument,
-                PreloadPageCount = _config.PreloadPageCount,
-                Zoom = _config.IsZoom,
-                Search = _config.IsSearch,
-                Thumbnails = _config.IsThumbnails,
-                HtmlMode = _config.HtmlMode,
-                PrintAllowed = _config.IsPrintAllowed,
-                Rotate = _config.IsRotate,
-                SaveRotateState = _config.SaveRotateState,
-                DefaultLanguage = _config.DefaultLanguage,
-                SupportedLanguages = _config.SupportedLanguages,
-                ShowLanguageMenu = _config.IsShowLanguageMenu,
-                ShowToolBar = _config.IsShowToolBar,
-            };
-            
-            return OkJsonResult(config);
         }
 
         [HttpPost]
-        public async Task<IActionResult> LoadFileTree([FromBody] LoadFileTreeRequest request)
+        public async Task<IActionResult> ListDir([FromBody] ListDirRequest request)
         {
-            if (!_config.IsBrowse)
+            if (!_config.EnableFileBrowser)
                 return ErrorJsonResult("Browsing files is disabled.");
 
             try
@@ -90,7 +59,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                     await _fileStorage.ListDirsAndFilesAsync(request.Path);
 
                 var result = files
-                    .Select(entity => new FileDescription(entity.FilePath, entity.FilePath, entity.IsDirectory, entity.Size))
+                    .Select(entity => new FileSystemItem(entity.FilePath, entity.FilePath, entity.IsDirectory, entity.Size))
                     .ToList();
 
                 return OkJsonResult(result);
@@ -103,59 +72,10 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             }
         }
 
-        [HttpGet]
-        public async Task<IActionResult> DownloadDocument([FromQuery] string path)
-        {
-            if (!_config.IsDownload)
-                return ErrorJsonResult("Downloading files is disabled.");
-
-            try
-            {
-                var fileName = await _fileNameResolver.ResolveFileNameAsync(path);
-                var bytes = await _fileStorage.ReadFileAsync(path);
-
-                return File(bytes, "application/octet-stream", fileName);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to download a document.");
-
-                return ErrorJsonResult(ex.Message);
-            }
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> LoadDocumentPageResource([FromQuery] LoadDocumentPageResourceRequest request)
-        {
-            if (!_config.HtmlMode)
-                return ErrorJsonResult("Loading page resources is disabled in image mode.");
-
-            try
-            {
-                var fileCredentials =
-                    new FileCredentials(request.Guid, request.FileType, request.Password);
-                var bytes =
-                    await _viewer.GetPageResourceAsync(fileCredentials, request.PageNumber, request.ResourceName);
-
-                if (bytes.Length == 0)
-                    return NotFoundJsonResult($"Resource {request.ResourceName} was not found");
-
-                var contentType = request.ResourceName.ContentTypeFromFileName();
-
-                return File(bytes, contentType);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to load document page resource.");
-
-                return ErrorJsonResult(ex.Message);
-            }
-        }
-
         [HttpPost]
-        public async Task<IActionResult> UploadDocument()
+        public async Task<IActionResult> UploadFile()
         {
-            if (!_config.IsUpload)
+            if (!_config.EnableFileUpload)
                 return ErrorJsonResult("Uploading files is disabled.");
 
             try
@@ -178,79 +98,28 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PrintPdf([FromBody] PrintPdfRequest request)
-        {
-            if (!_config.IsPrint)
-                return ErrorJsonResult("Printing files is disabled.");
-
-            try
-            {
-                var fileCredentials =
-                    new FileCredentials(request.Guid, request.FileType, request.Password);
-
-                var fileName = await _fileNameResolver.ResolveFileNameAsync(request.Guid);
-                var pdfFileName = Path.ChangeExtension(fileName, ".pdf");
-                var pdfFileBytes = await _viewer.GetPdfAsync(fileCredentials);
-
-                return File(pdfFileBytes, "application/pdf", pdfFileName);
-            }
-            catch (Exception ex)
-            {
-                if (ex.Message.Contains("password", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    var message = string.IsNullOrEmpty(request.Password)
-                        ? "Password Required"
-                        : "Incorrect Password";
-
-                    return ForbiddenJsonResult(message);
-                }
-
-                _logger.LogError(ex, "Failed to create PDF file.");
-
-                return ErrorJsonResult(ex.Message);
-            }
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> LoadDocumentDescription([FromBody] LoadDocumentDescriptionRequest request)
+        public async Task<IActionResult> ViewData([FromBody] ViewDataRequest request)
         {
             try
             {
-                var fileCredentials =
-                    new FileCredentials(request.Guid, request.FileType, request.Password);
-                var documentDescription =
-                    await _viewer.GetDocumentInfoAsync(fileCredentials);
+                var file = new FileCredentials(request.File, request.FileType, request.Password);
 
-                var pageNumbers = GetPageNumbers(documentDescription.Pages.Count());
-                var pagesData = await _viewer.GetPagesAsync(fileCredentials, pageNumbers);
+                var docInfo = await _viewer.GetDocumentInfoAsync(file);
+                var pagesToCreate = GetPagesToCreate(docInfo.TotalPagesCount, _config.PreloadPages);
 
-                var pages = new List<PageDescription>();
-                var searchTerm = await _searchTermResolver.ResolveSearchTermAsync(request.Guid);
-                foreach (PageInfo pageInfo in documentDescription.Pages)
+                var pages = await CreateViewDataPages(file, docInfo, pagesToCreate);
+
+                var searchTerm = await _searchTermResolver.ResolveSearchTermAsync(request.File);
+                var response = new ViewDataResponse
                 {
-                    var pageData = pagesData.FirstOrDefault(p => p.PageNumber == pageInfo.Number);
-                    var pageDescription = new PageDescription
-                    {
-                        Width = pageInfo.Width,
-                        Height = pageInfo.Height,
-                        Number = pageInfo.Number,
-                        SheetName = pageInfo.Name,
-                        Data = pageData?.GetContent()
-                    };
-
-                    pages.Add(pageDescription);
-                }
-
-                var result = new LoadDocumentDescriptionResponse
-                {
-                    Guid = request.Guid,
-                    FileType = documentDescription.FileType,
-                    PrintAllowed = documentDescription.PrintAllowed,
-                    Pages = pages,
-                    SearchTerm = searchTerm
+                    File = request.File,
+                    FileType = docInfo.FileType,
+                    CanPrint = docInfo.PrintAllowed,
+                    SearchTerm = searchTerm,
+                    Pages = pages
                 };
 
-                return OkJsonResult(result);
+                return OkJsonResult(response);
             }
             catch (Exception ex)
             {
@@ -269,30 +138,17 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             }
         }
 
-        private int[] GetPageNumbers(int totalPageCount)
-        {
-            if (_config.PreloadPageCount == 0)
-                return Enumerable.Range(1, totalPageCount).ToArray();
-
-            var pageCount =
-                Math.Min(totalPageCount, _config.PreloadPageCount);
-
-            return Enumerable.Range(1, pageCount).ToArray();
-        }
-
         [HttpPost]
-        public async Task<IActionResult> LoadDocumentPages([FromBody] LoadDocumentPagesRequest request)
+        public async Task<IActionResult> CreatePages([FromBody] CreatePagesRequest request)
         {
             try
             {
-                var fileCredentials =
-                    new FileCredentials(request.Guid, request.FileType, request.Password);
-                var pages = await _viewer.GetPagesAsync(fileCredentials, request.Pages);
-                var pageContents = pages
-                    .Select(page => new PageContent { Number = page.PageNumber, Data = page.GetContent() })
-                    .ToList();
+                var file = new FileCredentials(request.File, request.FileType, request.Password);
+                var docInfo = await _viewer.GetDocumentInfoAsync(file);
 
-                return OkJsonResult(pageContents);
+                var pages = await CreatePagesAndThumbs(file, docInfo, request.Pages);
+
+                return OkJsonResult(pages);
             }
             catch (Exception ex)
             {
@@ -312,16 +168,26 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> LoadDocumentPage([FromBody] LoadDocumentPageRequest request)
+        public async Task<IActionResult> CreatePdf([FromBody] CreatePdfRequest request)
         {
+            if (!_config.EnablePrint)
+                return ErrorJsonResult("Printing files is disabled.");
+
+            if (!_config.EnableDownloadPdf)
+                return ErrorJsonResult("Downloading PDF files is disabled.");
+
             try
             {
-                var fileCredentials =
-                    new FileCredentials(request.Guid, request.FileType, request.Password);
-                var page = await _viewer.GetPageAsync(fileCredentials, request.Page);
-                var pageContent = new PageContent { Number = page.PageNumber, Data = page.GetContent() };
+                var fileCredentials = new FileCredentials(request.File, request.FileType, request.Password);
 
-                return OkJsonResult(pageContent);
+                await _viewer.GetPdfAsync(fileCredentials);
+
+                var response = new CreatePdfResponse
+                {
+                    PdfUrl = _apiUrlBuilder.BuildPdfUrl(request.File)
+                };
+
+                return OkJsonResult(response);
             }
             catch (Exception ex)
             {
@@ -334,10 +200,172 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                     return ForbiddenJsonResult(message);
                 }
 
+                _logger.LogError(ex, "Failed to create PDF file.");
+
+                return ErrorJsonResult(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetPage([FromQuery] GetPageRequest request)
+        {
+            try
+            {
+                var fileCredentials = new FileCredentials(request.File);
+                var page = await _viewer.GetPageAsync(fileCredentials, request.Page);
+
+                return File(page.PageData, page.ContentType);
+            }
+            catch (Exception ex)
+            {
                 _logger.LogError(ex, "Failed to retrieve document page.");
 
                 return ErrorJsonResult(ex.Message);
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetThumb([FromQuery] GetThumbRequest request)
+        {
+            try
+            {
+                var file = new FileCredentials(request.File);
+                var thumb = await _viewer.GetThumbAsync(file, request.Page);
+
+                return File(thumb.ThumbData, thumb.ContentType);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to retrieve document thumb.");
+
+                return ErrorJsonResult(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetPdf([FromQuery] GetPdfRequest request)
+        {
+            if (!_config.EnablePrint)
+                return ErrorJsonResult("Printing files is disabled.");
+
+            if (!_config.EnableDownloadPdf)
+                return ErrorJsonResult("Downloading PDF files is disabled.");
+
+            try
+            {
+                var fileCredentials = new FileCredentials(request.File);
+
+                var fileName = await _fileNameResolver.ResolveFileNameAsync(request.File);
+                var pdfFileName = Path.ChangeExtension(fileName, ".pdf");
+                var pdfFileBytes = await _viewer.GetPdfAsync(fileCredentials);
+
+                return File(pdfFileBytes, "application/pdf", pdfFileName);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to retrieve PDF file.");
+
+                return ErrorJsonResult(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetResource([FromQuery] GetResourceRequest request)
+        {
+            if (_config.RenderingMode != RenderingMode.Html)
+                return ErrorJsonResult("Loading page resources is disabled in image mode.");
+
+            try
+            {
+                var fileCredentials = new FileCredentials(request.File);
+                var bytes =
+                    await _viewer.GetPageResourceAsync(fileCredentials, request.Page, request.Resource);
+
+                if (bytes.Length == 0)
+                    return NotFoundJsonResult($"Resource {request.Resource} was not found");
+
+                var contentType = request.Resource.ContentTypeFromFileName();
+
+                return File(bytes, contentType);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to load document page resource.");
+
+                return ErrorJsonResult(ex.Message);
+            }
+        }
+
+        // NOTE: This method returns all of the pages including created and not
+        private async Task<List<PageData>> CreateViewDataPages(FileCredentials file, DocumentInfo docInfo, int[] pagesToCreate)
+        {
+            await _viewer.GetPagesAsync(file, pagesToCreate);
+
+            if (_config.EnableThumbnails)
+            {
+                await _viewer.GetThumbsAsync(file, pagesToCreate);
+            }
+
+            var pages = new List<PageData>();
+            foreach (PageInfo page in docInfo.Pages)
+            {
+                var isPageCreated = pagesToCreate.Contains(page.Number);
+                if (isPageCreated)
+                {
+                    var pageUrl = _apiUrlBuilder.BuildPageUrl(file.FilePath, page.Number);
+                    var thumbUrl = _apiUrlBuilder.BuildThumbUrl(file.FilePath, page.Number);
+
+                    var pageData = _config.EnableThumbnails
+                        ? new PageData(page.Number, page.Width, page.Height, pageUrl, thumbUrl)
+                        : new PageData(page.Number, page.Width, page.Height, pageUrl);
+
+                    pages.Add(pageData);
+                }
+                else
+                {
+                    pages.Add(new PageData(page.Number, page.Width, page.Height));
+                }
+            }
+
+            return pages;
+        }
+
+        // NOTE: This method returns only created pages
+        private async Task<List<PageData>> CreatePagesAndThumbs(FileCredentials file, DocumentInfo docInfo, int[] pagesToCreate)
+        {
+            await _viewer.GetPagesAsync(file, pagesToCreate);
+
+            if (_config.EnableThumbnails)
+            {
+                await _viewer.GetThumbsAsync(file, pagesToCreate);
+            }
+
+            var pages = new List<PageData>();
+            foreach (int pageNumber in pagesToCreate)
+            {
+                var page = docInfo.Pages.First(p => p.Number == pageNumber);
+                var pageUrl = _apiUrlBuilder.BuildPageUrl(file.FilePath, page.Number);
+                var thumbUrl = _apiUrlBuilder.BuildThumbUrl(file.FilePath, page.Number);
+
+                var pageData = _config.EnableThumbnails
+                    ? new PageData(page.Number, page.Width, page.Height, pageUrl, thumbUrl)
+                    : new PageData(page.Number, page.Width, page.Height, pageUrl);
+
+                pages.Add(pageData);
+            }
+
+            return pages;
+        }
+
+        private int[] GetPagesToCreate(int totalPageCount, int preloadPageCount)
+        {
+            if (preloadPageCount == 0)
+                return Enumerable.Range(1, totalPageCount).ToArray();
+
+            var pageCount =
+                Math.Min(totalPageCount, preloadPageCount);
+
+            return Enumerable.Range(1, pageCount).ToArray();
         }
 
         private Task<(string, byte[])> ReadOrDownloadFile()

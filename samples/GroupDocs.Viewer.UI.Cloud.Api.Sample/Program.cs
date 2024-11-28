@@ -5,8 +5,10 @@ var builder = WebApplication.CreateBuilder(args);
 ViewerType viewerType = ViewerType.HtmlWithEmbeddedResources;
 
 builder.Services
-    .AddGroupDocsViewerUI(config => 
-        config.SetViewerType(viewerType));
+    .AddGroupDocsViewerUI(config =>
+    {
+        config.RenderingMode = viewerType.ToRenderingMode();
+    });
 
 // Get your Client ID and Client Secret at https://dashboard.groupdocs.cloud/applications
 var clientId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -40,7 +42,7 @@ app
         endpoints.MapGroupDocsViewerUI(options =>
         {
             options.UIPath = "/viewer";
-            options.APIEndpoint = "/viewer-api";
+            options.ApiEndpoint = "/viewer-api";
         });
         endpoints.MapGroupDocsViewerApi(options =>
         {

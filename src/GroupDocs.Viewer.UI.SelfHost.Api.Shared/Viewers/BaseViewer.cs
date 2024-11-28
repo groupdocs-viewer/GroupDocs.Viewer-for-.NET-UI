@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using GroupDocs.Viewer.Exceptions;
 using GroupDocs.Viewer.Options;
 using GroupDocs.Viewer.Results;
 using GroupDocs.Viewer.UI.Core;
@@ -19,7 +20,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
     {
         private readonly Config _config;
         private readonly IAsyncLock _asyncLock;
-        private readonly IViewerLicenser _viewerLicenser;
+        private readonly IViewerLicenseManager _viewerLicenseManager;
         private readonly IInternalCache _viewerCache;
         private readonly InternalCacheOptions _internalCacheOptions;
         private readonly IFileStorage _fileStorage;
@@ -30,7 +31,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
         protected BaseViewer(
             IOptions<Config> config,
             IAsyncLock asyncLock,
-            IViewerLicenser viewerLicenser,
+            IViewerLicenseManager viewerLicenseManager,
             IInternalCache viewerCache,
             IFileStorage fileStorage,
             IFileTypeResolver fileTypeResolver,
@@ -38,7 +39,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
         {
             _config = config.Value;
             _asyncLock = asyncLock;
-            _viewerLicenser = viewerLicenser;
+            _viewerLicenseManager = viewerLicenseManager;
             _viewerCache = viewerCache;
             _internalCacheOptions = config.Value.InternalCacheOptions;
             _fileStorage = fileStorage;
@@ -48,20 +49,36 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 
         public abstract string PageExtension { get; }
 
+        public abstract string ThumbExtension { get; }
+
         public abstract Page CreatePage(int pageNumber, byte[] data);
 
+        public abstract Thumb CreateThumb(int pageNumber, byte[] data);
+
         protected abstract Page RenderPage(Viewer viewer, string filePath, int pageNumber);
+
+        protected abstract Thumb RenderThumb(Viewer viewer, string filePath, int pageNumber);
 
         protected abstract ViewInfoOptions CreateViewInfoOptions();
 
         public async Task<DocumentInfo> GetDocumentInfoAsync(FileCredentials fileCredentials)
         {
-            var viewer = await InitViewerAsync(fileCredentials);
-            var viewInfoOptions = CreateViewInfoOptions();
-            var viewInfo = viewer.GetViewInfo(viewInfoOptions);
+            try
+            {
+                var viewer = await InitViewerAsync(fileCredentials);
+                var viewInfoOptions = CreateViewInfoOptions();
+                var viewInfo = viewer.GetViewInfo(viewInfoOptions);
 
-            var documentInfo = ToDocumentInfo(viewInfo);
-            return documentInfo;
+                var documentInfo = ToDocumentInfo(viewInfo);
+                return documentInfo;
+            }
+            catch (Exception ex)
+            {
+                if(ex is PasswordRequiredException || ex is IncorrectPasswordException)
+                    await RemoveViewerFromIntCache(fileCredentials);
+
+                throw;
+            }
         }
 
         public async Task<Page> GetPageAsync(FileCredentials fileCredentials, int pageNumber)
@@ -69,6 +86,13 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             var viewer = await InitViewerAsync(fileCredentials);
             var page = await RenderPageInternalAsync(viewer, fileCredentials, pageNumber);
             return page;
+        }
+        
+        public async Task<Thumb> GetThumbAsync(FileCredentials fileCredentials, int pageNumber)
+        {
+            var viewer = await InitViewerAsync(fileCredentials);
+            var thumb = await RenderThumbInternalAsync(viewer, fileCredentials, pageNumber);
+            return thumb;
         }
 
         public async Task<Pages> GetPagesAsync(FileCredentials fileCredentials, int[] pageNumbers)
@@ -83,6 +107,20 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             }
 
             return pages;
+        }
+
+        public async Task<Thumbs> GetThumbsAsync(FileCredentials fileCredentials, int[] pageNumbers)
+        {
+            var viewer = await InitViewerAsync(fileCredentials);
+
+            var thumbs = new Thumbs();
+            foreach (var pageNumber in pageNumbers)
+            {
+                var thumb = await RenderThumbInternalAsync(viewer, fileCredentials, pageNumber);
+                thumbs.Add(thumb);
+            }
+
+            return thumbs;
         }
 
         public async Task<byte[]> GetPdfAsync(FileCredentials fileCredentials)
@@ -112,7 +150,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             if (_viewer != null)
                 return _viewer;
 
-            _viewerLicenser.SetLicense();
+            _viewerLicenseManager.SetLicense();
 
             if (_internalCacheOptions.IsCacheDisabled)
             {
@@ -120,21 +158,35 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
                 return _viewer;
             }
 
-            var key = $"VI__{fileCredentials.FilePath}";
+            _viewer = await TryGetFromIntCacheOrCreate(fileCredentials);
+            return _viewer;
+        }
+
+        private async Task<Viewer> TryGetFromIntCacheOrCreate(FileCredentials fileCredentials)
+        {
+            var key = GetAsyncLockKey(fileCredentials);
             using (await _asyncLock.LockAsync(key))
             {
-                if (_viewerCache.TryGet(fileCredentials, out var viewer))
-                {
-                    _viewer = viewer;
-                }
-                else
-                {
-                    _viewer = await CreateViewer(fileCredentials);
-                    _viewerCache.Set(fileCredentials, _viewer);
-                }
-            }
+                if (_viewerCache.TryGet(fileCredentials, out var cachedViewer))
+                    return cachedViewer;
 
-            return _viewer;
+                Viewer viewer = await CreateViewer(fileCredentials);
+                _viewerCache.Set(fileCredentials, viewer);
+
+                return viewer;
+            }
+        }
+
+        private static string GetAsyncLockKey(FileCredentials fileCredentials) =>
+            $"VI__{fileCredentials.FilePath}";
+
+        private async Task RemoveViewerFromIntCache(FileCredentials fileCredentials)
+        {
+            var key = GetAsyncLockKey(fileCredentials);
+            using (await _asyncLock.LockAsync(key))
+            {
+                _viewerCache.Remove(fileCredentials);
+            }
         }
 
         private async Task<Viewer> CreateViewer(FileCredentials fileCredentials)
@@ -161,7 +213,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 
             LoadOptions loadOptions = new LoadOptions
             {
-                FileType = FileType.FromExtension(loadFileType.Extension),
+                FileType = loadFileType,
                 Password = fileCredentials.Password,
                 ResourceLoadingTimeout = TimeSpan.FromSeconds(3)
             };
@@ -175,6 +227,13 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             page = await _pageFormatter.FormatAsync(fileCredentials, page);
 
             return page;
+        }
+
+        private Task<Thumb> RenderThumbInternalAsync(
+            Viewer viewer, FileCredentials fileCredentials, int pageNumber)
+        {
+            var thumb = RenderThumb(viewer, fileCredentials.FilePath, pageNumber);
+            return Task.FromResult(thumb);
         }
 
         private static DocumentInfo ToDocumentInfo(ViewInfo viewInfo)

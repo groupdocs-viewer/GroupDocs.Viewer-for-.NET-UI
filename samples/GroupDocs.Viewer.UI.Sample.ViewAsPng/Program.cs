@@ -2,21 +2,21 @@ using GroupDocs.Viewer.UI.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
-ViewerType png = ViewerType.Png;
+ViewerType viewerType = ViewerType.Png;
 
 builder.Services
     .AddGroupDocsViewerUI(config =>
     {
-        //Preload first three pages
-        config.SetPreloadPageCount(3);
-        config.SetViewerType(png);
+        //Preload first 3 pages
+        config.PreloadPages = 3;
+        config.RenderingMode = viewerType.ToRenderingMode();
     });
 
 builder.Services
     .AddControllers()
     .AddGroupDocsViewerSelfHostApi(config =>
     {
-        config.SetViewerType(png);
+        config.SetViewerType(viewerType);
 
         //Trial limitations https://docs.groupdocs.com/viewer/net/evaluation-limitations-and-licensing-of-groupdocs-viewer/
         //Temporary license can be requested at https://purchase.groupdocs.com/temporary-license
@@ -38,7 +38,7 @@ app
         endpoints.MapGroupDocsViewerUI(options =>
         {
             options.UIPath = "/viewer";
-            options.APIEndpoint = "/viewer-api";
+            options.ApiEndpoint = "/viewer-api";
         });
         endpoints.MapGroupDocsViewerApi(options =>
         {

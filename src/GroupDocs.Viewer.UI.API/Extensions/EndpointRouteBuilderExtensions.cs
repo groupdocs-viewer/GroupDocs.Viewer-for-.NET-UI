@@ -1,6 +1,7 @@
 using System;
 using GroupDocs.Viewer.UI.Api;
 using GroupDocs.Viewer.UI.Api.Configuration;
+using GroupDocs.Viewer.UI.Api.Extensions;
 using Microsoft.AspNetCore.Routing;
 
 namespace Microsoft.AspNetCore.Builder
@@ -17,32 +18,31 @@ namespace Microsoft.AspNetCore.Builder
 
             MapControllerRoutes(builder, options);
 
-            return new GroupDocsViewerApiConventionBuilder(new IEndpointConventionBuilder[0]);
+            return new GroupDocsViewerApiConventionBuilder(Array.Empty<IEndpointConventionBuilder>());
         }
 
         private static void MapControllerRoutes(IEndpointRouteBuilder builder, Options options)
         {
             var relativeApiPath = options.ApiPath.AsRelativeResource();
 
-            var actions = new []
+            var apiMethods = new []
             {
-                Constants.LOAD_CONFIG_ACTION_NAME,
-                Constants.LOAD_FILE_TREE_ACTION_NAME,
-                Constants.DOWNLOAD_DOCUMENT_ACTION_NAME,
-                Constants.UPLOAD_DOCUMENT_ACTION_NAME,
-                Constants.LOAD_DOCUMENT_DESCRIPTION_ACTION_NAME,
-                Constants.LOAD_DOCUMENT_PAGES_ACTION_NAME,
-                Constants.LOAD_DOCUMENT_PAGE_ACTION_NAME,
-                Constants.LOAD_DOCUMENT_PAGE_RESOURCE_ACTION_NAME,
-                Constants.LOAD_THUMBNAILS_ACTION_NAME,
-                Constants.PRINT_PDF_ACTION_NAME,
+                ApiNames.API_METHOD_LIST_DIR,
+                ApiNames.API_METHOD_UPLOAD_FILE,
+                ApiNames.API_METHOD_VIEW_DATA,
+                ApiNames.API_METHOD_CREATE_PAGES,
+                ApiNames.API_METHOD_CREATE_PDF,
+                ApiNames.API_METHOD_GET_PAGE,
+                ApiNames.API_METHOD_GET_THUMB,
+                ApiNames.API_METHOD_GET_PDF,
+                ApiNames.API_METHOD_GET_RESOURCE,
             };
 
-            foreach (var action in actions)
+            foreach (var apiMethod in apiMethods)
             {
                 builder.MapControllerRoute(
-                    name: action, $"{relativeApiPath}/{action}",
-                    new { controller = Constants.CONTROLLER_NAME, action = action });
+                    name: apiMethod, $"{relativeApiPath}/{apiMethod}",
+                    new { controller = ApiNames.CONTROLLER_NAME, action = apiMethod.ToActionName() });
             }
         }
 

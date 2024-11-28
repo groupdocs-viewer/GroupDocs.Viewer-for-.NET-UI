@@ -2,6 +2,7 @@
 using System.Reflection;
 using GroupDocs.Viewer.UI.Api;
 using GroupDocs.Viewer.UI.Api.Controllers;
+using GroupDocs.Viewer.UI.Api.Utils;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Caching;
 using GroupDocs.Viewer.UI.Core.Caching.Implementation;
@@ -39,7 +40,9 @@ namespace Microsoft.Extensions.DependencyInjection
                     setupConfig?.Invoke(settings);
                 });
 
-            builder.Services.AddSingleton<IViewerLicenser, ViewerLicenser>();
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddTransient<IApiUrlBuilder, ApiUrlBuilder>();
+            builder.Services.AddSingleton<IViewerLicenseManager, ViewerLicenseManager>();
             builder.Services.AddTransient<IFileCache, NoopFileCache>();
             builder.Services.AddTransient<IAsyncLock, AsyncDuplicateLock>();
             builder.Services.TryAddSingleton<IFileNameResolver, FilePathFileNameResolver>();
@@ -47,7 +50,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.TryAddSingleton<IPageFormatter, NoopPageFormatter>();
             builder.Services.TryAddSingleton<ISearchTermResolver, SearchTermResolver>();
             builder.Services.TryAddSingleton<IUIConfigProvider, UIConfigProvider>();
-
+          
             if (config.InternalCacheOptions.IsCacheEnabled)
             {
                 builder.Services.TryAddSingleton<IMemoryCache, MemoryCache>();

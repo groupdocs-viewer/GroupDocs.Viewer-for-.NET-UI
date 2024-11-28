@@ -1,6 +1,8 @@
-﻿using System;
+﻿using GroupDocs.Viewer.UI.Api.Configuration;
+using GroupDocs.Viewer.UI.Api.Utils;
 using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts;
 using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models;
+using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Utils;
 using GroupDocs.Viewer.UI.Cloud.Api.Configuration;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Entities;
@@ -11,34 +13,38 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
 {
     internal class HtmlWithExternalResourcesViewer : BaseViewer
     {
-        private readonly Options _options;
+        private readonly IApiUrlBuilder _apiUrlBuilder;
 
         public HtmlWithExternalResourcesViewer(
             IOptions<Config> config,
             IOptions<Options> options,
             IFileStorage fileStorage, 
             IViewerApiConnect viewerApiConnect,
-            IPageFormatter pageFormatter)
+            IPageFormatter pageFormatter,
+            IApiUrlBuilder apiUrlBuilder)
             : base(config, fileStorage, viewerApiConnect, pageFormatter)
         {
-            _options = options.Value;
+            _apiUrlBuilder = apiUrlBuilder;
         }
 
         public override string PageExtension => HtmlPage.Extension;
 
+        public override string ThumbExtension => JpgThumb.Extension;
+
         public override Page CreatePage(int pageNumber, byte[] data) =>
             new HtmlPage(pageNumber, data);
 
-        public override ViewOptions CreateViewOptions(FileInfo fileInfo)
+        public override Thumb CreateThumb(int pageNumber, byte[] data) =>
+            new JpgThumb(pageNumber, data);
+
+        public override ViewOptions CreatePagesViewOptions(FileInfo fileInfo)
         {
             var filePath = fileInfo.FilePath;
-            var basePath = _options.ApiPath;
-            var actionName = UI.Api.Constants.LOAD_DOCUMENT_PAGE_RESOURCE_ACTION_NAME;
             var htmlOptions = new HtmlOptions
             {
                 ExternalResources = true,
-                ResourcePath = 
-                    $"{basePath}/{actionName}?guid={filePath}&pageNumber={{page-number}}&resourceName={{resource-name}}"
+                ResourcePath = _apiUrlBuilder.BuildResourceUrl(
+                    filePath, "{page-number}", "{resource-name}")
             };
 
             Config.HtmlViewOptionsSetupAction(htmlOptions);
@@ -49,6 +55,30 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
                 ViewFormat = ViewFormat.HTML,
                 RenderOptions = htmlOptions,
                 OutputPath = Config.OutputFolderPath
+            };
+
+            return viewOptions;
+        }
+
+        public override ViewOptions CreateThumbsViewOptions(FileInfo fileInfo)
+        {
+            var imageOptions = new ImageOptions
+            {
+                MaxWidth = ThumbSettings.MaxThumbWidth,
+                MaxHeight = ThumbSettings.MaxThumbHeight,
+                JpegQuality = ThumbSettings.ThumbQuality
+            };
+
+            var tempHtmlOptions = new HtmlOptions();
+            Config.HtmlViewOptionsSetupAction(tempHtmlOptions);
+            RenderOptionsUtils.CopyRenderOptions(imageOptions, tempHtmlOptions);
+
+            var viewOptions = new ViewOptions
+            {
+                FileInfo = fileInfo,
+                ViewFormat = ViewFormat.JPG,
+                RenderOptions = imageOptions,
+                OutputPath = Config.OutputFolderPath,
             };
 
             return viewOptions;

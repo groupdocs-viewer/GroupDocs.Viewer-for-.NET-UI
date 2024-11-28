@@ -9,7 +9,7 @@ namespace Microsoft.Extensions.Configuration
             (this IConfiguration configuration, Config config)
         {
             configuration
-                .GetSection(Keys.GROUPDOCSVIEWERUI_SELF_HOST_API_SECTION_SETTING_KEY)
+                .GetSection(Keys.SELF_HOST_API_SECTION_SETTING_KEY)
                 .Bind(config, c => c.BindNonPublicProperties = true);
 
             return config;

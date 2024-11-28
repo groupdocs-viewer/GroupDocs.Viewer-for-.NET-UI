@@ -28,9 +28,9 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers.Extensions
             dst.CopyJpgViewOptions(src);
         }
 
-        private static void CopyBaseViewOptions(this BaseViewOptions dst, BaseViewOptions src)
+        public static void CopyBaseViewOptions(this BaseViewOptions dst, BaseViewOptions src)
         {
-            dst.RenderComments = src.RenderComments;
+            dst.RemoveComments = src.RemoveComments;
             dst.RenderNotes = src.RenderNotes;
             dst.RenderHiddenPages = src.RenderHiddenPages;
             dst.DefaultFontName = src.DefaultFontName;

@@ -33,6 +33,14 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts
         /// <returns>View result</returns>
         Task<Result<ViewResult>> CreatePagesAsync(FileInfo fileInfo, int[] pageNumbers, ViewOptions viewOptions);
         /// <summary>
+        /// Creates pages
+        /// </summary>
+        /// <param name="fileInfo">File info</param>
+        /// <param name="pageNumbers">Pages to create</param>
+        /// <param name="viewOptions">View options</param>
+        /// <returns>View result</returns>
+        Task<Result<ViewResult>> CreateThumbsAsync(FileInfo fileInfo, int[] pageNumbers, ViewOptions viewOptions);
+        /// <summary>
         /// Retrieves resource
         /// </summary>
         /// <param name="resource">The resource</param>

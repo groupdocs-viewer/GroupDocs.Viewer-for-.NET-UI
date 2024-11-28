@@ -6,13 +6,11 @@ namespace GroupDocs.Viewer.UI.Configuration
 {
     public class Options
     {
-        internal ICollection<string> CustomStylesheets { get; } = new List<string>();
-        
         public string UIPath { get; set; } = "/viewer";
 
-        public string UIConfigEndpoint { get; set; } = "/viewer-config";
+        public string ApiEndpoint { get; set; } = "/viewer-api";
 
-        public string APIEndpoint { get; set; } = "/viewer-api";
+        internal ICollection<string> CustomStylesheets { get; } = new List<string>();
 
         public Options AddCustomStylesheet(string path)
         {

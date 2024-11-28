@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using GroupDocs.Viewer.UI.Configuration;
+using GroupDocs.Viewer.UI.Core.Configuration;
 using GroupDocs.Viewer.UI.Core.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -19,7 +21,7 @@ namespace GroupDocs.Viewer.UI.Core
             _reader = reader ?? throw new ArgumentNullException(nameof(reader));
         }
 
-        public IEnumerable<IEndpointConventionBuilder> Map(IEndpointRouteBuilder builder, Options options)
+        public IEnumerable<IEndpointConventionBuilder> Map(IEndpointRouteBuilder builder, Options options, Config config)
         {
             var endpoints = new List<IEndpointConventionBuilder>();
 
@@ -29,10 +31,12 @@ namespace GroupDocs.Viewer.UI.Core
 
             foreach (var resource in resources)
             {
-                endpoints.Add(builder.MapGet($"{options.UIPath}/{resource.FileName}", async context =>
+                endpoints.Add(builder.MapGet($"{options.UIPath}/{resource.FileName}",  async context =>
                 {
                     context.Response.ContentType = resource.ContentType;
-                    await context.Response.WriteAsync(resource.Content);
+                    context.Response.ContentLength = resource.Content.Length;
+
+                    await context.Response.Body.WriteAsync(resource.Content, 0, resource.Content.Length);
                 }));
             }
 
@@ -40,18 +44,14 @@ namespace GroupDocs.Viewer.UI.Core
             {
                 context.Response.OnStarting(() =>
                 {
-                    if (!context.Response.Headers.ContainsKey("Cache-Control"))
-                    {
-                        context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
-                    }
-
+                    context.Response.Headers.TryAdd("Cache-Control", "no-cache, no-store");
                     return Task.CompletedTask;
                 });
 
                 var indexPage = resources.GetIndexPage();
                 var pathBase = context.Request.PathBase;
                 var routeValues = context.Request.RouteValues.ToDictionary();
-                var content = indexPage.GetIndexPageHtml(options, pathBase, routeValues);
+                var content = indexPage.GetIndexPageHtml(options, config, pathBase, routeValues);
 
                 context.Response.ContentType = indexPage.ContentType;
                 await context.Response.WriteAsync(content);

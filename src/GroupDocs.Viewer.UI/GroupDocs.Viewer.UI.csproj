@@ -1,16 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>$(NetVersion)</TargetFramework>
+    <TargetFrameworks>$(NetVersions)</TargetFrameworks>
 
     <PackageId>GroupDocs.Viewer.UI</PackageId>
     <Version>$(GroupDocsViewerUI)</Version>
     <Description>GroupDocs.Viewer.UI is a ASP.NET Core UI viewer of GroupDocs.Viewer for .NET see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
     <PackageTags>GroupDocs;Viewer;UI;Angular;ASP.NET Core;</PackageTags>
     <PackageIcon>images\icon.png</PackageIcon>
-
-    <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
-    <ClientRoot>client\</ClientRoot>
-    <BuildClientApp>false</BuildClientApp>
+    <AppsCommitSha>c73a0dd9f60c2f9e709e80ad7afb291cfbfdee45</AppsCommitSha>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,10 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="assets\index.html" />
-    <EmbeddedResource Include="assets\runtime.js" />
-    <EmbeddedResource Include="assets\polyfills.js" />
-    <EmbeddedResource Include="assets\main.js" />
+    <EmbeddedResource Include="App\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,15 +28,5 @@
     <ProjectReference Include="..\GroupDocs.Viewer.UI.Api\GroupDocs.Viewer.UI.Api.csproj" />
     <ProjectReference Include="..\GroupDocs.Viewer.UI.Core\GroupDocs.Viewer.UI.Core.csproj" />
   </ItemGroup>
-
-  <Target Name="InstallPackages" BeforeTargets="BeforeBuild" Condition="'$(BuildClientApp)' == 'True'">
-    <Message Importance="high" Text="*** Installing npm packages ***" />
-    <Exec WorkingDirectory="$(ClientRoot)" Command="npm install" ContinueOnError="false" />
-  </Target>
-
-  <Target Name="BuildClient" BeforeTargets="BeforeBuild" DependsOnTargets="InstallPackages" Condition="'$(BuildClientApp)' == 'True'">
-    <Message Importance="high" Text="*** Bundling client files ***" />
-    <Exec WorkingDirectory="$(ClientRoot)" Command="npm run build" ContinueOnError="false" />
-  </Target>
 
 </Project>

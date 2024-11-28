@@ -1,21 +1,31 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
+using System.Text;
 
 namespace GroupDocs.Viewer.UI.Core
 {
     internal class UIResource
     {
-        public string Content { get; internal set; }
+        public byte[] Content { get; internal set; }
         public string ContentType { get; }
         public string FileName { get; }
 
-        private UIResource(string fileName, string content, string contentType)
+        private UIResource(string fileName, byte[] content, string contentType)
         {
             Content = content ?? throw new ArgumentNullException(nameof(content));
             ContentType = contentType ?? throw new ArgumentNullException(nameof(contentType));
             FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
         }
 
-        public static UIResource Create(string fileName, string content, string contentType)
+        public string GetContentString() => Encoding.UTF8.GetString(Content);
+
+        public void SetContentString(string content)
+        {
+            Content = Encoding.UTF8.GetBytes(content);
+        } 
+
+        public static UIResource Create(string fileName, byte[] content, string contentType)
         {
             return new UIResource(fileName, content, contentType);
         }

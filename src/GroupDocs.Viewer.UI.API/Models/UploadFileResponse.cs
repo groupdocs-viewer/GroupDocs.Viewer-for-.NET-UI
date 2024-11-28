@@ -7,15 +7,15 @@ namespace GroupDocs.Viewer.UI.Api.Models
         /// <summary>
         /// Unique file ID.
         /// </summary>
-        [JsonPropertyName("guid")]
-        public string Guid { get; }
+        [JsonPropertyName("file")]
+        public string File { get; }
 
         /// <summary>
         /// .ctor
         /// </summary>
-        public UploadFileResponse(string filePath)
+        public UploadFileResponse(string file)
         {
-            Guid = filePath;
+            File = file;
         }
     }
 }

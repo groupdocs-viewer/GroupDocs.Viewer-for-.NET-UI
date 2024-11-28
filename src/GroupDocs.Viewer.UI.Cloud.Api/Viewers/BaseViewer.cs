@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts;
@@ -34,9 +33,15 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
 
         public abstract string PageExtension { get; }
 
+        public abstract string ThumbExtension { get; }
+
         public abstract Page CreatePage(int pageNumber, byte[] data);
 
-        public abstract ViewOptions CreateViewOptions(FileInfo fileInfo);
+        public abstract Thumb CreateThumb(int pageNumber, byte[] data);
+
+        public abstract ViewOptions CreatePagesViewOptions(FileInfo fileInfo);
+
+        public abstract ViewOptions CreateThumbsViewOptions(FileInfo fileInfo);
 
         private ViewOptions CreatePdfViewOptions(FileInfo fileInfo)
         {
@@ -65,6 +70,16 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
             return page;
         }
 
+        public async Task<Thumb> GetThumbAsync(FileCredentials fileCredentials, int pageNumber)
+        {
+            await UploadFileIfNotExists(fileCredentials.FilePath);
+
+            var thumbs = await CreateThumbsAsync(fileCredentials, new[] { pageNumber });
+            var thumb = thumbs.FirstOrDefault();
+
+            return thumb;
+        }
+
         public async Task<Pages> GetPagesAsync(FileCredentials fileCredentials, int[] pageNumbers)
         {
             await UploadFileIfNotExists(fileCredentials.FilePath);
@@ -74,12 +89,21 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
             return new Pages(pages);
         }
 
+        public async Task<Thumbs> GetThumbsAsync(FileCredentials fileCredentials, int[] pageNumbers)
+        {
+            await UploadFileIfNotExists(fileCredentials.FilePath);
+
+            var thumbs = await CreateThumbsAsync(fileCredentials, pageNumbers);
+
+            return new Thumbs(thumbs);
+        }
+
         private async Task<List<Page>> CreatePagesAsync(FileCredentials fileCredentials, int[] pagesToCreate)
         {
             var pages = new List<Page>();
 
             var fileInfo = CreateFileInfo(fileCredentials);
-            var viewOptions = CreateViewOptions(fileInfo);
+            var viewOptions = CreatePagesViewOptions(fileInfo);
 
             var createPagesResult = await _viewerApiConnect.CreatePagesAsync(fileInfo, pagesToCreate, viewOptions);
             if (createPagesResult.IsFailure)
@@ -113,6 +137,35 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
             return pages;
         }
 
+        private async Task<List<Thumb>> CreateThumbsAsync(FileCredentials fileCredentials, int[] pagesToCreate)
+        {
+            var thumbs = new List<Thumb>();
+
+            var fileInfo = CreateFileInfo(fileCredentials);
+            var viewOptions = CreateThumbsViewOptions(fileInfo);
+
+            var createThumbsResult = await _viewerApiConnect.CreateThumbsAsync(fileInfo, pagesToCreate, viewOptions);
+            if (createThumbsResult.IsFailure)
+                throw new Exception(createThumbsResult.Message);
+
+            foreach (var thumbView in createThumbsResult.Value.Pages)
+            {
+                var downloadResult = await _viewerApiConnect.DownloadResourceAsync(thumbView,
+                    Config.StorageName);
+
+                if (downloadResult.IsFailure)
+                    throw new Exception(downloadResult.Message);
+
+                var thumb = CreateThumb(thumbView.Number, downloadResult.Value);
+                thumbs.Add(thumb);
+            }
+
+            if (Config.DeleteOutput)
+                await _viewerApiConnect.DeleteView(fileInfo, Config.StorageName);
+
+            return thumbs;
+        }
+
         private async Task<List<PageResource>> DownloadResourcesAsync(List<HtmlResource> htmlResources, string storageName)
         {
             List<PageResource> resources = new List<PageResource>();
@@ -134,9 +187,8 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
             await UploadFileIfNotExists(fileCredentials.FilePath);
 
             var fileInfo = CreateFileInfo(fileCredentials);
-            var viewOptions = CreateViewOptions(fileInfo);
-            var result =
-                await _viewerApiConnect.GetDocumentInfoAsync(fileInfo, viewOptions);
+            var viewOptions = CreatePagesViewOptions(fileInfo);
+            var result = await _viewerApiConnect.GetDocumentInfoAsync(fileInfo, viewOptions);
 
             if (result.IsFailure)
                 throw new Exception(result.Message);

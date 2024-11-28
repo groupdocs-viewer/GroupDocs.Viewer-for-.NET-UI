@@ -9,20 +9,22 @@ namespace GroupDocs.Viewer.UI.Core.Entities
 
         public static string Extension => ".jpeg";
 
+        public override string ContentType => "image/jpeg";
+
         public override string GetContent()
         {
-            return DATA_IMAGE + Convert.ToBase64String(Data);
+            return DATA_IMAGE + Convert.ToBase64String(PageData);
         }
 
         public override void SetContent(string content)
         {
-            this.Data = content.StartsWith(DATA_IMAGE) 
+            this.PageData = content.StartsWith(DATA_IMAGE) 
                 ? Encoding.UTF8.GetBytes(content) 
                 : Encoding.UTF8.GetBytes(content.Substring(DATA_IMAGE.Length - 1));
         }
 
-        public JpgPage(int pageNumber, byte[] data) 
-            : base(pageNumber, data)
+        public JpgPage(int pageNumber, byte[] pageData) 
+            : base(pageNumber, pageData)
         {
             
         }

@@ -7,5 +7,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.InternalCaching
         bool TryGet(FileCredentials fileCredentials, out Viewer viewer);
 
         void Set(FileCredentials fileCredentials, Viewer entry);
+
+        void Remove(FileCredentials fileCredentials);
     }
 }

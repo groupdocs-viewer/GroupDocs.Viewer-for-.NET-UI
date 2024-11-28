@@ -6,9 +6,9 @@ namespace GroupDocs.Viewer.UI.Api
 {
     public class FilePathFileNameResolver : IFileNameResolver
     {
-        public Task<string> ResolveFileNameAsync(string filePath)
+        public Task<string> ResolveFileNameAsync(string file)
         {
-            string fileName = Path.GetFileName(filePath);
+            string fileName = Path.GetFileName(file);
             return Task.FromResult(fileName);
         }
     }

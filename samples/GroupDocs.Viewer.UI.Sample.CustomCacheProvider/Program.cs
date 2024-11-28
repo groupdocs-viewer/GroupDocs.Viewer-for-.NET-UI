@@ -29,10 +29,11 @@ app
         {
             await context.Response.WriteAsync("Viewer UI can be accessed at '/viewer' endpoint.");
         });
+
         endpoints.MapGroupDocsViewerUI(options =>
         {
             options.UIPath = "/viewer";
-            options.APIEndpoint = "/viewer-api";
+            options.ApiEndpoint = "/viewer-api";
         });
         endpoints.MapGroupDocsViewerApi(options =>
         {
@@ -50,7 +51,7 @@ class ConcurrentDictionaryFileCache : IFileCache
     public TEntry TryGetValue<TEntry>(string cacheKey, string filePath)
     {
         string key = $"{filePath}_{cacheKey}";
-        if (_cache.TryGetValue(key, out object obj))
+        if (_cache.TryGetValue(key, out object? obj))
             return (TEntry)obj;
 
         return default!;

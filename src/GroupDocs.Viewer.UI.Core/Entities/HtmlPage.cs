@@ -6,12 +6,14 @@ namespace GroupDocs.Viewer.UI.Core.Entities
     {
         public static string Extension => ".html";
 
+        public override string ContentType => "text/html";
+
         public override string GetContent() =>
-            Encoding.UTF8.GetString(Data);
+            Encoding.UTF8.GetString(PageData);
 
         public override void SetContent(string contents)
         {
-            Data = Encoding.UTF8.GetBytes(contents);
+            PageData = Encoding.UTF8.GetBytes(contents);
         }
 
         public HtmlPage(int pageNumber, byte[] data) 
