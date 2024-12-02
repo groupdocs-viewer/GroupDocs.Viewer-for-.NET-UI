@@ -16,16 +16,17 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Package Versions">
-    <GroupDocsViewer>24.10.0</GroupDocsViewer>
+    <GroupDocsViewer>24.11.0</GroupDocsViewer>
 
     <MicrosoftExtensionsHttp>6.0.0</MicrosoftExtensionsHttp>
     <MicrosoftExtensionsDependencyInjectionAbstractions>6.0.0</MicrosoftExtensionsDependencyInjectionAbstractions>
     <MicrosoftExtensionsConfiguration>6.0.1</MicrosoftExtensionsConfiguration>
     <MicrosoftExtensionsConfigurationBinder>6.0.0</MicrosoftExtensionsConfigurationBinder>
-    <MicrosoftExtensionsCachingMemory>6.0.1</MicrosoftExtensionsCachingMemory>
+    <MicrosoftExtensionsCachingMemory>8.0.1</MicrosoftExtensionsCachingMemory>
+    <SystemFormatsAsn1>8.0.1</SystemFormatsAsn1>
 
     <NewtonsoftJson>13.0.3</NewtonsoftJson>
-    <SystemTextJson>6.0.5</SystemTextJson>
+    <SystemTextJson>8.0.5</SystemTextJson>
 
     <AzureBlobs>12.22.1</AzureBlobs>
     <AwsSdkS3>3.7.403.5</AwsSdkS3>
@@ -34,17 +35,17 @@
   </PropertyGroup>
 
   <PropertyGroup Label="GroupDocs.Viewer UI Package Versions">
-    <GroupDocsViewerUI>6.0.28</GroupDocsViewerUI>
-    <GroupDocsViewerUIApi>6.0.11</GroupDocsViewerUIApi>
-    <GroupDocsViewerUIApiLocalCache>6.0.4</GroupDocsViewerUIApiLocalCache>
-    <GroupDocsViewerUIApiInMemoryCache>6.0.4</GroupDocsViewerUIApiInMemoryCache>
+    <GroupDocsViewerUI>6.0.29</GroupDocsViewerUI>
+    <GroupDocsViewerUIApi>6.0.12</GroupDocsViewerUIApi>
+    <GroupDocsViewerUIApiLocalCache>6.0.5</GroupDocsViewerUIApiLocalCache>
+    <GroupDocsViewerUIApiInMemoryCache>6.0.5</GroupDocsViewerUIApiInMemoryCache>
     <GroupDocsViewerUIApiLocalStorage>6.0.4</GroupDocsViewerUIApiLocalStorage>
     <GroupDocsViewerUIApiCloudStorage>6.0.5</GroupDocsViewerUIApiCloudStorage>
-    <GroupDocsViewerUIApiAzureStorage>6.0.4</GroupDocsViewerUIApiAzureStorage>
+    <GroupDocsViewerUIApiAzureStorage>6.0.6</GroupDocsViewerUIApiAzureStorage>
     <GroupDocsViewerUIApiAwsS3Storage>6.0.4</GroupDocsViewerUIApiAwsS3Storage>
     <GroupDocsViewerUICore>6.0.6</GroupDocsViewerUICore>
-    <GroupDocsViewerUISelfHostApi>6.0.31</GroupDocsViewerUISelfHostApi>
-    <GroupDocsViewerUISelfHostApiCrossPlatform>6.0.6</GroupDocsViewerUISelfHostApiCrossPlatform>
+    <GroupDocsViewerUISelfHostApi>6.0.32</GroupDocsViewerUISelfHostApi>
+    <GroupDocsViewerUISelfHostApiCrossPlatform>6.0.7</GroupDocsViewerUISelfHostApiCrossPlatform>
     <GroupDocsViewerUICloudApi>6.0.9</GroupDocsViewerUICloudApi>
   </PropertyGroup>
 
