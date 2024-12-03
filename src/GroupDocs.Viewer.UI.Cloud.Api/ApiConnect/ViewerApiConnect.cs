@@ -1,13 +1,13 @@
-﻿using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts;
+﻿using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts;
 using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models;
 using GroupDocs.Viewer.UI.Cloud.Api.Common;
 using GroupDocs.Viewer.UI.Core.Entities;
-using Newtonsoft.Json;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
 {
@@ -15,11 +15,12 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
     {
         private readonly HttpClient _httpClient;
 
-        private readonly JsonSerializerSettings _jsonSerializerSettings
-            = new JsonSerializerSettings
+        private readonly JsonSerializerOptions _jsonSerializerOptions
+            = new JsonSerializerOptions
             {
-                NullValueHandling = NullValueHandling.Ignore, 
+                DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
             };
+
 
         public ViewerApiConnect(HttpClient httpClient)
         {
@@ -133,7 +134,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
 
             if (request != null)
             {
-                var requestJson = JsonConvert.SerializeObject(request, _jsonSerializerSettings);
+                var requestJson = JsonSerializer.Serialize(request, _jsonSerializerOptions);
                 message.Content = new StringContent(requestJson, Encoding.UTF8, "application/json");
             }
 
@@ -153,7 +154,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
                 return Result.Fail<T>(responseJson);
             }
 
-            var obj = JsonConvert.DeserializeObject<T>(responseJson, _jsonSerializerSettings);
+            var obj = JsonSerializer.Deserialize<T>(responseJson, _jsonSerializerOptions);
             return Result.Ok(obj);
         }
 
@@ -178,7 +179,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
                 return Result.Fail<T>(responseJson);
             }
 
-            var obj = JsonConvert.DeserializeObject<T>(responseJson, _jsonSerializerSettings);
+            var obj = JsonSerializer.Deserialize<T>(responseJson, _jsonSerializerOptions);
             return Result.Ok(obj);
         }
 
@@ -188,8 +189,9 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
 
             if (request != null)
             {
-                var requestJson = JsonConvert.SerializeObject(request, _jsonSerializerSettings);
+                var requestJson = JsonSerializer.Serialize(request, _jsonSerializerOptions);
                 message.Content = new StringContent(requestJson, Encoding.UTF8, "application/json");
+
             }
 
             var response = await _httpClient.SendAsync(message);
@@ -234,15 +236,15 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
         {
             try
             {
-                obj = JsonConvert.DeserializeObject<T>(json, _jsonSerializerSettings);
+                obj = JsonSerializer.Deserialize<T>(json, _jsonSerializerOptions);
+                return true;
             }
-            catch (JsonSerializationException)
+            catch (JsonException) // System.Text.Json-specific exception
             {
-                obj = default(T);
+                obj = default;
                 return false;
             }
-
-            return true;
         }
+
     }
 }

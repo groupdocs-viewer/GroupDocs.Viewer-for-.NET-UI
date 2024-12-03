@@ -17,6 +17,8 @@
 
   <ItemGroup>
     <PackageReference Include="GroupDocs.Viewer.CrossPlatform" Version="$(GroupDocsViewer)" />
+    <PackageReference Include="System.Formats.Asn1" Version="$(SystemFormatsAsn1)" />
+    <PackageReference Include="System.Text.Json" Version="$(SystemTextJson)" />
   </ItemGroup>
 
   <ItemGroup>

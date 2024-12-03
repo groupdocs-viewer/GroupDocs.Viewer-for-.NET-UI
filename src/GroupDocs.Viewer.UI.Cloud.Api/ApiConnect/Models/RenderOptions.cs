@@ -1,120 +1,101 @@
 using System.Collections.Generic;
 using System.Text;
-using Newtonsoft.Json;
 
 namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models
 {
     /// <summary>
     /// Rendering options
-    /// </summary>  
+    /// </summary>
     public class RenderOptions
     {
         /// <summary>
         /// Pages list to render. Ignored, if StartPageNumber and CountPagesToRender are provided
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         internal List<int> PagesToRender { get; set; }
 
         /// <summary>
         /// Page rotations
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         internal List<PageRotation> PageRotations { get; set; }
 
         /// <summary>
         /// Default font name may be specified in following cases: - You want to generally specify the default font to fall back on, if particular font   in the document cannot be found during rendering. - Your document uses fonts, that contain non-English characters and you want to make sure   any missing font is replaced with one that has the same character set available.
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         public string DefaultFontName { get; set; }
 
         /// <summary>
         /// Default encoding for the plain text files such as .csv, .txt and .eml files when encoding is not specified in header
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         public string DefaultEncoding { get; set; }
 
         /// <summary>
         /// When enabled comments will be rendered to the output
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         public bool RenderComments { get; set; }
 
         /// <summary>
         /// When enabled notes will be rendered to the output
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         public bool RenderNotes { get; set; }
 
         /// <summary>
         /// When enabled hidden pages, sheets or slides will be rendered to the output
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         public bool RenderHiddenPages { get; set; }
 
         /// <summary>
-        /// Rendering options for Spreadsheet source file formats Spreadsheet file formats include files with extensions: .xls, .xlsx, .xlsm, .xlsb, .csv, .ods, .ots, .xltx, .xltm, .tsv 
-        /// </summary>  
-        [JsonProperty]
+        /// Rendering options for Spreadsheet source file formats Spreadsheet file formats include files with extensions: .xls, .xlsx, .xlsm, .xlsb, .csv, .ods, .ots, .xltx, .xltm, .tsv
+        /// </summary>
         public SpreadsheetOptions SpreadsheetOptions { get; set; }
 
         /// <summary>
         /// Rendering options for CAD source file formats CAD file formats include files with extensions: .dwg, .dxf, .dgn, .ifc, .stl
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         public CadOptions CadOptions { get; set; }
 
         /// <summary>
         /// Rendering options for Email source file formats Email file formats include files with extensions: .msg, .eml, .emlx, .ifc, .stl
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         public EmailOptions EmailOptions { get; set; }
 
         /// <summary>
         /// Rendering options for MS Project source file formats Project file formats include files with extensions: .mpt, .mpp
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         public ProjectManagementOptions ProjectManagementOptions { get; set; }
 
         /// <summary>
         /// Rendering options for PDF source file formats
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         public PdfDocumentOptions PdfDocumentOptions { get; set; }
 
         /// <summary>
         /// Rendering options for WordProcessing source file formats
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         public WordProcessingOptions WordProcessingOptions { get; set; }
 
         /// <summary>
         /// Rendering options for Outlook source file formats
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         public OutlookOptions OutlookOptions { get; set; }
 
         /// <summary>
         /// Rendering options for Archive source file formats
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         public ArchiveOptions ArchiveOptions { get; set; }
 
         /// <summary>
         /// Rendering options for Text source file formats
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         public TextOptions TextOptions { get; set; }
 
         /// <summary>
         /// Rendering options for Mail storage (Lotus Notes, MBox) data files.
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         public MailStorageOptions MailStorageOptions { get; set; }
 
         /// <summary>
         /// Rendering options for Visio source file formats
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         public VisioRenderingOptions VisioRenderingOptions { get; set; }
 
         /// <summary>

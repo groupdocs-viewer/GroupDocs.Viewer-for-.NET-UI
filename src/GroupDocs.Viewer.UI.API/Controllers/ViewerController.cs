@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using GroupDocs.Viewer.UI.Api.Infrastructure;
-using GroupDocs.Viewer.UI.Api.Models;
+﻿using GroupDocs.Viewer.UI.Api.Models;
 using GroupDocs.Viewer.UI.Api.Utils;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Configuration;
@@ -15,6 +8,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace GroupDocs.Viewer.UI.Api.Controllers
 {
@@ -62,7 +61,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                     .Select(entity => new FileSystemItem(entity.FilePath, entity.FilePath, entity.IsDirectory, entity.Size))
                     .ToList();
 
-                return OkJsonResult(result);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -87,7 +86,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
 
                 var result = new UploadFileResponse(filePath);
 
-                return OkJsonResult(result);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -119,7 +118,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                     Pages = pages
                 };
 
-                return OkJsonResult(response);
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -129,7 +128,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                             ? "Password Required"
                             : "Incorrect Password";
 
-                    return ForbiddenJsonResult(message);
+                    return Forbid(message);
                 }
 
                 _logger.LogError(ex, "Failed to read document description.");
@@ -148,7 +147,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
 
                 var pages = await CreatePagesAndThumbs(file, docInfo, request.Pages);
 
-                return OkJsonResult(pages);
+                return Ok(pages);
             }
             catch (Exception ex)
             {
@@ -158,7 +157,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                         ? "Password Required"
                         : "Incorrect Password";
 
-                    return ForbiddenJsonResult(message);
+                    return Forbid(message);
                 }
 
                 _logger.LogError(ex, "Failed to retrieve document pages.");
@@ -187,7 +186,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                     PdfUrl = _apiUrlBuilder.BuildPdfUrl(request.File)
                 };
 
-                return OkJsonResult(response);
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -197,7 +196,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                         ? "Password Required"
                         : "Incorrect Password";
 
-                    return ForbiddenJsonResult(message);
+                    return Forbid(message);
                 }
 
                 _logger.LogError(ex, "Failed to create PDF file.");
@@ -282,7 +281,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                     await _viewer.GetPageResourceAsync(fileCredentials, request.Page, request.Resource);
 
                 if (bytes.Length == 0)
-                    return NotFoundJsonResult($"Resource {request.Resource} was not found");
+                    return NotFound($"Resource {request.Resource} was not found");
 
                 var contentType = request.Resource.ContentTypeFromFileName();
 
@@ -400,24 +399,8 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         }
 
         private IActionResult ErrorJsonResult(string message) =>
-            new ViewerActionResult(new ErrorResponse(message))
-            {
-                StatusCode = StatusCodes.Status500InternalServerError
-            };
+            StatusCode(StatusCodes.Status500InternalServerError, message);
 
-        private IActionResult ForbiddenJsonResult(string message) =>
-            new ViewerActionResult(new ErrorResponse(message))
-            {
-                StatusCode = StatusCodes.Status403Forbidden
-            };
 
-        private IActionResult NotFoundJsonResult(string message) =>
-            new ViewerActionResult(new ErrorResponse(message))
-            {
-                StatusCode = StatusCodes.Status404NotFound
-            };
-
-        private IActionResult OkJsonResult(object result) =>
-            new ViewerActionResult(result);
     }
 }

@@ -1,5 +1,4 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
 
 namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models
 {
@@ -7,27 +6,27 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models
     /// View format (HTML, PNG, JPG, or PDF) Default value is HTML.
     /// </summary>
     /// <value>View format (HTML, PNG, JPG, or PDF) Default value is HTML.</value>
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum ViewFormat
     {
         /// <summary>
         /// Enum HTML for "HTML"
-        /// </summary>            
+        /// </summary>
         HTML,
 
         /// <summary>
         /// Enum PNG for "PNG"
-        /// </summary>            
+        /// </summary>
         PNG,
 
         /// <summary>
         /// Enum JPG for "JPG"
-        /// </summary>            
+        /// </summary>
         JPG,
 
         /// <summary>
         /// Enum PDF for "PDF"
-        /// </summary>            
+        /// </summary>
         PDF
     }
 }

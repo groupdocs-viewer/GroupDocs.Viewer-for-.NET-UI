@@ -1,5 +1,4 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
 
 namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models
 {
@@ -7,42 +6,42 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models
     /// Watermark position. Default value is \&quot;Diagonal\&quot;.
     /// </summary>
     /// <value>Watermark position. Default value is \&quot;Diagonal\&quot;.</value>
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum Position
-    { 
+    {
         /// <summary>
         /// Enum Diagonal for "Diagonal"
-        /// </summary>            
+        /// </summary>
         Diagonal,
-            
+
         /// <summary>
         /// Enum TopLeft for "TopLeft"
-        /// </summary>            
+        /// </summary>
         TopLeft,
-            
+
         /// <summary>
         /// Enum TopCenter for "TopCenter"
-        /// </summary>            
+        /// </summary>
         TopCenter,
-            
+
         /// <summary>
         /// Enum TopRight for "TopRight"
-        /// </summary>            
+        /// </summary>
         TopRight,
-            
+
         /// <summary>
         /// Enum BottomLeft for "BottomLeft"
-        /// </summary>            
+        /// </summary>
         BottomLeft,
-            
+
         /// <summary>
         /// Enum BottomCenter for "BottomCenter"
-        /// </summary>            
+        /// </summary>
         BottomCenter,
-            
+
         /// <summary>
         /// Enum BottomRight for "BottomRight"
-        /// </summary>            
-        BottomRight            
+        /// </summary>
+        BottomRight
     }
 }

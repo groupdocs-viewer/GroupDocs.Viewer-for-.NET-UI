@@ -1,52 +1,52 @@
 <Project>
-  <PropertyGroup Label="SDK Versions">
-    <NetVersions>net6.0;net8.0</NetVersions>
-    <NetStandardVersion>netstandard2.0</NetStandardVersion>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
+	<PropertyGroup Label="SDK Versions">
+		<NetVersions>net6.0;net8.0</NetVersions>
+		<NetStandardVersion>netstandard2.0</NetStandardVersion>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
 
-  <PropertyGroup Label="Package information">
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI</RepositoryUrl>
-    <Authors>GroupDocs Contributors</Authors>
-    <Company>Aspose</Company>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <AllowedOutputExtensionsInPackageBuildOutputFolder>true</AllowedOutputExtensionsInPackageBuildOutputFolder>
-  </PropertyGroup>
+	<PropertyGroup Label="Package information">
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI</RepositoryUrl>
+		<Authors>GroupDocs Contributors</Authors>
+		<Company>Aspose</Company>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<AllowedOutputExtensionsInPackageBuildOutputFolder>true</AllowedOutputExtensionsInPackageBuildOutputFolder>
+	</PropertyGroup>
 
-  <PropertyGroup Label="Package Versions">
-    <GroupDocsViewer>24.10.0</GroupDocsViewer>
+	<PropertyGroup Label="Package Versions">
+		<GroupDocsViewer>24.11.0</GroupDocsViewer>
 
-    <MicrosoftExtensionsHttp>8.0.1</MicrosoftExtensionsHttp>
-    <MicrosoftExtensionsDependencyInjectionAbstractions>8.0.2</MicrosoftExtensionsDependencyInjectionAbstractions>
-    <MicrosoftExtensionsConfiguration>8.0.0</MicrosoftExtensionsConfiguration>
-    <MicrosoftExtensionsConfigurationAbstractions>8.0.0</MicrosoftExtensionsConfigurationAbstractions>
-    <MicrosoftExtensionsConfigurationBinder>8.0.2</MicrosoftExtensionsConfigurationBinder>
-    <MicrosoftExtensionsCachingMemory>8.0.1</MicrosoftExtensionsCachingMemory>
+		<MicrosoftExtensionsHttp>8.0.1</MicrosoftExtensionsHttp>
+		<MicrosoftExtensionsDependencyInjectionAbstractions>8.0.2</MicrosoftExtensionsDependencyInjectionAbstractions>
+		<MicrosoftExtensionsConfiguration>8.0.0</MicrosoftExtensionsConfiguration>
+		<MicrosoftExtensionsConfigurationAbstractions>8.0.0</MicrosoftExtensionsConfigurationAbstractions>
+		<MicrosoftExtensionsConfigurationBinder>8.0.2</MicrosoftExtensionsConfigurationBinder>
+		<MicrosoftExtensionsCachingMemory>8.0.1</MicrosoftExtensionsCachingMemory>
+		<SystemFormatsAsn1>8.0.1</SystemFormatsAsn1>
 
-    <NewtonsoftJson>13.0.3</NewtonsoftJson>
-    <SystemTextJson>6.0.5</SystemTextJson>
+		<SystemTextJson>8.0.5</SystemTextJson>
 
-    <AzureBlobs>12.23.0</AzureBlobs>
-    <AwsSdkS3>3.7.408.1</AwsSdkS3>
+		<AzureBlobs>12.23.0</AzureBlobs>
+		<AwsSdkS3>3.7.408.1</AwsSdkS3>
 
-    <MicrosoftSourceLinkGithub>8.0.0</MicrosoftSourceLinkGithub>
-  </PropertyGroup>
+		<MicrosoftSourceLinkGithub>8.0.0</MicrosoftSourceLinkGithub>
+	</PropertyGroup>
 
-  <PropertyGroup Label="GroupDocs.Viewer UI Package Versions">
-    <GroupDocsViewerUI>8.0.0</GroupDocsViewerUI>
-    <GroupDocsViewerUIApi>8.0.0</GroupDocsViewerUIApi>
-    <GroupDocsViewerUIApiLocalCache>8.0.0</GroupDocsViewerUIApiLocalCache>
-    <GroupDocsViewerUIApiInMemoryCache>8.0.0</GroupDocsViewerUIApiInMemoryCache>
-    <GroupDocsViewerUIApiLocalStorage>8.0.0</GroupDocsViewerUIApiLocalStorage>
-    <GroupDocsViewerUIApiCloudStorage>8.0.0</GroupDocsViewerUIApiCloudStorage>
-    <GroupDocsViewerUIApiAzureStorage>8.0.0</GroupDocsViewerUIApiAzureStorage>
-    <GroupDocsViewerUIApiAwsS3Storage>8.0.0</GroupDocsViewerUIApiAwsS3Storage>
-    <GroupDocsViewerUICore>8.0.0</GroupDocsViewerUICore>
-    <GroupDocsViewerUISelfHostApi>8.0.0</GroupDocsViewerUISelfHostApi>
-    <GroupDocsViewerUISelfHostApiCrossPlatform>8.0.0</GroupDocsViewerUISelfHostApiCrossPlatform>
-    <GroupDocsViewerUICloudApi>8.0.0</GroupDocsViewerUICloudApi>
-  </PropertyGroup>
+	<PropertyGroup Label="GroupDocs.Viewer UI Package Versions">
+		<GroupDocsViewerUI>8.0.0</GroupDocsViewerUI>
+		<GroupDocsViewerUIApi>8.0.0</GroupDocsViewerUIApi>
+		<GroupDocsViewerUIApiLocalCache>8.0.0</GroupDocsViewerUIApiLocalCache>
+		<GroupDocsViewerUIApiInMemoryCache>8.0.0</GroupDocsViewerUIApiInMemoryCache>
+		<GroupDocsViewerUIApiLocalStorage>8.0.0</GroupDocsViewerUIApiLocalStorage>
+		<GroupDocsViewerUIApiCloudStorage>8.0.0</GroupDocsViewerUIApiCloudStorage>
+		<GroupDocsViewerUIApiAzureStorage>8.0.0</GroupDocsViewerUIApiAzureStorage>
+		<GroupDocsViewerUIApiAwsS3Storage>8.0.0</GroupDocsViewerUIApiAwsS3Storage>
+		<GroupDocsViewerUICore>8.0.0</GroupDocsViewerUICore>
+		<GroupDocsViewerUISelfHostApi>8.0.0</GroupDocsViewerUISelfHostApi>
+		<GroupDocsViewerUISelfHostApiCrossPlatform>8.0.0</GroupDocsViewerUISelfHostApiCrossPlatform>
+		<GroupDocsViewerUICloudApi>8.0.0</GroupDocsViewerUICloudApi>
+	</PropertyGroup>
 
 </Project>
