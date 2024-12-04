@@ -11,18 +11,18 @@ builder.Services
     });
 
 // Get your Client ID and Client Secret at https://dashboard.groupdocs.cloud/applications
-var clientId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
-var clientSecret = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+var clientId = "f9d1e22a-1d7a-45c9-a269-a23b3a4297b7";
+var clientSecret = "1c28c19ae53ac040d21b539e6a373638";
 
 builder.Services
     .AddControllers()
-    .AddGroupDocsViewerCloudApi(config => 
+    .AddGroupDocsViewerCloudApi(config =>
         config
             .SetClientId(clientId)
             .SetClientSecret(clientSecret)
             .SetViewerType(viewerType)
     )
-    .AddCloudStorage(config => 
+    .AddCloudStorage(config =>
         config
             .SetClientId(clientId)
             .SetClientSecret(clientSecret)

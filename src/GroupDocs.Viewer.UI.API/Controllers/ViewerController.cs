@@ -128,7 +128,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                             ? "Password Required"
                             : "Incorrect Password";
 
-                    return Forbid(message);
+                    return ForbiddenResult(message);
                 }
 
                 _logger.LogError(ex, "Failed to read document description.");
@@ -157,7 +157,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                         ? "Password Required"
                         : "Incorrect Password";
 
-                    return Forbid(message);
+                    return ForbiddenResult(message);
                 }
 
                 _logger.LogError(ex, "Failed to retrieve document pages.");
@@ -196,7 +196,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                         ? "Password Required"
                         : "Incorrect Password";
 
-                    return Forbid(message);
+                    return ForbiddenResult(message);
                 }
 
                 _logger.LogError(ex, "Failed to create PDF file.");
@@ -401,6 +401,10 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         private IActionResult ErrorJsonResult(string message) =>
             StatusCode(StatusCodes.Status500InternalServerError, message);
 
-
+        private IActionResult ForbiddenResult(string message) =>
+        new ObjectResult(new { error = message })
+        {
+            StatusCode = StatusCodes.Status403Forbidden
+        };
     }
 }
