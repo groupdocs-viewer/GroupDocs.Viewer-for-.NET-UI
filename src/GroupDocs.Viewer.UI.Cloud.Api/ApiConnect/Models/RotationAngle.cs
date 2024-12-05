@@ -1,5 +1,4 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
 
 namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models
 {
@@ -7,22 +6,22 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models
     /// Rotation angle
     /// </summary>
     /// <value>Rotation angle</value>
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum RotationAngle
     {
         /// <summary>
         /// Enum On90Degree for "On90Degree"
-        /// </summary>            
+        /// </summary>
         On90Degree,
 
         /// <summary>
         /// Enum On180Degree for "On180Degree"
-        /// </summary>            
+        /// </summary>
         On180Degree,
 
         /// <summary>
         /// Enum On270Degree for "On270Degree"
-        /// </summary>            
+        /// </summary>
         On270Degree
     }
 }

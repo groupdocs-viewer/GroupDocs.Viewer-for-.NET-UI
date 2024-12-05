@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>$(NetVersion)</TargetFramework>
+    <TargetFrameworks>$(NetVersions)</TargetFrameworks>
 
     <PackageId>GroupDocs.Viewer.UI.Api.Cloud.Storage</PackageId>
     <Version>$(GroupDocsViewerUIApiCloudStorage)</Version>
@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Newtonsoft.Json" Version="$(NewtonsoftJson)" />
   </ItemGroup>
 
   <ItemGroup>

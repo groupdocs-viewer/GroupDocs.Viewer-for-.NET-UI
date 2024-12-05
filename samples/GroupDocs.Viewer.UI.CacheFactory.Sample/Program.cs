@@ -27,7 +27,7 @@ namespace GroupDocs.Viewer.UI.CacheFactory.Sample
             IOptions<Config> configOptions = 
                 new OptionsWrapper<Config>(config);
             IAsyncLock asyncLock = new AsyncDuplicateLock();
-            IViewerLicenser licenser = new ViewerLicenser(configOptions);
+            IViewerLicenseManager licenseManager = new ViewerLicenseManager(configOptions);
             IInternalCache internalCache = new NoopInternalCache();
             IFileStorage fileStorage = new LocalFileStorage(storagePath);
             IFileTypeResolver fileTypeResolver = new FileExtensionFileTypeResolver();
@@ -47,7 +47,7 @@ namespace GroupDocs.Viewer.UI.CacheFactory.Sample
                     IViewer htmlViewer = new HtmlWithEmbeddedResourcesViewer(
                         configOptions,
                         asyncLock,
-                        licenser,
+                        licenseManager,
                         internalCache,
                         fileStorage,
                         fileTypeResolver,

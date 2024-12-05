@@ -1,5 +1,4 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
 
 namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models
 {
@@ -7,27 +6,27 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models
     /// The text overflow mode for rendering spreadsheet documents into HTML
     /// </summary>
     /// <value>The text overflow mode for rendering spreadsheet documents into HTML</value>
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum TextOverflowMode
     {
         /// <summary>
         /// Enum Overlay for "Overlay"
-        /// </summary>            
+        /// </summary>
         Overlay,
 
         /// <summary>
         /// Enum OverlayIfNextIsEmpty for "OverlayIfNextIsEmpty"
-        /// </summary>            
+        /// </summary>
         OverlayIfNextIsEmpty,
 
         /// <summary>
         /// Enum AutoFitColumn for "AutoFitColumn"
-        /// </summary>            
+        /// </summary>
         AutoFitColumn,
 
         /// <summary>
         /// Enum HideText for "HideText"
-        /// </summary>            
+        /// </summary>
         HideText
     }
 }

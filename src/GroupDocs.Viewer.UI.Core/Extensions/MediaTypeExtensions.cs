@@ -11,6 +11,7 @@ namespace GroupDocs.Viewer.UI.Core.Extensions
             switch (extension)
             {
                 case ".css": return "text/css";
+                case ".ttf": return "font/ttf";
                 case ".woff": return "font/woff";
                 case ".png": return "image/png";
                 case ".jpg":

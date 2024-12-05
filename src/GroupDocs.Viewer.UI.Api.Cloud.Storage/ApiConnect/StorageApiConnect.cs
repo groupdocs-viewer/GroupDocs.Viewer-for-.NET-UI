@@ -1,12 +1,12 @@
-﻿using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect.Contracts;
+﻿using GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect.Contracts;
 using GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect.Requests;
 using GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect.Responses;
 using GroupDocs.Viewer.UI.Api.Cloud.Storage.Common;
-using Newtonsoft.Json;
+using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect
 {
@@ -14,11 +14,12 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect
     {
         private readonly HttpClient _httpClient;
 
-        private readonly JsonSerializerSettings _jsonSerializerSettings
-            = new JsonSerializerSettings
+        private readonly JsonSerializerOptions _jsonSerializerOptions
+            = new JsonSerializerOptions
             {
-                NullValueHandling = NullValueHandling.Ignore,
+                DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
             };
+
 
         public StorageApiConnect(HttpClient httpClient)
         {
@@ -71,7 +72,7 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect
 
             if (request != null)
             {
-                var requestJson = JsonConvert.SerializeObject(request, _jsonSerializerSettings);
+                var requestJson = JsonSerializer.Serialize(request, _jsonSerializerOptions);
                 message.Content = new StringContent(requestJson, Encoding.UTF8, "application/json");
             }
 
@@ -91,7 +92,7 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect
                 return Result.Fail<T>(responseJson);
             }
 
-            var obj = JsonConvert.DeserializeObject<T>(responseJson, _jsonSerializerSettings);
+            var obj = JsonSerializer.Deserialize<T>(responseJson, _jsonSerializerOptions);
             return Result.Ok(obj);
         }
 
@@ -119,7 +120,7 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect
                 return Result.Fail<T>(responseJson);
             }
 
-            var obj = JsonConvert.DeserializeObject<T>(responseJson, _jsonSerializerSettings);
+            var obj = JsonSerializer.Deserialize<T>(responseJson, _jsonSerializerOptions);
             return Result.Ok(obj);
         }
 
@@ -150,21 +151,21 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect
         {
             try
             {
-                obj = JsonConvert.DeserializeObject<T>(json, _jsonSerializerSettings);
+                obj = JsonSerializer.Deserialize<T>(json, _jsonSerializerOptions);
+                return true;
             }
-            catch (JsonSerializationException)
+            catch (JsonException) // Catch exceptions specific to System.Text.Json
             {
-                obj = default(T);
+                obj = default;
                 return false;
             }
-
-            return true;
         }
+
     }
 
     /// <summary>
     /// The error result
-    /// </summary>  
+    /// </summary>
     public class ErrorResult
     {
         /// <summary>
@@ -188,17 +189,17 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect
 
     /// <summary>
     /// Object exists
-    /// </summary>  
+    /// </summary>
     public class ObjectExist
     {
         /// <summary>
         /// Indicates that the file or folder exists.
-        /// </summary>  
+        /// </summary>
         public bool Exists { get; set; }
 
         /// <summary>
         /// True if it is a folder, false if it is a file.
-        /// </summary>  
+        /// </summary>
         public bool IsFolder { get; set; }
 
         /// <summary>

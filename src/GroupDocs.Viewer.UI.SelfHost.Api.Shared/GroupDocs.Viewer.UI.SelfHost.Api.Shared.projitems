@@ -19,8 +19,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)InternalCaching\Implementation\InMemoryInternalCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InternalCaching\Implementation\NoopInternalCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Keys.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Licensing\IViewerLicenser.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Licensing\ViewerLicenser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Licensing\IViewerLicenseManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Licensing\ViewerLicenseManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Viewers\BaseViewer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Viewers\Extensions\ViewOptionsExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Viewers\HtmlStaticDataViewer.cs" />

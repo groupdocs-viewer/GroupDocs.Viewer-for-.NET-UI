@@ -8,16 +8,16 @@ namespace GroupDocs.Viewer.UI.Core.Entities
     {
         private readonly List<PageResource> _resources = new List<PageResource>();
 
-        protected Page(int pageNumber, byte[] data)
+        protected Page(int pageNumber, byte[] pageData)
         {
             PageNumber = pageNumber;
-            Data = data;
+            PageData = pageData;
         }
 
-        protected Page(int pageNumber, byte[] data, IEnumerable<PageResource> resources)
+        protected Page(int pageNumber, byte[] pageData, IEnumerable<PageResource> resources)
         {
             PageNumber = pageNumber;
-            Data = data;
+            PageData = pageData;
             _resources.AddRange(resources);
         }
 
@@ -25,7 +25,9 @@ namespace GroupDocs.Viewer.UI.Core.Entities
 
         public int PageNumber { get; }
 
-        public byte[] Data { get; protected set; }
+        public byte[] PageData { get; protected set; }
+
+        public abstract string ContentType { get; }
 
         public abstract string GetContent();
 

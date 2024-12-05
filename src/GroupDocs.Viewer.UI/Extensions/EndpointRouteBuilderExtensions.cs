@@ -1,10 +1,10 @@
+using System;
 using GroupDocs.Viewer.UI;
 using GroupDocs.Viewer.UI.Core;
-using GroupDocs.Viewer.UI.Middleware;
+using GroupDocs.Viewer.UI.Core.Configuration;
 using Microsoft.AspNetCore.Routing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Options = GroupDocs.Viewer.UI.Configuration.Options;
 
 namespace Microsoft.AspNetCore.Builder
@@ -19,24 +19,16 @@ namespace Microsoft.AspNetCore.Builder
 
             EnsureValidApiOptions(options);
 
-            var settingsDelegate = builder.CreateApplicationBuilder()
-                .UseMiddleware<UISettingsMiddleware>()
-                .Build();
+            var configOptions = builder.ServiceProvider.GetRequiredService<IOptions<Config>>();
+            var config = configOptions.Value;
 
             var embeddedResourcesAssembly = typeof(UIResource).Assembly;
 
             var resourcesEndpoints =
                 new UIEndpointsResourceMapper(new UIEmbeddedResourcesReader(embeddedResourcesAssembly))
-                    .Map(builder, options);
+                    .Map(builder, options, config);
 
-            var settingsEndpoint =
-                builder.Map(options.UIConfigEndpoint, settingsDelegate);
-
-            var endpointConventionBuilders =
-                new List<IEndpointConventionBuilder>(
-                    new[] { settingsEndpoint }.Union(resourcesEndpoints));
-
-            return new GroupDocsViewerUIConventionBuilder(endpointConventionBuilders);
+            return new GroupDocsViewerUIConventionBuilder(resourcesEndpoints);
         }
 
         private static void EnsureValidApiOptions(Options options)
@@ -60,7 +52,7 @@ namespace Microsoft.AspNetCore.Builder
 
 
             ensureValidPath(options.UIPath, nameof(Options.UIPath));
-            ensureNotEmpty(options.APIEndpoint, nameof(Options.APIEndpoint));
+            ensureNotEmpty(options.ApiEndpoint, nameof(Options.ApiEndpoint));
         }
     }
 }

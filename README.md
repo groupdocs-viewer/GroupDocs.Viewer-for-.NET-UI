@@ -118,15 +118,14 @@ endpoints.MapGroupDocsViewerUI(options =>
 
 ### Changing UI Language
 
-The default UI language is English. The list of suported languages can be found in [Language.cs](src/GroupDocs.Viewer.UI.Core/Configuration/Language.cs) file. The default language, supported languages, and language menu visibility can be configured in `ConfigureServices` method:
+The default UI language is English. The list of suported languages can be found in [LanguageCode.cs](src/GroupDocs.Viewer.UI.Core/Configuration/LanguageCode.cs) file. The default language, supported languages, and language menu visibility can be configured in `ConfigureServices` method:
 
 ```cs
 services
     .AddGroupDocsViewerUI(config =>
     {
-        config.SetDefaultLanguage(Language.French);
-        config.SetSupportedLanguages(Language.English, Language.French, Language.Dutch);
-        config.HideLanguageMenu();
+         config.DefaultLanguage = LanguageCode.French;
+        config.SupportedLanguages = [LanguageCode.French, LanguageCode.English, LanguageCode.Italian];
     });
 ```
 
