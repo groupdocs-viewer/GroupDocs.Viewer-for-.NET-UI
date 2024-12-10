@@ -45,6 +45,7 @@ app
         endpoints.MapGroupDocsViewerApi(options =>
         {
             options.ApiPath = "/viewer-api";
+            options.ApiDomain = "https://localhost:5001";
         });
     });
 

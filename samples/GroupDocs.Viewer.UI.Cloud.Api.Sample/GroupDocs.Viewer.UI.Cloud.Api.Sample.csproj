@@ -7,6 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\GroupDocs.Viewer.UI.Cloud.Api\GroupDocs.Viewer.UI.Cloud.Api.csproj" />
+    <ProjectReference Include="..\..\src\GroupDocs.Viewer.UI\GroupDocs.Viewer.UI.csproj" />
+    <ProjectReference Include="..\..\src\GroupDocs.Viewer.UI.Api\GroupDocs.Viewer.UI.Api.csproj" />
+    <ProjectReference Include="..\..\src\GroupDocs.Viewer.UI.Api.Local.Cache\GroupDocs.Viewer.UI.Api.Local.Cache.csproj" />
+    <ProjectReference Include="..\..\src\GroupDocs.Viewer.UI.Api.Local.Storage\GroupDocs.Viewer.UI.Api.Local.Storage.csproj" />
+    <ProjectReference Include="..\..\src\GroupDocs.Viewer.UI.Api.Cloud.Storage\GroupDocs.Viewer.UI.Api.Cloud.Storage.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="wwwroot\**" />
     <Content Remove="wwwroot\**" />
     <EmbeddedResource Remove="wwwroot\**" />
@@ -16,29 +25,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\GroupDocs.Viewer.UI.Cloud.Api\GroupDocs.Viewer.UI.Cloud.Api.csproj" />
-    <ProjectReference Include="..\..\src\GroupDocs.Viewer.UI\GroupDocs.Viewer.UI.csproj" />
-    <ProjectReference Include="..\..\src\GroupDocs.Viewer.UI.Api\GroupDocs.Viewer.UI.Api.csproj" />
-    <ProjectReference Include="..\..\src\GroupDocs.Viewer.UI.Api.Local.Cache\GroupDocs.Viewer.UI.Api.Local.Cache.csproj" />
-    <ProjectReference Include="..\..\src\GroupDocs.Viewer.UI.Api.Cloud.Storage\GroupDocs.Viewer.UI.Api.Cloud.Storage.csproj" />
+    <Folder Include="Files\" />
+    <None Update="Files\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Files\password.pdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Files\sample.docx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Files\sample.pdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Files\sample.xlsx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Files\sample.pptx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Folder Include="Cache\" />
   </ItemGroup>
 
 </Project>

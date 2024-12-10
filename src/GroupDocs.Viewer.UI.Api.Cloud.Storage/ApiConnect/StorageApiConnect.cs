@@ -17,7 +17,8 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect
         private readonly JsonSerializerOptions _jsonSerializerOptions
             = new JsonSerializerOptions
             {
-                DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+                DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
+                PropertyNameCaseInsensitive = true
             };
 
 

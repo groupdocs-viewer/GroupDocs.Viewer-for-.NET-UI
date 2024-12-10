@@ -33,7 +33,7 @@ app
     {
         endpoints.MapGet("/", async context =>
         {
-            await context.Response.WriteAsync("Viewer UI can be accessed at '/viewer' endpoint.");
+            await context.Response.SendFileAsync("index.html");
         });
         endpoints.MapGroupDocsViewerUI(options =>
         {

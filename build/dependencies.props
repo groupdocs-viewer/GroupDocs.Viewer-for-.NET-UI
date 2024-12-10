@@ -16,7 +16,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="Package Versions">
-		<GroupDocsViewer>24.11.0</GroupDocsViewer>
+		<GroupDocsViewer>24.9.0</GroupDocsViewer>
 
 		<MicrosoftExtensionsHttp>8.0.1</MicrosoftExtensionsHttp>
 		<MicrosoftExtensionsDependencyInjectionAbstractions>8.0.2</MicrosoftExtensionsDependencyInjectionAbstractions>

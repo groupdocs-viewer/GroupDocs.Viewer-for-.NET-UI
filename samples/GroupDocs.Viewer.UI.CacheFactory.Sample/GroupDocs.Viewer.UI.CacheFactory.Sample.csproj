@@ -14,18 +14,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Files\sample.docx">
+    <Compile Remove="Cache\**" />
+    <Compile Remove="Files\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Files\" />
+    <None Update="Files\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Files\sample.pdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Files\sample.pptx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Files\sample.xlsx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Cache\" />
   </ItemGroup>
 
 </Project>

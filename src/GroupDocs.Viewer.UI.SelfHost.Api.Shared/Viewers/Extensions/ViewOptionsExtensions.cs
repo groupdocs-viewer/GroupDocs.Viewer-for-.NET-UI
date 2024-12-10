@@ -30,7 +30,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers.Extensions
 
         public static void CopyBaseViewOptions(this BaseViewOptions dst, BaseViewOptions src)
         {
-            dst.RemoveComments = src.RemoveComments;
+            //dst.RemoveComments = src.RemoveComments;
             dst.RenderNotes = src.RenderNotes;
             dst.RenderHiddenPages = src.RenderHiddenPages;
             dst.DefaultFontName = src.DefaultFontName;

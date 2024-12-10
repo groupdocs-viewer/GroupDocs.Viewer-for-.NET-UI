@@ -21,7 +21,10 @@ namespace GroupDocs.Viewer.UI.CacheFactory.Sample
             string storagePath = "./Files";
             string cachePath = "./Cache";
             Config config = new Config();
-            //config.SetLicensePath("license-path");
+
+            //Trial limitations https://docs.groupdocs.com/viewer/net/evaluation-limitations-and-licensing-of-groupdocs-viewer/
+            //Temporary license can be requested at https://purchase.groupdocs.com/temporary-license
+            //config.SetLicensePath("GroupDocs.Viewer.lic"); // or set environment variable 'GROUPDOCS_LIC_PATH'
 
             // Build up the services
             IOptions<Config> configOptions = 
@@ -39,7 +42,7 @@ namespace GroupDocs.Viewer.UI.CacheFactory.Sample
 
             foreach (var fileSystemEntry in filesAndDirs)
             {
-                Console.WriteLine(fileSystemEntry.FilePath);
+                Console.WriteLine($"Processing file: {fileSystemEntry.FilePath}");
 
                 if (!fileSystemEntry.IsDirectory)
                 {
@@ -57,7 +60,7 @@ namespace GroupDocs.Viewer.UI.CacheFactory.Sample
                     IViewer cachingViewer = new CachingViewer(htmlViewer, cache, asyncLock);
 
                     string extension = Path.GetExtension(fileSystemEntry.FilePath);
-                    string password = string.Empty;
+                    string password = fileSystemEntry.FileName.StartsWith("password") ? "12345" : string.Empty;
                     FileCredentials fileCredentials =
                         new FileCredentials(fileSystemEntry.FilePath, extension, password);
                     
@@ -65,7 +68,7 @@ namespace GroupDocs.Viewer.UI.CacheFactory.Sample
                     DocumentInfo documentInfo =
                         await cachingViewer.GetDocumentInfoAsync(fileCredentials);
 
-                    Console.WriteLine($"FileType: {documentInfo.FileType}; Pages count: {documentInfo.Pages.Count()}");
+                    Console.WriteLine($" FileType: {documentInfo.FileType}; Pages count: {documentInfo.Pages.Count()}");
 
                     int[] pageNumbers = documentInfo.Pages.Select(p => p.Number).ToArray();
 
@@ -73,7 +76,10 @@ namespace GroupDocs.Viewer.UI.CacheFactory.Sample
                     Pages pages = 
                         await cachingViewer.GetPagesAsync(fileCredentials, pageNumbers);
 
-                    Console.WriteLine($"Created pages: {pages.Count()}");
+                    // Create PDF file
+                    await cachingViewer.GetPdfAsync(fileCredentials);
+
+                    Console.WriteLine($" Created pages: {pages.Count()}");
                     Console.WriteLine();
                 }
             }

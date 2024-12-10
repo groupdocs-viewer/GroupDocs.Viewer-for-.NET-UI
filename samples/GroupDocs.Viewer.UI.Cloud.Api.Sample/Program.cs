@@ -22,11 +22,7 @@ builder.Services
             .SetClientSecret(clientSecret)
             .SetViewerType(viewerType)
     )
-    .AddCloudStorage(config =>
-        config
-            .SetClientId(clientId)
-            .SetClientSecret(clientSecret)
-    )
+    .AddLocalStorage("./Files")
     .AddLocalCache("./Cache");
 
 var app = builder.Build();
@@ -37,7 +33,7 @@ app
     {
         endpoints.MapGet("/", async context =>
         {
-            await context.Response.WriteAsync("Viewer UI can be accessed at '/viewer' endpoint.");
+            await context.Response.SendFileAsync("index.html");
         });
         endpoints.MapGroupDocsViewerUI(options =>
         {

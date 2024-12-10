@@ -1,13 +1,13 @@
-﻿using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts;
-using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models;
-using GroupDocs.Viewer.UI.Cloud.Api.Common;
-using GroupDocs.Viewer.UI.Core.Entities;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts;
+using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models;
+using GroupDocs.Viewer.UI.Cloud.Api.Common;
+using GroupDocs.Viewer.UI.Core.Entities;
 
 namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
 {
@@ -18,7 +18,8 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
         private readonly JsonSerializerOptions _jsonSerializerOptions
             = new JsonSerializerOptions
             {
-                DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+                DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
+                PropertyNameCaseInsensitive = true
             };
 
 
@@ -160,8 +161,11 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
 
         private async Task<Result<T>> Upload<T>(string requestUri, byte[] data)
         {
+            var formData = new MultipartFormDataContent();
+            formData.Add(new ByteArrayContent(data), "File", "File");
+
             var message = new HttpRequestMessage(HttpMethod.Put, requestUri);
-            message.Content = new ByteArrayContent(data);
+            message.Content = formData;
 
             var response = await _httpClient.SendAsync(message);
             var responseJson = await response.Content.ReadAsStringAsync();
