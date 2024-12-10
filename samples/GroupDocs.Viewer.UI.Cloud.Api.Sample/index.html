@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud API Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F9F9F9;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #333333;
+        }
+
+        header {
+            background-color: #FFFFFF;
+            color: #333333;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid #A4A4A4;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        .title {
+            font-weight: bold;
+            margin-left: 15px;
+            flex-grow: 1;
+        }
+
+        .trial-button {
+            background-color: #e5ecfb;
+            color: #2a6ae2;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none !important;
+            font-weight: bold;
+            font-size: 1em;
+        }
+
+            .trial-button:hover {
+                background-color: #dae4fd;
+            }
+
+        main {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 15px 0;
+        }
+
+        a {
+            color: #4189CA;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+            a:hover {
+                text-decoration: underline;
+            }
+
+        .description {
+            font-size: 0.9em;
+            color: #555555;
+            margin-top: 5px;
+        }
+
+        .about {
+            max-width: 800px;
+            background-color: #FFFFFF;
+        }
+
+            .about h2 {
+                color: #333333;
+                text-align: center;
+                margin-bottom: 15px;
+            }
+
+            .about p {
+                color: #555555;
+                line-height: 1.6;
+            }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-content">
+        <a href="https://products.groupdocs.com/">
+            <img src="https://products.groupdocs.app/viewer/img-redesign/groupdocs.svg" alt="GroupDocs Logo" class="logo">
+        </a>
+        <a href="https://dashboard.groupdocs.cloud" target="_blank" class="trial-button">Start Free Trial</a>
+    </div>
+</header>
+<main>
+    <h1>Cloud API Demo</h1>
+
+    <section class="about">
+        <p>
+            This demo application showcases the capabilities of <a href="https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI">GroupDocs.Viewer.UI</a> package and <a href="https://products.groupdocs.cloud/viewer/family/">GroupDocs.Viewer Cloud</a> API.
+        </p>
+        <p>
+            To get started login to <a href="https://dashboard.groupdocs.cloud/">https://dashboard.groupdocs.cloud/</a>, create application and copy keys into <b>Program.cs</b> class. The <a href="https://purchase.groupdocs.cloud/trial/">Free Trial Plan</a> enables you to test the API for free.
+         </p>
+        <p>
+            Click on the sample files below to view them.
+        </p>
+    </section>
+
+    <ul>
+        <li>
+            <a href="/viewer/?file=annual-review.docx">annual-review.docx</a>
+            <div class="description">This is a sample Word document with text and images.</div>
+        </li>
+        <li>
+            <a href="/viewer/?file=basic-presentation.pptx">basic-presentation.pptx</a>
+            <div class="description">This is a sample PowerPoint presentation.</div>
+        </li>
+        <li>
+            <a href="/viewer/?file=compressed.zip">compressed.zip</a>
+            <div class="description">The ZIP archive with multiple files.</div>
+        </li>
+        <li>
+            <a href="/viewer/?file=cost-analysis.xlsx">cost-analysis.xlsx</a>
+            <div class="description">This is Excel spreadsheet with one worksheet.</div>
+        </li>
+        <li>
+            <a href="/viewer/?file=infographic-elements.tiff">infographic-elements.tiff</a>
+            <div class="description">This is TIFF image with 3 frames.</div>
+        </li>
+        <li>
+            <a href="/viewer/?file=invitation.eml">invitation.eml</a>
+            <div class="description">This is a sample email message.</div>
+        </li>
+        <li>
+            <a href="/viewer/?file=password-is-12345.docx">password-is-12345.docx</a>
+            <div class="description">This is a password-protected Word document. Password: 12345.</div>
+        </li>
+        <li>
+            <a href="/viewer/?file=professional-services.pdf">professional-services.pdf</a>
+            <div class="description">This is a sample PDF document.</div>
+        </li>
+    </ul>
+
+</main>
+</body>
+</html>

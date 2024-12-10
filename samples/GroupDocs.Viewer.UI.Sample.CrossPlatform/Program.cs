@@ -1,25 +1,32 @@
 using GroupDocs.Viewer.UI.Core;
+using GroupDocs.Viewer.UI.Core.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var viewerType = ViewerType.HtmlWithEmbeddedResources;
 
 builder.Services
     .AddGroupDocsViewerUI(config =>
     {
-        config.SetViewerType(ViewerType.HtmlWithExternalResources);
-        config.SetPreloadPageCount(3);
+        config.RenderingMode = viewerType.ToRenderingMode();
+
+        config.PreloadPages = 3; // Number of pages to create on first request
+        config.DefaultLanguage = LanguageCode.English;
+        config.SupportedLanguages = new[] { LanguageCode.English, LanguageCode.French, LanguageCode.Italian };
     });
 
 builder.Services
     .AddControllers()
     .AddGroupDocsViewerSelfHostApi(config =>
     {
-        config.SetViewerType(ViewerType.HtmlWithExternalResources);
+        config.SetViewerType(viewerType);
+
         //Trial limitations https://docs.groupdocs.com/viewer/net/evaluation-limitations-and-licensing-of-groupdocs-viewer/
         //Temporary license can be requested at https://purchase.groupdocs.com/temporary-license
-        //config.SetLicensePath("c:\\licenses\\GroupDocs.Viewer.lic"); // or set environment variable 'GROUPDOCS_LIC_PATH'
+        //config.SetLicensePath("GroupDocs.Viewer.lic"); // or set environment variable 'GROUPDOCS_LIC_PATH'
     })
-    .AddLocalStorage("./Files");
-    //AddLocalCache("./Cache");
+    .AddLocalStorage("./Files")
+    .AddLocalCache("./Cache");
 
 var app = builder.Build();
 
@@ -29,12 +36,12 @@ app
     {
         endpoints.MapGet("/", async context =>
         {
-            await context.Response.WriteAsync("Viewer UI can be accessed at '/viewer' endpoint.");
+            await context.Response.SendFileAsync("index.html");
         });
         endpoints.MapGroupDocsViewerUI(options =>
         {
             options.UIPath = "/viewer";
-            options.APIEndpoint = "/viewer-api";
+            options.ApiEndpoint = "/viewer-api";
         });
         endpoints.MapGroupDocsViewerApi(options =>
         {

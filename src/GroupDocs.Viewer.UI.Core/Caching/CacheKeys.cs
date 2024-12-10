@@ -10,5 +10,8 @@
 
         public static string GetPageCacheKey(int pageNumber, string extension) => 
             $"p{pageNumber}{extension}";
+
+        public static string GetThumbCacheKey(int pageNumber, string extension) =>
+            $"p{pageNumber}_t{extension}";
     }
 }

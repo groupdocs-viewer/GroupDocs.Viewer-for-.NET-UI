@@ -1,5 +1,4 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
 
 namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models
 {
@@ -7,47 +6,47 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models
     /// The size of the output page when rendering as PDF or image.
     /// </summary>
     /// <value>The size of the output page when rendering as PDF or image.</value>
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum PageSize
     {
         /// <summary>
         /// Enum Unspecified for "Unspecified"
-        /// </summary>            
+        /// </summary>
         Unspecified,
 
         /// <summary>
         /// Enum Letter for "Letter"
-        /// </summary>            
+        /// </summary>
         Letter,
 
         /// <summary>
         /// Enum Ledger for "Ledger"
-        /// </summary>            
+        /// </summary>
         Ledger,
 
         /// <summary>
         /// Enum A0 for "A0"
-        /// </summary>            
+        /// </summary>
         A0,
 
         /// <summary>
         /// Enum A1 for "A1"
-        /// </summary>            
+        /// </summary>
         A1,
 
         /// <summary>
         /// Enum A2 for "A2"
-        /// </summary>            
+        /// </summary>
         A2,
 
         /// <summary>
         /// Enum A3 for "A3"
-        /// </summary>            
+        /// </summary>
         A3,
 
         /// <summary>
         /// Enum A4 for "A4"
-        /// </summary>            
+        /// </summary>
         A4
     }
 }

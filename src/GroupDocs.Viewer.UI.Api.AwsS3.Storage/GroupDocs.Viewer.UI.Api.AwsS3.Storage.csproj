@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>$(NetVersion)</TargetFramework>
+    <TargetFrameworks>$(NetVersions)</TargetFrameworks>
 
     <PackageId>GroupDocs.Viewer.UI.Api.AwsS3.Storage</PackageId>
     <Version>$(GroupDocsViewerUIApiAwsS3Storage)</Version>

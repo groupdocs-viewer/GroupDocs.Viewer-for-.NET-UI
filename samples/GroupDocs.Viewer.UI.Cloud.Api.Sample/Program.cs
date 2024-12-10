@@ -5,8 +5,10 @@ var builder = WebApplication.CreateBuilder(args);
 ViewerType viewerType = ViewerType.HtmlWithEmbeddedResources;
 
 builder.Services
-    .AddGroupDocsViewerUI(config => 
-        config.SetViewerType(viewerType));
+    .AddGroupDocsViewerUI(config =>
+    {
+        config.RenderingMode = viewerType.ToRenderingMode();
+    });
 
 // Get your Client ID and Client Secret at https://dashboard.groupdocs.cloud/applications
 var clientId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -14,17 +16,13 @@ var clientSecret = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 
 builder.Services
     .AddControllers()
-    .AddGroupDocsViewerCloudApi(config => 
+    .AddGroupDocsViewerCloudApi(config =>
         config
             .SetClientId(clientId)
             .SetClientSecret(clientSecret)
             .SetViewerType(viewerType)
     )
-    .AddCloudStorage(config => 
-        config
-            .SetClientId(clientId)
-            .SetClientSecret(clientSecret)
-    )
+    .AddLocalStorage("./Files")
     .AddLocalCache("./Cache");
 
 var app = builder.Build();
@@ -35,12 +33,12 @@ app
     {
         endpoints.MapGet("/", async context =>
         {
-            await context.Response.WriteAsync("Viewer UI can be accessed at '/viewer' endpoint.");
+            await context.Response.SendFileAsync("index.html");
         });
         endpoints.MapGroupDocsViewerUI(options =>
         {
             options.UIPath = "/viewer";
-            options.APIEndpoint = "/viewer-api";
+            options.ApiEndpoint = "/viewer-api";
         });
         endpoints.MapGroupDocsViewerApi(options =>
         {

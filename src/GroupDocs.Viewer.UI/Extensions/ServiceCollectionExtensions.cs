@@ -9,14 +9,14 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class ServiceCollectionExtensions
     {
         public static GroupDocsViewerUIBuilder AddGroupDocsViewerUI(this IServiceCollection services,
-            Action<Config> setupSettings = null)
+            Action<Config> setupConfig = null)
         {
             services
                 .AddOptions<Config>()
-                .Configure<IConfiguration>((settings, configuration) =>
+                .Configure<IConfiguration>((config, configuration) =>
                 {
-                    configuration.BindUISettings(settings);
-                    setupSettings?.Invoke(settings);
+                    configuration.BindUISettings(config);
+                    setupConfig?.Invoke(config);
                 });
 
             services.TryAddSingleton<ServerAddressesService>();

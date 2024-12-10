@@ -40,8 +40,20 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.InternalCaching
             }
         }
 
+        public void Remove(FileCredentials fileCredentials)
+        {
+            var entryKey = GetKey(fileCredentials);
+            if (_cache.TryGetValue(entryKey, out var obj))
+            {
+                if (obj is IDisposable disposable)
+                    disposable.Dispose();
+
+                _cache.Remove(entryKey);
+            }
+        }
+
         private string GetKey(FileCredentials fileCredentials) => 
-            $"{fileCredentials.FilePath}_{fileCredentials.Password}__VC";
+            $"{fileCredentials.FilePath}__VC";
 
         private MemoryCacheEntryOptions CreateCacheEntryOptions()
         {

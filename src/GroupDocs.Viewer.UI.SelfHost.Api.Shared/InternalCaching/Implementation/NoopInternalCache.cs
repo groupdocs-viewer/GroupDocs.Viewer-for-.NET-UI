@@ -12,5 +12,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.InternalCaching
         }
 
         public void Set(FileCredentials fileCredentials, Viewer entry) { }
+
+        public void Remove(FileCredentials fileCredentials) { }
     }
 }

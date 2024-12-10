@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 using GroupDocs.Viewer.Interfaces;
 using GroupDocs.Viewer.Options;
 using GroupDocs.Viewer.Results;
-using GroupDocs.Viewer.UI.Api;
+using GroupDocs.Viewer.UI.Api.Configuration;
+using GroupDocs.Viewer.UI.Api.Utils;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Entities;
 using GroupDocs.Viewer.UI.SelfHost.Api.Configuration;
@@ -20,40 +20,45 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
     public class HtmlWithExternalResourcesViewer : BaseViewer
     {
         private readonly Config _config;
-        private readonly UI.Api.Configuration.Options _options;
+        private readonly IApiUrlBuilder _apiUrlBuilder;
 
         public HtmlWithExternalResourcesViewer(
             IOptions<Config> config,
             IAsyncLock asyncLock,
-            IOptions<UI.Api.Configuration.Options> options,
-            IViewerLicenser licenser,
+            IViewerLicenseManager licenseManager,
             IInternalCache internalCache,
             IFileStorage fileStorage,
             IFileTypeResolver fileTypeResolver,
-            IPageFormatter pageFormatter) 
-            : base(config, asyncLock, licenser, internalCache, fileStorage, fileTypeResolver, pageFormatter)
+            IPageFormatter pageFormatter,
+            IApiUrlBuilder apiUrlBuilder) 
+            : base(config, asyncLock, licenseManager, internalCache, fileStorage, fileTypeResolver, pageFormatter)
         {
+            _apiUrlBuilder = apiUrlBuilder;
             _config = config.Value;
-            _options = options.Value;
         }
         
         public override string PageExtension => HtmlPage.Extension;
 
+        public override string ThumbExtension => JpgThumb.Extension;
+
         public override Page CreatePage(int pageNumber, byte[] data) 
             => new HtmlPage(pageNumber, data);
 
+        public override Thumb CreateThumb(int pageNumber, byte[] data)
+            => new JpgThumb(pageNumber, data);
+
         protected override Page RenderPage(Viewer viewer, string filePath, int pageNumber)
         {
-            var basePath = _options.ApiPath;
-            var actionName = Constants.LOAD_DOCUMENT_PAGE_RESOURCE_ACTION_NAME;
-
-            var streamFactory = new MemoryPageStreamFactory(basePath, actionName, filePath);
-            var viewOptions = HtmlViewOptions.ForExternalResources(streamFactory, streamFactory);
-            viewOptions.CopyViewOptions(_config.HtmlViewOptions);
-            viewer.View(viewOptions, pageNumber);
+            // Create page
+            var streamFactory = new MemoryPageStreamFactory(filePath, _apiUrlBuilder);
+            var pageViewOptions = HtmlViewOptions.ForExternalResources(streamFactory, streamFactory);
+            pageViewOptions.CopyViewOptions(_config.HtmlViewOptions);
+            viewer.View(pageViewOptions, pageNumber);
 
             var pageContents = streamFactory.GetPageContents();
-            var page = CreatePage(pageNumber, pageContents.GetPageData());
+            var pageBytes = pageContents.GetPageData();
+
+            var page = CreatePage(pageNumber, pageBytes);
             foreach (var resource in pageContents.Resources)
             {
                 var pageResource = new PageResource(resource.Key, resource.Value.ToArray());
@@ -61,6 +66,18 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             }
 
             return page;
+        }
+
+        protected override Thumb RenderThumb(Viewer viewer, string filePath, int pageNumber)
+        {
+            var thumbStream = new MemoryStream();
+            var thumbViewOptions = CreateThumbViewOptions(thumbStream);
+            viewer.View(thumbViewOptions, pageNumber);
+
+            var thumbBytes = thumbStream.ToArray();
+
+            var thumb = CreateThumb(pageNumber, thumbBytes);
+            return thumb;
         }
 
         protected override ViewInfoOptions CreateViewInfoOptions() =>
@@ -75,18 +92,30 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             return resource.Data;
         }
 
+        private JpgViewOptions CreateThumbViewOptions(MemoryStream pageStream)
+        {
+            var viewOptions = new JpgViewOptions(_ => pageStream,
+                (_, __) => { /*NOTE: Do nothing here*/ });
+
+            viewOptions.CopyBaseViewOptions(_config.HtmlViewOptions);
+            viewOptions.ExtractText = false;
+            viewOptions.Quality = ThumbSettings.ThumbQuality;
+            viewOptions.MaxWidth = ThumbSettings.MaxThumbWidth;
+            viewOptions.MaxHeight = ThumbSettings.MaxThumbHeight;
+
+            return viewOptions;
+        }
+
         private class MemoryPageStreamFactory : IPageStreamFactory, IResourceStreamFactory
         {
-            private readonly string _basePath;
-            private readonly string _actionName;
-            private readonly string _filePath;
+            private readonly string _file;
             private readonly PageContents _pageContents;
+            private readonly IApiUrlBuilder _apiUrlBuilder;
 
-            public MemoryPageStreamFactory(string basePath, string actionName, string filePath)
+            public MemoryPageStreamFactory(string file, IApiUrlBuilder apiUrlBuilder)
             {
-                _basePath = basePath;
-                _actionName = actionName;
-                _filePath = WebUtility.UrlEncode(filePath);
+                _file = file;
+                _apiUrlBuilder = apiUrlBuilder;
                 _pageContents = new PageContents();
             }
 
@@ -102,7 +131,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
                 _pageContents.GetResourceStream(resource.FileName);
 
             public string CreateResourceUrl(int pageNumber, Resource resource) =>
-                $"{_basePath}/{_actionName}?guid={_filePath}&pageNumber={pageNumber}&resourceName={resource.FileName}";
+                _apiUrlBuilder.BuildResourceUrl(_file, pageNumber, resource.FileName);
 
             public void ReleaseResourceStream(int pageNumber, Resource resource, Stream resourceStream) { }
         }

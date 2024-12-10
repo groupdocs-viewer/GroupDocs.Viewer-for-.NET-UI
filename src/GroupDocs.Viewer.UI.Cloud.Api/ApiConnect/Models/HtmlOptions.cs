@@ -1,78 +1,66 @@
 using System.Collections.Generic;
 using System.Text;
-using Newtonsoft.Json;
 
 namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models
 {
     /// <summary>
     /// Options for rendering document into HTML
-    /// </summary>  
+    /// </summary>
     public class HtmlOptions : RenderOptions
     {
         /// <summary>
         /// Controls output HTML document resources (styles, images and fonts) linking. By default this option is disabled and all the resources are embedded into HTML document.
         /// </summary>
-        [JsonProperty]
         internal bool ExternalResources { get; set; }
 
         /// <summary>
         /// Path for the HTML resources (styles, images and fonts). For example when resource path is http://example.com/api/pages/{page-number}/resources/{resource-name} the {page-number} and {resource-name} templates will be replaced with page number and resource name accordingly. This option is ignored when ExternalResources option is disabled.
         /// </summary>
-        [JsonProperty]
         internal string ResourcePath { get; set; }
 
         /// <summary>
         /// Enables HTML content and HTML resources minification
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         public bool Minify { get; set; }
 
         /// <summary>
-        /// When enabled prevents adding any fonts into HTML document             
-        /// </summary>  
-        [JsonProperty]
+        /// When enabled prevents adding any fonts into HTML document
+        /// </summary>
         public bool ExcludeFonts { get; set; }
 
         /// <summary>
-        /// This option is supported for presentations only. The list of font names, to exclude from HTML document             
-        /// </summary>  
-        [JsonProperty]
+        /// This option is supported for presentations only. The list of font names, to exclude from HTML document
+        /// </summary>
         public List<string> FontsToExclude { get; set; } = new List<string>();
 
         /// <summary>
         /// Indicates whether to optimize output HTML for printing.
         /// </summary>
-        [JsonProperty]
         public bool ForPrinting { get; set; }
 
         /// <summary>
         /// The height of an output image in pixels. (When converting single image to HTML only)
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         public int? ImageHeight { get; set; }
 
         /// <summary>
         /// The width of the output image in pixels. (When converting single image to HTML only)
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         public int? ImageWidth { get; set; }
 
         /// <summary>
         /// Max height of an output image in pixels. (When converting single image to HTML only)
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         public int? ImageMaxHeight { get; set; }
 
         /// <summary>
         /// Max width of an output image in pixels. (When converting single image to HTML only)
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         public int? ImageMaxWidth { get; set; }
 
         /// <summary>
         /// Enables HTML content will be rendered to single page
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         public bool RenderToSinglePage { get; set; }
 
         /// <summary>

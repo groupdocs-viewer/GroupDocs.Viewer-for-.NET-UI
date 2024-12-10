@@ -1,46 +1,40 @@
 using System.Text;
-using Newtonsoft.Json;
 
 namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models
 {
     /// <summary>
     /// Options for rendering document into image
-    /// </summary>  
+    /// </summary>
     public class ImageOptions : RenderOptions
     {
         /// <summary>
-        /// Allows to specify output image width.  Specify image width in case when you want to change output image dimensions. When Width has value and Height value is 0 then Height value will be calculated  to save image proportions. 
+        /// Allows to specify output image width.  Specify image width in case when you want to change output image dimensions. When Width has value and Height value is 0 then Height value will be calculated  to save image proportions.
         /// </summary>
-        [JsonProperty]
         public int? Width { get; set; }
 
         /// <summary>
         /// Allows to specify output image height.  Specify image height in case when you want to change output image dimensions. When Height has value and Width value is 0 then Width value will be calculated  to save image proportions.
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         public int? Height { get; set; }
 
         /// <summary>
-        /// When enabled Viewer will extract text when it's possible (e.g. raster formats don't have text layer) and return it in the viewing result. This option might be useful when you want to add selectable text layer over the image. 
-        /// </summary>  
-        [JsonProperty]
+        /// When enabled Viewer will extract text when it's possible (e.g. raster formats don't have text layer) and return it in the viewing result. This option might be useful when you want to add selectable text layer over the image.
+        /// </summary>
         public bool ExtractText { get; set; }
 
         /// <summary>
         /// Allows to specify quality when rendering as JPG. Valid values are between 1 and 100.  Default value is 90.
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         public int? JpegQuality { get; set; }
 
         /// <summary>
         /// Max width of an output image in pixels
-        /// </summary>  
+        /// </summary>
         public int? MaxWidth { get; set; }
 
         /// <summary>
         /// Max height of an output image in pixels
-        /// </summary>  
-        [JsonProperty]
+        /// </summary>
         public int? MaxHeight { get; set; }
 
         /// <summary>
