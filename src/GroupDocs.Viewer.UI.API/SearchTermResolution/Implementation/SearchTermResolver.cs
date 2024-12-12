@@ -7,6 +7,7 @@ namespace GroupDocs.Viewer.UI.Api
         public Task<string> ResolveSearchTermAsync(string filepath)
         {
             string searchTerm = string.Empty;
+            //string searchTerm = "background";
             return Task.FromResult(searchTerm);
         }
     }
