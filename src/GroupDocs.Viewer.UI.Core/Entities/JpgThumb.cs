@@ -7,7 +7,9 @@
         {
         }
 
-        public static string Extension => ".jpeg";
+        public static string DefaultExtension => ".jpeg";
+
+        public override string Extension => DefaultExtension;   
 
         public override string ContentType => "image/jpeg";
     }

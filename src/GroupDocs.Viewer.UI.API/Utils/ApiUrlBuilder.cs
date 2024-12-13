@@ -28,14 +28,14 @@ namespace GroupDocs.Viewer.UI.Api.Utils
                 : _options.Value.ApiDomain;
         }
 
-        public string BuildPageUrl(string file, int page) =>
+        public string BuildPageUrl(string file, int page, string extension) =>
             BuildUrl(
                 apiDomain: GetApiDomainOrDefault(),
                 apiPath: _options.Value.ApiPath,
                 apiMethodName: ApiNames.API_METHOD_GET_PAGE,
                 values: new { file = file, page = page });
 
-        public string BuildThumbUrl(string file, int page) =>
+        public string BuildThumbUrl(string file, int page, string extension) =>
             BuildUrl(
                 apiDomain: GetApiDomainOrDefault(),
                 apiPath: _options.Value.ApiPath,

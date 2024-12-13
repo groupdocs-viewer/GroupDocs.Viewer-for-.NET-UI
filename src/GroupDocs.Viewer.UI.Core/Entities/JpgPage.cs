@@ -5,9 +5,11 @@ namespace GroupDocs.Viewer.UI.Core.Entities
 {
     public class JpgPage : Page
     {
+        public static string DefaultExtension => ".jpeg";
+
         const string DATA_IMAGE = "data:image/jpeg;base64,";
 
-        public static string Extension => ".jpeg";
+        public override string Extension => DefaultExtension;
 
         public override string ContentType => "image/jpeg";
 

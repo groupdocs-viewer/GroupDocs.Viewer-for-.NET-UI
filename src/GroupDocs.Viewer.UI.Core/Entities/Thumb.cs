@@ -12,6 +12,8 @@
 
         public byte[] ThumbData { get; protected set; }
 
+        public abstract string Extension { get; }
+
         public abstract string ContentType { get; }
     }
 } 

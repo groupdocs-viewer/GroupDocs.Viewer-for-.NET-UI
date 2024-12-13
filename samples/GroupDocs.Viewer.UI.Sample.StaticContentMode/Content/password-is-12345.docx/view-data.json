@@ -1,0 +1,29 @@
+﻿{
+  "file": "password-is-12345.docx",
+  "fileType": "docx",
+  "canPrint": true,
+  "searchTerm": null,
+  "pages": [
+    {
+      "number": 1,
+      "width": 595,
+      "height": 841,
+      "pageUrl": "/password-is-12345.docx/page-1.html",
+      "thumbUrl": "/password-is-12345.docx/thumb-1.jpeg"
+    },
+    {
+      "number": 2,
+      "width": 595,
+      "height": 841,
+      "pageUrl": "/password-is-12345.docx/page-2.html",
+      "thumbUrl": "/password-is-12345.docx/thumb-2.jpeg"
+    },
+    {
+      "number": 3,
+      "width": 595,
+      "height": 841,
+      "pageUrl": "/password-is-12345.docx/page-3.html",
+      "thumbUrl": "/password-is-12345.docx/thumb-3.jpeg"
+    }
+  ]
+}

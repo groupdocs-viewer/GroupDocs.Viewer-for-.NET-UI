@@ -6,7 +6,9 @@
         {
         }
 
-        public static string Extension => ".png";
+        public static string DefaultExtension => ".png";
+
+        public override string Extension => DefaultExtension;
 
         public override string ContentType => "image/png";
     }

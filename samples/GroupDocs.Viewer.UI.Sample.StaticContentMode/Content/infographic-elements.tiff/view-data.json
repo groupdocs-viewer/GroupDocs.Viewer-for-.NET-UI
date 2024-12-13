@@ -1,0 +1,29 @@
+﻿{
+  "file": "infographic-elements.tiff",
+  "fileType": "tiff",
+  "canPrint": true,
+  "searchTerm": null,
+  "pages": [
+    {
+      "number": 1,
+      "width": 1500,
+      "height": 2000,
+      "pageUrl": "/infographic-elements.tiff/page-1.html",
+      "thumbUrl": "/infographic-elements.tiff/thumb-1.jpeg"
+    },
+    {
+      "number": 2,
+      "width": 1500,
+      "height": 2000,
+      "pageUrl": "/infographic-elements.tiff/page-2.html",
+      "thumbUrl": "/infographic-elements.tiff/thumb-2.jpeg"
+    },
+    {
+      "number": 3,
+      "width": 1500,
+      "height": 2000,
+      "pageUrl": "/infographic-elements.tiff/page-3.html",
+      "thumbUrl": "/infographic-elements.tiff/thumb-3.jpeg"
+    }
+  ]
+}

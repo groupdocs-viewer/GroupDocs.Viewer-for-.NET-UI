@@ -1,0 +1,50 @@
+﻿{
+  "file": "annual-review.docx",
+  "fileType": "docx",
+  "canPrint": true,
+  "searchTerm": null,
+  "pages": [
+    {
+      "number": 1,
+      "width": 612,
+      "height": 792,
+      "pageUrl": "/annual-review.docx/page-1.html",
+      "thumbUrl": "/annual-review.docx/thumb-1.jpeg"
+    },
+    {
+      "number": 2,
+      "width": 612,
+      "height": 792,
+      "pageUrl": "/annual-review.docx/page-2.html",
+      "thumbUrl": "/annual-review.docx/thumb-2.jpeg"
+    },
+    {
+      "number": 3,
+      "width": 612,
+      "height": 792,
+      "pageUrl": "/annual-review.docx/page-3.html",
+      "thumbUrl": "/annual-review.docx/thumb-3.jpeg"
+    },
+    {
+      "number": 4,
+      "width": 612,
+      "height": 792,
+      "pageUrl": "/annual-review.docx/page-4.html",
+      "thumbUrl": "/annual-review.docx/thumb-4.jpeg"
+    },
+    {
+      "number": 5,
+      "width": 612,
+      "height": 792,
+      "pageUrl": "/annual-review.docx/page-5.html",
+      "thumbUrl": "/annual-review.docx/thumb-5.jpeg"
+    },
+    {
+      "number": 6,
+      "width": 612,
+      "height": 792,
+      "pageUrl": "/annual-review.docx/page-6.html",
+      "thumbUrl": "/annual-review.docx/thumb-6.jpeg"
+    }
+  ]
+}

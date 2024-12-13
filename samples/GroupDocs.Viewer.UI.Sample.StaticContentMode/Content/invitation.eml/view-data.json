@@ -1,0 +1,15 @@
+﻿{
+  "file": "invitation.eml",
+  "fileType": "eml",
+  "canPrint": true,
+  "searchTerm": null,
+  "pages": [
+    {
+      "number": 1,
+      "width": 612,
+      "height": 792,
+      "pageUrl": "/invitation.eml/page-1.html",
+      "thumbUrl": "/invitation.eml/thumb-1.jpeg"
+    }
+  ]
+}

@@ -76,6 +76,10 @@ namespace GroupDocs.Viewer.UI.CacheFactory.Sample
                     Pages pages = 
                         await cachingViewer.GetPagesAsync(fileCredentials, pageNumbers);
 
+                    // Create thumbnails
+                    Thumbs thumbs = 
+                        await cachingViewer.GetThumbsAsync(fileCredentials, pageNumbers);
+
                     // Create PDF file
                     await cachingViewer.GetPdfAsync(fileCredentials);
 

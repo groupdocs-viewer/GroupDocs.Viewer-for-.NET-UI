@@ -1,0 +1,15 @@
+﻿{
+  "file": "compressed.zip",
+  "fileType": "zip",
+  "canPrint": true,
+  "searchTerm": null,
+  "pages": [
+    {
+      "number": 1,
+      "width": 1239,
+      "height": 1754,
+      "pageUrl": "/compressed.zip/page-1.html",
+      "thumbUrl": "/compressed.zip/thumb-1.jpeg"
+    }
+  ]
+}

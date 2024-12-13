@@ -64,6 +64,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GroupDocs.Viewer.UI.Sample.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupDocs.Viewer.UI.SelfHost.Api.App.Sample", "samples\GroupDocs.Viewer.UI.SelfHost.Api.App.Sample\GroupDocs.Viewer.UI.SelfHost.Api.App.Sample.csproj", "{68EF39C0-B163-45C6-A0CA-D6CB95B72E77}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{B24626A6-4C94-420D-A48A-D057779F0967}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupDocs.Viewer.UI.Sample.StaticContentMode", "samples\GroupDocs.Viewer.UI.Sample.StaticContentMode\GroupDocs.Viewer.UI.Sample.StaticContentMode.csproj", "{24266041-BAF5-4C90-AA1C-BA6C4DA05E00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator", "samples\GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator\GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator.csproj", "{C2FD3831-867F-4C82-8F44-DB9E003CDB99}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -314,6 +323,30 @@ Global
 		{68EF39C0-B163-45C6-A0CA-D6CB95B72E77}.Release|x64.Build.0 = Release|Any CPU
 		{68EF39C0-B163-45C6-A0CA-D6CB95B72E77}.Release|x86.ActiveCfg = Release|Any CPU
 		{68EF39C0-B163-45C6-A0CA-D6CB95B72E77}.Release|x86.Build.0 = Release|Any CPU
+		{24266041-BAF5-4C90-AA1C-BA6C4DA05E00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24266041-BAF5-4C90-AA1C-BA6C4DA05E00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24266041-BAF5-4C90-AA1C-BA6C4DA05E00}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{24266041-BAF5-4C90-AA1C-BA6C4DA05E00}.Debug|x64.Build.0 = Debug|Any CPU
+		{24266041-BAF5-4C90-AA1C-BA6C4DA05E00}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{24266041-BAF5-4C90-AA1C-BA6C4DA05E00}.Debug|x86.Build.0 = Debug|Any CPU
+		{24266041-BAF5-4C90-AA1C-BA6C4DA05E00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24266041-BAF5-4C90-AA1C-BA6C4DA05E00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24266041-BAF5-4C90-AA1C-BA6C4DA05E00}.Release|x64.ActiveCfg = Release|Any CPU
+		{24266041-BAF5-4C90-AA1C-BA6C4DA05E00}.Release|x64.Build.0 = Release|Any CPU
+		{24266041-BAF5-4C90-AA1C-BA6C4DA05E00}.Release|x86.ActiveCfg = Release|Any CPU
+		{24266041-BAF5-4C90-AA1C-BA6C4DA05E00}.Release|x86.Build.0 = Release|Any CPU
+		{C2FD3831-867F-4C82-8F44-DB9E003CDB99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2FD3831-867F-4C82-8F44-DB9E003CDB99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2FD3831-867F-4C82-8F44-DB9E003CDB99}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C2FD3831-867F-4C82-8F44-DB9E003CDB99}.Debug|x64.Build.0 = Debug|Any CPU
+		{C2FD3831-867F-4C82-8F44-DB9E003CDB99}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C2FD3831-867F-4C82-8F44-DB9E003CDB99}.Debug|x86.Build.0 = Debug|Any CPU
+		{C2FD3831-867F-4C82-8F44-DB9E003CDB99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2FD3831-867F-4C82-8F44-DB9E003CDB99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2FD3831-867F-4C82-8F44-DB9E003CDB99}.Release|x64.ActiveCfg = Release|Any CPU
+		{C2FD3831-867F-4C82-8F44-DB9E003CDB99}.Release|x64.Build.0 = Release|Any CPU
+		{C2FD3831-867F-4C82-8F44-DB9E003CDB99}.Release|x86.ActiveCfg = Release|Any CPU
+		{C2FD3831-867F-4C82-8F44-DB9E003CDB99}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -341,6 +374,8 @@ Global
 		{47CB008B-A0D8-46AD-A643-0D9651199CBD} = {98234968-D728-4D2D-B985-88A63DF6541A}
 		{C1C209DB-088F-4756-AAA8-F088003FBE8B} = {98234968-D728-4D2D-B985-88A63DF6541A}
 		{68EF39C0-B163-45C6-A0CA-D6CB95B72E77} = {98234968-D728-4D2D-B985-88A63DF6541A}
+		{24266041-BAF5-4C90-AA1C-BA6C4DA05E00} = {98234968-D728-4D2D-B985-88A63DF6541A}
+		{C2FD3831-867F-4C82-8F44-DB9E003CDB99} = {98234968-D728-4D2D-B985-88A63DF6541A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D7F2C427-C9AB-4B55-B1F9-C41195D7CD6C}

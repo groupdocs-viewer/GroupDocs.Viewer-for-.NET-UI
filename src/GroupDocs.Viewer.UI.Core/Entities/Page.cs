@@ -27,6 +27,8 @@ namespace GroupDocs.Viewer.UI.Core.Entities
 
         public byte[] PageData { get; protected set; }
 
+        public abstract string Extension { get; }
+
         public abstract string ContentType { get; }
 
         public abstract string GetContent();

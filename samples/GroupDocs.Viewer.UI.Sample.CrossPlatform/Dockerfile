@@ -1,15 +1,26 @@
 # This stage is used when running from VS in fast mode (Default for Debug configuration)
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-jammy AS base
-
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-RUN apt update && apt install -y \
+# Install dependencies for Windows Fonts package
+RUN apt update && apt install -y --no-install-recommends \
     fontconfig \
-    ttf-mscorefonts-installer
+    cabextract \
+    xfonts-utils \
+    wget
 
+# Download and install Windows Fonts package
+RUN wget http://ftp.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8.1_all.deb
+RUN dpkg -i ttf-mscorefonts-installer_3.8.1_all.deb
+RUN rm ttf-mscorefonts-installer_3.8.1_all.deb
+
+# Update font cache
 RUN fc-cache -f -v
+
+# Cleanup temp files
+RUN apt clean && rm -rf /var/lib/apt/lists/*
 
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build

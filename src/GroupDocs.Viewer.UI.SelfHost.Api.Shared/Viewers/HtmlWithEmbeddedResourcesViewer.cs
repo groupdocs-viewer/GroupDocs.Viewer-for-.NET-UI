@@ -31,9 +31,9 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             _config = config.Value;
         }
 
-        public override string PageExtension => HtmlPage.Extension;
+        public override string PageExtension => HtmlPage.DefaultExtension;
 
-        public override string ThumbExtension => JpgThumb.Extension;
+        public override string ThumbExtension => JpgThumb.DefaultExtension;
 
         public override Page CreatePage(int pageNumber, byte[] data)
             => new HtmlPage(pageNumber, data);

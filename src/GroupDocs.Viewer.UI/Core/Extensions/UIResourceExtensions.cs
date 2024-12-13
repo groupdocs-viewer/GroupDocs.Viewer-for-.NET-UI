@@ -31,6 +31,7 @@ namespace GroupDocs.Viewer.UI.Core.Extensions
             var html = new StringBuilder(index.GetContentString());
 
             html.Replace(Keys.GROUPDOCSVIEWERUI_MAIN_UI_PATH, uiPath);
+            html.Replace(Keys.GROUPDOCSVIEWERUI_MAIN_UI_TITLE, options.UITitle);
 
             var apiEndpoint = options.ApiEndpoint
                 .AppendPathBase(pathBase)
@@ -50,8 +51,11 @@ namespace GroupDocs.Viewer.UI.Core.Extensions
             {
                 apiEndpoint = apiEndpoint,
                 renderingMode = config.RenderingMode.Value,
+                staticContentMode = config.StaticContentMode,
                 initialFile = config.InitialFile,
                 preloadPages = config.PreloadPages,
+                enableHeader = config.EnableHeader,
+                enableToolbar = config.EnableToolbar,
                 enablePageSelector = config.EnablePageSelector,
                 enableDownloadPdf = config.EnableDownloadPdf,
                 enableFileUpload = config.EnableFileUpload,
@@ -61,10 +65,11 @@ namespace GroupDocs.Viewer.UI.Core.Extensions
                 enableSearch = config.EnableSearch,
                 enableThumbnails = config.EnableThumbnails,
                 enablePrint = config.EnablePrint,
+                enablePresentation = config.EnablePresentation,
                 enableHyperlinks = config.EnableHyperlinks,
                 enableLanguageSelector = config.EnableLanguageSelector,
                 defaultLanguage = config.DefaultLanguage.Value,
-                supportedLanguages = config.SupportedLanguages.Select(lang => lang.Value).ToArray()
+                supportedLanguages = config.SupportedLanguages.Select(lang => lang.Value).ToArray(),
             };
 
             var jsonOptions = new JsonSerializerOptions

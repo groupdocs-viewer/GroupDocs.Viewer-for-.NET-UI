@@ -19,9 +19,9 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
         {
         }
 
-        public override string PageExtension => PngPage.Extension;
+        public override string PageExtension => PngPage.DefaultExtension;
 
-        public override string ThumbExtension => PngThumb.Extension;
+        public override string ThumbExtension => PngThumb.DefaultExtension;
 
         public override Page CreatePage(int pageNumber, byte[] data) =>
             new PngPage(pageNumber, data);

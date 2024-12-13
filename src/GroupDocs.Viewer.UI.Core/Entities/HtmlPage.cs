@@ -4,10 +4,12 @@ namespace GroupDocs.Viewer.UI.Core.Entities
 {
     public class HtmlPage : Page
     {
-        public static string Extension => ".html";
+        public static string DefaultExtension => ".html";
+
+        public override string Extension => DefaultExtension;
 
         public override string ContentType => "text/html";
-
+        
         public override string GetContent() =>
             Encoding.UTF8.GetString(PageData);
 

@@ -7,7 +7,9 @@ namespace GroupDocs.Viewer.UI.Core.Entities
     {
         const string DATA_IMAGE = "data:image/png;base64,";
 
-        public static string Extension => ".png";
+        public static string DefaultExtension => ".png";
+
+        public override string Extension => DefaultExtension;
 
         public override string ContentType => "image/png";
 

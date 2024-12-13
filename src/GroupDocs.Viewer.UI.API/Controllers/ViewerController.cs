@@ -105,7 +105,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
 
                 var docInfo = await _viewer.GetDocumentInfoAsync(file);
                 var pagesToCreate = GetPagesToCreate(docInfo.TotalPagesCount, _config.PreloadPages);
-
+                
                 var pages = await CreateViewDataPages(file, docInfo, pagesToCreate);
 
                 var searchTerm = await _searchTermResolver.ResolveSearchTermAsync(request.File);
@@ -169,11 +169,8 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreatePdf([FromBody] CreatePdfRequest request)
         {
-            if (!_config.EnablePrint)
-                return ErrorJsonResult("Printing files is disabled.");
-
-            if (!_config.EnableDownloadPdf)
-                return ErrorJsonResult("Downloading PDF files is disabled.");
+            if (!_config.EnableDownloadPdf && !_config.EnablePrint)
+                return ErrorJsonResult("Creating PDF files is disabled.");
 
             try
             {
@@ -244,11 +241,8 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPdf([FromQuery] GetPdfRequest request)
         {
-            if (!_config.EnablePrint)
-                return ErrorJsonResult("Printing files is disabled.");
-
-            if (!_config.EnableDownloadPdf)
-                return ErrorJsonResult("Downloading PDF files is disabled.");
+            if (!_config.EnableDownloadPdf && !_config.EnablePrint)
+                return ErrorJsonResult("Creating PDF files is disabled.");
 
             try
             {
@@ -311,8 +305,8 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                 var isPageCreated = pagesToCreate.Contains(page.Number);
                 if (isPageCreated)
                 {
-                    var pageUrl = _apiUrlBuilder.BuildPageUrl(file.FilePath, page.Number);
-                    var thumbUrl = _apiUrlBuilder.BuildThumbUrl(file.FilePath, page.Number);
+                    var pageUrl = _apiUrlBuilder.BuildPageUrl(file.FilePath, page.Number, _viewer.PageExtension);
+                    var thumbUrl = _apiUrlBuilder.BuildThumbUrl(file.FilePath, page.Number, _viewer.PageExtension);
 
                     var pageData = _config.EnableThumbnails
                         ? new PageData(page.Number, page.Width, page.Height, pageUrl, thumbUrl)
@@ -343,8 +337,8 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             foreach (int pageNumber in pagesToCreate)
             {
                 var page = docInfo.Pages.First(p => p.Number == pageNumber);
-                var pageUrl = _apiUrlBuilder.BuildPageUrl(file.FilePath, page.Number);
-                var thumbUrl = _apiUrlBuilder.BuildThumbUrl(file.FilePath, page.Number);
+                var pageUrl = _apiUrlBuilder.BuildPageUrl(file.FilePath, page.Number, _viewer.PageExtension);
+                var thumbUrl = _apiUrlBuilder.BuildThumbUrl(file.FilePath, page.Number, _viewer.ThumbExtension);
 
                 var pageData = _config.EnableThumbnails
                     ? new PageData(page.Number, page.Width, page.Height, pageUrl, thumbUrl)

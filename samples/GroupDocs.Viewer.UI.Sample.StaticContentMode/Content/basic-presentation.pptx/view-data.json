@@ -1,0 +1,99 @@
+﻿{
+  "file": "basic-presentation.pptx",
+  "fileType": "pptx",
+  "canPrint": true,
+  "searchTerm": null,
+  "pages": [
+    {
+      "number": 1,
+      "width": 960,
+      "height": 540,
+      "pageUrl": "/basic-presentation.pptx/page-1.html",
+      "thumbUrl": "/basic-presentation.pptx/thumb-1.jpeg"
+    },
+    {
+      "number": 2,
+      "width": 960,
+      "height": 540,
+      "pageUrl": "/basic-presentation.pptx/page-2.html",
+      "thumbUrl": "/basic-presentation.pptx/thumb-2.jpeg"
+    },
+    {
+      "number": 3,
+      "width": 960,
+      "height": 540,
+      "pageUrl": "/basic-presentation.pptx/page-3.html",
+      "thumbUrl": "/basic-presentation.pptx/thumb-3.jpeg"
+    },
+    {
+      "number": 4,
+      "width": 960,
+      "height": 540,
+      "pageUrl": "/basic-presentation.pptx/page-4.html",
+      "thumbUrl": "/basic-presentation.pptx/thumb-4.jpeg"
+    },
+    {
+      "number": 5,
+      "width": 960,
+      "height": 540,
+      "pageUrl": "/basic-presentation.pptx/page-5.html",
+      "thumbUrl": "/basic-presentation.pptx/thumb-5.jpeg"
+    },
+    {
+      "number": 6,
+      "width": 960,
+      "height": 540,
+      "pageUrl": "/basic-presentation.pptx/page-6.html",
+      "thumbUrl": "/basic-presentation.pptx/thumb-6.jpeg"
+    },
+    {
+      "number": 7,
+      "width": 960,
+      "height": 540,
+      "pageUrl": "/basic-presentation.pptx/page-7.html",
+      "thumbUrl": "/basic-presentation.pptx/thumb-7.jpeg"
+    },
+    {
+      "number": 8,
+      "width": 960,
+      "height": 540,
+      "pageUrl": "/basic-presentation.pptx/page-8.html",
+      "thumbUrl": "/basic-presentation.pptx/thumb-8.jpeg"
+    },
+    {
+      "number": 9,
+      "width": 960,
+      "height": 540,
+      "pageUrl": "/basic-presentation.pptx/page-9.html",
+      "thumbUrl": "/basic-presentation.pptx/thumb-9.jpeg"
+    },
+    {
+      "number": 10,
+      "width": 960,
+      "height": 540,
+      "pageUrl": "/basic-presentation.pptx/page-10.html",
+      "thumbUrl": "/basic-presentation.pptx/thumb-10.jpeg"
+    },
+    {
+      "number": 11,
+      "width": 960,
+      "height": 540,
+      "pageUrl": "/basic-presentation.pptx/page-11.html",
+      "thumbUrl": "/basic-presentation.pptx/thumb-11.jpeg"
+    },
+    {
+      "number": 12,
+      "width": 960,
+      "height": 540,
+      "pageUrl": "/basic-presentation.pptx/page-12.html",
+      "thumbUrl": "/basic-presentation.pptx/thumb-12.jpeg"
+    },
+    {
+      "number": 13,
+      "width": 960,
+      "height": 540,
+      "pageUrl": "/basic-presentation.pptx/page-13.html",
+      "thumbUrl": "/basic-presentation.pptx/thumb-13.jpeg"
+    }
+  ]
+}

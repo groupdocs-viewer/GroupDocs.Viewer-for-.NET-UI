@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>GroupDocs.Viewer UI</title>
+  <title>#uiTitle#</title>
   <base href="#uiPath#">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,42 +19,44 @@
   <link rel="stylesheet" href="custom.css">
 </head>
 <body>
-  <noscript>
-    You need to enable JavaScript to run this app.
-  </noscript>
-  <script type="text/javascript">
-    window.groupdocs = window.groupdocs || {};
-    window.groupdocs.viewer = #uiConfig#;
-  </script>
-  <gd-root>
-    <style>
-      gd-root {
-        display: flex;
-        -o-justify-content: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-        -ms-align-items: center;
-        -o-align-items: center;
-        -webkit-align-items: center;
-        align-items: center;
-        height: 100vh;
-        color: #6a6a6a;
-        text-transform: uppercase;
-        font-family: 'Open Sans', sans-serif;
-        font-size: 2.5em;
-        text-shadow: 2px 2px 10px #000000;
-        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-      }
+    <noscript>
+        You need to enable JavaScript to run this app.
+    </noscript>
+    <gd-root>
+        <style>
+            gd-root {
+                display: flex;
+                -o-justify-content: center;
+                -webkit-justify-content: center;
+                justify-content: center;
+                -ms-align-items: center;
+                -o-align-items: center;
+                -webkit-align-items: center;
+                align-items: center;
+                height: 100vh;
+                color: #6a6a6a;
+                text-transform: uppercase;
+                font-family: 'Open Sans', sans-serif;
+                font-size: 2.5em;
+                text-shadow: 2px 2px 10px #000000;
+                text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            }
 
-      body {
-        background: #e7e7e7;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
-    Loading...
-  </gd-root>
-
-<script src="runtime.js" type="module"></script><script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script></body>
+            body {
+                background: #e7e7e7;
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+        Loading...
+    </gd-root>
+    <script type="text/javascript">
+        window.groupdocs = window.groupdocs || {};
+        window.groupdocs.viewer = #uiConfig#;
+    </script>
+    <script src="runtime.js" type="module"></script>
+    <script src="polyfills.js" type="module"></script>
+    <script src="main.js" type="module"></script>
+</body>
 
 </html>

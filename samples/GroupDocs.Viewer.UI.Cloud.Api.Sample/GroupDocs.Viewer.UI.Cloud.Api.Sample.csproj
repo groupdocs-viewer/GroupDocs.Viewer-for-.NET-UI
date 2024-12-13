@@ -12,14 +12,9 @@
     <ProjectReference Include="..\..\src\GroupDocs.Viewer.UI.Api\GroupDocs.Viewer.UI.Api.csproj" />
     <ProjectReference Include="..\..\src\GroupDocs.Viewer.UI.Api.Local.Cache\GroupDocs.Viewer.UI.Api.Local.Cache.csproj" />
     <ProjectReference Include="..\..\src\GroupDocs.Viewer.UI.Api.Local.Storage\GroupDocs.Viewer.UI.Api.Local.Storage.csproj" />
-    <ProjectReference Include="..\..\src\GroupDocs.Viewer.UI.Api.Cloud.Storage\GroupDocs.Viewer.UI.Api.Cloud.Storage.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\**" />
-    <Content Remove="wwwroot\**" />
-    <EmbeddedResource Remove="wwwroot\**" />
-    <None Remove="wwwroot\**" />
     <Compile Remove="Cache\**" />
     <Compile Remove="Files\**" />
   </ItemGroup>

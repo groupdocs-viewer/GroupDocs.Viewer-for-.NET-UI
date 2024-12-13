@@ -10,6 +10,12 @@
         public RenderingMode RenderingMode { get; set; } = RenderingMode.Html;
 
         /// <summary>
+        /// When enabled app will use pre-generated static content via GET requests.
+        /// Default value is false.
+        /// </summary>
+        public bool StaticContentMode { get; set; } = false;
+
+        /// <summary>
         /// File to load by default
         /// </summary>
         public string InitialFile { get; set; }
@@ -22,6 +28,16 @@
         /* Control Visibility Settings */
 
         /// <summary>
+        /// Show or hide header
+        /// </summary>
+        public bool EnableHeader { get; set; } = true;
+
+        /// <summary>
+        /// Show or hide header
+        /// </summary>
+        public bool EnableToolbar { get; set; } = true;
+
+        /// <summary>
         /// Show or hide page navigation menu
         /// </summary>
         public bool EnablePageSelector { get; set; } = true;
@@ -32,19 +48,14 @@
         public bool EnableDownloadPdf { get; set; } = true;
 
         /// <summary>
-        ///  Show or hide "Upload File" button
+        /// Show or hide "Print" button
         /// </summary>
-        public bool EnableFileUpload { get; set; } = true;
+        public bool EnablePrint { get; set; } = true;
 
         /// <summary>
-        /// Show or hide "File Browser" button
+        /// Show or hide "Present" button
         /// </summary>
-        public bool EnableFileBrowser { get; set; } = true;
-
-        /// <summary>
-        /// Enable or disable right-click context menu
-        /// </summary>
-        public bool EnableContextMenu { get; set; } = true;
+        public bool EnablePresentation { get; set; } = true;
 
         /// <summary>
         /// Show or hide zoom controls
@@ -57,14 +68,24 @@
         public bool EnableSearch { get; set; } = true;
 
         /// <summary>
+        /// Show or hide "File Browser" button
+        /// </summary>
+        public bool EnableFileBrowser { get; set; } = true;
+
+        /// <summary>
+        ///  Show or hide "Upload File" button
+        /// </summary>
+        public bool EnableFileUpload { get; set; } = true;
+
+        /// <summary>
         /// Show or hide thumbnails pane
         /// </summary>
         public bool EnableThumbnails { get; set; } = true;
 
         /// <summary>
-        /// Show or hide "Print" button
+        /// Enable or disable right-click context menu
         /// </summary>
-        public bool EnablePrint { get; set; } = true;
+        public bool EnableContextMenu { get; set; } = true;
 
         /// <summary>
         /// Enable or disable clickable links in documents

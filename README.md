@@ -6,20 +6,26 @@
 
 ![GroupDocs.Viewer.UI](./doc/images/viewer-ui.png)
 
-GroupDocs.Viewer UI is a rich UI interface that designed to work in conjunction with [GroupDocs.Viewer for .NET](https://products.groupdocs.com/viewer/net) to display most popular file and document formats in a browser.
+GroupDocs.Viewer.UI is a feature-rich UI designed to work with [GroupDocs.Viewer for .NET](https://products.groupdocs.com/viewer/net). It enables viewing of popular file and document formats in a web browser.
 
-To integrate GroupDocs.Viewer UI in your ASP.NET Core project you just need to add services and middlewares into your `Startup` class that provided in `GroupDocs.Viewer.UI` and related packages.
+## Installation and integration
+
+To integrate GroupDocs.Viewer.UI in your ASP.NET Core project:
+
+### Add required packages
 
 Include packages in your project:
 
-```PowerShell
+```bash
 dotnet add package GroupDocs.Viewer.UI
 dotnet add package GroupDocs.Viewer.UI.SelfHost.Api
 dotnet add package GroupDocs.Viewer.UI.Api.Local.Storage
 dotnet add package GroupDocs.Viewer.UI.Api.Local.Cache
 ```
 
-Add configuration to your `Startup` class:
+### Update the Startup class
+
+Add the required services and middleware in your `Startup` class:
 
 ```cs
 public class Startup
@@ -31,12 +37,7 @@ public class Startup
 
         services
             .AddControllers()
-            .AddGroupDocsViewerSelfHostApi(config =>
-            {
-                //Trial limitations https://docs.groupdocs.com/viewer/net/evaluation-limitations-and-licensing-of-groupdocs-viewer/
-                //Temporary license can be requested at https://purchase.groupdocs.com/temporary-license
-                //config.SetLicensePath("c:\\licenses\\GroupDocs.Viewer.lic"); // or set environment variable 'GROUPDOCS_LIC_PATH'
-            })
+            .AddGroupDocsViewerSelfHostApi()
             .AddLocalStorage("./Files")
             .AddLocalCache("./Cache");
     }
@@ -50,9 +51,8 @@ public class Startup
                 endpoints.MapGroupDocsViewerUI(options =>
                 {
                     options.UIPath = "/viewer";
-                    options.APIEndpoint = "/viewer-api";
+                    options.ApiEndpoint = "/viewer-api";
                 });
-
                 endpoints.MapGroupDocsViewerApi(options =>
                 {
                     options.ApiPath = "/viewer-api";
@@ -62,24 +62,21 @@ public class Startup
 }
 ```
 
-Or, if you’re using [new program](https://docs.microsoft.com/en-us/dotnet/core/tutorials/top-level-templates) style with top-level statements, global using directives, and implicit using directives the Program.cs will be a bit shorter.
+### Using top-level statements
 
-```cs
+If you're using the [new Program](https://docs.microsoft.com/en-us/dotnet/core/tutorials/top-level-templates) style, the `Program.cs` file will look like this:
+
+```
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
-        .AddGroupDocsViewerUI();
+    .AddGroupDocsViewerUI();
 
 builder.Services
-        .AddControllers()
-        .AddGroupDocsViewerSelfHostApi(config =>
-        {
-            //Trial limitations https://docs.groupdocs.com/viewer/net/evaluation-limitations-and-licensing-of-groupdocs-viewer/
-            //Temporary license can be requested at https://purchase.groupdocs.com/temporary-license
-            //config.SetLicensePath("c:\\licenses\\GroupDocs.Viewer.lic"); // or set environment variable 'GROUPDOCS_LIC_PATH'
-        })
-        .AddLocalStorage("./Files")
-        .AddLocalCache("./Cache");
+    .AddControllers()
+    .AddGroupDocsViewerSelfHostApi()
+    .AddLocalStorage("./Files")
+    .AddLocalCache("./Cache");
 
 var app = builder.Build();
 
@@ -90,7 +87,7 @@ app
         endpoints.MapGroupDocsViewerUI(options =>
         {
             options.UIPath = "/viewer";
-            options.APIEndpoint = "/viewer-api";
+            options.ApiEndpoint = "/viewer-api";
         });
         endpoints.MapGroupDocsViewerApi(options =>
         {
@@ -101,13 +98,30 @@ app
 app.Run();
 ```
 
-This code registers **/viewer** middleware that will serve SPA and **/viewer-api** middleware that will serve content for the UI to display.
+This configuration registers **/viewer** as the middleware for the Single Page Application (SPA) and **/viewer-api** as the middleware for serving API.
 
- **Please note that Viewer does not create `Files` and `Cache` folders, please make sure to create `Files` and `Cache` folders manually before running the application.**
+> **Note**: Ensure the `Files` and `Cache` folders are manually created before running the application.
 
-## UI
+### Set the license
 
-The UI is Angular SPA that is build upon [@groupdocs.examples.angular/viewer](https://www.npmjs.com/package/@groupdocs.examples.angular/viewer) package. You can change the path where the SPA will be available by setting `UIPath` property e.g.
+Optionally, you can specify the license path using the following code or set the environment variable `GROUPDOCS_LIC_PATH`:
+
+```cs
+services
+    .AddControllers()
+    .AddGroupDocsViewerSelfHostApi(config =>
+    {
+        config.SetLicensePath("GroupDocs.Viewer.lic"); 
+    });
+```
+
+For more information about trial limitations, refer to the [Licensing and Evaluation](https://docs.groupdocs.com/viewer/net/licensing-and-evaluation/) documentation.
+
+To request a temporary license, visit [GroupDocs.Viewer for .NET](https://products.groupdocs.com/viewer/net/) and click the **Start Free Trial** button.
+
+## UI overview
+
+The UI is an Angular-based SPA built on the same framework as the online [GroupDocs.Viewer App](https://products.groupdocs.app/viewer/total). You can configure the SPA's path by updating the `UIPath` property:
 
 ```cs
 endpoints.MapGroupDocsViewerUI(options =>
@@ -116,56 +130,275 @@ endpoints.MapGroupDocsViewerUI(options =>
 });
 ```
 
-### Changing UI Language
+The screenshot below highlights the main UI controls that can be configured.
 
-The default UI language is English. The list of suported languages can be found in [LanguageCode.cs](src/GroupDocs.Viewer.UI.Core/Configuration/LanguageCode.cs) file. The default language, supported languages, and language menu visibility can be configured in `ConfigureServices` method:
+![GroupDocs.Viewer.UI Controlls](./doc/images/viewer-ui-controls.png)
+
+### Set the initial file
+
+By default, no file is opened when the application starts. You can specify an initial file to open on startup:
 
 ```cs
-services
+builder.Services
     .AddGroupDocsViewerUI(config =>
     {
-         config.DefaultLanguage = LanguageCode.French;
-        config.SupportedLanguages = [LanguageCode.French, LanguageCode.English, LanguageCode.Italian];
+        config.InitialFile = "annual-review.docx";
     });
 ```
 
-The SPA can also read language code from path or query string. In case path to the app contains language code e.g. `/fr/` or `/fr-fr/` the default language will be set to French. Or you can specify language code as a `lang` query string parameter e.g. `?lang=fr`.
+The initial file can also be set using a query string parameter, e.g., `?file=annual-review.docx`.
 
-## API
+### Set number pages to preload
 
-The API is used to serve content such as information about a document, document pages in HTML/PNG/JPG format and PDF file for printing. The API can be hosted in the same or a separate application. The following API implementations available at the moment:
+By default, the first three pages of a document are generated when it is opened. To render all pages at once, set `PreloadPages` to `0`:
+
+```cs
+builder.Services
+   .AddGroupDocsViewerUI(config =>
+    {
+        config.PreloadPages = 0; // Render all pages on open
+    });
+```
+
+### Enable static content mode
+
+By default, the viewer relies on a backend API that serves information about the file, pages, thumbnails, and the PDF file for printing.
+When `StaticContentMode` is enabled, the app will use pre-generated static content via GET requests.
+See this [sample app](./samples/GroupDocs.Viewer.UI.Sample.StaticContentMode/) for more details.
+Also, you can find the content generator app [here](./samples/GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator).
+
+```cs
+builder.Services
+   .AddGroupDocsViewerUI(config =>
+    {
+        config.StaticContentMode = true; // Enable static content mode
+    });
+```
+
+### Hide header
+
+To hide header, set `EnableHeader` to `false`. By default, the header is visible.
+
+```cs
+builder.Services
+   .AddGroupDocsViewerUI(config =>
+    {
+        config.EnableHeader = false; // Hide header
+    });
+```
+
+### Hide toolbar
+
+To hide toolbar, set `EnableToolbar` to `false`. By default, the toolbar is visible.
+
+```cs
+builder.Services
+   .AddGroupDocsViewerUI(config =>
+    {
+        config.EnableToolbar = false; // Hide toolbar
+    });
+```
+
+### Hide thumbnails
+
+To hide thumbnails pane, set `EnableThumbnails` to `false`. By default, this pane is visible.
+
+```cs
+builder.Services
+   .AddGroupDocsViewerUI(config =>
+    {
+        config.EnableThumbnails = false; // Hide thumbnails
+    });
+```
+
+### Hide zoom selector
+
+To hide zoom selector in the tools pane, set `EnableZoom` to `false`. By default, this selector is visible.
+
+```cs
+builder.Services
+   .AddGroupDocsViewerUI(config =>
+    {
+        config.EnableZoom = false; // Hide zoom selector
+    });
+```
+
+### Hide page selector
+
+To hide the page selector control in the tools pane, set `EnablePageSelector` to `false`. By default, the page selector is enabled.
+
+```cs
+builder.Services
+   .AddGroupDocsViewerUI(config =>
+    {
+        config.EnablePageSelector = false; // Hide page selector
+    });
+```
+
+### Hide Search button
+
+To hide search button in the tools pane, set `EnableSearch` to `false`. By default, this button is visible.
+
+```cs
+builder.Services
+   .AddGroupDocsViewerUI(config =>
+    {
+        config.EnableSearch = false;
+    });
+```
+
+### Hide Print button
+
+To hide the `Print` button in the tools pane, set `EnableDownloadPdf` to `false`. By default, this button is visible.
+
+```cs
+builder.Services
+   .AddGroupDocsViewerUI(config =>
+    {
+        config.EnablePrint = false;
+    });
+```
+
+### Hide Download PDF button
+
+To hide the `Download PDF` button in the tools pane, set `EnableDownloadPdf` to `false`. By default, this button is visible.
+
+```cs
+builder.Services
+   .AddGroupDocsViewerUI(config =>
+    {
+        config.EnableDownloadPdf = false;
+    });
+```
+
+### Hide Present button
+
+To hide the `Present` button in the tools pane, set `EnablePresentation` to `false`. By default, this button is visible.
+
+```cs
+builder.Services
+   .AddGroupDocsViewerUI(config =>
+    {
+        config.EnablePresentation = false;
+    });
+```
+
+### Hide Open File button
+
+To hide `Open File` button, set `EnableFileBrowser` to `false`. By default, this button is visible.
+
+```cs
+builder.Services
+   .AddGroupDocsViewerUI(config =>
+    {
+        config.EnableFileBrowser = false;
+    });
+```
+
+### Hide File Upload button
+
+To hide file upload in file browser popup, set `EnableFileUpload` to `false`. By default, this button is visible.
+
+```cs
+builder.Services
+   .AddGroupDocsViewerUI(config =>
+    {
+        config.EnableFileUpload = false;
+    });
+```
+
+### Hide language selector
+
+To hide language selector, set `EnableLanguageSelector` to `false`. By default, this selector is enabled.
+
+```cs
+builder.Services
+   .AddGroupDocsViewerUI(config =>
+    {
+        config.EnableLanguageSelector = false;
+    });
+```
+
+### Set the UI language
+
+To set the UI language set `DefaultLanguage` property. The list of supported languages is configured via `SupportedLanguages` property.
+
+```cs
+builder.Services
+    .AddGroupDocsViewerUI(config =>
+    {
+        config.DefaultLanguage = LanguageCode.French;
+        config.SupportedLanguages = new[] { 
+            LanguageCode.English, 
+            LanguageCode.French, 
+            LanguageCode.Italian 
+        };
+    });
+```
+
+Default language can also be set via a query string parameter, e.g. `?lang=fr`.
+
+### Disable context menu
+
+To disable context menu or mouse right click, set `EnableContextMenu` to `false`. By default, feature is enabled.
+
+```cs
+builder.Services
+   .AddGroupDocsViewerUI(config =>
+    {
+        config.EnableContextMenu = false;
+    });
+```
+
+### Disable huperlinks
+
+To disable clickable links in document set `EnableHyperlinks` to `false`. By default, links are enabled.
+
+```cs
+builder.Services
+   .AddGroupDocsViewerUI(config =>
+    {
+        config.EnableHyperlinks = false;
+    });
+```
+
+## API Overview
+
+The API serves document data such as metadata, pages in HTML/PNG/JPG formats, and PDFs for printing. It can be hosted in the same application or separately.
+
+### Available API Implementations
 
 - [GroupDocs.Viewer.UI.SelfHost.Api](https://www.nuget.org/packages/GroupDocs.Viewer.UI.SelfHost.Api)
+- [GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform](https://www.nuget.org/packages/GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform)
 - [GroupDocs.Viewer.UI.Cloud.Api](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Cloud.Api)
 
 All the API implementations are extensions of `IMvcBuilder`:
 
-### Self-Host
+### Self-Hosted
 
-Self-Host API uses [GroupDocs.Viewer for .NET](https://www.nuget.org/packages/groupdocs.viewer) to convert documents to HTML, PNG, JPG, and PDF. All the conversions are performed on the host where the application is running.
+The API is used to retrieve document information and convert documents to HTML, PNG, JPG, and PDF.
+
+There are two versions of the self-hosted API:
+
+- **[GroupDocs.Viewer.UI.SelfHost.Api](https://www.nuget.org/packages/GroupDocs.Viewer.UI.SelfHost.Api)**:  
+  This package is based on the [GroupDocs.Viewer](https://www.nuget.org/packages/groupdocs.viewer) NuGet package and can be used in .NET 6 applications on Windows and Linux.  
+  It relies heavily on `System.Drawing.Common`.
+
+- **[GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform](https://www.nuget.org/packages/GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform)**:  
+  This package is based on the [GroupDocs.Viewer.CrossPlatform](https://www.nuget.org/packages/groupdocs.viewer.crossplatform) NuGet package and works with .NET 6 and higher versions on both Linux and Windows.
+
+After installing the package that suits your requirements, you can add it in your startup code:
 
 ```cs
 services
     .AddControllers()
     .AddGroupDocsViewerSelfHostApi();
+
 ```
 
-GroupDocs.Viewer for .NET requires license to skip [trial limitations](https://docs.groupdocs.com/viewer/net/evaluation-limitations-and-licensing-of-groupdocs-viewer/). A temporary license can be requested at [Get a Temporary License](https://purchase.groupdocs.com/temporary-license).
+A sample application demonstrating how to use the self-hosted API can be found in the [samples](./samples) folder.
 
-Use the following code to set a license:
-
-```cs
-services
-    .AddControllers()
-    .AddGroupDocsViewerSelfHostApi(config =>
-    {
-        config.SetLicensePath(".\GroupDocs.Viewer.lic");
-    })
-```
-
-The sample application that shows how to use Self-Host Api can be found in the [samples](./samples) folder.
-
-### Cloud
+### GroupDocs Cloud
 
 In case you want to offload rendering to [GroupDocs Cloud](https://www.groupdocs.cloud/) infrastructure you can opt to use [GroupDocs.Viewer Cloud API](https://products.groupdocs.cloud/viewer/family/). To get started create your first application at <https://dashboard.groupdocs.cloud/applications> and copy your `Client Id` and `Client Secret` keys.
 
@@ -181,41 +414,18 @@ services
 
 The sample application that shows how to use Cloud Api can be found in the [samples](./samples) folder.
 
-#### Linux dependencies
-
-When running Self-Host API on Linux the following packages have to be installed:
-
-- `apt-transport-https`
-- `dirmngr`
-- `gnupg`
-- `libc6-dev`
-- `libgdiplus`
-- `libx11-dev`
-- `ttf-mscorefonts-installer`
-
-As an example the following commands should be executed to install the dependencies on [Ubuntu 18.04.5 LTS (Bionic Beaver)](https://releases.ubuntu.com/18.04.5/):
-
-- `apt-get update`
-- `apt-get install -y apt-transport-https`
-- `apt-get install -y dirmngr`
-- `apt-get install -y gnupg`
-- `apt-get install -y ca-certificates`
-- `apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys $ 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF`
-- `echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic $ main" >> /etc/apt/sources.list.d/mono-official-stable.list`
-- `apt-get update`
-- `apt-get install -y --allow-unauthenticated libc6-dev libgdiplus libx11-dev`
-- `apt-get install -y ttf-mscorefonts-installer`
-
-### API Storage Providers
+## Storage providers
 
 Storage providers are used to read/write file from/to the storage. The storage provider is mandatory.
 
 - [GroupDocs.Viewer.UI.Api.Local.Storage](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Api.Local.Storage)
 - [GroupDocs.Viewer.UI.Api.Cloud.Storage](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Api.Cloud.Storage)
+- [GroupDocs.Viewer.UI.Api.AzureBlob.Storage](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Api.AzureBlob.Storage)
+- [GroupDocs.Viewer.UI.Api.AwsS3.Storage](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Api.AwsS3.Storage)
 
 All the storage providers are extensions of `GroupDocsViewerUIApiBuilder`:
 
-#### Local Storage
+#### Local storage
 
 To render files from your local drive use local file storage.
 
@@ -226,13 +436,14 @@ services
     .AddLocalStorage("./Files");
 ```
 
-#### Cloud Storage
+#### Cloud storage
 
-When rendering files using [GroupDocs Cloud](https://dashboard.groupdocs.cloud/) infrastructure it is reasonable to opt to cloud storage provider. GroupDocs Cloud storage supports number of 3d-party storages including Amazon S3, Google Drive and Cloud, Azure, Dropbox, Box, and FTP. To start using GroupDocs Cloud get your `Client ID` and `Client Secret` at <https://dashboard.groupdocs.cloud/applications>.
+When rendering files using [GroupDocs Cloud](https://dashboard.groupdocs.cloud/) infrastructure you can use our cloud storage provider. GroupDocs Cloud storage supports number of 3d-party storages including Amazon S3, Google Drive and Cloud, Azure, Dropbox, Box, and FTP. To start using GroupDocs Cloud get your `Client ID` and `Client Secret` at <https://dashboard.groupdocs.cloud/applications>.
 
 ```cs
 var clientId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
 var clientSecret = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+var storageName = "Storage Name"
 
 services
     .AddControllers()
@@ -240,19 +451,19 @@ services
         config
             .SetClientId(clientId)
             .SetClientSecret(clientSecret)
+            .SetStorageName(storageName)
     )
     .AddCloudStorage(config => 
         config
             .SetClientId(clientId)
             .SetClientSecret(clientSecret)
+            .SetStorageName(storageName)
     )
 ```
 
 #### Azure Blob Storage
 
 You can also use [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs/) as a storage provider for Viewer.
-
-- [GroupDocs.Viewer.UI.Api.AzureBlob.Storage](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Api.AzureBlob.Storage)
 
 ```cs
 services
@@ -270,8 +481,6 @@ services
 
 Viewer also supports the [Amazon S3 Storage](https://aws.amazon.com/s3/) storage provider.
 
-- [GroupDocs.Viewer.UI.Api.AwsS3.Storage](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Api.AwsS3.Storage)
-
 ```cs
 services
     .AddControllers()
@@ -285,16 +494,18 @@ services
     });
 ```
 
-### API Cache Providers
+## Cache providers
 
-In case you would like to cache the output files produced by GroupDocs.Viewer you can use one of the cache providers:
+To cache the output files created by GroupDocs.Viewer you can use one of the cache providers:
 
 - [GroupDocs.Viewer.UI.Api.Local.Cache](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Api.Local.Cache)
 - [GroupDocs.Viewer.UI.Api.InMemory.Cache](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Api.InMemory.Cache)
 
 All the cache providers are extensions of `GroupDocsViewerUIApiBuilder`:
 
-#### Local Cache
+#### Local cache 
+
+Stores cache on the local drive. You have to specify the path to the folder where cache files will be stored. 
 
 ```cs
 services
@@ -304,7 +515,9 @@ services
     .AddLocalCache("./Cache");
 ```
 
-#### InMemory Cache
+#### In-memory cache
+
+Stores cache in memory using [Microsoft.Extensions.Caching.Memory](https://www.nuget.org/packages/microsoft.extensions.caching.memory/) package.
 
 ```cs
 services
@@ -314,6 +527,23 @@ services
     .AddInMemoryCache();
 ```
 
+## Linux dependencies
+
+To run the self-hosted API on Linux, the following dependencies are required:
+
+1. **Microsoft Fonts**: You can copy these from your Windows host.  
+   If you're using Ubuntu, refer to the [How to Install Windows Fonts on Ubuntu](https://docs.groupdocs.com/viewer/java/how-to-install-windows-fonts-on-ubuntu/) documentation.
+
+2. **`libgdiplus` Package**: This package is required for using `GroupDocs.Viewer.UI.SelfHost.Api` on Linux. Ensure you install the latest available version of `libgdiplus`.
+
+## Running in Docker
+
+To run the self-hosted API in Docker, you need to install Microsoft Fonts and the latest version of the `libgdiplus` package.  
+Refer to these example Dockerfiles that list the required dependencies:
+
+- For `GroupDocs.Viewer.UI.SelfHost.Api` with a .NET 6 app, see this [Dockerfile](/samples/GroupDocs.Viewer.UI.Sample/Dockerfile).
+- For `GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform` with a .NET 8 app, see this [Dockerfile](/samples/GroupDocs.Viewer.UI.Sample.CrossPlatform/Dockerfile).
+
 ## Contributing
 
 Your contributions are welcome when you want to make the project better by adding new feature, improvement or a bug-fix.
@@ -321,3 +551,7 @@ Your contributions are welcome when you want to make the project better by addin
 1. Read and follow the [Don't push your pull requests](https://www.igvita.com/2011/12/19/dont-push-your-pull-requests/)
 2. Follow the code guidelines and conventions.
 3. Make sure to describe your pull requests well and add documentation.
+
+## Technical support
+
+GroupDocs provides unlimited free technical support for all of its products. Support is available to all users, including those evaluating the product. You can access support at the [Free Support Forum](https://forum.groupdocs.com/) and the [Paid Support Helpdesk](https://helpdesk.groupdocs.com/).
