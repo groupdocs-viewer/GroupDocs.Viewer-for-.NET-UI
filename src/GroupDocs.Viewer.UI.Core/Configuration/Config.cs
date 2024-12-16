@@ -4,8 +4,8 @@
     {
         /// <summary>
         /// Rendering mode for the UI.
-        /// Possible values: "html", "image".
-        /// Default value is "html".
+        /// Possible values: "RenderingMode.Html", "RenderingMode.Image".
+        /// Default value is "RenderingMode.Html".
         /// </summary>
         public RenderingMode RenderingMode { get; set; } = RenderingMode.Html;
 
@@ -25,6 +25,16 @@
         /// </summary>
         public int PreloadPages { get; set; } = 3;
 
+        /// <summary>
+        /// Enable or disable right-click context menu
+        /// </summary>
+        public bool EnableContextMenu { get; set; } = true;
+
+        /// <summary>
+        /// Enable or disable clickable links in documents
+        /// </summary>
+        public bool EnableHyperlinks { get; set; } = true;
+
         /* Control Visibility Settings */
 
         /// <summary>
@@ -38,24 +48,9 @@
         public bool EnableToolbar { get; set; } = true;
 
         /// <summary>
-        /// Show or hide page navigation menu
+        /// Show or hide thumbnails pane
         /// </summary>
-        public bool EnablePageSelector { get; set; } = true;
-
-        /// <summary>
-        /// Show or hide "Download PDF" button
-        /// </summary>
-        public bool EnableDownloadPdf { get; set; } = true;
-
-        /// <summary>
-        /// Show or hide "Print" button
-        /// </summary>
-        public bool EnablePrint { get; set; } = true;
-
-        /// <summary>
-        /// Show or hide "Present" button
-        /// </summary>
-        public bool EnablePresentation { get; set; } = true;
+        public bool EnableThumbnails { get; set; } = true;
 
         /// <summary>
         /// Show or hide zoom controls
@@ -63,9 +58,29 @@
         public bool EnableZoom { get; set; } = true;
 
         /// <summary>
+        /// Show or hide page navigation menu
+        /// </summary>
+        public bool EnablePageSelector { get; set; } = true;
+
+        /// <summary>
         /// Show or hide search control
         /// </summary>
         public bool EnableSearch { get; set; } = true;
+
+        /// <summary>
+        /// Show or hide "Print" button
+        /// </summary>
+        public bool EnablePrint { get; set; } = true;
+
+        /// <summary>
+        /// Show or hide "Download PDF" button
+        /// </summary>
+        public bool EnableDownloadPdf { get; set; } = true;
+
+        /// <summary>
+        /// Show or hide "Present" button
+        /// </summary>
+        public bool EnablePresentation { get; set; } = true;
 
         /// <summary>
         /// Show or hide "File Browser" button
@@ -77,20 +92,7 @@
         /// </summary>
         public bool EnableFileUpload { get; set; } = true;
 
-        /// <summary>
-        /// Show or hide thumbnails pane
-        /// </summary>
-        public bool EnableThumbnails { get; set; } = true;
-
-        /// <summary>
-        /// Enable or disable right-click context menu
-        /// </summary>
-        public bool EnableContextMenu { get; set; } = true;
-
-        /// <summary>
-        /// Enable or disable clickable links in documents
-        /// </summary>
-        public bool EnableHyperlinks { get; set; } = true;
+     
 
         /* Language and Localization Settings */
 

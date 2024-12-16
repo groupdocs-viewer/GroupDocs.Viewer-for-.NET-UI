@@ -1,19 +1,31 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
+# This stage is used when running from VS in fast mode (Default for Debug configuration)
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-RUN sed -i'.bak' 's/$/ contrib/' /etc/apt/sources.list
-RUN apt update && apt install -y \
-    libgdiplus \
-    libc6-dev \
-    libx11-dev \
-    fontconfig \
-    ttf-mscorefonts-installer
+# Install libgdiplus
+RUN apt update && apt install -y --no-install-recommends \ 
+    libgdiplus \ 
+    libc6-dev
 
+# Install dependencies for Windows Fonts package
+RUN apt update && apt install -y --no-install-recommends \
+    fontconfig \
+    cabextract \
+    xfonts-utils \
+    wget
+
+# Download and install Windows Fonts package
+RUN wget http://ftp.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8.1_all.deb
+RUN dpkg -i ttf-mscorefonts-installer_3.8.1_all.deb
+RUN rm ttf-mscorefonts-installer_3.8.1_all.deb
+
+# Update font cache
 RUN fc-cache -f -v
+
+# Cleanup temp files
+RUN apt clean && rm -rf /var/lib/apt/lists/*
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 ARG BUILD_CONFIGURATION=Release

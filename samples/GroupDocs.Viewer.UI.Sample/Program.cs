@@ -1,5 +1,4 @@
 using GroupDocs.Viewer.UI.Core;
-using GroupDocs.Viewer.UI.Core.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,9 +7,8 @@ var viewerType = ViewerType.HtmlWithEmbeddedResources;
 builder.Services
     .AddGroupDocsViewerUI(config =>
     {
+        config.RenderingMode = viewerType.ToRenderingMode();
         config.PreloadPages = 3; // Number of pages to create on first request
-        config.DefaultLanguage = LanguageCode.English;
-        config.SupportedLanguages = [LanguageCode.French, LanguageCode.English, LanguageCode.Italian];
     });
 
 builder.Services
@@ -27,6 +25,7 @@ builder.Services
     .AddLocalCache("./Cache");
 
 var app = builder.Build();
+
 app
     .UseRouting()
     .UseEndpoints(endpoints =>
@@ -45,4 +44,5 @@ app
             options.ApiPath = "/viewer-api";
         });
     });
+
 await app.RunAsync();

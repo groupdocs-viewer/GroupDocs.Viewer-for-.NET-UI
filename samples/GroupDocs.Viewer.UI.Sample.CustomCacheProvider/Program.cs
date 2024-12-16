@@ -23,7 +23,7 @@ builder.Services
     })
     .AddLocalStorage("./Files");
 
-//NOTE: should be registered after AddGroupDocsViewerSelfHostApi()
+//NOTE: registered after AddGroupDocsViewerSelfHostApi()
 builder.Services.AddSingleton<IFileCache, ConcurrentDictionaryFileCache>();
 
 var app = builder.Build();
