@@ -303,14 +303,15 @@ export class AppComponent extends ViewerAppComponent {
 
     printFrame(iframe: IFrame) {
         try {
-            iframe.focus()
-            iframe.contentWindow.document.execCommand('print', false)
+            iframe.focus();
+            iframe.contentWindow.print();
         } catch (e) {
-            iframe.contentWindow.print()
+            // Last try to use deprecated execCommand
+            iframe.contentWindow.document.execCommand('print', false);
         } finally {
             // Hide iframe
-            iframe.style.visibility = 'hidden'
-            iframe.style.left = '-1px'
+            iframe.style.visibility = 'hidden';
+            iframe.style.left = '-1px';
         }
     }
 }
