@@ -16,7 +16,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="Package Versions">
-		<GroupDocsViewer>24.9.0</GroupDocsViewer>
+		<GroupDocsViewer>24.12.0</GroupDocsViewer>
 
 		<MicrosoftExtensionsHttp>8.0.1</MicrosoftExtensionsHttp>
 		<MicrosoftExtensionsDependencyInjectionAbstractions>8.0.2</MicrosoftExtensionsDependencyInjectionAbstractions>
@@ -44,8 +44,8 @@
 		<GroupDocsViewerUIApiAzureStorage>8.0.0</GroupDocsViewerUIApiAzureStorage>
 		<GroupDocsViewerUIApiAwsS3Storage>8.0.1</GroupDocsViewerUIApiAwsS3Storage>
 		<GroupDocsViewerUICore>8.0.0</GroupDocsViewerUICore>
-		<GroupDocsViewerUISelfHostApi>8.0.0</GroupDocsViewerUISelfHostApi>
-		<GroupDocsViewerUISelfHostApiCrossPlatform>8.0.0</GroupDocsViewerUISelfHostApiCrossPlatform>
+		<GroupDocsViewerUISelfHostApi>8.0.1</GroupDocsViewerUISelfHostApi>
+		<GroupDocsViewerUISelfHostApiCrossPlatform>8.0.1</GroupDocsViewerUISelfHostApiCrossPlatform>
 		<GroupDocsViewerUICloudApi>8.0.0</GroupDocsViewerUICloudApi>
 	</PropertyGroup>
 
