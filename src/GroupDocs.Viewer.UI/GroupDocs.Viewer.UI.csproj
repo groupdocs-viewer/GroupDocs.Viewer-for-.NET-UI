@@ -7,7 +7,7 @@
     <Description>GroupDocs.Viewer.UI is a ASP.NET Core UI viewer of GroupDocs.Viewer for .NET see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
     <PackageTags>GroupDocs;Viewer;UI;Angular;ASP.NET Core;</PackageTags>
     <PackageIcon>images\icon.png</PackageIcon>
-    <AppsCommitSha>bcaa7252c2a1be53f2257910b36ff7f9017d02a9</AppsCommitSha>
+    <AppsCommitSha>19640d149aa1a1bf356fb61f2ad9eadf891b2cdc</AppsCommitSha>
   </PropertyGroup>
 
   <ItemGroup>
