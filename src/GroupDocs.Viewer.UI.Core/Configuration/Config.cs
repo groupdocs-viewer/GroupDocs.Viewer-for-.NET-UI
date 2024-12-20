@@ -48,6 +48,11 @@
         public bool EnableToolbar { get; set; } = true;
 
         /// <summary>
+        /// Show or hide filename
+        /// </summary>
+        public bool EnableFileName { get; set; } = true;
+
+        /// <summary>
         /// Show or hide thumbnails pane
         /// </summary>
         public bool EnableThumbnails { get; set; } = true;

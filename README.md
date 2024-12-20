@@ -222,6 +222,18 @@ builder.Services
     });
 ```
 
+#### Hide File Name
+
+To hide the file name on the header pane, set `EnableFileName` to `false`. By default, the file name is visible.
+
+```cs
+builder.Services
+   .AddGroupDocsViewerUI(config =>
+    {
+        config.EnableFileName = false; // Hide file name
+    });
+```
+
 #### Hide thumbnails
 
 To hide thumbnails pane, set `EnableThumbnails` to `false`. By default, this pane is visible.

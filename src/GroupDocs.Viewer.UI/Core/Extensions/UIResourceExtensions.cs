@@ -63,6 +63,7 @@ namespace GroupDocs.Viewer.UI.Core.Extensions
                 enableContextMenu = config.EnableContextMenu,
                 enableZoom = config.EnableZoom,
                 enableSearch = config.EnableSearch,
+                enableFileName = config.EnableFileName,
                 enableThumbnails = config.EnableThumbnails,
                 enablePrint = config.EnablePrint,
                 enablePresentation = config.EnablePresentation,
