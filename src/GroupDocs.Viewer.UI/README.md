@@ -1,10 +1,6 @@
 # UI for GroupDocs.Viewer for .NET
 
-![Build Packages](https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/actions/workflows/build_packages.yml/badge.svg)
-![Nuget](https://img.shields.io/nuget/v/groupdocs.viewer.ui?label=GroupDocs.Viewer.UI)
-![Nuget](https://img.shields.io/nuget/dt/GroupDocs.Viewer.UI?label=GroupDocs.Viewer.UI)
-
-![GroupDocs.Viewer.UI](./doc/images/viewer-ui.png)
+![GroupDocs.Viewer.UI](https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/raw/main/doc/images/viewer-ui.png)
 
 GroupDocs.Viewer.UI is a feature-rich UI designed to work with [GroupDocs.Viewer for .NET](https://products.groupdocs.com/viewer/net). It enables viewing of popular file and document formats in a web browser.
 
@@ -137,8 +133,8 @@ builder.Services
     });
 ```
 
-See this [sample app](./samples/GroupDocs.Viewer.UI.Sample.StaticContentMode/) for more details.  
-You can also find the content generator app [here](./samples/GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator).
+See this [sample app](https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/tree/main/samples/GroupDocs.Viewer.UI.Sample.StaticContentMode) for more details.  
+You can also find the content generator app [here](https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/tree/main/samples/GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator).
 
 #### Set the initial file
 
@@ -194,9 +190,9 @@ builder.Services
 
 The screenshot below highlights the main UI controls that you can show or hide. By default all the controls are visible.
 
-![GroupDocs.Viewer.UI Controlls](./doc/images/viewer-ui-controls.png)
+![GroupDocs.Viewer.UI Controlls](https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/raw/main/doc/images/viewer-ui-controls.png)
 
-You can also completely hide header and toolbar: 
+You can also completely hide header and toolbar:
 
 #### Hide header
 
@@ -394,7 +390,7 @@ services
     .AddGroupDocsViewerSelfHostApi();
 ```
 
-A sample application demonstrating how to use the self-hosted API can be found [here](./samples/GroupDocs.Viewer.UI.Sample/).
+A sample application demonstrating how to use the self-hosted API can be found [here](https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/tree/main/samples/GroupDocs.Viewer.UI.Sample).
 
 ### GroupDocs Cloud
 
@@ -410,7 +406,7 @@ services
     )
 ```
 
-The sample application that shows how to use Cloud Api can be found [here](./samples/GroupDocs.Viewer.UI.Cloud.Api.Sample/).
+The sample application that shows how to use Cloud Api can be found [here](https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/tree/main/samples/GroupDocs.Viewer.UI.Cloud.Api.Sample).
 
 ## Storage providers
 
@@ -492,7 +488,7 @@ services
 
 ### Custom storage provider
 
-You can add your storage provider by implementing the [GroupDocs.Viewer.UI.Core.IFileStorage](./src/GroupDocs.Viewer.UI.Core/IFileStorage.cs) interface.
+You can add your storage provider by implementing the [GroupDocs.Viewer.UI.Core.IFileStorage](https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/blob/main/src/GroupDocs.Viewer.UI.Core/IFileStorage.css) interface.
 
 To add you storage provider you have to register it:
 
@@ -534,7 +530,7 @@ services
 
 ### Custom cache provider
 
-You can add your cache provider by implementing the [GroupDocs.Viewer.UI.Core.IFileCache](./src/GroupDocs.Viewer.UI.Core/IFileCache.cs) interface.
+You can add your cache provider by implementing the [GroupDocs.Viewer.UI.Core.IFileCache](https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/blob/main/src/GroupDocs.Viewer.UI.Core/IFileCache.cs) interface.
 To add you cache provider you have to register it:
 
 ```cs
@@ -542,7 +538,7 @@ To add you cache provider you have to register it:
 builder.Services.AddSingleton<IFileCache, MyFileCache>();
 ```
 
-Find example implementation of custom cache provider [here](./samples/GroupDocs.Viewer.UI.Sample.CustomCacheProvider).
+Find example implementation of custom cache provider [here](https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/tree/main/samples/GroupDocs.Viewer.UI.Sample.CustomCacheProvider).
 
 ## Linux dependencies
 
