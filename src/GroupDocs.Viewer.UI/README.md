@@ -1,6 +1,6 @@
 # UI for GroupDocs.Viewer for .NET
 
-![GroupDocs.Viewer.UI](https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/raw/main/doc/images/viewer-ui.png)
+![GroupDocs.Viewer.UI](https://raw.githubusercontent.com/groupdocs-viewer/groupdocs-viewer.github.io/master/resources/image/ui/viewer-ui.png)
 
 GroupDocs.Viewer.UI is a feature-rich UI designed to work with [GroupDocs.Viewer for .NET](https://products.groupdocs.com/viewer/net). It enables viewing of popular file and document formats in a web browser.
 
@@ -190,7 +190,7 @@ builder.Services
 
 The screenshot below highlights the main UI controls that you can show or hide. By default all the controls are visible.
 
-![GroupDocs.Viewer.UI Controlls](https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/raw/main/doc/images/viewer-ui-controls.png)
+![GroupDocs.Viewer.UI Controlls](https://raw.githubusercontent.com/groupdocs-viewer/groupdocs-viewer.github.io/master/resources/image/ui/viewer-ui-controls.png)
 
 You can also completely hide header and toolbar:
 
