@@ -73,6 +73,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupDocs.Viewer.UI.Sample.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator", "samples\GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator\GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator.csproj", "{C2FD3831-867F-4C82-8F44-DB9E003CDB99}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Groupdocs.Viewer.UI.AngularApp.Shared", "src\Groupdocs.Viewer.UI.AngularApp.Shared\Groupdocs.Viewer.UI.AngularApp.Shared.shproj", "{F03A7F28-A7FA-41FF-AAD1-FB2E677620F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupDocs.Viewer.UI.NetFramework", "src\GroupDocs.Viewer.UI.NetFramework\GroupDocs.Viewer.UI.NetFramework.csproj", "{00F00AC2-1341-4CA5-B1A6-CD9A61BD8553}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupDocs.Viewer.UI.NetFramework.Sample", "samples\GroupDocs.Viewer.UI.NetFramework.Sample\GroupDocs.Viewer.UI.NetFramework.Sample.csproj", "{32473C1D-45A7-4650-ABFE-C36530D63B83}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -347,6 +353,30 @@ Global
 		{C2FD3831-867F-4C82-8F44-DB9E003CDB99}.Release|x64.Build.0 = Release|Any CPU
 		{C2FD3831-867F-4C82-8F44-DB9E003CDB99}.Release|x86.ActiveCfg = Release|Any CPU
 		{C2FD3831-867F-4C82-8F44-DB9E003CDB99}.Release|x86.Build.0 = Release|Any CPU
+		{00F00AC2-1341-4CA5-B1A6-CD9A61BD8553}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00F00AC2-1341-4CA5-B1A6-CD9A61BD8553}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00F00AC2-1341-4CA5-B1A6-CD9A61BD8553}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{00F00AC2-1341-4CA5-B1A6-CD9A61BD8553}.Debug|x64.Build.0 = Debug|Any CPU
+		{00F00AC2-1341-4CA5-B1A6-CD9A61BD8553}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{00F00AC2-1341-4CA5-B1A6-CD9A61BD8553}.Debug|x86.Build.0 = Debug|Any CPU
+		{00F00AC2-1341-4CA5-B1A6-CD9A61BD8553}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00F00AC2-1341-4CA5-B1A6-CD9A61BD8553}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00F00AC2-1341-4CA5-B1A6-CD9A61BD8553}.Release|x64.ActiveCfg = Release|Any CPU
+		{00F00AC2-1341-4CA5-B1A6-CD9A61BD8553}.Release|x64.Build.0 = Release|Any CPU
+		{00F00AC2-1341-4CA5-B1A6-CD9A61BD8553}.Release|x86.ActiveCfg = Release|Any CPU
+		{00F00AC2-1341-4CA5-B1A6-CD9A61BD8553}.Release|x86.Build.0 = Release|Any CPU
+		{32473C1D-45A7-4650-ABFE-C36530D63B83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32473C1D-45A7-4650-ABFE-C36530D63B83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32473C1D-45A7-4650-ABFE-C36530D63B83}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{32473C1D-45A7-4650-ABFE-C36530D63B83}.Debug|x64.Build.0 = Debug|Any CPU
+		{32473C1D-45A7-4650-ABFE-C36530D63B83}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{32473C1D-45A7-4650-ABFE-C36530D63B83}.Debug|x86.Build.0 = Debug|Any CPU
+		{32473C1D-45A7-4650-ABFE-C36530D63B83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32473C1D-45A7-4650-ABFE-C36530D63B83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32473C1D-45A7-4650-ABFE-C36530D63B83}.Release|x64.ActiveCfg = Release|Any CPU
+		{32473C1D-45A7-4650-ABFE-C36530D63B83}.Release|x64.Build.0 = Release|Any CPU
+		{32473C1D-45A7-4650-ABFE-C36530D63B83}.Release|x86.ActiveCfg = Release|Any CPU
+		{32473C1D-45A7-4650-ABFE-C36530D63B83}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -376,13 +406,19 @@ Global
 		{68EF39C0-B163-45C6-A0CA-D6CB95B72E77} = {98234968-D728-4D2D-B985-88A63DF6541A}
 		{24266041-BAF5-4C90-AA1C-BA6C4DA05E00} = {98234968-D728-4D2D-B985-88A63DF6541A}
 		{C2FD3831-867F-4C82-8F44-DB9E003CDB99} = {98234968-D728-4D2D-B985-88A63DF6541A}
+		{F03A7F28-A7FA-41FF-AAD1-FB2E677620F8} = {F01C54A8-0505-4D3F-B12C-FEB3F827509E}
+		{00F00AC2-1341-4CA5-B1A6-CD9A61BD8553} = {F01C54A8-0505-4D3F-B12C-FEB3F827509E}
+		{32473C1D-45A7-4650-ABFE-C36530D63B83} = {98234968-D728-4D2D-B985-88A63DF6541A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D7F2C427-C9AB-4B55-B1F9-C41195D7CD6C}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		src\Groupdocs.Viewer.UI.AngularApp.Shared\Groupdocs.Viewer.UI.AngularApp.Shared.projitems*{00f00ac2-1341-4ca5-b1a6-cd9a61bd8553}*SharedItemsImports = 4
 		src\GroupDocs.Viewer.UI.SelfHost.Api.Shared\GroupDocs.Viewer.UI.SelfHost.Api.Shared.projitems*{1c1abd7f-def9-4bdc-85e0-d71e9f69b1eb}*SharedItemsImports = 5
+		src\Groupdocs.Viewer.UI.AngularApp.Shared\Groupdocs.Viewer.UI.AngularApp.Shared.projitems*{5c6bc102-0999-41ec-b054-9aab28316024}*SharedItemsImports = 5
 		src\GroupDocs.Viewer.UI.SelfHost.Api.Shared\GroupDocs.Viewer.UI.SelfHost.Api.Shared.projitems*{aad560b8-55db-44ee-91ac-5f3449537d0d}*SharedItemsImports = 5
 		src\GroupDocs.Viewer.UI.SelfHost.Api.Shared\GroupDocs.Viewer.UI.SelfHost.Api.Shared.projitems*{cd2cffff-ec3b-4709-bcfd-fae4b05d3769}*SharedItemsImports = 13
+		src\Groupdocs.Viewer.UI.AngularApp.Shared\Groupdocs.Viewer.UI.AngularApp.Shared.projitems*{f03a7f28-a7fa-41ff-aad1-fb2e677620f8}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

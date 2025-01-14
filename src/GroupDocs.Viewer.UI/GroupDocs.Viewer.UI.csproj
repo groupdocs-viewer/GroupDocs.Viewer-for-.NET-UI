@@ -19,10 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="App\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="$(MicrosoftExtensionsHttp)" />
   </ItemGroup>
@@ -31,5 +27,7 @@
     <ProjectReference Include="..\GroupDocs.Viewer.UI.Api\GroupDocs.Viewer.UI.Api.csproj" />
     <ProjectReference Include="..\GroupDocs.Viewer.UI.Core\GroupDocs.Viewer.UI.Core.csproj" />
   </ItemGroup>
+
+  <Import Project="..\Groupdocs.Viewer.UI.AngularApp.Shared\Groupdocs.Viewer.UI.AngularApp.Shared.projitems" Label="Shared" />
 
 </Project>

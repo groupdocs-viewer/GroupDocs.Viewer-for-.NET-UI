@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>f03a7f28-a7fa-41ff-aad1-fb2e677620f8</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Groupdocs.Viewer.UI.AngularApp.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\3rdpartylicenses.txt" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\assets\db.json" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\assets\icons.svg" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\assets\ui\groupdocs-logo.svg" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\assets\ui\logo-image.svg" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\assets\ui\logo-text.svg" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\assets\ui\ui-icons.svg" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\color.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\favicon.ico" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\hue.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\icons.svg" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\index.html" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\inter-bold.woff" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\inter-bold.woff2" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\inter-light.woff" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\inter-light.woff2" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\inter-medium.woff" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\inter-medium.woff2" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\inter-regular.woff" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\inter-regular.woff2" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\inter-semibold.woff" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\inter-semibold.woff2" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\main.js" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\polyfills.js" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\runtime.js" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\styles.css" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\ui-icons.svg" />
+  </ItemGroup>
+</Project>
