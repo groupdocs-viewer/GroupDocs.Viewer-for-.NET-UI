@@ -12,7 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Config.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\InternalCacheOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ConfigurationExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\MvcBuilderExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ServiceCollectionBuilderExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileTypeResolution\IFileTypeResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileTypeResolution\Implementation\FileExtensionFileTypeResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InternalCaching\IInternalCache.cs" />

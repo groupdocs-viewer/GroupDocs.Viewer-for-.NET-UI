@@ -1,9 +1,9 @@
-﻿using System;
+﻿using GroupDocs.Viewer.UI.Core;
+using System;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Threading;
-using GroupDocs.Viewer.UI.Core;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GroupDocs.Viewer.UI.Api.Local.Cache
@@ -24,10 +24,7 @@ namespace GroupDocs.Viewer.UI.Api.Local.Cache
         /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="cachePath"/> is null.</exception>
         public LocalFileCache(string cachePath)
         {
-            if (cachePath == null)
-                throw new ArgumentNullException(nameof(cachePath));
-
-            CachePath = cachePath;
+            CachePath = cachePath ?? throw new ArgumentNullException(nameof(cachePath));
         }
 
         /// <summary>
@@ -40,18 +37,22 @@ namespace GroupDocs.Viewer.UI.Api.Local.Cache
         {
             string cacheFilePath = GetCacheFilePath(cacheKey, filePath);
 
-            if (File.Exists(cacheFilePath))
+            if (!File.Exists(cacheFilePath))
             {
-                if (typeof(TEntry) == typeof(byte[]))
-                    return (TEntry)ReadBytes(cacheFilePath);
-
-                if (typeof(TEntry) == typeof(Stream))
-                    return (TEntry)ReadStream(cacheFilePath);
-
-                return Deserialize<TEntry>(cacheFilePath);
+                return default;
+            }
+            if (typeof(TEntry) == typeof(byte[]))
+            {
+                return (TEntry)ReadBytes(cacheFilePath);
             }
 
-            return default(TEntry);
+            if (typeof(TEntry) == typeof(Stream))
+            {
+                return (TEntry)ReadStream(cacheFilePath);
+            }
+
+            return Deserialize<TEntry>(cacheFilePath);
+
         }
 
         /// <summary>
@@ -67,10 +68,14 @@ namespace GroupDocs.Viewer.UI.Api.Local.Cache
             if (File.Exists(cacheFilePath))
             {
                 if (typeof(TEntry) == typeof(byte[]))
+                {
                     return (TEntry)ReadBytes(cacheFilePath);
+                }
 
                 if (typeof(TEntry) == typeof(Stream))
+                {
                     return (TEntry)ReadStream(cacheFilePath);
+                }
 
                 return await DeserializeAsync<TEntry>(cacheFilePath);
             }
@@ -83,32 +88,36 @@ namespace GroupDocs.Viewer.UI.Api.Local.Cache
         /// </summary>
         /// <param name="cacheKey">An unique identifier for the cache entry.</param>
         /// <param name="filePath">The relative or absolute filepath.</param>
-        /// <param name="value">The object to serialize.</param>
-        public void Set<TEntry>(string cacheKey, string filePath, TEntry value)
+        /// <param name="entry">The object to serialize.</param>
+        public void Set<TEntry>(string cacheKey, string filePath, TEntry entry)
         {
-            if (value == null)
+            if (entry.Equals(null))
+            {
                 return;
+            }
 
             string cacheFilePath = GetCacheFilePath(cacheKey, filePath);
 
-            if (value is byte[] data)
+            if (entry is byte[] data)
             {
                 using FileStream dst = GetStream(cacheFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
                 dst.Write(data, 0, data.Length);
             }
-            else if (value is Stream src)
+            else if (entry is Stream src)
             {
                 using FileStream dst = GetStream(cacheFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
 
                 if (src.CanSeek)
+                {
                     src.Position = 0;
+                }
 
                 src.CopyTo(dst);
             }
             else
             {
-                var options = new JsonSerializerOptions { WriteIndented = true };
-                var bytes = JsonSerializer.SerializeToUtf8Bytes(value, options);
+                JsonSerializerOptions options = new JsonSerializerOptions { WriteIndented = true };
+                byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(entry, options);
 
                 using FileStream stream = GetStream(cacheFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
                 stream.Write(bytes, 0, bytes.Length);
@@ -120,35 +129,53 @@ namespace GroupDocs.Viewer.UI.Api.Local.Cache
         /// </summary>
         /// <param name="cacheKey">An unique identifier for the cache entry.</param>
         /// <param name="filePath">The relative or absolute filepath.</param>
-        /// <param name="value">The object to serialize.</param>
-        public async Task SetAsync<TEntry>(string cacheKey, string filePath, TEntry value)
+        /// <param name="entry">The object to serialize.</param>
+        public async Task SetAsync<TEntry>(string cacheKey, string filePath, TEntry entry)
         {
-            if (value == null)
+            if (entry.Equals(null))
+            {
                 return;
+            }
 
             string cacheFilePath = GetCacheFilePath(cacheKey, filePath);
 
-            if (value is byte[] data)
+            switch (entry)
             {
-                await using FileStream dst = GetStream(cacheFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
-                await dst.WriteAsync(data, 0, data.Length);
-            }
-            else if (value is Stream src)
-            {
-                await using FileStream dst = GetStream(cacheFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
+                case byte[] data:
+                    {
+                        using (FileStream dst = GetStream(cacheFilePath, FileMode.Create, FileAccess.Write, FileShare.None))
+                        {
+                            await dst.WriteAsync(data, 0, data.Length);
+                        }
 
-                if (src.CanSeek)
-                    src.Position = 0;
+                        break;
+                    }
+                case Stream src:
+                    {
+                        using (FileStream dst = GetStream(cacheFilePath, FileMode.Create, FileAccess.Write, FileShare.None))
+                        {
+                            if (src.CanSeek)
+                            {
+                                src.Position = 0;
+                            }
 
-                await src.CopyToAsync(dst);
-            }
-            else
-            {
-                var options = new JsonSerializerOptions { WriteIndented = true };
-                var bytes = JsonSerializer.SerializeToUtf8Bytes(value, options);
+                            await src.CopyToAsync(dst);
+                        }
 
-                await using FileStream stream = GetStream(cacheFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
-                await stream.WriteAsync(bytes, 0, bytes.Length);
+                        break;
+                    }
+                default:
+                    {
+                        JsonSerializerOptions options = new JsonSerializerOptions { WriteIndented = true };
+                        byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(entry, options);
+
+                        using (FileStream stream = GetStream(cacheFilePath, FileMode.Create, FileAccess.Write, FileShare.None))
+                        {
+                            await stream.WriteAsync(bytes, 0, bytes.Length);
+                        }
+
+                        break;
+                    }
             }
         }
 
@@ -163,7 +190,7 @@ namespace GroupDocs.Viewer.UI.Api.Local.Cache
             object data;
             try
             {
-                var bytes = GetBytes(cachePath);
+                byte[] bytes = GetBytes(cachePath);
                 data = JsonSerializer.Deserialize<TEntry>(bytes);
             }
             catch (SerializationException)
@@ -179,8 +206,10 @@ namespace GroupDocs.Viewer.UI.Api.Local.Cache
             object data;
             try
             {
-                await using var stream = GetStream(cachePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-                data = await JsonSerializer.DeserializeAsync<TEntry>(stream);
+                using (FileStream stream = GetStream(cachePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    data = await JsonSerializer.DeserializeAsync<TEntry>(stream);
+                }
             }
             catch (SerializationException)
             {
@@ -198,7 +227,9 @@ namespace GroupDocs.Viewer.UI.Api.Local.Cache
             string cacheFilePath = Path.Combine(cacheDirPath, cacheKey);
 
             if (!Directory.Exists(cacheDirPath))
+            {
                 Directory.CreateDirectory(cacheDirPath);
+            }
 
             return cacheFilePath;
         }
@@ -234,7 +265,7 @@ namespace GroupDocs.Viewer.UI.Api.Local.Cache
         {
             byte[] bytes = null;
             TimeSpan interval = new TimeSpan(0, 0, 0, 0, 50);
-            TimeSpan totalTime = new TimeSpan();
+            TimeSpan totalTime = TimeSpan.Zero;
 
             while (bytes == null)
             {

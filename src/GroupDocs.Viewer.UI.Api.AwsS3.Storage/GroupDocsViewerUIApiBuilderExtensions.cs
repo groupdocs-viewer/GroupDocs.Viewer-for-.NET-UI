@@ -1,6 +1,6 @@
-﻿using System;
+﻿using GroupDocs.Viewer.UI.Api.AwsS3.Storage;
 using GroupDocs.Viewer.UI.Core;
-using GroupDocs.Viewer.UI.Api.AwsS3.Storage;
+using System;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection
@@ -14,7 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
             var options = new AwsS3Options();
             setupOptions?.Invoke(options);
 
-            builder.Services.AddTransient<IFileStorage>(_ => 
+            builder.Services.AddTransient<IFileStorage>(_ =>
                 new AwsS3FileStorage(options));
 
             return builder;

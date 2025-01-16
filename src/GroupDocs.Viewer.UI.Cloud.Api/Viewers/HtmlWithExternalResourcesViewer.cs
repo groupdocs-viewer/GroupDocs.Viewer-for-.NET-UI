@@ -18,7 +18,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
         public HtmlWithExternalResourcesViewer(
             IOptions<Config> config,
             IOptions<Options> options,
-            IFileStorage fileStorage, 
+            IFileStorage fileStorage,
             IViewerApiConnect viewerApiConnect,
             IPageFormatter pageFormatter,
             IApiUrlBuilder apiUrlBuilder)

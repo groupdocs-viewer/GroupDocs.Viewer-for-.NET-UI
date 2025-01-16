@@ -1,9 +1,8 @@
-﻿using System;
+﻿using GroupDocs.Viewer.UI.SelfHost.Api.Configuration;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using GroupDocs.Viewer.UI.SelfHost.Api.Configuration;
-using Microsoft.Extensions.Options;
 
 namespace GroupDocs.Viewer.UI.SelfHost.Api.Licensing
 {
@@ -13,17 +12,20 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Licensing
         private readonly object _lock = new object();
         private bool _licenseSet;
 
-        public ViewerLicenseManager(IOptions<Config> config)
+        public ViewerLicenseManager(Config config)
         {
-            _config = config.Value;
+            _config = config;
         }
 
         public void SetLicense()
         {
             bool evaluationMode = true;
 
-            if (_licenseSet)
-                return;
+            lock (_lock)
+            {
+                if (_licenseSet)
+                    return;
+            }
 
             StringBuilder errors = new StringBuilder();
 
@@ -42,9 +44,12 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Licensing
                     errors.Append(Environment.NewLine);
                 }
 
-                if (_licenseSet)
+                lock (_lock)
                 {
-                    return;
+                    if (_licenseSet)
+                    {
+                        return;
+                    }
                 }
             }
 
@@ -63,9 +68,12 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Licensing
                     errors.Append(Environment.NewLine);
                 }
 
-                if (_licenseSet)
+                lock (_lock)
                 {
-                    return;
+                    if (_licenseSet)
+                    {
+                        return;
+                    }
                 }
             }
 
@@ -90,9 +98,12 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Licensing
                     errors.Append(Environment.NewLine);
                 }
 
-                if (_licenseSet)
+                lock (_lock)
                 {
-                    return;
+                    if (_licenseSet)
+                    {
+                        return;
+                    }
                 }
             }
 #if DEBUG

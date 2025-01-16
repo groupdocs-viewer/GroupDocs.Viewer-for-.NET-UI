@@ -1,19 +1,19 @@
-﻿using System;
-using GroupDocs.Viewer.Options;
+﻿using GroupDocs.Viewer.Options;
 using GroupDocs.Viewer.UI.Core;
+using System;
 
 namespace GroupDocs.Viewer.UI.SelfHost.Api.Configuration
 {
     public class Config
     {
         internal string LicensePath = string.Empty;
-        
+
         internal ViewerType ViewerType = ViewerType.HtmlWithEmbeddedResources;
 
         internal readonly SpreadsheetOptions SpreadsheetOptions = CreateSpreadsheetOptions();
 
         internal readonly HtmlViewOptions HtmlViewOptions = CreateHtmlViewOptions();
-       
+
         internal readonly PngViewOptions PngViewOptions = new PngViewOptions
         {
             SpreadsheetOptions = CreateSpreadsheetOptions()
@@ -71,7 +71,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Configuration
             setupOptions?.Invoke(PngViewOptions);
             return this;
         }
-     
+
         public Config ConfigureJpgViewOptions(Action<JpgViewOptions> setupOptions)
         {
             setupOptions?.Invoke(JpgViewOptions);
@@ -88,7 +88,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Configuration
         /// Call this method to configure internal objects caching.
         /// Internal caching makes objects available between requests to speed up rendering when document is rendered in chunks.
         /// Default cache entry lifetime is 5 minutes.
-        /// Internal cache is based on MemoryCache (ConcurrentDictionary), so the object are stored in memory. 
+        /// Internal cache is based on MemoryCache (ConcurrentDictionary), so the object are stored in memory.
         /// </summary>
         /// <param name="setupOptions">Setup delegate.</param>
         /// <returns>This instance.</returns>

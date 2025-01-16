@@ -79,6 +79,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupDocs.Viewer.UI.NetFram
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupDocs.Viewer.UI.NetFramework.Sample", "samples\GroupDocs.Viewer.UI.NetFramework.Sample\GroupDocs.Viewer.UI.NetFramework.Sample.csproj", "{32473C1D-45A7-4650-ABFE-C36530D63B83}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupDocs.Viewer.UI.Api.NetFramework", "src\GroupDocs.Viewer.UI.Api.NetFramework\GroupDocs.Viewer.UI.Api.NetFramework.csproj", "{AC15DC30-0034-4438-9637-DC3ACC4A1719}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "GroupDocs.Viewer.UI.Api.Shared", "src\GroupDocs.Viewer.UI.Api.Shared\GroupDocs.Viewer.UI.Api.Shared.shproj", "{41B17B3E-6E40-49BC-8ADA-F5802BE1E46A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupDocs.Viewer.UI.SelfHost.Api.NetFramework", "src\GroupDocs.Viewer.UI.SelfHost.Api.NetFramework\GroupDocs.Viewer.UI.SelfHost.Api.NetFramework.csproj", "{E4BF6CE5-487B-42F8-BEA1-2D678F08040F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupDocs.Viewer.UI.SelfHosted.App.NetFramework.Sample", "samples\GroupDocs.Viewer.UI.SelfHosted.App.NetFramework.Sample\GroupDocs.Viewer.UI.SelfHosted.App.NetFramework.Sample.csproj", "{CDF01695-3A8A-436A-AF17-B89561CB4612}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -377,6 +385,42 @@ Global
 		{32473C1D-45A7-4650-ABFE-C36530D63B83}.Release|x64.Build.0 = Release|Any CPU
 		{32473C1D-45A7-4650-ABFE-C36530D63B83}.Release|x86.ActiveCfg = Release|Any CPU
 		{32473C1D-45A7-4650-ABFE-C36530D63B83}.Release|x86.Build.0 = Release|Any CPU
+		{AC15DC30-0034-4438-9637-DC3ACC4A1719}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC15DC30-0034-4438-9637-DC3ACC4A1719}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC15DC30-0034-4438-9637-DC3ACC4A1719}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AC15DC30-0034-4438-9637-DC3ACC4A1719}.Debug|x64.Build.0 = Debug|Any CPU
+		{AC15DC30-0034-4438-9637-DC3ACC4A1719}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AC15DC30-0034-4438-9637-DC3ACC4A1719}.Debug|x86.Build.0 = Debug|Any CPU
+		{AC15DC30-0034-4438-9637-DC3ACC4A1719}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC15DC30-0034-4438-9637-DC3ACC4A1719}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC15DC30-0034-4438-9637-DC3ACC4A1719}.Release|x64.ActiveCfg = Release|Any CPU
+		{AC15DC30-0034-4438-9637-DC3ACC4A1719}.Release|x64.Build.0 = Release|Any CPU
+		{AC15DC30-0034-4438-9637-DC3ACC4A1719}.Release|x86.ActiveCfg = Release|Any CPU
+		{AC15DC30-0034-4438-9637-DC3ACC4A1719}.Release|x86.Build.0 = Release|Any CPU
+		{E4BF6CE5-487B-42F8-BEA1-2D678F08040F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4BF6CE5-487B-42F8-BEA1-2D678F08040F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4BF6CE5-487B-42F8-BEA1-2D678F08040F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E4BF6CE5-487B-42F8-BEA1-2D678F08040F}.Debug|x64.Build.0 = Debug|Any CPU
+		{E4BF6CE5-487B-42F8-BEA1-2D678F08040F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E4BF6CE5-487B-42F8-BEA1-2D678F08040F}.Debug|x86.Build.0 = Debug|Any CPU
+		{E4BF6CE5-487B-42F8-BEA1-2D678F08040F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4BF6CE5-487B-42F8-BEA1-2D678F08040F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4BF6CE5-487B-42F8-BEA1-2D678F08040F}.Release|x64.ActiveCfg = Release|Any CPU
+		{E4BF6CE5-487B-42F8-BEA1-2D678F08040F}.Release|x64.Build.0 = Release|Any CPU
+		{E4BF6CE5-487B-42F8-BEA1-2D678F08040F}.Release|x86.ActiveCfg = Release|Any CPU
+		{E4BF6CE5-487B-42F8-BEA1-2D678F08040F}.Release|x86.Build.0 = Release|Any CPU
+		{CDF01695-3A8A-436A-AF17-B89561CB4612}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDF01695-3A8A-436A-AF17-B89561CB4612}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDF01695-3A8A-436A-AF17-B89561CB4612}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CDF01695-3A8A-436A-AF17-B89561CB4612}.Debug|x64.Build.0 = Debug|Any CPU
+		{CDF01695-3A8A-436A-AF17-B89561CB4612}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CDF01695-3A8A-436A-AF17-B89561CB4612}.Debug|x86.Build.0 = Debug|Any CPU
+		{CDF01695-3A8A-436A-AF17-B89561CB4612}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDF01695-3A8A-436A-AF17-B89561CB4612}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDF01695-3A8A-436A-AF17-B89561CB4612}.Release|x64.ActiveCfg = Release|Any CPU
+		{CDF01695-3A8A-436A-AF17-B89561CB4612}.Release|x64.Build.0 = Release|Any CPU
+		{CDF01695-3A8A-436A-AF17-B89561CB4612}.Release|x86.ActiveCfg = Release|Any CPU
+		{CDF01695-3A8A-436A-AF17-B89561CB4612}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -409,6 +453,10 @@ Global
 		{F03A7F28-A7FA-41FF-AAD1-FB2E677620F8} = {F01C54A8-0505-4D3F-B12C-FEB3F827509E}
 		{00F00AC2-1341-4CA5-B1A6-CD9A61BD8553} = {F01C54A8-0505-4D3F-B12C-FEB3F827509E}
 		{32473C1D-45A7-4650-ABFE-C36530D63B83} = {98234968-D728-4D2D-B985-88A63DF6541A}
+		{AC15DC30-0034-4438-9637-DC3ACC4A1719} = {F01C54A8-0505-4D3F-B12C-FEB3F827509E}
+		{41B17B3E-6E40-49BC-8ADA-F5802BE1E46A} = {F01C54A8-0505-4D3F-B12C-FEB3F827509E}
+		{E4BF6CE5-487B-42F8-BEA1-2D678F08040F} = {F01C54A8-0505-4D3F-B12C-FEB3F827509E}
+		{CDF01695-3A8A-436A-AF17-B89561CB4612} = {98234968-D728-4D2D-B985-88A63DF6541A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D7F2C427-C9AB-4B55-B1F9-C41195D7CD6C}
@@ -416,9 +464,13 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		src\Groupdocs.Viewer.UI.AngularApp.Shared\Groupdocs.Viewer.UI.AngularApp.Shared.projitems*{00f00ac2-1341-4ca5-b1a6-cd9a61bd8553}*SharedItemsImports = 4
 		src\GroupDocs.Viewer.UI.SelfHost.Api.Shared\GroupDocs.Viewer.UI.SelfHost.Api.Shared.projitems*{1c1abd7f-def9-4bdc-85e0-d71e9f69b1eb}*SharedItemsImports = 5
+		src\GroupDocs.Viewer.UI.Api.Shared\GroupDocs.Viewer.UI.Api.Shared.projitems*{41b17b3e-6e40-49bc-8ada-f5802be1e46a}*SharedItemsImports = 13
 		src\Groupdocs.Viewer.UI.AngularApp.Shared\Groupdocs.Viewer.UI.AngularApp.Shared.projitems*{5c6bc102-0999-41ec-b054-9aab28316024}*SharedItemsImports = 5
+		src\GroupDocs.Viewer.UI.Api.Shared\GroupDocs.Viewer.UI.Api.Shared.projitems*{9bb10a8b-a096-47a0-b776-e35b9dd9f55c}*SharedItemsImports = 5
 		src\GroupDocs.Viewer.UI.SelfHost.Api.Shared\GroupDocs.Viewer.UI.SelfHost.Api.Shared.projitems*{aad560b8-55db-44ee-91ac-5f3449537d0d}*SharedItemsImports = 5
+		src\GroupDocs.Viewer.UI.Api.Shared\GroupDocs.Viewer.UI.Api.Shared.projitems*{ac15dc30-0034-4438-9637-dc3acc4a1719}*SharedItemsImports = 5
 		src\GroupDocs.Viewer.UI.SelfHost.Api.Shared\GroupDocs.Viewer.UI.SelfHost.Api.Shared.projitems*{cd2cffff-ec3b-4709-bcfd-fae4b05d3769}*SharedItemsImports = 13
+		src\GroupDocs.Viewer.UI.SelfHost.Api.Shared\GroupDocs.Viewer.UI.SelfHost.Api.Shared.projitems*{e4bf6ce5-487b-42f8-bea1-2d678f08040f}*SharedItemsImports = 5
 		src\Groupdocs.Viewer.UI.AngularApp.Shared\Groupdocs.Viewer.UI.AngularApp.Shared.projitems*{f03a7f28-a7fa-41ff-aad1-fb2e677620f8}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

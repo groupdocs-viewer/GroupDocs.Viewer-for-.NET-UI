@@ -1,6 +1,6 @@
 ﻿namespace GroupDocs.Viewer.UI.Core.Entities
 {
-    class PngThumb : Thumb
+    public class PngThumb : Thumb
     {
         public PngThumb(int pageNumber, byte[] thumbData) : base(pageNumber, thumbData)
         {

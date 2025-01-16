@@ -1,9 +1,9 @@
-﻿using System;
+﻿using GroupDocs.Viewer.UI.Core;
+using GroupDocs.Viewer.UI.Core.Entities;
+using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GroupDocs.Viewer.UI.Core;
-using GroupDocs.Viewer.UI.Core.Entities;
 
 namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 {
@@ -32,10 +32,10 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
         public string PageExtension => HtmlPage.DefaultExtension;
         public string ThumbExtension => JpgThumb.DefaultExtension;
 
-        public Page CreatePage(int pageNumber, byte[] data) => 
+        public Page CreatePage(int pageNumber, byte[] data) =>
             new HtmlPage(pageNumber, data);
 
-        public Thumb CreateThumb(int pageNumber, byte[] data) => 
+        public Thumb CreateThumb(int pageNumber, byte[] data) =>
             new JpgThumb(pageNumber, data);
 
         public Task<Page> GetPageAsync(FileCredentials fileCredentials, int pageNumber)
@@ -44,7 +44,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             var bytes = Encoding.UTF8.GetBytes(html);
             var page = new HtmlPage(pageNumber, bytes);
 
-            return Task.FromResult((Page) page);
+            return Task.FromResult((Page)page);
         }
 
         public Task<Thumb> GetThumbAsync(FileCredentials fileCredentials, int pageNumber)
@@ -52,7 +52,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             var bytes = Convert.FromBase64String(THUMB_IN_BASE64);
             var thumb = new JpgThumb(pageNumber, bytes);
 
-            return Task.FromResult((Thumb) thumb);
+            return Task.FromResult((Thumb)thumb);
         }
 
         public Task<Pages> GetPagesAsync(FileCredentials fileCredentials, int[] pageNumbers)
@@ -70,7 +70,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
                 ";
                 var resourceBytes = Encoding.UTF8.GetBytes(css);
                 var resource = new PageResource("styles.css", resourceBytes);
-                
+
                 page.AddResource(resource);
 
                 return page;
@@ -157,7 +157,7 @@ startxref
             return Task.FromResult(bytes);
         }
 
-        public Task<byte[]> GetPageResourceAsync(FileCredentials fileCredentials,int pageNumber, string resourceName)
+        public Task<byte[]> GetPageResourceAsync(FileCredentials fileCredentials, int pageNumber, string resourceName)
         {
             var css = @"
                 html {

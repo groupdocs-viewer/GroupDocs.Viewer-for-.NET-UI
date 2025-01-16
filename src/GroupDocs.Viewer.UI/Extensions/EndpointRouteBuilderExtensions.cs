@@ -1,10 +1,10 @@
-using System;
 using GroupDocs.Viewer.UI;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Configuration;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System;
 using Options = GroupDocs.Viewer.UI.Configuration.Options;
 
 namespace Microsoft.AspNetCore.Builder

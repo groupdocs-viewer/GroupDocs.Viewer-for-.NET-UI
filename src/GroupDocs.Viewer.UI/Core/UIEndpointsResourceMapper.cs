@@ -1,14 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using GroupDocs.Viewer.UI.Configuration;
 using GroupDocs.Viewer.UI.Core.Configuration;
 using GroupDocs.Viewer.UI.Core.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GroupDocs.Viewer.UI.Core
 {
@@ -31,7 +31,7 @@ namespace GroupDocs.Viewer.UI.Core
 
             foreach (var resource in resources)
             {
-                endpoints.Add(builder.MapGet($"{options.UIPath}/{resource.FileName}",  async context =>
+                endpoints.Add(builder.MapGet($"{options.UIPath}/{resource.FileName}", async context =>
                 {
                     context.Response.ContentType = resource.ContentType;
                     context.Response.ContentLength = resource.Content.Length;

@@ -1,7 +1,8 @@
 <Project>
 	<PropertyGroup Label="SDK Versions">
 		<NetVersions>net6.0;net8.0</NetVersions>
-		<NetStandardVersion>netstandard2.0</NetStandardVersion>
+		<NetAndFrameworkVersion>net6.0;net8.0;net462</NetAndFrameworkVersion>
+		<NetVersions462>net462</NetVersions462>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 
@@ -17,20 +18,17 @@
 
 	<PropertyGroup Label="Package Versions">
 		<GroupDocsViewer>24.12.0</GroupDocsViewer>
-
 		<MicrosoftExtensionsHttp>8.0.1</MicrosoftExtensionsHttp>
+		<MicrosoftExtensionsDependencyInjectionAbstractions>8.0.1</MicrosoftExtensionsDependencyInjectionAbstractions>
 		<MicrosoftExtensionsDependencyInjectionAbstractions>8.0.2</MicrosoftExtensionsDependencyInjectionAbstractions>
 		<MicrosoftExtensionsConfiguration>8.0.0</MicrosoftExtensionsConfiguration>
 		<MicrosoftExtensionsConfigurationAbstractions>8.0.0</MicrosoftExtensionsConfigurationAbstractions>
 		<MicrosoftExtensionsConfigurationBinder>8.0.2</MicrosoftExtensionsConfigurationBinder>
 		<MicrosoftExtensionsCachingMemory>8.0.1</MicrosoftExtensionsCachingMemory>
 		<SystemFormatsAsn1>8.0.1</SystemFormatsAsn1>
-
 		<SystemTextJson>8.0.5</SystemTextJson>
-
 		<AzureBlobs>12.23.0</AzureBlobs>
 		<AwsSdkS3>3.7.410.8</AwsSdkS3>
-
 		<MicrosoftSourceLinkGithub>8.0.0</MicrosoftSourceLinkGithub>
 	</PropertyGroup>
 

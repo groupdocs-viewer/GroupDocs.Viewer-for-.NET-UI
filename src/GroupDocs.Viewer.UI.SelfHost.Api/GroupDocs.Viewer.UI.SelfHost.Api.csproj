@@ -1,31 +1,40 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>$(NetVersions)</TargetFrameworks>
+	<PropertyGroup>
+		<TargetFrameworks>$(NetVersions)</TargetFrameworks>
 
-    <PackageId>GroupDocs.Viewer.UI.SelfHost.Api</PackageId>
-    <Version>$(GroupDocsViewerUISelfHostApi)</Version>
-    <Description>GroupDocs.Viewer.UI.SelfHost.Api containing API implementation that is based on GroupDocs.Viewer for .NET see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
-    <PackageTags>GroupDocs;Viewer;UI;SelftHost;API;ASP.NET Core;</PackageTags>
-    <PackageIcon>images\icon.png</PackageIcon>
-  </PropertyGroup>
+		<PackageId>GroupDocs.Viewer.UI.SelfHost.Api</PackageId>
+		<Version>$(GroupDocsViewerUISelfHostApi)</Version>
+		<Description>GroupDocs.Viewer.UI.SelfHost.Api containing API implementation that is based on GroupDocs.Viewer for .NET see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
+		<PackageTags>GroupDocs;Viewer;UI;SelftHost;API;ASP.NET Core;</PackageTags>
+		<PackageIcon>images\icon.png</PackageIcon>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\..\assets\icon.png" Pack="true" Visible="false" PackagePath="images\icon.png" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\assets\icon.png" Pack="true" Visible="false" PackagePath="images\icon.png" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="GroupDocs.Viewer" Version="$(GroupDocsViewer)" />
-    <PackageReference Include="System.Formats.Asn1" Version="$(SystemFormatsAsn1)" />
-    <PackageReference Include="System.Text.Json" Version="$(SystemTextJson)" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="GroupDocs.Viewer" Version="$(GroupDocsViewer)" />
+		<PackageReference Include="System.Formats.Asn1" Version="$(SystemFormatsAsn1)" />
+		<PackageReference Include="System.Text.Json" Version="$(SystemTextJson)" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' != 'net462'">
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net462'">
+		<PackageReference Include="System.ValueTuple" Version="4.5.0" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' != 'net462'">
+		<ProjectReference Include="..\GroupDocs.Viewer.UI.Api\GroupDocs.Viewer.UI.Api.csproj" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net462'">
+		<ProjectReference Include="..\GroupDocs.Viewer.UI.Api.NetFramework\GroupDocs.Viewer.UI.Api.NetFramework.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\GroupDocs.Viewer.UI.Core\GroupDocs.Viewer.UI.Core.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\GroupDocs.Viewer.UI.Api\GroupDocs.Viewer.UI.Api.csproj" />
-    <ProjectReference Include="..\GroupDocs.Viewer.UI.Core\GroupDocs.Viewer.UI.Core.csproj" />
-  </ItemGroup>
-
-  <Import Project="..\GroupDocs.Viewer.UI.SelfHost.Api.Shared\GroupDocs.Viewer.UI.SelfHost.Api.Shared.projitems" Label="Shared" />
+	<Import Project="..\GroupDocs.Viewer.UI.SelfHost.Api.Shared\GroupDocs.Viewer.UI.SelfHost.Api.Shared.projitems" Label="Shared" />
 
 </Project>

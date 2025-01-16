@@ -1,7 +1,7 @@
-﻿using System;
+﻿using GroupDocs.Viewer.UI.NetFramework.Core.Extensions;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using GroupDocs.Viewer.UI.NetFramework.Core.Extensions;
 
 namespace GroupDocs.Viewer.UI.NetFramework
 {
@@ -46,7 +46,9 @@ namespace GroupDocs.Viewer.UI.NetFramework
                 stylesheetPath = Path.Combine(Environment.CurrentDirectory, path);
 
             if (!File.Exists(stylesheetPath))
-                throw new Exception($"Could not find style sheet at path {stylesheetPath}");
+            {
+                throw new FileNotFoundException($"Could not find style sheet at path {stylesheetPath}");
+            }
 
             CustomStylesheets.Add(stylesheetPath);
 

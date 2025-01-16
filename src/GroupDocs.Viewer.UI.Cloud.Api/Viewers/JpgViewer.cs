@@ -11,11 +11,11 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
 {
     internal class JpgViewer : BaseViewer
     {
-        public JpgViewer(IOptions<Config> config, 
-            IFileStorage fileStorage, 
+        public JpgViewer(IOptions<Config> config,
+            IFileStorage fileStorage,
             IViewerApiConnect viewerApiConnect,
-            IPageFormatter pageFormatter) 
-            : base (config, fileStorage, viewerApiConnect, pageFormatter)
+            IPageFormatter pageFormatter)
+            : base(config, fileStorage, viewerApiConnect, pageFormatter)
         {
         }
 
@@ -32,7 +32,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
         public override ViewOptions CreatePagesViewOptions(FileInfo fileInfo)
         {
             var jpgOptions = new ImageOptions();
-            
+
             Config.JpgViewOptionsSetupAction(jpgOptions);
 
             var viewOptions = new ViewOptions

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using GroupDocs.Viewer.UI.NetFramework.Core;
+using GroupDocs.Viewer.UI.NetFramework.Core.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Web;
-using GroupDocs.Viewer.UI.NetFramework.Core;
-using GroupDocs.Viewer.UI.NetFramework.Core.Extensions;
 
 namespace GroupDocs.Viewer.UI.NetFramework
 {
@@ -27,7 +27,7 @@ namespace GroupDocs.Viewer.UI.NetFramework
                 return;
 
             string requestPath = PathExtensions.TrimTrailingSlash(context.Request.Path);
-            if (!requestPath.StartsWith(_viewerUIConfig.UIPath, StringComparison.OrdinalIgnoreCase))
+            if (!requestPath.StartsWith(_viewerUIConfig.UIPath, StringComparison.OrdinalIgnoreCase) || requestPath.StartsWith(_viewerUIConfig.ApiEndpoint, StringComparison.OrdinalIgnoreCase))
                 return;
 
             UIResource indexPage = UIResourceExtensions.GetIndexPage(_resourcesReader.UIResources);
@@ -73,16 +73,17 @@ namespace GroupDocs.Viewer.UI.NetFramework
             ICollection<UIStylesheet> stylesheets = UIResourceExtensions.GetCustomStylesheets(indexPage, _viewerUIConfig);
             foreach (UIStylesheet stylesheet in stylesheets)
             {
-                if (requestPath.Equals(stylesheet.ResourcePath, StringComparison.OrdinalIgnoreCase))
+                if (!requestPath.Equals(stylesheet.ResourcePath, StringComparison.OrdinalIgnoreCase))
                 {
-                    // Write response
-                    context.Response.ContentType = "text/css";
-                    context.Response.AddHeader("ContentLength", stylesheet.Content.Length.ToString());
-                    context.Response.BinaryWrite(stylesheet.Content);
-
-                    // Stop further processing
-                    context.Response.End();
+                    continue;
                 }
+                // Write response
+                context.Response.ContentType = "text/css";
+                context.Response.AddHeader("ContentLength", stylesheet.Content.Length.ToString());
+                context.Response.BinaryWrite(stylesheet.Content);
+
+                // Stop further processing
+                context.Response.End();
             }
         }
     }

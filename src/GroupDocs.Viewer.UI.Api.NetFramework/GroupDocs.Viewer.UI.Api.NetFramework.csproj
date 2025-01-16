@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>$(NetVersions462)</TargetFramework>
+		<PackageId>GroupDocs.Viewer.UI.Api</PackageId>
+		<Version>$(GroupDocsViewerUIApi)</Version>
+		<Description>GroupDocs.Viewer.UI.Api containing base API features required by GroupDocs.Viewer.UI see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
+		<PackageTags>GroupDocs;Viewer;UI;API;ASP.NET Core;</PackageTags>
+		<PackageIcon>images\icon.png</PackageIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\assets\icon.png" Pack="true" Visible="false" PackagePath="images\icon.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Include="System.Web" />
+	</ItemGroup>
+	<ItemGroup>
+		<!-- Add specific references or packages for .NET Framework -->
+		<PackageReference Include="Microsoft.AspNet.WebApi" Version="5.3.0" />
+		<PackageReference Include="System.ValueTuple" Version="4.5.0" />
+		<PackageReference Include="System.Text.Json" Version="$(SystemTextJson)" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="$(MicrosoftExtensionsHttp)" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="$(MicrosoftExtensionsConfiguration)" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\GroupDocs.Viewer.UI.Core\GroupDocs.Viewer.UI.Core.csproj" />
+	</ItemGroup>
+	<PropertyGroup>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+	<Import Project="..\GroupDocs.Viewer.UI.Api.Shared\GroupDocs.Viewer.UI.Api.Shared.projitems" Label="Shared" />
+</Project>

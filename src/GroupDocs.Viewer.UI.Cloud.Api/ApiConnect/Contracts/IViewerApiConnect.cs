@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models;
+﻿using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models;
 using GroupDocs.Viewer.UI.Cloud.Api.Common;
 using GroupDocs.Viewer.UI.Core.Entities;
+using System.Threading.Tasks;
 
 namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts
 {
@@ -48,7 +48,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts
         /// <returns>Resource bytes</returns>
         Task<Result<byte[]>> DownloadResourceAsync(Resource resource, string storageName);
         /// <summary>
-        /// Checks if file exists 
+        /// Checks if file exists
         /// </summary>
         /// <param name="filePath">File path</param>
         /// <param name="storageName">Storage name</param>

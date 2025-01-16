@@ -1,5 +1,5 @@
-﻿using GroupDocs.Viewer.UI.Core.Configuration;
-using GroupDocs.Viewer.UI.Core;
+﻿using GroupDocs.Viewer.UI.Core;
+using GroupDocs.Viewer.UI.Core.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;

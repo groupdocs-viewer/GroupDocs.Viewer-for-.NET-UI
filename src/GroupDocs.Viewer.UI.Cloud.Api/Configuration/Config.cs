@@ -1,6 +1,6 @@
-﻿using System;
-using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models;
+﻿using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models;
 using GroupDocs.Viewer.UI.Core;
+using System;
 
 namespace GroupDocs.Viewer.UI.Cloud.Api.Configuration
 {
@@ -108,7 +108,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Configuration
         {
             if (setupOptions != null)
                 HtmlViewOptionsSetupAction = setupOptions;
-            
+
             return this;
         }
 

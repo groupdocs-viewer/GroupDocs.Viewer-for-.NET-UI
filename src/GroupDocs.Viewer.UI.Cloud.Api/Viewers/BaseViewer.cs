@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts;
+﻿using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts;
 using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models;
 using GroupDocs.Viewer.UI.Cloud.Api.Configuration;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Entities;
 using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using FileInfo = GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models.FileInfo;
 
 namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
@@ -22,7 +22,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
         protected BaseViewer(
             IOptions<Config> config,
             IFileStorage fileStorage,
-            IViewerApiConnect viewerApiConnect, 
+            IViewerApiConnect viewerApiConnect,
             IPageFormatter pageFormatter)
         {
             Config = config.Value;

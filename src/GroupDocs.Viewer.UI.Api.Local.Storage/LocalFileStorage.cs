@@ -1,11 +1,11 @@
-﻿using System;
+﻿using GroupDocs.Viewer.UI.Core;
+using GroupDocs.Viewer.UI.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using GroupDocs.Viewer.UI.Core;
-using GroupDocs.Viewer.UI.Core.Entities;
 
 namespace GroupDocs.Viewer.UI.Api.Local.Storage
 {
@@ -30,8 +30,8 @@ namespace GroupDocs.Viewer.UI.Api.Local.Storage
                 .Where(fileInfo => !fileInfo.Attributes.HasFlag(FileAttributes.Hidden))
                 .OrderBy(fileInfo => fileInfo.Name)
                 .ThenByDescending(fileInfo => fileInfo.CreationTime)
-                .Select(directory => 
-                     FileSystemEntry.Directory(directory.Name, Path.GetRelativePath(_storagePath, directory.FullName), 0L));
+                .Select(directory =>
+                     FileSystemEntry.Directory(directory.Name, GetRelativePath(_storagePath, directory.FullName), 0L));
 
             var files = Directory
                 .GetFiles(folderFullPath)
@@ -40,23 +40,25 @@ namespace GroupDocs.Viewer.UI.Api.Local.Storage
                 .OrderBy(fileInfo => fileInfo.Name)
                 .ThenByDescending(fileInfo => fileInfo.CreationTime)
                 .Select(file =>
-                    FileSystemEntry.File(file.Name, Path.GetRelativePath(_storagePath, file.FullName), file.Length));
+                    FileSystemEntry.File(file.Name, GetRelativePath(_storagePath, file.FullName), file.Length));
 
             var dirsAndFiles = dirs.Concat(files);
             return dirsAndFiles;
         }
 
-        public Task<IEnumerable<FileSystemEntry>> ListDirsAndFilesAsync(string dirPath) => 
+        public Task<IEnumerable<FileSystemEntry>> ListDirsAndFilesAsync(string dirPath) =>
             Task.FromResult(ListFiles(dirPath));
 
         public async Task<byte[]> ReadFileAsync(string filePath)
         {
             var fullPath = Path.Combine(_storagePath, filePath);
-            await using FileStream fs = GetStream(fullPath, FileMode.Open, FileAccess.Read, FileShare.None);
-            var memoryStream = new MemoryStream();
-            await fs.CopyToAsync(memoryStream);
+            using (FileStream fs = GetStream(fullPath, FileMode.Open, FileAccess.Read, FileShare.None))
+            {
+                var memoryStream = new MemoryStream();
+                await fs.CopyToAsync(memoryStream);
 
-            return memoryStream.ToArray();
+                return memoryStream.ToArray();
+            }
         }
 
         public async Task<string> WriteFileAsync(string fileName, byte[] bytes, bool rewrite)
@@ -65,17 +67,20 @@ namespace GroupDocs.Viewer.UI.Api.Local.Storage
             var fullPath = Path.Combine(_storagePath, newFileName);
             var fileMode = rewrite ? FileMode.Create : FileMode.CreateNew;
 
-            await using FileStream fs = GetStream(fullPath, fileMode, FileAccess.Write, FileShare.None);
-            await fs.WriteAsync(bytes, 0, bytes.Length);
+            using (FileStream fs = GetStream(fullPath, fileMode, FileAccess.Write, FileShare.None))
+            {
+                await fs.WriteAsync(bytes, 0, bytes.Length);
 
-            return newFileName;
+                return newFileName;
+            }
+
         }
 
         private FileStream GetStream(string path, FileMode mode, FileAccess access, FileShare share)
         {
             FileStream stream = null;
             TimeSpan interval = new TimeSpan(0, 0, 0, 0, 50);
-            TimeSpan totalTime = new TimeSpan();
+            TimeSpan totalTime = TimeSpan.Zero;
 
             while (stream == null)
             {
@@ -120,6 +125,13 @@ namespace GroupDocs.Viewer.UI.Api.Local.Storage
             } while (dirFiles.Contains(fileNameCandidate));
 
             return fileNameCandidate;
+        }
+
+        private static string GetRelativePath(string basePath, string fullPath)
+        {
+            var baseUri = new Uri(basePath + Path.DirectorySeparatorChar);
+            var fullUri = new Uri(fullPath);
+            return Uri.UnescapeDataString(baseUri.MakeRelativeUri(fullUri).ToString().Replace('/', Path.DirectorySeparatorChar));
         }
     }
 }

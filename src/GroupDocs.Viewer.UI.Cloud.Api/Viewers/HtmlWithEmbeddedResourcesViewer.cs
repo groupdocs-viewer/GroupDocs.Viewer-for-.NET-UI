@@ -12,8 +12,8 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
     internal class HtmlWithEmbeddedResourcesViewer : BaseViewer
     {
         public HtmlWithEmbeddedResourcesViewer(
-            IOptions<Config> config, 
-            IFileStorage fileStorage, 
+            IOptions<Config> config,
+            IFileStorage fileStorage,
             IViewerApiConnect viewerApiConnect,
             IPageFormatter pageFormatter)
             : base(config, fileStorage, viewerApiConnect, pageFormatter)
@@ -23,8 +23,8 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
         public override string PageExtension => HtmlPage.DefaultExtension;
 
         public override string ThumbExtension => JpgThumb.DefaultExtension;
-        
-        public override Page CreatePage(int pageNumber, byte[] data) => 
+
+        public override Page CreatePage(int pageNumber, byte[] data) =>
             new HtmlPage(pageNumber, data);
 
         public override Thumb CreateThumb(int pageNumber, byte[] data) =>

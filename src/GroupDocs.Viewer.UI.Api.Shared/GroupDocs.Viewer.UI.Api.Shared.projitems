@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>41b17b3e-6e40-49bc-8ada-f5802be1e46a</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>GroupDocs.Viewer.UI.Api.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ApiNames.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConfigProvider\Implementation\UIConfigProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConfigProvider\IUIConfigProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Options.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\ThumbSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controllers\IViewerService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controllers\ViewerService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ActionNameExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileNameResolution\IFileNameResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileNameResolution\Implementation\FilePathFileNameResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\CreatePagesRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\CreatePdfRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\CreatePdfResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ErrorResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\FileSytemItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\GetPageRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\GetPdfRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\GetResourceRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\GetThumbRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ListDirRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PageContent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PageData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\UploadFileResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ViewDataRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ViewDataResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SearchTermResolution\Implementation\SearchTermResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SearchTermResolution\ISearchTermResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\IApiUrlBuilder.cs" />
+  </ItemGroup>
+</Project>

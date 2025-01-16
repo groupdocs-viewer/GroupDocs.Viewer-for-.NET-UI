@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-using GroupDocs.Viewer.Options;
+﻿using GroupDocs.Viewer.Options;
 using GroupDocs.Viewer.UI.Api.Configuration;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Entities;
@@ -10,6 +7,8 @@ using GroupDocs.Viewer.UI.SelfHost.Api.InternalCaching;
 using GroupDocs.Viewer.UI.SelfHost.Api.Licensing;
 using GroupDocs.Viewer.UI.SelfHost.Api.Viewers.Extensions;
 using Microsoft.Extensions.Options;
+using System.IO;
+using System.Threading.Tasks;
 using Page = GroupDocs.Viewer.UI.Core.Entities.Page;
 
 namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
@@ -23,8 +22,8 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             IAsyncLock asyncLock,
             IViewerLicenseManager licenseManager,
             IInternalCache internalCache,
-            IFileStorage fileStorage, 
-            IFileTypeResolver fileTypeResolver, 
+            IFileStorage fileStorage,
+            IFileTypeResolver fileTypeResolver,
             IPageFormatter pageFormatter)
             : base(config, asyncLock, licenseManager, internalCache, fileStorage, fileTypeResolver, pageFormatter)
         {
@@ -42,7 +41,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             => new PngThumb(pageNumber, data);
 
         public override Task<byte[]> GetPageResourceAsync(
-            FileCredentials fileCredentials, int pageNumber, string resourceName) => 
+            FileCredentials fileCredentials, int pageNumber, string resourceName) =>
             throw new System.NotImplementedException(
                 $"{nameof(PngViewer)} does not support retrieving external HTML resources.");
 
@@ -53,7 +52,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             viewer.View(pageViewOptions, pageNumber);
 
             var bytes = pageStream.ToArray();
-            
+
             var page = CreatePage(pageNumber, bytes);
             return page;
         }

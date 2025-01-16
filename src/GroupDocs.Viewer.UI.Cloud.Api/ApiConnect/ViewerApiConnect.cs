@@ -1,13 +1,13 @@
-﻿using System.Linq;
+﻿using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts;
+using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models;
+using GroupDocs.Viewer.UI.Cloud.Api.Common;
+using GroupDocs.Viewer.UI.Core.Entities;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts;
-using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models;
-using GroupDocs.Viewer.UI.Cloud.Api.Common;
-using GroupDocs.Viewer.UI.Core.Entities;
 
 namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
 {

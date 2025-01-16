@@ -1,11 +1,11 @@
-﻿using System;
+﻿using GroupDocs.Viewer.UI.Configuration;
+using GroupDocs.Viewer.UI.Core.Configuration;
+using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
-using GroupDocs.Viewer.UI.Configuration;
-using GroupDocs.Viewer.UI.Core.Configuration;
-using Microsoft.AspNetCore.Http;
 
 namespace GroupDocs.Viewer.UI.Core.Extensions
 {
@@ -14,7 +14,7 @@ namespace GroupDocs.Viewer.UI.Core.Extensions
         public static UIResource GetIndexPage(this IEnumerable<UIResource> resources)
         {
             var index = resources
-                .FirstOrDefault(r => 
+                .FirstOrDefault(r =>
                     r.ContentType == ContentType.HTML && r.FileName == Keys.GROUPDOCSVIEWERUI_MAIN_UI_RESOURCE);
 
             return index;
@@ -75,8 +75,8 @@ namespace GroupDocs.Viewer.UI.Core.Extensions
 
             var jsonOptions = new JsonSerializerOptions
             {
-                WriteIndented = true, 
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase 
+                WriteIndented = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
 
             string json = JsonSerializer.Serialize(windowConfig, jsonOptions);

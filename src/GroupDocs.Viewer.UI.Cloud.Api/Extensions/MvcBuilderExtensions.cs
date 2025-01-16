@@ -1,14 +1,12 @@
-﻿using System;
-using System.Net.Http.Headers;
-using System.Reflection;
-using GroupDocs.Viewer.UI.Api;
+﻿using GroupDocs.Viewer.UI.Api;
 using GroupDocs.Viewer.UI.Api.Controllers;
+using GroupDocs.Viewer.UI.Api.Utils;
 using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect;
 using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts;
 using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Handlers;
-using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Cloud.Api.Configuration;
 using GroupDocs.Viewer.UI.Cloud.Api.Viewers;
+using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Caching;
 using GroupDocs.Viewer.UI.Core.Caching.Implementation;
 using GroupDocs.Viewer.UI.Core.FileCaching;
@@ -16,13 +14,15 @@ using GroupDocs.Viewer.UI.Core.PageFormatting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using GroupDocs.Viewer.UI.Api.Utils;
+using System;
+using System.Net.Http.Headers;
+using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
     public static class MvcBuilderExtensions
     {
-        public static GroupDocsViewerUIApiBuilder AddGroupDocsViewerCloudApi(this IMvcBuilder builder, 
+        public static GroupDocsViewerUIApiBuilder AddGroupDocsViewerCloudApi(this IMvcBuilder builder,
             Action<Config> setupConfig = null)
         {
             var config = new Config();
@@ -73,7 +73,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.TryAddSingleton<ISearchTermResolver, SearchTermResolver>();
             builder.Services.TryAddSingleton<IPageFormatter, NoopPageFormatter>();
             builder.Services.TryAddSingleton<IUIConfigProvider, UIConfigProvider>();
-            
+
             builder.Services.AddTransient<IViewer>(factory =>
             {
                 IViewer viewer;

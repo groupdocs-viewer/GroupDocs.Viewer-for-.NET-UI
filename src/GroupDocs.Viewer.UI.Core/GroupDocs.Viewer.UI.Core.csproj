@@ -1,21 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>$(NetStandardVersion)</TargetFramework>
+	<PropertyGroup>
+		<TargetFrameworks>$(NetAndFrameworkVersion)</TargetFrameworks>
 
-    <PackageId>GroupDocs.Viewer.UI.Core</PackageId>
-    <Version>$(GroupDocsViewerUICore)</Version>
-    <Description>GroupDocs.Viewer.UI.Core containing interfaces, extensions, builders and model definitions see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
-    <PackageTags>GroupDocs;Viewer;UI;Core;ASP.NET Core;</PackageTags>
-    <PackageIcon>images\icon.png</PackageIcon>
-  </PropertyGroup>
+		<PackageId>GroupDocs.Viewer.UI.Core</PackageId>
+		<Version>$(GroupDocsViewerUICore)</Version>
+		<Description>GroupDocs.Viewer.UI.Core containing interfaces, extensions, builders and model definitions see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
+		<PackageTags>GroupDocs;Viewer;UI;Core;ASP.NET Core;</PackageTags>
+		<PackageIcon>images\icon.png</PackageIcon>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\..\assets\icon.png" Pack="true" Visible="false" PackagePath="images\icon.png" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\assets\icon.png" Pack="true" Visible="false" PackagePath="images\icon.png" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="$(MicrosoftExtensionsDependencyInjectionAbstractions)" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions"
+		                  Version="$(MicrosoftExtensionsDependencyInjectionAbstractions)" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net462'">
+		<PackageReference Include="System.ValueTuple" Version="4.5.0" />
+	</ItemGroup>
 
 </Project>
