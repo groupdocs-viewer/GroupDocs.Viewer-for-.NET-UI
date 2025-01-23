@@ -18,19 +18,20 @@ namespace GroupDocs.Viewer.UI.SelfHosted.App.NetFramework.Sample
         {
             AreaRegistration.RegisterAllAreas();
             var viewerType = ViewerType.HtmlWithEmbeddedResources;
-            GlobalConfiguration.Configure(config =>
-            {
-                var serviceCollection = MvcBuilderExtensions.AddGroupDocsViewerSelfHostApi(null, config =>
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddGroupDocsViewerSelfHostApi(viewConfig =>
                 {
-                    config.SetViewerType(viewerType);
+                    viewConfig.SetViewerType(viewerType);
                     //Trial limitations https://docs.groupdocs.com/viewer/net/evaluation-limitations-and-licensing-of-groupdocs-viewer/
                     //Temporary license can be requested at https://purchase.groupdocs.com/temporary-license
-                    config.SetLicensePath("c:\\licenses\\GroupDocs.Viewer.lic"); // or set environment variable 'GROUPDOCS_LIC_PATH'
+                    //config.SetLicensePath("c:\\licenses\\GroupDocs.Viewer.lic"); // or set environment variable 'GROUPDOCS_LIC_PATH'
                 })
                 .AddLocalStorage(HttpContext.Current.Server.MapPath("~/App_Data/Files"))
                 .AddLocalCache(HttpContext.Current.Server.MapPath("~/App_Data/Cache"));
 
-                var serviceProvider = serviceCollection.Services.BuildServiceProvider();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            GlobalConfiguration.Configure(config =>
+            {
                 config.DependencyResolver = new ViewerDependencyResolver(serviceProvider);
                 ViewerApiEndpointRouteBuilder.RegisterViewerApi(config, options =>
                 {

@@ -9,7 +9,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class MvcBuilderExtensions
     {
-        public static GroupDocsViewerUIApiBuilder AddGroupDocsViewerSelfHostApi(IServiceCollection serviceCollection = null,
+        public static GroupDocsViewerUIApiBuilder AddGroupDocsViewerSelfHostApi(this IServiceCollection serviceCollection,
             Action<Config> setupConfig = null)
         {
             serviceCollection ??= new ServiceCollection();

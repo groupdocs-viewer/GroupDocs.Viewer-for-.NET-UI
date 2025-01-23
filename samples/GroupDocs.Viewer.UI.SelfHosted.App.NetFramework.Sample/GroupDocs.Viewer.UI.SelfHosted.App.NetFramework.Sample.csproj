@@ -143,7 +143,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\Cache\" />
     <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>

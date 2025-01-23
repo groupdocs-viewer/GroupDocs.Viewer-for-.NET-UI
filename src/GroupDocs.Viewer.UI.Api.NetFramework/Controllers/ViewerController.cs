@@ -6,10 +6,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -143,7 +139,7 @@ namespace GroupDocs.Viewer.UI.Api.NetFramework.Controllers
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> GetThumb(GetThumbRequest request)
+        public async Task<IHttpActionResult> GetThumb([FromUri] GetThumbRequest request)
         {
             try
             {
@@ -157,7 +153,7 @@ namespace GroupDocs.Viewer.UI.Api.NetFramework.Controllers
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> GetPdf(GetPdfRequest request)
+        public async Task<IHttpActionResult> GetPdf([FromUri] GetPdfRequest request)
         {
             if (!_config.EnableDownloadPdf && !_config.EnablePrint)
                 return ErrorJsonResult("Creating PDF files is disabled.");
@@ -165,7 +161,7 @@ namespace GroupDocs.Viewer.UI.Api.NetFramework.Controllers
             try
             {
                 byte[] result = await _viewerService.GetPdfAsync(request);
-                return new FileResult(result, "application/pdf", Path.GetFileName(request.File));
+                return new FileResult(result, "application/pdf", $"{Path.GetFileNameWithoutExtension(request.File)}.pdf");
             }
             catch (Exception ex)
             {
@@ -174,7 +170,7 @@ namespace GroupDocs.Viewer.UI.Api.NetFramework.Controllers
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> GetResource(GetResourceRequest request)
+        public async Task<IHttpActionResult> GetResource([FromUri] GetResourceRequest request)
         {
             try
             {
@@ -191,36 +187,6 @@ namespace GroupDocs.Viewer.UI.Api.NetFramework.Controllers
         private IHttpActionResult ErrorJsonResult(string message)
         {
             return Json(new { error = message }, _jsonSerializerSettings);
-        }
-    }
-
-    public class FileResult : IHttpActionResult
-    {
-        private readonly byte[] _fileContents;
-        private readonly string _contentType;
-        private readonly string _fileName;
-
-        public FileResult(byte[] fileContents, string contentType, string fileName)
-        {
-            _fileContents = fileContents;
-            _contentType = contentType;
-            _fileName = fileName;
-        }
-
-        public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
-        {
-            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK)
-            {
-                Content = new ByteArrayContent(_fileContents)
-            };
-
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue(_contentType);
-            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
-            {
-                FileName = _fileName
-            };
-
-            return Task.FromResult(response);
         }
     }
 }

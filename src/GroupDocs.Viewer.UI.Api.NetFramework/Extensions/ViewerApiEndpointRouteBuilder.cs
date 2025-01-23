@@ -1,10 +1,7 @@
 using GroupDocs.Viewer.UI.Api.Configuration;
 using GroupDocs.Viewer.UI.Api.NetFramework.Endpoints;
-using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Web.Http;
-using System.Web.Http.Dependencies;
 
 namespace GroupDocs.Viewer.UI.Api.NetFramework.Extensions
 {
@@ -45,7 +42,7 @@ namespace GroupDocs.Viewer.UI.Api.NetFramework.Extensions
                 routes.MapHttpRoute(
                     name: action,
                     routeTemplate: $"{relativeApiPath}/{apiMethod}",
-                    defaults: new { controller = ApiNames.CONTROLLER_NAME, action }
+                    defaults: new { controller = ApiNames.CONTROLLER_NAME, action, optionalParam = RouteParameter.Optional }
                 );
             }
         }
@@ -62,42 +59,6 @@ namespace GroupDocs.Viewer.UI.Api.NetFramework.Extensions
             };
 
             ensureValidPath(options.ApiPath, nameof(Options.ApiPath));
-        }
-    }
-
-    public class ViewerDependencyResolver : IDependencyResolver
-    {
-        private readonly IServiceProvider _serviceProvider;
-
-        public ViewerDependencyResolver(IServiceProvider serviceProvider)
-        {
-            _serviceProvider = serviceProvider;
-        }
-
-        public IDependencyScope BeginScope()
-        {
-            return this; // Web API does not natively support child scopes
-        }
-
-        public object GetService(Type serviceType)
-        {
-            return _serviceProvider.GetService(serviceType);
-        }
-
-        public IEnumerable<object> GetServices(Type serviceType)
-        {
-            return _serviceProvider.GetServices(serviceType);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            // Cleanup
         }
     }
 }
