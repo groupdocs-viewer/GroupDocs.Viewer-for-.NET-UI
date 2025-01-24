@@ -1,5 +1,6 @@
 ﻿using GroupDocs.Viewer.UI.Api.Local.Storage;
 using GroupDocs.Viewer.UI.Api.Models;
+using GroupDocs.Viewer.UI.Api.Utils;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Caching.Implementation;
 using GroupDocs.Viewer.UI.Core.Entities;
@@ -10,7 +11,6 @@ using GroupDocs.Viewer.UI.SelfHost.Api.InternalCaching;
 using GroupDocs.Viewer.UI.SelfHost.Api.Licensing;
 using GroupDocs.Viewer.UI.SelfHost.Api.Viewers;
 using Microsoft.Extensions.Options;
-using GroupDocs.Viewer.UI.Api.Utils;
 
 namespace GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator
 {
@@ -37,7 +37,7 @@ namespace GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator
                 Console.WriteLine($"Processing file: {file.FilePath}");
 
                 IViewer viewer = CreateViewer(apiConfig, fileStorage, urlBuilder);
-                
+
                 string extension = Path.GetExtension(file.FilePath);
                 string password = file.FileName.StartsWith("password") ? "12345" : string.Empty;
                 FileCredentials fileCredentials = new FileCredentials(file.FilePath, extension, password);
@@ -56,7 +56,7 @@ namespace GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator
         {
             IOptions<Config> configOptions = new OptionsWrapper<Config>(apiConfig);
             IAsyncLock asyncLock = new AsyncDuplicateLock();
-            IViewerLicenseManager licenseManager = new ViewerLicenseManager(configOptions);
+            IViewerLicenseManager licenseManager = new ViewerLicenseManager(apiConfig);
             IInternalCache internalCache = new NoopInternalCache();
             IFileTypeResolver fileTypeResolver = new FileExtensionFileTypeResolver();
             IPageFormatter pageFormatter = new NoopPageFormatter();
@@ -220,7 +220,7 @@ namespace GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator
                 {
                     var resourceFilePath = Path.Combine(CONTENT_FOLDER, file.FilePath, page.PageNumber.ToString(),
                         resource.ResourceName);
-                    
+
                     await Utils.SaveFileAsync(resourceFilePath, resource.Data);
                 }
             }

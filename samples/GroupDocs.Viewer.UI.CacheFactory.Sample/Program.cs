@@ -27,17 +27,17 @@ namespace GroupDocs.Viewer.UI.CacheFactory.Sample
             //config.SetLicensePath("GroupDocs.Viewer.lic"); // or set environment variable 'GROUPDOCS_LIC_PATH'
 
             // Build up the services
-            IOptions<Config> configOptions = 
+            IOptions<Config> configOptions =
                 new OptionsWrapper<Config>(config);
             IAsyncLock asyncLock = new AsyncDuplicateLock();
-            IViewerLicenseManager licenseManager = new ViewerLicenseManager(configOptions);
+            IViewerLicenseManager licenseManager = new ViewerLicenseManager(config);
             IInternalCache internalCache = new NoopInternalCache();
             IFileStorage fileStorage = new LocalFileStorage(storagePath);
             IFileTypeResolver fileTypeResolver = new FileExtensionFileTypeResolver();
             IPageFormatter pageFormatter = new NoopPageFormatter();
             IFileCache cache = new LocalFileCache(cachePath);
 
-            IEnumerable<FileSystemEntry> filesAndDirs = 
+            IEnumerable<FileSystemEntry> filesAndDirs =
                 await fileStorage.ListDirsAndFilesAsync(".");
 
             foreach (var fileSystemEntry in filesAndDirs)
@@ -63,7 +63,7 @@ namespace GroupDocs.Viewer.UI.CacheFactory.Sample
                     string password = fileSystemEntry.FileName.StartsWith("password") ? "12345" : string.Empty;
                     FileCredentials fileCredentials =
                         new FileCredentials(fileSystemEntry.FilePath, extension, password);
-                    
+
                     // Create document info
                     DocumentInfo documentInfo =
                         await cachingViewer.GetDocumentInfoAsync(fileCredentials);
@@ -73,11 +73,11 @@ namespace GroupDocs.Viewer.UI.CacheFactory.Sample
                     int[] pageNumbers = documentInfo.Pages.Select(p => p.Number).ToArray();
 
                     // Create pages
-                    Pages pages = 
+                    Pages pages =
                         await cachingViewer.GetPagesAsync(fileCredentials, pageNumbers);
 
                     // Create thumbnails
-                    Thumbs thumbs = 
+                    Thumbs thumbs =
                         await cachingViewer.GetThumbsAsync(fileCredentials, pageNumbers);
 
                     // Create PDF file
