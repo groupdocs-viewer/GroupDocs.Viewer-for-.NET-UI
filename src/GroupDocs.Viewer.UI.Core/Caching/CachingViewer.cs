@@ -102,17 +102,15 @@ namespace GroupDocs.Viewer.UI.Core.Caching
             return page;
         }
 
-        public Task<DocumentInfo> GetDocumentInfoAsync(FileCredentials fileCredentials)
+        public async Task<DocumentInfo> GetDocumentInfoAsync(FileCredentials fileCredentials)
         {
             var cacheKey = CacheKeys.FILE_INFO_CACHE_KEY;
-            return _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, async () =>
+
+            using (await _asyncLock.LockAsync(fileCredentials.FilePath))
             {
-                using (await _asyncLock.LockAsync(fileCredentials.FilePath))
-                {
-                    return await _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, () =>
+                return await _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, () =>
                         _viewer.GetDocumentInfoAsync(fileCredentials));
-                }
-            });
+            }
         }
 
         public Task<byte[]> GetPdfAsync(FileCredentials fileCredentials)
@@ -173,7 +171,7 @@ namespace GroupDocs.Viewer.UI.Core.Caching
                 var pages = Combine(pagesOrNulls, createdPages);
 
                 return pages;
-            }   
+            }
         }
 
         private async Task<Thumbs> CreateThumbs(FileCredentials fileCredentials, int[] pageNumbers)
@@ -248,7 +246,7 @@ namespace GroupDocs.Viewer.UI.Core.Caching
                     var savePageTask = _fileCache.SetAsync(cacheKey, filePath, page.PageData);
                     var saveResourcesTask = SaveResourcesAsync(filePath, page.PageNumber, page.Resources);
 
-                    return new[] {savePageTask, saveResourcesTask};
+                    return new[] { savePageTask, saveResourcesTask };
                 });
 
             return Task.WhenAll(tasks);
@@ -313,7 +311,7 @@ namespace GroupDocs.Viewer.UI.Core.Caching
                     new CachedPage(page.pageNumber, _fileCache.TryGetValue<byte[]>(page.cacheKey, filePath)))
                 .ToList();
         }
-        
+
         private List<CachedThumb> GetThumbsOrNullsFromCache(string filePath, int[] pageNumbers)
         {
             return pageNumbers
