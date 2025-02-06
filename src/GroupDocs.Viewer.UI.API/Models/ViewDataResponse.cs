@@ -18,6 +18,13 @@ namespace GroupDocs.Viewer.UI.Api.Models
         public string FileType { get; set; }
 
         /// <summary>
+        /// Custom filename. 
+        /// Can be specified through registering `IFileNameResolver` service.
+        /// </summary>
+        [JsonPropertyName("fileName")]
+        public string FileName { get; set; }
+
+        /// <summary>
         /// Indicates if printing of the document is allowed.
         /// </summary>
         [JsonPropertyName("canPrint")]
@@ -25,6 +32,7 @@ namespace GroupDocs.Viewer.UI.Api.Models
 
         /// <summary>
         /// Search term from back to UI search after load document.
+        /// Can be specified through registering `ISearchTermResolver` service.
         /// </summary>
         [JsonPropertyName("searchTerm")]
         public string SearchTerm { get; set; }

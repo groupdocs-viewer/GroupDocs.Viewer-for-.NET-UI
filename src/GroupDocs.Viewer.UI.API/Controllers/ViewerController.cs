@@ -109,10 +109,14 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                 var pages = await CreateViewDataPages(file, docInfo, pagesToCreate);
 
                 var searchTerm = await _searchTermResolver.ResolveSearchTermAsync(request.File);
+                var fileName = await _fileNameResolver.ResolveFileNameAsync(request.File);
                 var response = new ViewDataResponse
                 {
                     File = request.File,
                     FileType = docInfo.FileType,
+                    FileName = string.IsNullOrEmpty(fileName) 
+                        ? Path.GetFileName(request.File) 
+                        : fileName,
                     CanPrint = docInfo.PrintAllowed,
                     SearchTerm = searchTerm,
                     Pages = pages
