@@ -26,6 +26,11 @@
         public int PreloadPages { get; set; } = 3;
 
         /// <summary>
+        // Initial zoom level. The default value is not specified; the UI automatically sets the zoom level.
+        /// </summary>
+        public ZoomLevel InitialZoom { get; set; }
+
+        /// <summary>
         /// Enable or disable right-click context menu
         /// </summary>
         public bool EnableContextMenu { get; set; } = true;

@@ -166,6 +166,31 @@ builder.Services
     });
 ```
 
+#### Set initial zoom level
+
+By default, the zoom level is not specified and selected by the UI to fit the document if possible. 
+The default value can be changed using `InitialZoom` property. Available zoom levels are:
+ 
+ * `ZoomLevel.FitWidth`
+ * `ZoomLevel.FitHeight`
+ * `ZoomLevel.Percent25`
+ * `ZoomLevel.Percent50`
+ * `ZoomLevel.Percent100`
+ * `ZoomLevel.Percent200`
+ * `ZoomLevel.Percent300`
+
+
+The following code shows how to set default zoom level to fit document by width.
+
+```cs
+builder.Services
+   .AddGroupDocsViewerUI(config =>
+    {
+        config.InitialZoom = ZoomLevel.FitWidth;
+    });
+```
+
+
 ### Disable context menu
 
 To disable context menu or mouse right click, set `EnableContextMenu` to `false`. By default, feature is enabled.
