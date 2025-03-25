@@ -71,6 +71,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.AddTransient<IFileCache, NoopFileCache>();
             builder.Services.TryAddSingleton<IFileNameResolver, FilePathFileNameResolver>();
             builder.Services.TryAddSingleton<ISearchTermResolver, SearchTermResolver>();
+            builder.Services.TryAddSingleton<IErrorMessageProvider, ExceptionMessageProvider>();
             builder.Services.TryAddSingleton<IPageFormatter, NoopPageFormatter>();
             builder.Services.TryAddSingleton<IUIConfigProvider, UIConfigProvider>();
             
