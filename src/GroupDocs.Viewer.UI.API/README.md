@@ -17,7 +17,7 @@ This section lists the features provided by the module.
 ### Error Handling
 
 Types that enable you to display custom error messages can be found in the [ErrorHandling](./ErrorHandling) folder.
-The key type here is the [ErrorMessageProvider.cs](./ErrorMessageProvider.cs) interface, which defines a contract for providing user-friendly error messages based on exceptions.
+The key type here is the [ErrorMessageProvider.cs](./ErrorHandling/ErrorMessageProvider.cs) interface, which defines a contract for providing user-friendly error messages based on exceptions.
 
 The following code demonstrates how to implement a custom error message provider:
 
@@ -47,9 +47,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<IErrorMessageProvider, MyErrorMessageProvider>();
 ```
 
-**NOTE:** The service should be registered before you register the self-hosted or cloud API for it to take effect.
-
-By default, [ExceptionMessageProvider.cs](./ErrorHandling/ExceptionMessageProvider.cs) is registered.
+**NOTE:** The service should be registered before you register the self-hosted or cloud API for it to take effect. By default, [ExceptionMessageProvider.cs](./ErrorHandling/ExceptionMessageProvider.cs) is registered.
 This class provides a default implementation that returns the exception error message.
 
 Once a custom error message provider is registered, a popup with the custom error message will be displayed in case of an error.
