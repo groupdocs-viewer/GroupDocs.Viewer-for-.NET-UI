@@ -11,7 +11,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           global-json-file: global.json
       - name: Write cert
@@ -37,7 +37,7 @@ jobs:
           NUGET_API_KEY_PROD: ${{ secrets.NUGET_API_KEY_PROD }}
         run: .\publish-prod.ps1
       - name: Archive packages
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: artifacts
           path: artifacts
