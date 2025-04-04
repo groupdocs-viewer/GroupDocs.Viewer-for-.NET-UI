@@ -54,6 +54,7 @@ namespace GroupDocs.Viewer.UI.Core.Extensions
                 staticContentMode = config.StaticContentMode,
                 initialFile = config.InitialFile,
                 preloadPages = config.PreloadPages,
+                initialZoom = config.InitialZoom?.Value,
                 enableHeader = config.EnableHeader,
                 enableToolbar = config.EnableToolbar,
                 enablePageSelector = config.EnablePageSelector,

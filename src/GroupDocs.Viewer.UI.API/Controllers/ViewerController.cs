@@ -24,6 +24,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         private readonly IFileStorage _fileStorage;
         private readonly IFileNameResolver _fileNameResolver;
         private readonly ISearchTermResolver _searchTermResolver;
+        private readonly IErrorMessageProvider _errorMessageProvider;
         private readonly IApiUrlBuilder _apiUrlBuilder;
         private readonly ILogger<ViewerController> _logger;
         private readonly Config _config;
@@ -33,6 +34,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             IFileStorage fileStorage,
             IFileNameResolver fileNameResolver,
             ISearchTermResolver searchTermResolver,
+            IErrorMessageProvider errorMessageProvider,
             IOptions<Config> config,
             IApiUrlBuilder apiUrlBuilder,
             ILogger<ViewerController> logger)
@@ -40,6 +42,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             _fileStorage = fileStorage;
             _fileNameResolver = fileNameResolver;
             _searchTermResolver = searchTermResolver;
+            _errorMessageProvider = errorMessageProvider;
             _apiUrlBuilder = apiUrlBuilder;
             _viewer = viewer;
             _logger = logger;
@@ -67,7 +70,10 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             {
                 _logger.LogError(ex, "Failed to load file tree.");
 
-                return ErrorJsonResult(ex.Message);
+                var ctx = new ErrorContext(ApiNames.API_METHOD_LIST_DIR, HttpContext);
+                var msg = _errorMessageProvider.GetErrorMessage(ex, ctx);
+
+                return ErrorJsonResult(msg);
             }
         }
 
@@ -92,7 +98,10 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             {
                 _logger.LogError(ex, "Failed to upload document.");
 
-                return ErrorJsonResult(ex.Message);
+                var ctx = new ErrorContext(ApiNames.API_METHOD_UPLOAD_FILE, HttpContext);
+                var msg = _errorMessageProvider.GetErrorMessage(ex, ctx);
+
+                return ErrorJsonResult(msg);
             }
         }
 
@@ -137,7 +146,10 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
 
                 _logger.LogError(ex, "Failed to read document description.");
 
-                return ErrorJsonResult(ex.Message);
+                var ctx = new ErrorContext(ApiNames.API_METHOD_VIEW_DATA, HttpContext);
+                var msg = _errorMessageProvider.GetErrorMessage(ex, ctx);
+
+                return ErrorJsonResult(msg);
             }
         }
 
@@ -166,7 +178,10 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
 
                 _logger.LogError(ex, "Failed to retrieve document pages.");
 
-                return ErrorJsonResult(ex.Message);
+                var ctx = new ErrorContext(ApiNames.API_METHOD_CREATE_PAGES, HttpContext);
+                var msg = _errorMessageProvider.GetErrorMessage(ex, ctx);
+
+                return ErrorJsonResult(msg);
             }
         }
 
@@ -202,7 +217,10 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
 
                 _logger.LogError(ex, "Failed to create PDF file.");
 
-                return ErrorJsonResult(ex.Message);
+                var ctx = new ErrorContext(ApiNames.API_METHOD_CREATE_PDF, HttpContext);
+                var msg = _errorMessageProvider.GetErrorMessage(ex, ctx);
+
+                return ErrorJsonResult(msg);
             }
         }
 
@@ -220,7 +238,10 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             {
                 _logger.LogError(ex, "Failed to retrieve document page.");
 
-                return ErrorJsonResult(ex.Message);
+                var ctx = new ErrorContext(ApiNames.API_METHOD_GET_PAGE, HttpContext);
+                var msg = _errorMessageProvider.GetErrorMessage(ex, ctx);
+
+                return ErrorJsonResult(msg);
             }
         }
 
@@ -238,7 +259,10 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             {
                 _logger.LogError(ex, "Failed to retrieve document thumb.");
 
-                return ErrorJsonResult(ex.Message);
+                var ctx = new ErrorContext(ApiNames.API_METHOD_GET_THUMB, HttpContext);
+                var msg = _errorMessageProvider.GetErrorMessage(ex, ctx);
+
+                return ErrorJsonResult(msg);
             }
         }
 
@@ -262,7 +286,10 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             {
                 _logger.LogError(ex, "Failed to retrieve PDF file.");
 
-                return ErrorJsonResult(ex.Message);
+                var ctx = new ErrorContext(ApiNames.API_METHOD_GET_PDF, HttpContext);
+                var msg = _errorMessageProvider.GetErrorMessage(ex, ctx);
+
+                return ErrorJsonResult(msg);
             }
         }
 
@@ -289,7 +316,10 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             {
                 _logger.LogError(ex, "Failed to load document page resource.");
 
-                return ErrorJsonResult(ex.Message);
+                var ctx = new ErrorContext(ApiNames.API_METHOD_GET_RESOURCE, HttpContext);
+                var msg = _errorMessageProvider.GetErrorMessage(ex, ctx);
+
+                return ErrorJsonResult(msg);
             }
         }
 
