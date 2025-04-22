@@ -90,3 +90,40 @@ builder.Services.AddSingleton<IFileNameResolver, MyFileNameResolver>();
 This class provides a default implementation that returns the file name from the file path.
 
 Once a custom file name resolver is registered, the resolved file name will be used in the UI and when downloading files.
+
+### Search Term Resolution
+
+To pass a search term that you would like to highlight automatically you can implement `ISearchTermResolver` interface. 
+
+The following code demonstrates how to implement a custom search term resolver:
+
+```cs
+using GroupDocs.Viewer.UI.Api;
+
+//...
+
+public class MySearchTermResolver : ISearchTermResolver
+{
+    public Task<string> ResolveSearchTermAsync(string filepath)
+    {
+        return Task.FromResult("review");
+    }
+}
+```
+
+Once the custom search term resolver is implemented, it can be registered during the application composition stage.
+
+The following code snippet shows how to register a custom service as a singleton:
+
+```cs
+using GroupDocs.Viewer.UI.Api;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSingleton<ISearchTermResolver, MySearchTermResolver>();
+```
+
+![GroupDocs.Viewer.UI - Custom search term](https://raw.githubusercontent.com/groupdocs-viewer/groupdocs-viewer.github.io/master/resources/image/ui/custom-search-term.png)
+
+**NOTE:** This feature works only when rendering to HTML. The service should be registered before you register the self-hosted or cloud API for it to take effect. By default, [SearchTermResolver.cs](./SearchTermResolution/Implementation/SearchTermResolver.cs) is registered. This class provides a default implementation that returns an empty string.
+

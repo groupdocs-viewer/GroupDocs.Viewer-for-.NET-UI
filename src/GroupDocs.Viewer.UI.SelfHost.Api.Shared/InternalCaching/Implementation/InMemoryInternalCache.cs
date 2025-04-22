@@ -3,7 +3,6 @@ using GroupDocs.Viewer.UI.Core.Entities;
 using GroupDocs.Viewer.UI.SelfHost.Api.Configuration;
 using Microsoft.Extensions.Caching.Memory;
 
-// ReSharper disable once CheckNamespace
 namespace GroupDocs.Viewer.UI.SelfHost.Api.InternalCaching
 {
     public class InMemoryInternalCache : IInternalCache

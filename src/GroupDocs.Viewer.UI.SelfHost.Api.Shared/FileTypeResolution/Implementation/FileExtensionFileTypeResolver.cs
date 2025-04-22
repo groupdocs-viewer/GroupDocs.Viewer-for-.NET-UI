@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 
-// ReSharper disable once CheckNamespace
 namespace GroupDocs.Viewer.UI.SelfHost.Api
 {
     public class FileExtensionFileTypeResolver : IFileTypeResolver
