@@ -10,7 +10,7 @@ builder.Services
     {
         config.RenderingMode = viewerType.ToRenderingMode();
 
-        config.PreloadPages = 3; // Number of pages to create on first request
+        config.PreloadPages = 10; // Keep this in sync, see Program.cs in GroupDocs.Viewer.UI.SelfHost.Api.Service.Sample project
         config.DefaultLanguage = LanguageCode.English;
         config.SupportedLanguages = new[] { LanguageCode.English, LanguageCode.French, LanguageCode.Italian };
     });

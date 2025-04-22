@@ -53,3 +53,40 @@ This class provides a default implementation that returns the exception error me
 Once a custom error message provider is registered, a popup with the custom error message will be displayed in case of an error.
 
 ![GroupDocs.Viewer.UI - Custom error message](https://raw.githubusercontent.com/groupdocs-viewer/groupdocs-viewer.github.io/master/resources/image/ui/custom-error-message.png)
+
+### File Name Resolution
+
+In case you're using identifiers instead of file names but you also want to show actual file name in UI you have to implement `IFileNameResolver` interface to map a file identifier to the file name.
+
+The following code demonstrates how to implement a custom file name resolver:
+
+```cs
+using GroupDocs.Viewer.UI.Api;
+
+//...
+
+public class MyFileNameResolver : IFileNameResolver
+{
+    public Task<string> ResolveFileNameAsync(string file)
+    {
+        return Task.FromResult("quaterly-report.docx");
+    }
+}
+```
+
+Once the custom file name resolver is implemented, it can be registered during the application composition stage.
+
+The following code snippet shows how to register a custom service as a singleton:
+
+```cs
+using GroupDocs.Viewer.UI.Api;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSingleton<IFileNameResolver, MyFileNameResolver>();
+```
+
+**NOTE:** The service should be registered before you register the self-hosted or cloud API for it to take effect. By default, [FilePathFileNameResolver.cs](./FileNameResolution/Implementation/FilePathFileNameResolver.cs) is registered.
+This class provides a default implementation that returns the file name from the file path.
+
+Once a custom file name resolver is registered, the resolved file name will be used in the UI and when downloading files.

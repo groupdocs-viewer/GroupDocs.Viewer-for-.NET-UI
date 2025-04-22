@@ -1,4 +1,5 @@
 ﻿using GroupDocs.Viewer.UI.Core;
+using GroupDocs.Viewer.UI.Core.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,14 @@ builder.Services.AddCors(options =>
 });
 
 ViewerType viewerType = ViewerType.HtmlWithEmbeddedResources;
+
+// This how you can keep UI config in sync with API
+builder.Services
+    .AddOptions<Config>()
+    .Configure<IConfiguration>((config, configuration) =>
+    {
+        config.PreloadPages = 10;
+    });
 
 builder.Services
     .AddControllers()
