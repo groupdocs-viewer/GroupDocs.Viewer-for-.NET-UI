@@ -2,10 +2,8 @@
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Api.AwsS3.Storage;
 
-// ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection
 {
-    // ReSharper disable once InconsistentNaming
     public static class GroupDocsViewerUIApiBuilderExtensions
     {
         public static GroupDocsViewerUIApiBuilder AddAwsS3Storage(

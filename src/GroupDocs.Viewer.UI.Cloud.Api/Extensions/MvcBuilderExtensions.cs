@@ -73,7 +73,6 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.TryAddSingleton<ISearchTermResolver, SearchTermResolver>();
             builder.Services.TryAddSingleton<IErrorMessageProvider, ExceptionMessageProvider>();
             builder.Services.TryAddSingleton<IPageFormatter, NoopPageFormatter>();
-            builder.Services.TryAddSingleton<IUIConfigProvider, UIConfigProvider>();
             
             builder.Services.AddTransient<IViewer>(factory =>
             {

@@ -4,10 +4,10 @@ namespace GroupDocs.Viewer.UI.Api
 {
     public class SearchTermResolver : ISearchTermResolver
     {
-        public Task<string> ResolveSearchTermAsync(string filepath)
+        public Task<string> ResolveSearchTermAsync(string file)
         {
             string searchTerm = string.Empty;
-            //string searchTerm = "background";
+            //string searchTerm = "review";
             return Task.FromResult(searchTerm);
         }
     }

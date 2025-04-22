@@ -5,6 +5,7 @@
         public static readonly LanguageCode Arabic = new LanguageCode("ar");
         public static readonly LanguageCode Catalan = new LanguageCode("ca");
         public static readonly LanguageCode Czech = new LanguageCode("cs");
+        public static readonly LanguageCode Croatian = new LanguageCode("hr");
         public static readonly LanguageCode Danish = new LanguageCode("da");
         public static readonly LanguageCode German = new LanguageCode("de");
         public static readonly LanguageCode Greek = new LanguageCode("el");
@@ -40,6 +41,7 @@
             Arabic,
             Catalan,
             Czech,
+            Croatian,
             Danish,
             German,
             Greek,

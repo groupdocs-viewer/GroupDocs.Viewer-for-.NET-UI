@@ -1,7 +1,6 @@
 using GroupDocs.Viewer.UI.Api.Cloud.Storage;
 using GroupDocs.Viewer.UI.Api.Cloud.Storage.Configuration;
 
-// ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.Configuration
 {
     public static class ConfigurationExtensions
