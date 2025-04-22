@@ -35,18 +35,18 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="GroupDocs.Viewer UI Package Versions">
-		<GroupDocsViewerUI>8.0.3</GroupDocsViewerUI>
-		<GroupDocsViewerUIApi>8.0.3</GroupDocsViewerUIApi>
-		<GroupDocsViewerUIApiLocalCache>8.0.3</GroupDocsViewerUIApiLocalCache>
-		<GroupDocsViewerUIApiInMemoryCache>8.0.3</GroupDocsViewerUIApiInMemoryCache>
-		<GroupDocsViewerUIApiLocalStorage>8.0.3</GroupDocsViewerUIApiLocalStorage>
-		<GroupDocsViewerUIApiCloudStorage>8.0.3</GroupDocsViewerUIApiCloudStorage>
-		<GroupDocsViewerUIApiAzureStorage>8.0.3</GroupDocsViewerUIApiAzureStorage>
-		<GroupDocsViewerUIApiAwsS3Storage>8.0.3</GroupDocsViewerUIApiAwsS3Storage>
-		<GroupDocsViewerUICore>8.0.3</GroupDocsViewerUICore>
-		<GroupDocsViewerUISelfHostApi>8.0.3</GroupDocsViewerUISelfHostApi>
-		<GroupDocsViewerUISelfHostApiCrossPlatform>8.0.3</GroupDocsViewerUISelfHostApiCrossPlatform>
-		<GroupDocsViewerUICloudApi>8.0.3</GroupDocsViewerUICloudApi>
+		<GroupDocsViewerUI>8.0.4</GroupDocsViewerUI>
+		<GroupDocsViewerUIApi>8.0.4</GroupDocsViewerUIApi>
+		<GroupDocsViewerUIApiLocalCache>8.0.4</GroupDocsViewerUIApiLocalCache>
+		<GroupDocsViewerUIApiInMemoryCache>8.0.4</GroupDocsViewerUIApiInMemoryCache>
+		<GroupDocsViewerUIApiLocalStorage>8.0.4</GroupDocsViewerUIApiLocalStorage>
+		<GroupDocsViewerUIApiCloudStorage>8.0.4</GroupDocsViewerUIApiCloudStorage>
+		<GroupDocsViewerUIApiAzureStorage>8.0.4</GroupDocsViewerUIApiAzureStorage>
+		<GroupDocsViewerUIApiAwsS3Storage>8.0.4</GroupDocsViewerUIApiAwsS3Storage>
+		<GroupDocsViewerUICore>8.0.4</GroupDocsViewerUICore>
+		<GroupDocsViewerUISelfHostApi>8.0.4</GroupDocsViewerUISelfHostApi>
+		<GroupDocsViewerUISelfHostApiCrossPlatform>8.0.4</GroupDocsViewerUISelfHostApiCrossPlatform>
+		<GroupDocsViewerUICloudApi>8.0.4</GroupDocsViewerUICloudApi>
 	</PropertyGroup>
 
 </Project>
