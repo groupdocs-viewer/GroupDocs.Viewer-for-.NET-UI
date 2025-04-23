@@ -27,8 +27,8 @@ app
         });
         endpoints.MapGroupDocsViewerUI(options =>
         {
-            options.UIPath = "/viewer";
-            options.ApiEndpoint = "https://localhost:5001/viewer-api";
+            options.UIPath = "/document-viewer";
+            options.ApiEndpoint = "https://localhost:5001/document-viewer-api";
         });
     });
 

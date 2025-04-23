@@ -33,7 +33,7 @@ builder.Services
 
         //Trial limitations https://docs.groupdocs.com/viewer/net/evaluation-limitations-and-licensing-of-groupdocs-viewer/
         //Temporary license can be requested at https://purchase.groupdocs.com/temporary-license
-        //config.SetLicensePath("GroupDocs.Viewer.lic"); // or set environment variable 'GROUPDOCS_LIC_PATH'
+        //config.SetLicensePath("c://Licenses//GroupDocs.Viewer.lic"); // or set environment variable 'GROUPDOCS_LIC_PATH'
     })
     .AddLocalStorage("./Files")
     .AddLocalCache("./Cache");
@@ -53,7 +53,7 @@ app
 
         endpoints.MapGroupDocsViewerApi(options =>
         {
-            options.ApiPath = "/viewer-api";
+            options.ApiPath = "/document-viewer-api";
             options.ApiDomain = "https://localhost:5001";
         });
     });
