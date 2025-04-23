@@ -7,7 +7,6 @@ using GroupDocs.Viewer.UI.Cloud.Api.Configuration;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Entities;
 using Microsoft.Extensions.Options;
-using Options = GroupDocs.Viewer.UI.Api.Configuration.Options;
 
 namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
 {
@@ -17,7 +16,6 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
 
         public HtmlWithExternalResourcesViewer(
             IOptions<Config> config,
-            IOptions<Options> options,
             IFileStorage fileStorage, 
             IViewerApiConnect viewerApiConnect,
             IPageFormatter pageFormatter,
