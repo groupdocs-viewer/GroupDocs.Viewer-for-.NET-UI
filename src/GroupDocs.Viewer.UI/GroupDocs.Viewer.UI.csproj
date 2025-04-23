@@ -10,7 +10,7 @@
     <PackageIcon>images\icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
 
-    <AppsCommitSha>470fa61076428d554da675b5df25b6b36f38bf67</AppsCommitSha>
+    <AppsCommitSha>e8ad04a9c3fa0f7181d20add20bd13cd39e03478</AppsCommitSha>
   </PropertyGroup>
 
   <ItemGroup>

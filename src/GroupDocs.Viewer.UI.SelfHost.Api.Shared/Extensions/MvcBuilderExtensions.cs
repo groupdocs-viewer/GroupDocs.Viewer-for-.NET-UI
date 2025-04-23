@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Reflection;
 using GroupDocs.Viewer.UI.Api;
+using GroupDocs.Viewer.UI.Api.Configuration;
+using GroupDocs.Viewer.UI.Api.Configuration.Implementation;
 using GroupDocs.Viewer.UI.Api.Controllers;
 using GroupDocs.Viewer.UI.Api.Utils;
 using GroupDocs.Viewer.UI.Core;
@@ -41,6 +43,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 });
 
             builder.Services.AddHttpContextAccessor();
+            builder.Services.AddSingleton<IOptionsProvider, InMemoryOptionsProvider>();
             builder.Services.AddTransient<IApiUrlBuilder, ApiUrlBuilder>();
             builder.Services.AddSingleton<IViewerLicenseManager, ViewerLicenseManager>();
             builder.Services.AddTransient<IFileCache, NoopFileCache>();

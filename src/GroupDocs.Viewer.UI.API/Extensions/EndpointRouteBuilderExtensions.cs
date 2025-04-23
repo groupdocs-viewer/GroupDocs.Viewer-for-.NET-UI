@@ -14,6 +14,15 @@ namespace Microsoft.AspNetCore.Builder
             var options = new Options();
             setupOptions?.Invoke(options);
 
+            var service = builder.ServiceProvider.GetService(typeof(IOptionsProvider));
+            if (service != null)
+            {
+                var optionsService = (IOptionsProvider)service;
+                {
+                    optionsService.SetOptions(options);
+                }
+            }
+
             EnsureValidApiOptions(options);
 
             MapControllerRoutes(builder, options);

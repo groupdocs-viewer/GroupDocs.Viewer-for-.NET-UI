@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Web;
 using System;
@@ -9,57 +8,57 @@ namespace GroupDocs.Viewer.UI.Api.Utils
     public class ApiUrlBuilder : IApiUrlBuilder
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IOptions<Configuration.Options> _options;
+        private readonly Configuration.Options _options;
 
         public ApiUrlBuilder(
             IHttpContextAccessor httpContextAccessor, 
-            IOptions<Configuration.Options> options)
+            Configuration.IOptionsProvider optionsProvider)
         {
             _httpContextAccessor = httpContextAccessor;
-            _options = options;
+            _options = optionsProvider.GetOptions();
         }
 
         public string GetApiDomainOrDefault()
         {
             var request = _httpContextAccessor.HttpContext.Request;
 
-            return string.IsNullOrEmpty(_options.Value.ApiDomain)
+            return string.IsNullOrEmpty(_options.ApiDomain)
                 ? $"{request.Scheme}://{request.Host}"
-                : _options.Value.ApiDomain;
+                : _options.ApiDomain;
         }
 
         public string BuildPageUrl(string file, int page, string extension) =>
             BuildUrl(
                 apiDomain: GetApiDomainOrDefault(),
-                apiPath: _options.Value.ApiPath,
+                apiPath: _options.ApiPath,
                 apiMethodName: ApiNames.API_METHOD_GET_PAGE,
                 values: new { file = file, page = page });
 
         public string BuildThumbUrl(string file, int page, string extension) =>
             BuildUrl(
                 apiDomain: GetApiDomainOrDefault(),
-                apiPath: _options.Value.ApiPath,
+                apiPath: _options.ApiPath,
                 apiMethodName: ApiNames.API_METHOD_GET_THUMB,
                 values: new { file = file, page = page });
 
         public string BuildPdfUrl(string file) =>
             BuildUrl(
                 apiDomain: GetApiDomainOrDefault(),
-                apiPath: _options.Value.ApiPath,
+                apiPath: _options.ApiPath,
                 apiMethodName: ApiNames.API_METHOD_GET_PDF,
                 values: new { file = file });
 
         public string BuildResourceUrl(string file, int page, string resource) =>
             BuildUrl(
                 apiDomain: GetApiDomainOrDefault(),
-                apiPath: _options.Value.ApiPath,
+                apiPath: _options.ApiPath,
                 apiMethodName: ApiNames.API_METHOD_GET_RESOURCE,
                 values: new { file = file, page = page, resource = resource });
 
         public string BuildResourceUrl(string file, string pageTemplate, string resourceTemplate) =>
             BuildUrl(
                 apiDomain: GetApiDomainOrDefault(),
-                apiPath: _options.Value.ApiPath,
+                apiPath: _options.ApiPath,
                 apiMethodName: ApiNames.API_METHOD_GET_RESOURCE,
                 values: new { file = file, page = pageTemplate, resource = resourceTemplate });
 
