@@ -49,4 +49,8 @@
 		<GroupDocsViewerUICloudApi>8.0.4</GroupDocsViewerUICloudApi>
 	</PropertyGroup>
 
+	<PropertyGroup Label="NuGet Common Settings">
+		<PackageReleaseNotes>https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/releases/tag/$(GroupDocsViewerUI)</PackageReleaseNotes>
+	</PropertyGroup>
+	
 </Project>
