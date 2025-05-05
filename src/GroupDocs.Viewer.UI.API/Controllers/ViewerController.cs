@@ -114,8 +114,10 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
 
                 var docInfo = await _viewer.GetDocumentInfoAsync(file);
                 var pagesToCreate = GetPagesToCreate(docInfo.TotalPagesCount, _config.PreloadPages);
-                
-                var pages = await CreateViewDataPages(file, docInfo, pagesToCreate);
+
+                var pages = _config.RenderingMode == RenderingMode.Html
+                    ? await CreateViewDataPagesAndThumbs(file, docInfo, pagesToCreate)
+                    : await CreateViewDataPages(file, docInfo, pagesToCreate);
 
                 var searchTerm = await _searchTermResolver.ResolveSearchTermAsync(request.File);
                 var fileName = await _fileNameResolver.ResolveFileNameAsync(request.File);
@@ -161,7 +163,9 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                 var file = new FileCredentials(request.File, request.FileType, request.Password);
                 var docInfo = await _viewer.GetDocumentInfoAsync(file);
 
-                var pages = await CreatePagesAndThumbs(file, docInfo, request.Pages);
+                var pages = _config.RenderingMode == RenderingMode.Html 
+                    ? await CreatePagesAndThumbs(file, docInfo, request.Pages)
+                    : await CreatePages(file, docInfo, request.Pages);
 
                 return Ok(pages);
             }
@@ -324,7 +328,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         }
 
         // NOTE: This method returns all of the pages including created and not
-        private async Task<List<PageData>> CreateViewDataPages(FileCredentials file, DocumentInfo docInfo, int[] pagesToCreate)
+        private async Task<List<PageData>> CreateViewDataPagesAndThumbs(FileCredentials file, DocumentInfo docInfo, int[] pagesToCreate)
         {
             await _viewer.GetPagesAsync(file, pagesToCreate);
 
@@ -357,6 +361,32 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             return pages;
         }
 
+        // NOTE: This method returns all of the pages including created and not
+        private async Task<List<PageData>> CreateViewDataPages(FileCredentials file, DocumentInfo docInfo, int[] pagesToCreate)
+        {
+            await _viewer.GetPagesAsync(file, pagesToCreate);
+
+
+            var pages = new List<PageData>();
+            foreach (PageInfo page in docInfo.Pages)
+            {
+                var isPageCreated = pagesToCreate.Contains(page.Number);
+                if (isPageCreated)
+                {
+                    var pageUrl = _apiUrlBuilder.BuildPageUrl(file.FilePath, page.Number, _viewer.PageExtension);
+                    var pageData = new PageData(page.Number, page.Width, page.Height, pageUrl);
+
+                    pages.Add(pageData);
+                }
+                else
+                {
+                    pages.Add(new PageData(page.Number, page.Width, page.Height));
+                }
+            }
+
+            return pages;
+        }
+
         // NOTE: This method returns only created pages
         private async Task<List<PageData>> CreatePagesAndThumbs(FileCredentials file, DocumentInfo docInfo, int[] pagesToCreate)
         {
@@ -377,6 +407,24 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                 var pageData = _config.EnableThumbnails
                     ? new PageData(page.Number, page.Width, page.Height, pageUrl, thumbUrl)
                     : new PageData(page.Number, page.Width, page.Height, pageUrl);
+
+                pages.Add(pageData);
+            }
+
+            return pages;
+        }
+
+        // NOTE: This method returns only created pages
+        private async Task<List<PageData>> CreatePages(FileCredentials file, DocumentInfo docInfo, int[] pagesToCreate)
+        {
+            await _viewer.GetPagesAsync(file, pagesToCreate);
+
+            var pages = new List<PageData>();
+            foreach (int pageNumber in pagesToCreate)
+            {
+                var page = docInfo.Pages.First(p => p.Number == pageNumber);
+                var pageUrl = _apiUrlBuilder.BuildPageUrl(file.FilePath, page.Number, _viewer.PageExtension);
+                var pageData = new PageData(page.Number, page.Width, page.Height, pageUrl);
 
                 pages.Add(pageData);
             }
