@@ -48,7 +48,7 @@ app
     {
         endpoints.MapGet("/", async context =>
         {
-            await context.Response.WriteAsync("Viewer API can be accessed at '/viewer-api' endpoint.");
+            await context.Response.WriteAsync("Viewer API can be accessed at '/document-viewer-api' endpoint.");
         });
 
         endpoints.MapGroupDocsViewerApi(options =>

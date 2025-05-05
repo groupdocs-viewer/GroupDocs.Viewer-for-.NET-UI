@@ -84,13 +84,13 @@ namespace GroupDocs.Viewer.UI.Api.AwsS3.Storage
                     .ForEach(obj =>
                     {
                         fileSystemEntries.Add(
-                            FileSystemEntry.File(GetObjectName(obj.Key), obj.Key, obj.Size));
+                            FileSystemEntry.File(GetObjectName(obj.Key), obj.Key, obj.Size.GetValueOrDefault()));
                     });
 
                 // If the response is truncated, set the request ContinuationToken
                 // from the NextContinuationToken property of the response.
                 request.ContinuationToken = response.NextContinuationToken;
-            } while (response.IsTruncated);
+            } while (response.IsTruncated.GetValueOrDefault());
 
             return fileSystemEntries;
         }

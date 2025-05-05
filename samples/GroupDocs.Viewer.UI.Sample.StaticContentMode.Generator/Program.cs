@@ -21,11 +21,15 @@ namespace GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator
         private const string API_ENDPOINT = "/";
         private const string CONTENT_FOLDER = "Content";
 
+        //NOTE: Thumbnails are only used when rendering to HTML
+        private static bool CreateThumbnails => VIEWER_TYPE == ViewerType.HtmlWithEmbeddedResources
+            || VIEWER_TYPE == ViewerType.HtmlWithExternalResources;
+
         static async Task Main(string[] args)
         {
             Config apiConfig = new Config();
             apiConfig.SetViewerType(VIEWER_TYPE);
-            //apiConfig.SetLicensePath("GroupDocs.Viewer.lic");
+            //apiConfig.SetLicensePath("c://Licenses//GroupDocs.Viewer.lic");
 
             IFileStorage fileStorage = new LocalFileStorage(STORAGE_PATH);
             IApiUrlBuilder urlBuilder = new StaticUrlBuilder(API_ENDPOINT);
@@ -43,8 +47,14 @@ namespace GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator
                 FileCredentials fileCredentials = new FileCredentials(file.FilePath, extension, password);
 
                 int[] pageNumbers = await CreateViewData(viewer, fileCredentials, urlBuilder);
+               
                 await CreatePagesAsync(viewer, fileCredentials, pageNumbers);
-                await CreateThumbsAsync(viewer, fileCredentials, pageNumbers);
+
+                if(CreateThumbnails)
+                {
+                    await CreateThumbsAsync(viewer, fileCredentials, pageNumbers);
+                }
+
                 await CreatePdfAsync(viewer, fileCredentials);
 
                 Console.WriteLine(" Done.");
@@ -157,7 +167,11 @@ namespace GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator
             foreach (PageInfo page in documentInfo.Pages)
             {
                 var pageUrl = urlBuilder.BuildPageUrl(fileCredentials.FilePath, page.Number, viewer.PageExtension);
-                var thumbUrl = urlBuilder.BuildThumbUrl(fileCredentials.FilePath, page.Number, viewer.ThumbExtension);
+
+                var thumbUrl = CreateThumbnails
+                    ? urlBuilder.BuildThumbUrl(fileCredentials.FilePath, page.Number, viewer.ThumbExtension)
+                    : null;
+
                 var pageData = new PageData(page.Number, page.Width, page.Height, pageUrl, thumbUrl);
 
                 pages.Add(pageData);

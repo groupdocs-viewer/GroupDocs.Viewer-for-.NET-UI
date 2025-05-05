@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using GroupDocs.Viewer.UI.Api.Utils;
+using GroupDocs.Viewer.UI.Api.Configuration;
+using GroupDocs.Viewer.UI.Api.Configuration.Implementation;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -62,6 +64,7 @@ namespace Microsoft.Extensions.DependencyInjection
             });
 
             builder.Services.AddHttpContextAccessor();
+            builder.Services.AddSingleton<IOptionsProvider, InMemoryOptionsProvider>();
             builder.Services.AddTransient<IApiUrlBuilder, ApiUrlBuilder>();
             builder.Services.AddTransient<PngViewer>();
             builder.Services.AddTransient<JpgViewer>();
