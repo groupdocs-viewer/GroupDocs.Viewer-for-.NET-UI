@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <None Include="..\..\assets\icon.png" Pack="true" Visible="false" PackagePath="images\icon.png" />
+	<None Include="README.md" pack="true" PackagePath="." />
   </ItemGroup>
 
   <ItemGroup>
