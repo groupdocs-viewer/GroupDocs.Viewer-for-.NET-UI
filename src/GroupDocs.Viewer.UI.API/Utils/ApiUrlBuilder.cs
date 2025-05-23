@@ -22,9 +22,19 @@ namespace GroupDocs.Viewer.UI.Api.Utils
         {
             var request = _httpContextAccessor.HttpContext.Request;
 
-            return string.IsNullOrEmpty(_options.ApiDomain)
-                ? $"{request.Scheme}://{request.Host}"
-                : _options.ApiDomain;
+            if (string.IsNullOrEmpty(_options.ApiDomain))
+            {
+                var baseUrl = $"{request.Scheme}://{request.Host}";
+
+                if (!string.IsNullOrEmpty(request.PathBase))
+                {
+                    baseUrl += request.PathBase.Value;
+                }
+
+                return baseUrl;
+            }
+
+            return _options.ApiDomain;
         }
 
         public string BuildPageUrl(string file, int page, string extension) =>
