@@ -125,5 +125,4 @@ builder.Services.AddSingleton<ISearchTermResolver, MySearchTermResolver>();
 
 ![GroupDocs.Viewer.UI - Custom search term](https://raw.githubusercontent.com/groupdocs-viewer/groupdocs-viewer.github.io/master/resources/image/ui/custom-search-term.png)
 
-**NOTE:** This feature works only when rendering to HTML. The service should be registered before you register the self-hosted or cloud API for it to take effect. By default, [SearchTermResolver.cs](./SearchTermResolution/Implementation/SearchTermResolver.cs) is registered. This class provides a default implementation that returns an empty string.
-
+**NOTE:** This feature works only when rendering to HTML and when `PreloadPages` is set to `0` which means all the pages are preloaded. The service should be registered before you register the self-hosted or cloud API for it to take effect. By default, [SearchTermResolver.cs](./SearchTermResolution/Implementation/SearchTermResolver.cs) is registered. This class provides a default implementation that returns an empty string.
