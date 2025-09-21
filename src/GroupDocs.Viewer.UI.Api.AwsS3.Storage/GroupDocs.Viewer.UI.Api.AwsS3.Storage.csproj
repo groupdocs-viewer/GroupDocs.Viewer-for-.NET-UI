@@ -5,9 +5,11 @@
 
     <PackageId>GroupDocs.Viewer.UI.Api.AwsS3.Storage</PackageId>
     <Version>$(GroupDocsViewerUIApiAwsS3Storage)</Version>
-    <Description>GroupDocs.Viewer.UI.Api.AwsS3.Storage containing Amazon S3 file-storage implementation that can be used with GroupDocs.Viewer.UI.Api see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
+    
+	<Description>GroupDocs.Viewer.UI.Api.AwsS3.Storage containing Amazon S3 file-storage implementation that can be used with GroupDocs.Viewer.UI.Api see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
     <PackageTags>GroupDocs;Viewer;UI;API;Aws;Amazon;S3;File;Storage;ASP.NET Core;</PackageTags>
     <PackageIcon>images\icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>

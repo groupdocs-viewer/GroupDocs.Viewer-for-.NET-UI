@@ -47,6 +47,23 @@ namespace GroupDocs.Viewer.UI.Core.Extensions
 
         private static string SerializeWindowConfig(string apiEndpoint, Config config)
         {
+            var apiConfig = config.StaticContentMode
+                ? new
+                {
+                    filesTree = "/list-dir.json",
+                    viewData = "/view-data.json",
+                    printPdf = "/print.pdf"
+                } as object
+                : new
+                {
+                    filesTree = "/list-dir",
+                    uploadFile = "/upload-file",
+                    viewData = "/view-data",
+                    createPages = "/create-pages",
+                    createPdf = "/create-pdf",
+                    printPdf = "/print-pdf"
+                };
+
             var windowConfig = new
             {
                 apiEndpoint = apiEndpoint,
@@ -72,6 +89,8 @@ namespace GroupDocs.Viewer.UI.Core.Extensions
                 enableLanguageSelector = config.EnableLanguageSelector,
                 defaultLanguage = config.DefaultLanguage.Value,
                 supportedLanguages = config.SupportedLanguages.Select(lang => lang.Value).ToArray(),
+                showExitButton = false,
+                apiEndpointConfig = apiConfig
             };
 
             var jsonOptions = new JsonSerializerOptions

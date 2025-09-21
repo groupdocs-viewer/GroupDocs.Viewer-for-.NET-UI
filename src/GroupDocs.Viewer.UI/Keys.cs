@@ -7,6 +7,6 @@
         internal const string GROUPDOCSVIEWERUI_MAIN_UI_PATH = "#uiPath#";
         internal const string GROUPDOCSVIEWERUI_MAIN_UI_TITLE = "#uiTitle#";
         internal const string GROUPDOCSVIEWERUI_MAIN_UI_CONFIG = "#uiConfig#";
-        internal const string GROUPDOCSVIEWERUI_STYLESHEETS_TARGET = "<link rel=\"stylesheet\" href=\"custom.css\">";
+        internal const string GROUPDOCSVIEWERUI_STYLESHEETS_TARGET = "#customCSS#";
     }
 }

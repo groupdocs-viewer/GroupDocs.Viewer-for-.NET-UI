@@ -5,9 +5,11 @@
 
     <PackageId>GroupDocs.Viewer.UI.Api.InMemory.Cache</PackageId>
     <Version>$(GroupDocsViewerUIApiInMemoryCache)</Version>
-    <Description>GroupDocs.Viewer.UI.Api.InMemory.Cache containing in-memory file-cache implementation that can be used with GroupDocs.Viewer.UI.Api see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
+    
+	<Description>GroupDocs.Viewer.UI.Api.InMemory.Cache containing in-memory file-cache implementation that can be used with GroupDocs.Viewer.UI.Api see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
     <PackageTags>GroupDocs;Viewer;UI;API;In-Memory;File;Cache;ASP.NET Core;</PackageTags>
     <PackageIcon>images\icon.png</PackageIcon>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>

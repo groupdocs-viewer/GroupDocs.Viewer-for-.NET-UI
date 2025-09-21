@@ -15,7 +15,5 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           global-json-file: global.json
-      - name: Setup node
-        uses: actions/setup-node@v2
       - name: Build project
         run: dotnet build ./GroupDocs.Viewer.UI.sln

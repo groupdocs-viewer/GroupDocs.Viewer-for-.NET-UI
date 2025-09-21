@@ -29,7 +29,7 @@ namespace GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator
         {
             Config apiConfig = new Config();
             apiConfig.SetViewerType(VIEWER_TYPE);
-            //apiConfig.SetLicensePath("c://Licenses//GroupDocs.Viewer.lic");
+            //apiConfig.SetLicensePath("GroupDocs.Viewer.lic");
 
             IFileStorage fileStorage = new LocalFileStorage(STORAGE_PATH);
             IApiUrlBuilder urlBuilder = new StaticUrlBuilder(API_ENDPOINT);
