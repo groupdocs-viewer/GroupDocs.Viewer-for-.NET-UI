@@ -5,9 +5,11 @@
 
     <PackageId>GroupDocs.Viewer.UI.Core</PackageId>
     <Version>$(GroupDocsViewerUICore)</Version>
+	  
     <Description>GroupDocs.Viewer.UI.Core containing interfaces, extensions, builders and model definitions see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
     <PackageTags>GroupDocs;Viewer;UI;Core;ASP.NET Core;</PackageTags>
     <PackageIcon>images\icon.png</PackageIcon>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>

@@ -5,9 +5,11 @@
 
     <PackageId>GroupDocs.Viewer.UI.Api.Cloud.Storage</PackageId>
     <Version>$(GroupDocsViewerUIApiCloudStorage)</Version>
+	  
     <Description>GroupDocs.Viewer.UI.Api.Cloud.Storage containing cloud file-storage implementation that can be used with GroupDocs.Viewer.UI.Api see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
     <PackageTags>GroupDocs;Viewer;UI;API;Cloud;File;Storage;ASP.NET Core;</PackageTags>
     <PackageIcon>images\icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
