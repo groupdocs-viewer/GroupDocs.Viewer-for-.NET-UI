@@ -332,7 +332,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         {
             await _viewer.GetPagesAsync(file, pagesToCreate);
 
-            if (_config.EnableThumbnails)
+            if (_config.EnableThumbnails && _config.CreateThumbnails)
             {
                 await _viewer.GetThumbsAsync(file, pagesToCreate);
             }
@@ -346,7 +346,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                     var pageUrl = _apiUrlBuilder.BuildPageUrl(file.FilePath, page.Number, _viewer.PageExtension);
                     var thumbUrl = _apiUrlBuilder.BuildThumbUrl(file.FilePath, page.Number, _viewer.PageExtension);
 
-                    var pageData = _config.EnableThumbnails
+                    var pageData = _config.EnableThumbnails && _config.CreateThumbnails
                         ? new PageData(page.Number, page.Width, page.Height, pageUrl, thumbUrl)
                         : new PageData(page.Number, page.Width, page.Height, pageUrl);
 
@@ -365,7 +365,6 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         private async Task<List<PageData>> CreateViewDataPages(FileCredentials file, DocumentInfo docInfo, int[] pagesToCreate)
         {
             await _viewer.GetPagesAsync(file, pagesToCreate);
-
 
             var pages = new List<PageData>();
             foreach (PageInfo page in docInfo.Pages)
@@ -392,7 +391,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         {
             await _viewer.GetPagesAsync(file, pagesToCreate);
 
-            if (_config.EnableThumbnails)
+            if (_config.EnableThumbnails && _config.CreateThumbnails)
             {
                 await _viewer.GetThumbsAsync(file, pagesToCreate);
             }
@@ -404,7 +403,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                 var pageUrl = _apiUrlBuilder.BuildPageUrl(file.FilePath, page.Number, _viewer.PageExtension);
                 var thumbUrl = _apiUrlBuilder.BuildThumbUrl(file.FilePath, page.Number, _viewer.ThumbExtension);
 
-                var pageData = _config.EnableThumbnails
+                var pageData = _config.EnableThumbnails && _config.CreateThumbnails
                     ? new PageData(page.Number, page.Width, page.Height, pageUrl, thumbUrl)
                     : new PageData(page.Number, page.Width, page.Height, pageUrl);
 

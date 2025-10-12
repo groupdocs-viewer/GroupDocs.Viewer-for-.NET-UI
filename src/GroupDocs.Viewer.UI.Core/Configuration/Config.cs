@@ -91,6 +91,12 @@
         public bool EnableThumbnails { get; set; } = true;
 
         /// <summary>
+        /// Enables or disables method that creates thumbnails.
+        /// Default value: <c>true</c>.
+        /// </summary>
+        public bool CreateThumbnails { get; set; } = true;
+
+        /// <summary>
         /// Show or hide the zoom controls.
         /// Default value: <c>true</c>.
         /// </summary>
