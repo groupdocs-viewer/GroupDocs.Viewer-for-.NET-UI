@@ -86,6 +86,7 @@ namespace GroupDocs.Viewer.UI.Core.Extensions
                 enablePrint = config.EnablePrint,
                 enablePresentation = config.EnablePresentation,
                 enableHyperlinks = config.EnableHyperlinks,
+                enableScrollAnimation = config.EnableScrollAnimation,
                 enableLanguageSelector = config.EnableLanguageSelector,
                 defaultLanguage = config.DefaultLanguage.Value,
                 supportedLanguages = config.SupportedLanguages.Select(lang => lang.Value).ToArray(),

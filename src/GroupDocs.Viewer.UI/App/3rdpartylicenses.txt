@@ -871,12 +871,7 @@ https://github.com/cartant/rxjs-etc by Nicholas Jamieson, MIT licensed. See the
 file header for details.
 
 --------------------------------------------------------------------------------
-Package: @ngx-translate/core
-License: "MIT"
-
-
---------------------------------------------------------------------------------
-Package: @ngrx/operators
+Package: @ngrx/effects
 License: "MIT"
 
 The MIT License (MIT)
@@ -906,7 +901,12 @@ https://github.com/cartant/rxjs-etc by Nicholas Jamieson, MIT licensed. See the
 file header for details.
 
 --------------------------------------------------------------------------------
-Package: @ngrx/effects
+Package: @ngx-translate/core
+License: "MIT"
+
+
+--------------------------------------------------------------------------------
+Package: @ngrx/operators
 License: "MIT"
 
 The MIT License (MIT)
