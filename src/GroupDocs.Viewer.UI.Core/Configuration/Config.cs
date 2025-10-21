@@ -64,6 +64,12 @@
         /// </summary>
         public bool EnableHyperlinks { get; set; } = true;
 
+        /// <summary>
+        /// Enables or disables scroll animation when navigating to a page using page seclector control.
+        /// Default value: <c>true</c> and the scroll animation is enabled.
+        /// </summary>
+        public bool EnableScrollAnimation { get; set; } = true;
+
         /* Control Visibility Settings */
 
         /// <summary>
@@ -89,12 +95,6 @@
         /// Default value: <c>true</c>.
         /// </summary>
         public bool EnableThumbnails { get; set; } = true;
-
-        /// <summary>
-        /// Enables or disables method that creates thumbnails.
-        /// Default value: <c>true</c>.
-        /// </summary>
-        public bool CreateThumbnails { get; set; } = true;
 
         /// <summary>
         /// Show or hide the zoom controls.

@@ -332,7 +332,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         {
             await _viewer.GetPagesAsync(file, pagesToCreate);
 
-            if (_config.EnableThumbnails && _config.CreateThumbnails)
+            if (_config.EnableThumbnails && _config.RenderingMode == RenderingMode.Html)
             {
                 await _viewer.GetThumbsAsync(file, pagesToCreate);
             }
@@ -346,7 +346,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                     var pageUrl = _apiUrlBuilder.BuildPageUrl(file.FilePath, page.Number, _viewer.PageExtension);
                     var thumbUrl = _apiUrlBuilder.BuildThumbUrl(file.FilePath, page.Number, _viewer.PageExtension);
 
-                    var pageData = _config.EnableThumbnails && _config.CreateThumbnails
+                    var pageData = _config.EnableThumbnails && _config.RenderingMode == RenderingMode.Html
                         ? new PageData(page.Number, page.Width, page.Height, pageUrl, thumbUrl)
                         : new PageData(page.Number, page.Width, page.Height, pageUrl);
 
@@ -391,7 +391,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         {
             await _viewer.GetPagesAsync(file, pagesToCreate);
 
-            if (_config.EnableThumbnails && _config.CreateThumbnails)
+            if (_config.EnableThumbnails && _config.RenderingMode == RenderingMode.Html)
             {
                 await _viewer.GetThumbsAsync(file, pagesToCreate);
             }
@@ -403,7 +403,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                 var pageUrl = _apiUrlBuilder.BuildPageUrl(file.FilePath, page.Number, _viewer.PageExtension);
                 var thumbUrl = _apiUrlBuilder.BuildThumbUrl(file.FilePath, page.Number, _viewer.ThumbExtension);
 
-                var pageData = _config.EnableThumbnails && _config.CreateThumbnails
+                var pageData = _config.EnableThumbnails && _config.RenderingMode == RenderingMode.Html
                     ? new PageData(page.Number, page.Width, page.Height, pageUrl, thumbUrl)
                     : new PageData(page.Number, page.Width, page.Height, pageUrl);
 

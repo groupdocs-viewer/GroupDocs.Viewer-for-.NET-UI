@@ -126,3 +126,27 @@ builder.Services.AddSingleton<ISearchTermResolver, MySearchTermResolver>();
 ![GroupDocs.Viewer.UI - Custom search term](https://raw.githubusercontent.com/groupdocs-viewer/groupdocs-viewer.github.io/master/resources/image/ui/custom-search-term.png)
 
 **NOTE:** This feature works only when rendering to HTML and when `PreloadPages` is set to `0` which means all the pages are preloaded. The service should be registered before you register the self-hosted or cloud API for it to take effect. By default, [SearchTermResolver.cs](./SearchTermResolution/Implementation/SearchTermResolver.cs) is registered. This class provides a default implementation that returns an empty string.
+
+### Controll Thumbnails Creation
+
+Thumbnails are only required when rendering to HTML with embedded or external resources.
+When rendering to JPG or PNG, the actual page image is used as a thumbnail for better performance.
+
+To control thumbnail creation when rendering to HTML, set the `EnableThumbnails` property to `false`.
+This hides the thumbnail panel and disables thumbnail generation by the API.
+
+The following code demonstrates how to use this option without a UI:
+
+```cs
+builder.Services
+    .AddOptions<Config>()
+    .Configure<IConfiguration>((config, configuration) =>
+    {
+        config.EnableThumbnails = false;
+    });
+
+builder.Services
+    .AddControllers()
+    .AddGroupDocsViewerSelfHostApi(config =>
+//...
+```
