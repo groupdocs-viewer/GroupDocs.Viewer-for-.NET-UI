@@ -186,6 +186,18 @@ builder.Services
     });
 ```
 
+### Disable pages scroll animation
+
+To disable pages scroll animation `EnableScrollAnimation` to `false`. By default, animation is enabled.
+
+```cs
+builder.Services
+   .AddGroupDocsViewerUI(config =>
+    {
+        config.EnableScrollAnimation = false;
+    });
+```
+
 ### Show or hide UI controls
 
 The screenshot below highlights the main UI controls that you can show or hide. By default all the controls are visible.
@@ -241,6 +253,8 @@ builder.Services
         config.EnableThumbnails = false; // Hide thumbnails
     });
 ```
+
+NOTE: When you hide the thumbnails page, the API does not create thumbnails on the backend which leads to better performance. 
 
 #### Hide zoom selector
 
