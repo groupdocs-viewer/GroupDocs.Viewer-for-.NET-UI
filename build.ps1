@@ -59,5 +59,4 @@ exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.Cloud.Storage\GroupDocs.Viewe
 exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.Local.Storage\GroupDocs.Viewer.UI.Api.Local.Storage.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
 exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.AzureBlob.Storage\GroupDocs.Viewer.UI.Api.AzureBlob.Storage.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
 exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.AwsS3.Storage\GroupDocs.Viewer.UI.Api.AwsS3.Storage.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
-exec { & dotnet nuget sign .\artifacts\*.nupkg --certificate-path $env:PFX_PATH --certificate-password $env:PFX_PWD --timestamper $env:PFX_TMS }
-exec { & dotnet nuget verify .\artifacts\*.nupkg --all }
+
