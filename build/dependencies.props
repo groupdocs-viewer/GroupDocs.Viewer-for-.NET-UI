@@ -16,7 +16,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="Package Versions">
-		<GroupDocsViewer>25.8.0</GroupDocsViewer>
+		<GroupDocsViewer>25.9.0</GroupDocsViewer>
 
 		<MicrosoftExtensionsHttp>8.0.1</MicrosoftExtensionsHttp>
 		<MicrosoftExtensionsDependencyInjectionAbstractions>8.0.2</MicrosoftExtensionsDependencyInjectionAbstractions>
@@ -35,18 +35,18 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="GroupDocs.Viewer UI Package Versions">
-		<GroupDocsViewerUI>8.1.1</GroupDocsViewerUI>
-		<GroupDocsViewerUIApi>8.1.1</GroupDocsViewerUIApi>
-		<GroupDocsViewerUIApiLocalCache>8.1.1</GroupDocsViewerUIApiLocalCache>
-		<GroupDocsViewerUIApiInMemoryCache>8.1.1</GroupDocsViewerUIApiInMemoryCache>
-		<GroupDocsViewerUIApiLocalStorage>8.1.1</GroupDocsViewerUIApiLocalStorage>
-		<GroupDocsViewerUIApiCloudStorage>8.1.1</GroupDocsViewerUIApiCloudStorage>
-		<GroupDocsViewerUIApiAzureStorage>8.1.1</GroupDocsViewerUIApiAzureStorage>
-		<GroupDocsViewerUIApiAwsS3Storage>8.1.1</GroupDocsViewerUIApiAwsS3Storage>
-		<GroupDocsViewerUICore>8.1.1</GroupDocsViewerUICore>
-		<GroupDocsViewerUISelfHostApi>8.1.1</GroupDocsViewerUISelfHostApi>
-		<GroupDocsViewerUISelfHostApiCrossPlatform>8.1.1</GroupDocsViewerUISelfHostApiCrossPlatform>
-		<GroupDocsViewerUICloudApi>8.1.1</GroupDocsViewerUICloudApi>
+		<GroupDocsViewerUI>8.1.2</GroupDocsViewerUI>
+		<GroupDocsViewerUIApi>8.1.2</GroupDocsViewerUIApi>
+		<GroupDocsViewerUIApiLocalCache>8.1.2</GroupDocsViewerUIApiLocalCache>
+		<GroupDocsViewerUIApiInMemoryCache>8.1.2</GroupDocsViewerUIApiInMemoryCache>
+		<GroupDocsViewerUIApiLocalStorage>8.1.2</GroupDocsViewerUIApiLocalStorage>
+		<GroupDocsViewerUIApiCloudStorage>8.1.2</GroupDocsViewerUIApiCloudStorage>
+		<GroupDocsViewerUIApiAzureStorage>8.1.2</GroupDocsViewerUIApiAzureStorage>
+		<GroupDocsViewerUIApiAwsS3Storage>8.1.2</GroupDocsViewerUIApiAwsS3Storage>
+		<GroupDocsViewerUICore>8.1.2</GroupDocsViewerUICore>
+		<GroupDocsViewerUISelfHostApi>8.1.2</GroupDocsViewerUISelfHostApi>
+		<GroupDocsViewerUISelfHostApiCrossPlatform>8.1.2</GroupDocsViewerUISelfHostApiCrossPlatform>
+		<GroupDocsViewerUICloudApi>8.1.2</GroupDocsViewerUICloudApi>
 	</PropertyGroup>
 
 	<PropertyGroup Label="NuGet Common Settings">
