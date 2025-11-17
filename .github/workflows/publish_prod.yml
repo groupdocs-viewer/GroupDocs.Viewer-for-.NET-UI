@@ -34,7 +34,7 @@ jobs:
       - name: Prepare artifacts directory (exclude .nupkg)
         run: |
           New-Item -ItemType Directory -Force -Path "$env:GITHUB_WORKSPACE\artifacts" | Out-Null
-          Copy-Item "$env:GITHUB_WORKSPACE\build_out\*" "$env:GITHUB_WORKSPACE\artifacts" -Exclude *.nupkg -Force
+          Move-Item "$env:GITHUB_WORKSPACE\build_out\*" "$env:GITHUB_WORKSPACE\artifacts" -Exclude *.nupkg -Force
 
       - name: Sign packages with SSL.com eSigner (manual)
         working-directory: ${{ github.workspace }}\code_sign
