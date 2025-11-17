@@ -2,7 +2,7 @@ name: Publish Prod
 
 on:
   workflow_dispatch:
-    
+
 jobs:
   publish_prod:
     runs-on: windows-latest
@@ -25,7 +25,7 @@ jobs:
       - name: Sign packages with SSL.com eSigner
         uses: sslcom/esigner-codesign@develop
         with:
-          command: sign
+          command: batch_sign
           username: ${{ secrets.ES_USERNAME }}
           password: ${{ secrets.ES_PASSWORD }}
           credential_id: ${{ secrets.ES_CREDENTIAL_ID }}
