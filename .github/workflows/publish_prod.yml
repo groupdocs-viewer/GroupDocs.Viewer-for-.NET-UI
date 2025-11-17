@@ -33,7 +33,16 @@ jobs:
       
       - name: Configure CodeSignTool
         run: |
-          Add-Content -Path "$env:GITHUB_WORKSPACE\code_sign\conf\code_sign_tool.properties" -Value 'TSA_LEGACY_URL=http://ts.ssl.com/legacy'
+          $confPath = "$env:GITHUB_WORKSPACE\code_sign\conf\code_sign_tool.properties"
+          if (Test-Path $confPath) { Remove-Item $confPath -Force }
+          $lines = @(
+            'CLIENT_ID=kaXTRACNijSWsFdRKg_KAfD3fqrBlzMbWs6TwWHwAn8'
+            'OAUTH2_ENDPOINT=https://login.ssl.com/oauth2/token'
+            'CSC_API_ENDPOINT=https://cs.ssl.com'
+            'TSA_URL=http://ts.ssl.com'
+            'TSA_LEGACY_URL=http://ts.ssl.com/legacy'
+          )
+          Set-Content -Path $confPath -Value $lines
 
       - name: Prepare artifacts directory
         run: |
