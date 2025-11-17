@@ -47,16 +47,16 @@ $buildSuffix = @{ $true = "$($suffix)-$($commitHash)"; $false = "$($commitHash)"
 echo "build: Build version suffix is $buildSuffix"
 
 exec { & dotnet build GroupDocs.Viewer.UI.sln -c Release --version-suffix=$buildSuffix -v q /nologo }
-exec { & dotnet pack .\src\GroupDocs.Viewer.UI\GroupDocs.Viewer.UI.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
-exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api\GroupDocs.Viewer.UI.Api.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
-exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Core\GroupDocs.Viewer.UI.Core.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
-exec { & dotnet pack .\src\GroupDocs.Viewer.UI.SelfHost.Api\GroupDocs.Viewer.UI.SelfHost.Api.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
-exec { & dotnet pack .\src\GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform\GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
-exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Cloud.Api\GroupDocs.Viewer.UI.Cloud.Api.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
-exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.Local.Cache\GroupDocs.Viewer.UI.Api.Local.Cache.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
-exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.InMemory.Cache\GroupDocs.Viewer.UI.Api.InMemory.Cache.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
-exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.Cloud.Storage\GroupDocs.Viewer.UI.Api.Cloud.Storage.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
-exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.Local.Storage\GroupDocs.Viewer.UI.Api.Local.Storage.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
-exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.AzureBlob.Storage\GroupDocs.Viewer.UI.Api.AzureBlob.Storage.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
-exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.AwsS3.Storage\GroupDocs.Viewer.UI.Api.AwsS3.Storage.csproj -c Release -o .\artifacts --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
+exec { & dotnet pack .\src\GroupDocs.Viewer.UI\GroupDocs.Viewer.UI.csproj -c Release -o .\build_out --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
+exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api\GroupDocs.Viewer.UI.Api.csproj -c Release -o .\build_out --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
+exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Core\GroupDocs.Viewer.UI.Core.csproj -c Release -o .\build_out --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
+exec { & dotnet pack .\src\GroupDocs.Viewer.UI.SelfHost.Api\GroupDocs.Viewer.UI.SelfHost.Api.csproj -c Release -o .\build_out --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
+exec { & dotnet pack .\src\GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform\GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform.csproj -c Release -o .\build_out --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
+exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Cloud.Api\GroupDocs.Viewer.UI.Cloud.Api.csproj -c Release -o .\build_out --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
+exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.Local.Cache\GroupDocs.Viewer.UI.Api.Local.Cache.csproj -c Release -o .\build_out --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
+exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.InMemory.Cache\GroupDocs.Viewer.UI.Api.InMemory.Cache.csproj -c Release -o .\build_out --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
+exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.Cloud.Storage\GroupDocs.Viewer.UI.Api.Cloud.Storage.csproj -c Release -o .\build_out --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
+exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.Local.Storage\GroupDocs.Viewer.UI.Api.Local.Storage.csproj -c Release -o .\build_out --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
+exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.AzureBlob.Storage\GroupDocs.Viewer.UI.Api.AzureBlob.Storage.csproj -c Release -o .\build_out --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
+exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.AwsS3.Storage\GroupDocs.Viewer.UI.Api.AwsS3.Storage.csproj -c Release -o .\build_out --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
 
