@@ -354,6 +354,29 @@ builder.Services
     });
 ```
 
+#### Hide Help button
+
+To hide the help button, set `EnableHelp` to `false`. By default, this button is visible.
+
+The Help button is located on the left side of the language selector in the header. When clicked, it opens a popup modal displaying all available keyboard shortcuts (hotkeys).
+
+The hotkeys are organized into the following sections:
+
+- **File Management**: Download PDF (Cmd/Ctrl + S)
+- **Navigation**: Next/Previous Page, First/Last Page, Scroll Up/Down
+- **View**: Zoom In/Out, Fit In, Full Screen
+- **Search**: Find, Find Next/Previous, Close Search
+- **Slide**: Start presentation, Start from current slide, Close slide, Black/White screen, Next/Previous slide
+- **Miscellaneous**: Help (Cmd/Ctrl + / or F1), Print (Cmd/Ctrl + P)
+
+```cs
+builder.Services
+   .AddGroupDocsViewerUI(config =>
+    {
+        config.EnableHelp = false;
+    });
+```
+
 #### Hide language selector
 
 To hide language selector, set `EnableLanguageSelector` to `false`. By default, this selector is enabled.

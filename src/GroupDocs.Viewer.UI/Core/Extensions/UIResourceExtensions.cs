@@ -88,6 +88,7 @@ namespace GroupDocs.Viewer.UI.Core.Extensions
                 enableHyperlinks = config.EnableHyperlinks,
                 enableScrollAnimation = config.EnableScrollAnimation,
                 enableLanguageSelector = config.EnableLanguageSelector,
+                enableHelp = config.EnableHelp,
                 defaultLanguage = config.DefaultLanguage.Value,
                 supportedLanguages = config.SupportedLanguages.Select(lang => lang.Value).ToArray(),
                 showExitButton = false,

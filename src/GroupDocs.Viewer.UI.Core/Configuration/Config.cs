@@ -171,6 +171,12 @@ namespace GroupDocs.Viewer.UI.Core.Configuration
         /// </summary>
         public bool EnableFileUpload { get; set; } = true;
 
+        /// <summary>
+        /// Show or hide the help button.
+        /// Default value: <c>true</c>.
+        /// </summary>
+        public bool EnableHelp { get; set; } = true;
+
         /* Language and Localization Settings */
 
         /// <summary>
