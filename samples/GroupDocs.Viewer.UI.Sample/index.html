@@ -1,181 +1,341 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Viewer Demo</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #F9F9F9;
-            color: #333333;
+        :root {
+            --primary-color: #2a6ae2;
+            --primary-hover: #1e54c7;
+            --bg-color: #f4f6f8;
+            --text-color: #333;
+            --text-secondary: #666;
+            --card-bg: #fff;
+            --border-color: #e0e0e0;
+        }
+
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
-        h1 {
-            text-align: center;
-            font-weight: bold;
-            margin: 20px 0;
-            color: #333333;
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
         }
 
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Header */
         header {
-            background-color: #FFFFFF;
-            color: #333333;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            border-bottom: 1px solid #A4A4A4;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
         }
 
         .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            width: 100%;
-            max-width: 800px;
         }
 
-        .logo {
+        .logo svg {
             height: 40px;
-        }
-
-        .title {
-            font-weight: bold;
-            margin-left: 15px;
-            flex-grow: 1;
+            width: auto;
         }
 
         .trial-button {
             background-color: #e5ecfb;
-            color: #2a6ae2;
-            padding: 10px 15px;
-            border-radius: 5px;
-            text-decoration: none !important;
-            font-weight: bold;
-            font-size: 1em;
+            color: var(--primary-color);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: background-color 0.2s;
         }
 
-            .trial-button:hover {
-                background-color: #dae4fd;
-            }
+        .trial-button:hover {
+            background-color: #dae4fd;
+        }
 
+        /* Main */
         main {
+            max-width: 1000px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+
+        .intro {
+            text-align: center;
             max-width: 800px;
-            margin: 30px auto;
-            padding: 20px;
-            background-color: #FFFFFF;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin: 0 auto 3rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
         }
 
-        ul {
-            list-style-type: none;
-            padding: 0;
+        .intro a {
+            color: var(--primary-color);
+            font-weight: 500;
         }
 
-        li {
-            margin: 15px 0;
+        .intro a:hover {
+            text-decoration: underline;
         }
 
-        a {
-            color: #4189CA;
-            text-decoration: none;
-            font-weight: bold;
+        /* Grid */
+        .sample-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
         }
 
-            a:hover {
-                text-decoration: underline;
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
+            border-color: #d0d0d0;
+        }
+
+        .card-icon {
+            background-color: #f0f4ff;
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--primary-color);
+        }
+
+        .card-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        .card-content {
+            flex: 1;
+        }
+
+        .card-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+            color: var(--text-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #888;
+            font-size: 0.9rem;
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
             }
 
-        .description {
-            font-size: 0.9em;
-            color: #555555;
-            margin-top: 5px;
-        }
-
-        .about {
-            max-width: 800px;
-            background-color: #FFFFFF;
-        }
-
-            .about h2 {
-                color: #333333;
-                text-align: center;
-                margin-bottom: 15px;
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
             }
 
-            .about p {
-                color: #555555;
-                line-height: 1.6;
+            .sample-grid {
+                grid-template-columns: 1fr;
             }
+        }
     </style>
 </head>
+
 <body>
     <header>
         <div class="header-content">
-            <a href="https://products.groupdocs.com/">
-                <img src="https://groupdocs-viewer.github.io/resources/image/groupdocs-logo.svg" alt="GroupDocs Logo" class="logo">
+            <a href="https://products.groupdocs.com/" class="logo">
+                <svg viewBox="0 0 501 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M41.9 46.4C45.8609 46.3211 49.6297 44.6785 52.3838 41.8307C55.1379 38.983 56.6536 35.1613 56.6 31.2C56.6 22.8 50 16 41.9 16C33.8 16 27 22.8 27 31.2C26.9735 33.1866 27.3419 35.1587 28.0839 37.0017C28.8258 38.8447 29.9265 40.522 31.3221 41.9361C32.7176 43.3503 34.3801 44.4731 36.2132 45.2394C38.0462 46.0057 40.0132 46.4002 42 46.4H41.9ZM56.2 42.3C57.8 43.1 59.7 43.5 61.6 43.5C68.6 43.5 74.4 37.5 74.4 30.3C74.4398 28.5844 74.1395 26.878 73.5166 25.279C72.8936 23.6801 71.9602 22.2203 70.7703 20.9839C69.5803 19.7475 68.1574 18.7588 66.5834 18.0751C65.0095 17.3913 63.3158 17.0259 61.6 17C59.1918 17.0239 56.8377 17.7163 54.8 19C57.9 22.0079 59.7626 26.0667 60.0217 30.3783C60.2807 34.69 58.9175 38.9425 56.2 42.3ZM21.7 43.5C23.7 43.5 25.5 43.1 27.2 42.3C24.4604 38.9519 23.0831 34.6944 23.3426 30.3762C23.6021 26.0579 25.4793 21.996 28.6 19C26.6 17.7 24.2 16.9 21.6 16.9C19.884 16.9388 18.1927 17.317 16.6237 18.0128C15.0546 18.7086 13.6389 19.7083 12.4582 20.954C11.2775 22.1998 10.3552 23.6671 9.74447 25.2712C9.13376 26.8753 8.84675 28.5844 8.9 30.3C8.87355 32.0156 9.18697 33.7194 9.82218 35.3132C10.4574 36.9071 11.4018 38.3594 12.601 39.5865C13.8002 40.8136 15.2305 41.7912 16.8093 42.4628C18.3881 43.1345 20.0843 43.487 21.8 43.5H21.7ZM17 48.4C12.2 48.4 9.8 44.4 9.8 44.4C5.8 44.4 4 47.7 4 51.7V67.2C4 70.6 10 73.6 17.4 75.4V54.6C17.4 50.9 20.2 47.9 23.8 47.4C21.8 47.7 18.3 48.4 17 48.4ZM54.6 49.8C54.6 49.8 50.7 53.7 45.9 53.7C44.4 53.7 43.2 51.2 41.6 51.2C39.1 51.2 38.5 53.7 36.3 53.7C32.9 53.7 28.1 49.8 28.1 49.8C24.1 49.8 20.9 53 20.9 57V78.3C20.9 86.7 61.9 87 61.9 78.3V57C61.9 53 58.6 49.8 54.6 49.8ZM52.5 74.4C47.9 75.3 35 75.4 30.3 74.4C28.6 74.1 27.6 73.7 27.6 72.4C27.6 71.3 28.4 70.5 30.3 71C37.6723 71.906 45.1277 71.906 52.5 71C55.3 70.7 55.5 71.3 55.6 72.5C55.7 73.8 54.4 74 52.5 74.4ZM52.5 68.1C47.9 69.1 35 69.1 30.3 68.1C28.6 67.8 27.6 67.4 27.6 66.2C27.6 65 28.4 64.2 30.3 64.7C33.9 65.7 45.7 65.7 52.5 64.7C55.3 64.4 55.5 65 55.6 66.2C55.7 67.5 54.4 67.8 52.5 68.2V68.1ZM73 44.5C73 44.5 70.5 48.4 65.7 48.4C64.3 48.4 60.9 47.6 58.9 47.4C62.5 47.9 65.2 50.9 65.2 54.6V75.3C72.6 73.6 78.8 70.6 78.8 67.2V51.7C78.8 47.7 77 44.5 73 44.5Z"
+                        fill="#2689C9" />
+                    <path
+                        d="M131 54.6H138.6V70C134.4 74.7 128.4 77 120.6 77C113.9 77 108.4 74.8 103.9 70.5C101.713 68.3599 99.9961 65.7871 98.8596 62.9461C97.7232 60.105 97.1919 57.058 97.2998 54C97.2998 47.3 99.4998 41.8 104.1 37.4C108.6 32.9 114.1 30.7 120.5 30.7C127 30.7 132.3 32.6 136.5 36.4L132.5 42.1C130.958 40.7134 129.157 39.6461 127.2 38.9595C125.243 38.273 123.17 37.9808 121.1 38.1C116.6 38.1 112.8 39.6 109.7 42.5C106.7 45.5 105.1 49.3 105.1 54C105.003 56.0534 105.33 58.1048 106.06 60.0267C106.789 61.9485 107.906 63.7 109.341 65.1722C110.775 66.6444 112.497 67.806 114.4 68.5849C116.302 69.3638 118.345 69.7434 120.4 69.7C124.7 69.7 128.2 68.8 131.1 67V54.6H131ZM181 46.2C181 53.6 177.7 58.2 171.3 60.2L183 76.3H173.4L162.7 61.3H152.8V76.3H145.3V31.7H161.9C168.7 31.7 173.6 32.9 176.5 35.2C179.5 37.5 180.9 41.2 180.9 46.2H181ZM171 52.5C172.5 51.2 173.2 49.1 173.2 46.2C173.2 43.2 172.4 41.2 170.9 40.2C169.3 39.1 166.5 38.5 162.4 38.5H152.8V54.5H162.2C166.5 54.5 169.4 53.9 170.9 52.5H171ZM226 70.2C223.789 72.3761 221.161 74.0826 218.274 75.2169C215.387 76.3511 212.3 76.8896 209.2 76.8C206.138 76.8666 203.093 76.3209 200.244 75.1948C197.396 74.0688 194.801 72.3852 192.612 70.2428C190.423 68.1004 188.684 65.5423 187.497 62.7188C186.31 59.8952 185.699 56.8629 185.7 53.8C185.699 50.737 186.31 47.7048 187.497 44.8812C188.684 42.0576 190.423 39.4996 192.612 37.3572C194.801 35.2148 197.396 33.5311 200.244 32.4051C203.093 31.2791 206.138 30.7334 209.2 30.8C212.27 30.7199 215.326 31.2556 218.186 32.3755C221.046 33.4954 223.653 35.1769 225.853 37.3207C228.052 39.4645 229.8 42.0271 230.993 44.8574C232.187 47.6878 232.801 50.7284 232.8 53.8C232.8 60.3 230.5 65.8 226 70.2ZM220.5 42.2C219.052 40.6663 217.298 39.455 215.351 38.6451C213.404 37.8353 211.308 37.4451 209.2 37.5C207.095 37.5129 205.013 37.9436 203.076 38.7673C201.139 39.5909 199.384 40.7911 197.914 42.2981C196.445 43.8051 195.289 45.589 194.514 47.5463C193.739 49.5036 193.36 51.5953 193.4 53.7C193.346 55.8214 193.718 57.9321 194.493 59.9076C195.268 61.8831 196.431 63.6834 197.913 65.2025C199.395 66.7215 201.166 67.9286 203.121 68.7526C205.077 69.5765 207.178 70.0007 209.3 70C211.405 69.9742 213.484 69.5305 215.417 68.6948C217.349 67.859 219.096 66.6478 220.557 65.1314C222.017 63.6151 223.162 61.8237 223.925 59.8614C224.688 57.899 225.053 55.8047 225 53.7C225 49.2 223.5 45.4 220.5 42.3V42.2ZM249.1 66.1C251.1 68.5 253.9 69.7 257.4 69.7C260.9 69.7 263.7 68.5 265.7 66.1C267.7 63.7 268.7 60.5 268.7 56.4V31.7H276.3V56.7C276.3 63.2 274.5 68.1 271 71.7C267.5 75.1 263 76.8 257.4 76.8C251.9 76.8 247.4 75.1 243.8 71.6C241.962 69.619 240.546 67.2862 239.635 64.7426C238.724 62.1989 238.338 59.497 238.5 56.8V31.8H246V56.4C246 60.5 247 63.8 249.1 66.1ZM315 35.6C318.2 38.2 319.7 42.2 319.7 47.6C319.7 53 318.2 57 315 59.5C311.8 62 307 63.3 300.4 63.3H292.4V76.3H285V31.8H300.4C307.1 31.8 312.1 33.1 315.2 35.8L315 35.6ZM309.9 54C311.4 52.4 312.1 50.1 312.1 47C312.1 44 311.1 41.7 309.2 40.5C307.3 39.2 304.3 38.5 300.2 38.5H292.6V56.5H301.3C305.5 56.5 308.3 55.6 309.9 54ZM359.2 37.6C363.5 41.5 365.7 46.9 365.7 53.8C365.7 60.8 363.6 66.3 359.4 70.3C355.2 74.3 348.9 76.3 340.3 76.3H325.4V31.8H340.8C348.8 31.8 354.9 33.8 359.2 37.7V37.6ZM358.1 54C358.1 43.8 352.2 38.7 340.5 38.7H333V69.3H341.3C346.7 69.3 350.9 68 353.8 65.4C356.6 62.8 358.1 59 358.1 54ZM409.6 70.2C407.389 72.3761 404.761 74.0826 401.874 75.2169C398.987 76.3511 395.9 76.8896 392.8 76.8C389.738 76.8666 386.693 76.3209 383.844 75.1948C380.996 74.0688 378.401 72.3852 376.212 70.2428C374.023 68.1004 372.284 65.5423 371.097 62.7188C369.91 59.8952 369.299 56.8629 369.3 53.8C369.299 50.737 369.91 47.7048 371.097 44.8812C372.284 42.0576 374.023 39.4996 376.212 37.3572C378.401 35.2148 380.996 33.5311 383.844 32.4051C386.693 31.2791 389.738 30.7334 392.8 30.8C395.862 30.7334 398.907 31.2791 401.755 32.4051C404.604 33.5311 407.198 35.2148 409.387 37.3572C411.576 39.4996 413.315 42.0576 414.502 44.8812C415.689 47.7048 416.301 50.737 416.3 53.8C416.381 56.8487 415.827 59.8809 414.674 62.7042C413.52 65.5275 411.792 68.0801 409.6 70.2ZM404 42.2C402.564 40.6789 400.826 39.4751 398.897 38.6656C396.968 37.8562 394.891 37.4592 392.8 37.5C390.695 37.5129 388.613 37.9436 386.676 38.7673C384.739 39.5909 382.984 40.7911 381.514 42.2981C380.045 43.8051 378.889 45.589 378.114 47.5463C377.339 49.5036 376.96 51.5953 377 53.7C376.947 55.813 377.315 57.9155 378.084 59.8844C378.853 61.8533 380.007 63.6491 381.478 65.1668C382.949 66.6845 384.708 67.8937 386.652 68.7236C388.596 69.5534 390.686 69.9874 392.8 70C394.905 69.9871 396.986 69.5564 398.924 68.7327C400.861 67.9091 402.615 66.7089 404.085 65.2019C405.555 63.6949 406.711 61.911 407.486 59.9537C408.261 57.9964 408.64 55.9047 408.6 53.8C408.6 49.3 407.1 45.5 404 42.4V42.2ZM443 69.5C445.6 69.5 447.9 69.1 449.7 68.2C451.911 67.1294 453.937 65.7115 455.7 64L460.5 69C458.377 71.5107 455.725 73.521 452.734 74.8867C449.743 76.2525 446.488 76.94 443.2 76.9C440.106 77.0027 437.024 76.48 434.137 75.3631C431.25 74.2462 428.619 72.5581 426.4 70.4C424.213 68.2599 422.496 65.6871 421.36 62.8461C420.223 60.005 419.692 56.958 419.8 53.9C419.784 50.7764 420.4 47.6819 421.61 44.802C422.819 41.9221 424.598 39.3162 426.839 37.1404C429.08 34.9645 431.738 33.2637 434.652 32.1399C437.567 31.016 440.678 30.4922 443.8 30.6C450.8 30.6 456.5 33.2 461.1 38.3L456.3 43.5C454.561 41.7593 452.53 40.3377 450.3 39.3C448.177 38.4182 445.898 37.976 443.6 38C439.1 38 435.3 39.5 432.2 42.4C429.2 45.4 427.6 49.1 427.6 53.6C427.6 58.1 429.2 61.9 432.2 65C435.2 68 438.9 69.5 443 69.5ZM479.7 37.6C477.5 37.6 475.7 38 474.3 38.9C473.628 39.3224 473.08 39.9149 472.711 40.6174C472.343 41.3198 472.166 42.1073 472.2 42.9C472.2 44.8 472.9 46.2 474.2 47.1C475.7 48.1 478.7 49.1 483.2 50.2C487.8 51.3 491.2 52.9 493.6 54.9C495.9 56.9 497.1 59.9 497.1 63.7C497.1 67.5 495.6 70.8 492.7 73.2C489.8 75.6 485.9 77 481 77C474 77 467.8 74.6 462.4 69.8L467.1 64.1C471.6 68 476.3 69.9 481.1 69.9C483.6 69.9 485.5 69.4 487 68.4C488.4 67.4 489.1 66 489.1 64.2C489.1 62.4 488.4 61.2 487.1 60.2C485.8 59.2 483.4 58.4 480.1 57.6C476.9 56.8 474.4 56.1 472.7 55.4C471 54.7 469.5 53.9 468.2 52.8C465.5 50.8 464.2 47.8 464.2 43.6C464.2 39.5 465.7 36.3 468.7 34.1C471.7 31.9 475.4 30.7 479.8 30.7C482.7 30.7 485.5 31.2 488.3 32.1C491.2 33.1 493.6 34.4 495.6 36.1L491.6 41.8C490.023 40.4432 488.185 39.4224 486.2 38.8C484 38.1 481.8 37.7 479.6 37.7L479.7 37.6Z"
+                        fill="black" />
+                </svg>
             </a>
-            <a href="https://purchase.groupdocs.com/buy/cart?ppId=99940" target="_blank" class="trial-button">Start Free Trial</a>
+            <a href="https://purchase.groupdocs.com/buy/cart?ppId=99940" target="_blank" class="trial-button">Start Free
+                Trial</a>
         </div>
     </header>
+
     <main>
         <h1>Viewer Demo</h1>
 
-        <section class="about">
+        <section class="intro">
             <p>
-                This demo application showcases the capabilities of 
-                <a href="https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI">GroupDocs.Viewer.UI</a> 
+                This demo application showcases the capabilities of
+                <a href="https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI">GroupDocs.Viewer.UI</a>
                 package and <a href="https://products.groupdocs.com/viewer/net/">GroupDocs.Viewer for .NET</a> API.
             </p>
-            <p>
+            <p style="margin-top: 1rem; font-size: 0.95rem;">
                 To test all the features request a temporary license using
                 <a href="https://purchase.groupdocs.com/buy/cart?ppId=99940">Purchase Wizard</a>.
                 Check your mailbox, download attached file and set path to license file in <b>Program.cs</b> class.
-                No credit card required.
-            </p>
-            <p>
-                Click on the sample files below to view them.
             </p>
         </section>
 
-        <ul>
-            <li>
-                <a href="/viewer/?file=annual-review.docx">annual-review.docx</a>
-                <div class="description">This is a sample Word document with text and images.</div>
-            </li>
-            <li>
-                <a href="/viewer/?file=basic-presentation.pptx">basic-presentation.pptx</a>
-                <div class="description">This is a sample PowerPoint presentation.</div>
-            </li>
-            <li>
-                <a href="/viewer/?file=compressed.zip">compressed.zip</a>
-                <div class="description">The ZIP archive with multiple files.</div>
-            </li>
-            <li>
-                <a href="/viewer/?file=cost-analysis.xlsx">cost-analysis.xlsx</a>
-                <div class="description">This is Excel spreadsheet with one worksheet.</div>
-            </li>
-            <li>
-                <a href="/viewer/?file=infographic-elements.tiff">infographic-elements.tiff</a>
-                <div class="description">This is TIFF image with 3 frames.</div>
-            </li>
-            <li>
-                <a href="/viewer/?file=invitation.eml">invitation.eml</a>
-                <div class="description">This is a sample email message.</div>
-            </li>
-            <li>
-                <a href="/viewer/?file=password-is-12345.docx">password-is-12345.docx</a>
-                <div class="description">This is a password-protected Word document. Password: 12345.</div>
-            </li>
-            <li>
-                <a href="/viewer/?file=professional-services.pdf">professional-services.pdf</a>
-                <div class="description">This is a sample PDF document.</div>
-            </li>
-        </ul>
+        <div class="sample-grid">
+            <a href="/viewer/?file=annual-review.docx" class="card">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+                    </svg>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">annual-review.docx</div>
+                    <div class="card-desc">Sample Word document with text and images.</div>
+                </div>
+            </a>
 
+            <a href="/viewer/?file=basic-presentation.pptx" class="card">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+                    </svg>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">basic-presentation.pptx</div>
+                    <div class="card-desc">Sample PowerPoint presentation.</div>
+                </div>
+            </a>
+
+            <a href="/viewer/?file=compressed.zip" class="card">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+                    </svg>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">compressed.zip</div>
+                    <div class="card-desc">ZIP archive with multiple files.</div>
+                </div>
+            </a>
+
+            <a href="/viewer/?file=cost-analysis.xlsx" class="card">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+                    </svg>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">cost-analysis.xlsx</div>
+                    <div class="card-desc">Excel spreadsheet with one worksheet.</div>
+                </div>
+            </a>
+
+            <a href="/viewer/?file=infographic-elements.tiff" class="card">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+                    </svg>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">infographic-elements.tiff</div>
+                    <div class="card-desc">TIFF image with 3 frames.</div>
+                </div>
+            </a>
+
+            <a href="/viewer/?file=invitation.eml" class="card">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+                    </svg>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">invitation.eml</div>
+                    <div class="card-desc">Sample email message.</div>
+                </div>
+            </a>
+
+            <a href="/viewer/?file=password-is-12345.docx" class="card">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+                    </svg>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">password-is-12345.docx</div>
+                    <div class="card-desc">Password-protected content. Password: 12345.</div>
+                </div>
+            </a>
+
+            <a href="/viewer/?file=professional-services.pdf" class="card">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+                    </svg>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">professional-services.pdf</div>
+                    <div class="card-desc">Sample PDF document.</div>
+                </div>
+            </a>
+        </div>
     </main>
+
+    <footer>
+        &copy; Aspose Pty. Ltd. All Rights Reserved.
+    </footer>
 </body>
+
 </html>
