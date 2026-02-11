@@ -92,6 +92,6 @@ jobs:
         with:
           files: "artifacts/**/*.trx"
           check_name: "Test Results"
-          comment_mode: create new 
+          comment_mode: always 
           report_individual_runs: true
           fail_on: "test failures"
