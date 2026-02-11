@@ -1,46 +1,46 @@
 <!DOCTYPE html>
 <html lang="en" data-beasties-container>
 <head>
-    <meta charset="utf-8">
-    <title>#uiTitle#</title>
-    <base href="#uiPath#">
-    <style>html,body{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}body{line-height:1}body{--p-inputtext-padding-y:9px;--p-inputtext-padding-x:7px;--p-popover-content-padding:0;--p-dialog-header-padding:1.25rem 1.25rem 0;--p-dialog-content-padding:1.25rem;--p-popover-background:var(--c-bg-base);--p-popover-gutter:10px;--p-popover-arrow-offset:1.25rem;--p-popover-border-color:var(--c-border);--p-popover-border-radius:6px;--p-popover-shadow:0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -2px rgba(0, 0, 0, .1);--p-dialog-background:var(--c-bg-base);--p-dialog-border-radius:6px;--p-dialog-border-color:var(--c-border-hover);--p-dialog-shadow:0 20px 25px -5px rgba(0, 0, 0, .1), 0 8px 10px -6px rgba(0, 0, 0, .1);--p-dialog-color:var(--c-text-base);--p-dialog-title-font-size:1.25rem;--p-dialog-title-font-weight:600}@font-face{font-family:Inter;font-style:normal;font-weight:300;src:local(""),url("./media/inter-light.woff2") format("woff2"),url("./media/inter-light.woff") format("woff")}@font-face{font-family:Inter;font-style:normal;font-weight:400;src:local(""),url("./media/inter-regular.woff2") format("woff2"),url("./media/inter-regular.woff") format("woff")}@font-face{font-family:Inter;font-style:normal;font-weight:500;src:local(""),url("./media/inter-medium.woff2") format("woff2"),url("./media/inter-medium.woff") format("woff")}@font-face{font-family:Inter;font-style:normal;font-weight:600;src:local(""),url("./media/inter-semibold.woff2") format("woff2"),url("./media/inter-semibold.woff") format("woff")}@font-face{font-family:Inter;font-style:normal;font-weight:700;src:local(""),url("./media/inter-bold.woff2") format("woff2"),url("./media/inter-bold.woff") format("woff")}:root{--c-bg-base:#FFFFFF;--c-bg-base-hover:#F4F6F8;--c-bg-base-secondary:#F5F5F5;--c-bg-base-secondary-hover:#EAECEE;--c-bg-base-tertiary:#CDCFD0;--c-bg-base-tertiary-hover:#B9BABC;--c-bg-disabled:#DCDEE0;--c-bg-disabled-secondary:#F4F6F8;--c-bg-brand:#3B82F6;--c-bg-brand-hover:#1E5FBD;--c-bg-brand-secondary:#E5EEFF;--c-bg-brand-secondary-hover:#B9CEFC;--c-bg-success:#20B757;--c-bg-success-hover:#157C3B;--c-bg-success-secondary:#B2EBC7;--c-bg-success-secondary-hover:#51D180;--c-bg-error:#FF7474;--c-bg-error-hover:#BC4242;--c-bg-error-secondary:#FFD4D4;--c-bg-error-secondary-hover:#FFA0A0;--c-bg-accent:#3F3F40;--c-bg-accent-hover:#838485;--c-text-base:#3F3F40;--c-text-base-secondary:#6B6C6D;--c-text-base-tertiary:#9FA0A1;--c-text-disabled:#B9BABC;--c-text-disabled-secondary:#9FA0A1;--c-text-link:#679ffa;--c-text-brand:#8AA9F9;--c-text-brand-secondary:#1E5FBD;--c-text-brand-on-default:#FFFFFF;--c-text-brand-on-secondary:#3B82F6;--c-text-brand-info:#3B82F6;--c-text-error:#BC4242;--c-text-error-secondary:#E55050;--c-text-error-tertiary:#FF7474;--c-text-error-on-default:#FFF8F8;--c-ext-error-on-secondary:#FFBEBE;--c-text-success:#157C3B;--c-text-success-secondary:#1A9848;--c-text-success-tertiary:#20B757;--c-text-success-on-default:#F2FCF6;--c-text-success-on-secondary:#8BE1AA;--c-border:#CDCED2;--c-border-hover:#d1d1d1;--c-border-secondary:#838486;--c-border-tertiary:#59595B;--c-shadow:#b1cdfb}:root{--gd-font-size-display-large:57px;--gd-line-height-display-large:64px;--gd-font-size-display-medium:45px;--gd-line-height-display-medium:52px;--gd-font-size-display-small:36px;--gd-line-height-display-small:44px;--gd-font-size-headline-large:32px;--gd-line-height-headline-large:40px;--gd-font-size-headline-medium:28px;--gd-line-height-headline-medium:36px;--gd-font-size-headline-small:24px;--gd-line-height-headline-small:32px;--gd-font-size-title-large:22px;--gd-line-height-title-large:28px;--gd-font-size-title-medium:16px;--gd-line-height-title-medium:24px;--gd-font-size-title-small:14px;--gd-line-height-title-small:20px;--gd-font-size-label-large:14px;--gd-line-height-label-large:20px;--gd-font-size-label-medium:13px;--gd-line-height-label-medium:18px;--gd-font-size-label-small:12px;--gd-line-height-label-small:16px;--gd-font-size-label-xs:10px;--gd-line-height-label-xs:14px;--gd-font-size-body-large:16px;--gd-line-height-body-large:24px;--gd-font-size-body-medium:14px;--gd-line-height-body-medium:20px;--gd-font-size-body-small:12px;--gd-line-height-body-small:16px;--gd-font-size-icon-small:16px;--gd-font-size-icon-medium:20px;--gd-font-size-icon-large:24px}:root{--animate-duration:1s}html,body{margin:0;height:100%;overflow:hidden;font-family:Inter,sans-serif;font-size:14px}</style><link rel="stylesheet" href="styles.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="styles.css"></noscript>
-    #customCSS#
+	<meta charset="utf-8">
+	<title>#uiTitle#</title>
+	<base href="#uiPath#">
+<style>html,body{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}body{line-height:1}body{--p-inputtext-padding-y:9px;--p-inputtext-padding-x:7px;--p-popover-content-padding:0;--p-dialog-header-padding:1.25rem 1.25rem 0;--p-dialog-content-padding:1.25rem;--p-popover-background:var(--c-bg-base);--p-popover-gutter:10px;--p-popover-arrow-offset:1.25rem;--p-popover-border-color:var(--c-border);--p-popover-border-radius:6px;--p-popover-shadow:0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -2px rgba(0, 0, 0, .1);--p-dialog-background:var(--c-bg-base);--p-dialog-border-radius:6px;--p-dialog-border-color:var(--c-border-hover);--p-dialog-shadow:0 20px 25px -5px rgba(0, 0, 0, .1), 0 8px 10px -6px rgba(0, 0, 0, .1);--p-dialog-color:var(--c-text-base);--p-dialog-title-font-size:1.25rem;--p-dialog-title-font-weight:600}@font-face{font-family:Inter;font-style:normal;font-weight:300;src:local(""),url("./media/inter-light.woff2") format("woff2"),url("./media/inter-light.woff") format("woff")}@font-face{font-family:Inter;font-style:normal;font-weight:400;src:local(""),url("./media/inter-regular.woff2") format("woff2"),url("./media/inter-regular.woff") format("woff")}@font-face{font-family:Inter;font-style:normal;font-weight:500;src:local(""),url("./media/inter-medium.woff2") format("woff2"),url("./media/inter-medium.woff") format("woff")}@font-face{font-family:Inter;font-style:normal;font-weight:600;src:local(""),url("./media/inter-semibold.woff2") format("woff2"),url("./media/inter-semibold.woff") format("woff")}@font-face{font-family:Inter;font-style:normal;font-weight:700;src:local(""),url("./media/inter-bold.woff2") format("woff2"),url("./media/inter-bold.woff") format("woff")}:root{--c-bg-base:#FFFFFF;--c-bg-base-hover:#F4F6F8;--c-bg-base-secondary:#F5F5F5;--c-bg-base-secondary-hover:#EAECEE;--c-bg-base-tertiary:#CDCFD0;--c-bg-base-tertiary-hover:#B9BABC;--c-bg-disabled:#DCDEE0;--c-bg-disabled-secondary:#F4F6F8;--c-bg-brand:#3B82F6;--c-bg-brand-hover:#1E5FBD;--c-bg-brand-secondary:#E5EEFF;--c-bg-brand-secondary-hover:#B9CEFC;--c-bg-success:#20B757;--c-bg-success-hover:#157C3B;--c-bg-success-secondary:#B2EBC7;--c-bg-success-secondary-hover:#51D180;--c-bg-error:#FF7474;--c-bg-error-hover:#BC4242;--c-bg-error-secondary:#FFD4D4;--c-bg-error-secondary-hover:#FFA0A0;--c-bg-accent:#3F3F40;--c-bg-accent-hover:#838485;--c-text-base:#3F3F40;--c-text-base-secondary:#6B6C6D;--c-text-base-tertiary:#9FA0A1;--c-text-disabled:#B9BABC;--c-text-disabled-secondary:#9FA0A1;--c-text-link:#679ffa;--c-text-brand:#8AA9F9;--c-text-brand-secondary:#1E5FBD;--c-text-brand-on-default:#FFFFFF;--c-text-brand-on-secondary:#3B82F6;--c-text-brand-info:#3B82F6;--c-text-error:#BC4242;--c-text-error-secondary:#E55050;--c-text-error-tertiary:#FF7474;--c-text-error-on-default:#FFF8F8;--c-ext-error-on-secondary:#FFBEBE;--c-text-success:#157C3B;--c-text-success-secondary:#1A9848;--c-text-success-tertiary:#20B757;--c-text-success-on-default:#F2FCF6;--c-text-success-on-secondary:#8BE1AA;--c-border:#CDCED2;--c-border-hover:#d1d1d1;--c-border-secondary:#838486;--c-border-tertiary:#59595B;--c-shadow:#b1cdfb}:root{--gd-font-size-display-large:57px;--gd-line-height-display-large:64px;--gd-font-size-display-medium:45px;--gd-line-height-display-medium:52px;--gd-font-size-display-small:36px;--gd-line-height-display-small:44px;--gd-font-size-headline-large:32px;--gd-line-height-headline-large:40px;--gd-font-size-headline-medium:28px;--gd-line-height-headline-medium:36px;--gd-font-size-headline-small:24px;--gd-line-height-headline-small:32px;--gd-font-size-title-large:22px;--gd-line-height-title-large:28px;--gd-font-size-title-medium:16px;--gd-line-height-title-medium:24px;--gd-font-size-title-small:14px;--gd-line-height-title-small:20px;--gd-font-size-label-large:14px;--gd-line-height-label-large:20px;--gd-font-size-label-medium:13px;--gd-line-height-label-medium:18px;--gd-font-size-label-small:12px;--gd-line-height-label-small:16px;--gd-font-size-label-xs:10px;--gd-line-height-label-xs:14px;--gd-font-size-body-large:16px;--gd-line-height-body-large:24px;--gd-font-size-body-medium:14px;--gd-line-height-body-medium:20px;--gd-font-size-body-small:12px;--gd-line-height-body-small:16px;--gd-font-size-icon-small:16px;--gd-font-size-icon-medium:20px;--gd-font-size-icon-large:24px}:root{--animate-duration:1s}html,body{margin:0;height:100%;overflow:hidden;font-family:Inter,sans-serif;font-size:14px}</style><link rel="stylesheet" href="styles.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="styles.css"></noscript>
+#customCSS#
 </head>
 <body>
-    <noscript>
-        You need to enable JavaScript to run this app.
-    </noscript>
-    <script type="text/javascript">
-        window.groupdocs = window.groupdocs || {};
-        window.groupdocs.viewer = #uiConfig#;
-    </script>
-    <gd-viewer>
-        <style>
-            gd-viewer {
-              display: flex;
-              -o-justify-content: center;
-              -webkit-justify-content: center;
-              justify-content: center;
-              -ms-align-items: center;
-              -o-align-items: center;
-              -webkit-align-items: center;
-              align-items: center;
-              height: 100vh;
-              color: #6a6a6a;
-              text-transform: uppercase;
-              font-family: 'Inter', sans-serif;
-              font-size: 2.5em;
-              text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-            }
-        
-            body {
-              background: #e7e7e7;
-              margin: 0;
-              padding: 0;
-            }
-        </style>
-     Loading...
-    </gd-viewer>
-    <link rel="modulepreload" href="chunk-2M445E45.js"><script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script></body>
+<noscript>
+	You need to enable JavaScript to run this app.
+</noscript>
+<script type="text/javascript">
+    window.groupdocs = window.groupdocs || {};
+    window.groupdocs.viewer = #uiConfig#;
+</script>
+<gd-viewer>
+	<style>
+      gd-viewer {
+          display: flex;
+          -o-justify-content: center;
+          -webkit-justify-content: center;
+          justify-content: center;
+          -ms-align-items: center;
+          -o-align-items: center;
+          -webkit-align-items: center;
+          align-items: center;
+          height: 100vh;
+          color: #6a6a6a;
+          text-transform: uppercase;
+          font-family: 'Inter', sans-serif;
+          font-size: 2.5em;
+          text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+      }
+
+      body {
+          background: #e7e7e7;
+          margin: 0;
+          padding: 0;
+      }
+	</style>
+	Loading...
+</gd-viewer>
+<link rel="modulepreload" href="chunk-2GDR4ZHR.js"><script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script></body>
 </html>

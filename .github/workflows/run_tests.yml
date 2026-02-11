@@ -1,0 +1,79 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - '*.sln'
+      - '*.csproj'
+      - 'Directory.Build.props'
+      - 'build/**'
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - '*.sln'
+      - '*.csproj'
+      - 'Directory.Build.props'
+      - 'build/**'
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test on .NET ${{ matrix.dotnet-version }}
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        dotnet-version:
+          - '6.0.x'
+          - '8.0.x'
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: true
+      DOTNET_NOLOGO: true
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+
+      - name: Restore dependencies
+        run: dotnet restore ./GroupDocs.Viewer.UI.sln
+
+      - name: Build solution
+        run: dotnet build ./GroupDocs.Viewer.UI.sln --no-restore --configuration Release
+
+      - name: Run tests
+        run: dotnet test ./tests/GroupDocs.Viewer.UI.Api.Tests/GroupDocs.Viewer.UI.Api.Tests.csproj --no-build --configuration Release --verbosity normal --logger "trx;LogFileName=test-results-${{ matrix.dotnet-version }}.trx" --collect:"XPlat Code Coverage"
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.dotnet-version }}
+          path: |
+            **/test-results-*.trx
+            **/coverage.cobertura.xml
+          retention-days: 30
+
+      - name: Publish test results
+        if: always()
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          files: |
+            **/test-results-*.trx
+          check_name: 'Test Results (.NET ${{ matrix.dotnet-version }})'
+          comment_mode: create new
+          report_individual_runs: true
+          fail_on: 'test failures'

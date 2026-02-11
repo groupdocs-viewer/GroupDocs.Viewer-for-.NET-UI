@@ -169,13 +169,39 @@ builder.Services
 #### Set initial zoom level
 
 By default, the zoom level is not specified and selected by the UI to fit the document if possible. 
-The default value can be changed using `InitialZoom` property. Available zoom levels are:
+The default value can be changed using `InitialZoom` property.
+
+**How Initial Zoom Works**
+
+The viewer sets the initial zoom level based on document orientation and configuration. The goal is to fit the page in the viewport without scrolling.
+
+**Automatic Zoom Behavior (Default)**
+
+When `InitialZoom` is not set:
+
+- **Portrait documents** (height > width):
+  - Automatically fits by height
+  - Ensures the full page height is visible
+
+- **Landscape documents** (width >= height):
+  - Automatically fits by width and height
+  - Uses the smaller of the two calculated zoom values
+  - Ensures the page fits without horizontal or vertical scrolling
+
+Available zoom levels are:
  
  * `ZoomLevel.FitWidth`
  * `ZoomLevel.FitHeight`
  * `ZoomLevel.Percent25`
  * `ZoomLevel.Percent50`
+ * `ZoomLevel.Percent60`
+ * `ZoomLevel.Percent70`
+ * `ZoomLevel.Percent75`
+ * `ZoomLevel.Percent80`
+ * `ZoomLevel.Percent90`
  * `ZoomLevel.Percent100`
+ * `ZoomLevel.Percent125`
+ * `ZoomLevel.Percent150`
  * `ZoomLevel.Percent200`
  * `ZoomLevel.Percent300`
 
@@ -366,6 +392,18 @@ builder.Services
    .AddGroupDocsViewerUI(config =>
     {
         config.EnableFileUpload = false;
+    });
+```
+
+#### Hide Help button
+
+To hide the help button, set `EnableHelp` to `false`. By default, this button is visible.
+
+```cs
+builder.Services
+   .AddGroupDocsViewerUI(config =>
+    {
+        config.EnableHelp = false;
     });
 ```
 

@@ -1,4 +1,4 @@
-﻿namespace GroupDocs.Viewer.UI.Core.Configuration
+namespace GroupDocs.Viewer.UI.Core.Configuration
 {
     public class Config
     {
@@ -50,6 +50,33 @@
         /// <summary>
         /// Initial zoom level. If not specified, the UI automatically sets the zoom level.
         /// </summary>
+        /// <remarks>
+        /// <para>The viewer sets the initial zoom level based on document orientation and configuration. 
+        /// The goal is to fit the page in the viewport without scrolling.</para>
+        /// <para><strong>Automatic Zoom Behavior (Default)</strong></para>
+        /// <para>When <c>InitialZoom</c> is not set:</para>
+        /// <list type="bullet">
+        /// <item><description><strong>Portrait documents</strong> (height &gt; width): Automatically fits by height. 
+        /// Ensures the full page height is visible.</description></item>
+        /// <item><description><strong>Landscape documents</strong> (width &gt;= height): Automatically fits by width and height. 
+        /// Uses the smaller of the two calculated zoom values. Ensures the page fits without horizontal or vertical scrolling.</description></item>
+        /// </list>
+        /// <para>Example of setting the initial zoom level:</para>
+        /// <code>
+        /// using GroupDocs.Viewer.UI.Core;
+        /// using GroupDocs.Viewer.UI.Core.Configuration;
+        ///
+        /// var builder = WebApplication.CreateBuilder(args);
+        ///
+        /// builder.Services
+        ///     .AddGroupDocsViewerUI(config =>
+        ///     {
+        ///         config.InitialZoom = ZoomLevel.FitWidth; // Fit document by width
+        ///         // or
+        ///         config.InitialZoom = ZoomLevel.Percent100; // Set to 100% zoom
+        ///     });
+        /// </code>
+        /// </remarks>
         public ZoomLevel InitialZoom { get; set; }
 
         /// <summary>

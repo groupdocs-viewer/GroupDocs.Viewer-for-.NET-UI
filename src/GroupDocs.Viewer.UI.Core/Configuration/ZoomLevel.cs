@@ -1,4 +1,4 @@
-﻿namespace GroupDocs.Viewer.UI.Core.Configuration
+namespace GroupDocs.Viewer.UI.Core.Configuration
 {
     /// <summary>
     /// Represents predefined UI zoom levels.
@@ -26,9 +26,44 @@
         public static readonly ZoomLevel Percent50 = new ZoomLevel("50%");
 
         /// <summary>
+        /// Represents the 60% zoom level.
+        /// </summary>
+        public static readonly ZoomLevel Percent60 = new ZoomLevel("60%");
+
+        /// <summary>
+        /// Represents the 70% zoom level.
+        /// </summary>
+        public static readonly ZoomLevel Percent70 = new ZoomLevel("70%");
+
+        /// <summary>
+        /// Represents the 75% zoom level.
+        /// </summary>
+        public static readonly ZoomLevel Percent75 = new ZoomLevel("75%");
+
+        /// <summary>
+        /// Represents the 80% zoom level.
+        /// </summary>
+        public static readonly ZoomLevel Percent80 = new ZoomLevel("80%");
+
+        /// <summary>
+        /// Represents the 90% zoom level.
+        /// </summary>
+        public static readonly ZoomLevel Percent90 = new ZoomLevel("90%");
+
+        /// <summary>
         /// Represents the 100% zoom level.
         /// </summary>
         public static readonly ZoomLevel Percent100 = new ZoomLevel("100%");
+
+        /// <summary>
+        /// Represents the 125% zoom level.
+        /// </summary>
+        public static readonly ZoomLevel Percent125 = new ZoomLevel("125%");
+
+        /// <summary>
+        /// Represents the 150% zoom level.
+        /// </summary>
+        public static readonly ZoomLevel Percent150 = new ZoomLevel("150%");
 
         /// <summary>
         /// Represents the 200% zoom level.

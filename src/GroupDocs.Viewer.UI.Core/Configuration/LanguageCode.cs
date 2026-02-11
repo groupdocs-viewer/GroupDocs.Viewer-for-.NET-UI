@@ -1,4 +1,4 @@
-﻿namespace GroupDocs.Viewer.UI.Core.Configuration
+namespace GroupDocs.Viewer.UI.Core.Configuration
 {
     public class LanguageCode
     {

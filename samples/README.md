@@ -12,6 +12,10 @@ A basic implementation sample showing how to integrate GroupDocs.Viewer UI into 
 
 Demonstrates how to configure the viewer to render documents as PNG images instead of HTML.
 
+### GroupDocs.Viewer.UI.Sample.AzureCustomDomain
+
+Demonstrates how to deploy and run GroupDocs.Viewer.UI on Azure App Service with custom domains. The sample is configured to generate relative URLs by default, ensuring that custom domains work correctly without requiring additional configuration. Includes Docker Compose setup with Nginx to simulate Azure custom domain scenarios locally, and provides step-by-step instructions for deploying to Azure App Service.
+
 ### GroupDocs.Viewer.UI.Sample.StaticContentMode
 
 Shows how to implement the viewer in static content mode, where all content is pre-generated and served as static files. The content is pre-generated and located in `Content` folder.
@@ -78,5 +82,6 @@ To run any of these samples:
 ## Notes
 
 - In case you would like to configure the specific sample, check `Program.cs` file
-- `GroupDocs.Viewer.UI.Sample` and `GroupDocs.Viewer.UI.Sample.CrossPlatform` provide Dockerfile
+- `GroupDocs.Viewer.UI.Sample`, `GroupDocs.Viewer.UI.Sample.CrossPlatform`, and `GroupDocs.Viewer.UI.Sample.AzureCustomDomain` provide Dockerfile
+- `GroupDocs.Viewer.UI.Sample.AzureCustomDomain` also includes Docker Compose with Nginx for testing custom domains locally
 - Please let us know if you can't find the example you're looking for by posting an issue

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Web;
 using System;
@@ -39,35 +39,40 @@ namespace GroupDocs.Viewer.UI.Api.Utils
 
         public string BuildPageUrl(string file, int page, string extension) =>
             BuildUrl(
-                apiDomain: GetApiDomainOrDefault(),
+                useAbsoluteUrls: _options.UseAbsoluteUrls,
+                apiDomain: _options.UseAbsoluteUrls ? GetApiDomainOrDefault() : null,
                 apiPath: _options.ApiPath,
                 apiMethodName: ApiNames.API_METHOD_GET_PAGE,
                 values: new { file = file, page = page });
 
         public string BuildThumbUrl(string file, int page, string extension) =>
             BuildUrl(
-                apiDomain: GetApiDomainOrDefault(),
+                useAbsoluteUrls: _options.UseAbsoluteUrls,
+                apiDomain: _options.UseAbsoluteUrls ? GetApiDomainOrDefault() : null,
                 apiPath: _options.ApiPath,
                 apiMethodName: ApiNames.API_METHOD_GET_THUMB,
                 values: new { file = file, page = page });
 
         public string BuildPdfUrl(string file) =>
             BuildUrl(
-                apiDomain: GetApiDomainOrDefault(),
+                useAbsoluteUrls: _options.UseAbsoluteUrls,
+                apiDomain: _options.UseAbsoluteUrls ? GetApiDomainOrDefault() : null,
                 apiPath: _options.ApiPath,
                 apiMethodName: ApiNames.API_METHOD_GET_PDF,
                 values: new { file = file });
 
         public string BuildResourceUrl(string file, int page, string resource) =>
             BuildUrl(
-                apiDomain: GetApiDomainOrDefault(),
+                useAbsoluteUrls: _options.UseAbsoluteUrls,
+                apiDomain: _options.UseAbsoluteUrls ? GetApiDomainOrDefault() : null,
                 apiPath: _options.ApiPath,
                 apiMethodName: ApiNames.API_METHOD_GET_RESOURCE,
                 values: new { file = file, page = page, resource = resource });
 
         public string BuildResourceUrl(string file, string pageTemplate, string resourceTemplate) =>
             BuildUrl(
-                apiDomain: GetApiDomainOrDefault(),
+                useAbsoluteUrls: _options.UseAbsoluteUrls,
+                apiDomain: _options.UseAbsoluteUrls ? GetApiDomainOrDefault() : null,
                 apiPath: _options.ApiPath,
                 apiMethodName: ApiNames.API_METHOD_GET_RESOURCE,
                 values: new { file = file, page = pageTemplate, resource = resourceTemplate });
@@ -94,33 +99,52 @@ namespace GroupDocs.Viewer.UI.Api.Utils
         }
 
         /// <summary>
-        /// Builds a full URL using the API domain, path, method name, and query parameters.
+        /// Builds a URL using the API path and method name. Returns a relative URL when useAbsoluteUrls is false,
+        /// or an absolute URL when useAbsoluteUrls is true. When useAbsoluteUrls is false, apiPath is ignored.
         /// </summary>
-        /// <param name="apiDomain">The base API domain, e.g., "https://www.example.com".</param>
-        /// <param name="apiPath">The API path, e.g., "viewer-api".</param>
+        /// <param name="useAbsoluteUrls">If true, generates an absolute URL using apiDomain and apiPath. If false, generates a relative URL and ignores apiPath.</param>
+        /// <param name="apiDomain">The base API domain. Required when useAbsoluteUrls is true. Ignored when useAbsoluteUrls is false.</param>
+        /// <param name="apiPath">The API path, e.g., "viewer-api". Required only when useAbsoluteUrls is true. Ignored when useAbsoluteUrls is false.</param>
         /// <param name="apiMethodName">The API method name, e.g., "get-page".</param>
         /// <param name="values">An object containing query parameter key-value pairs, e.g., new { file = "my-file.docx", page = 5 }.</param>
-        /// <returns>The full URL as a string, e.g., "https://www.example.com/viewer-api/get-page?file=my-file.docx&page=5".</returns>
+        /// <returns>
+        /// A relative URL when useAbsoluteUrls is false (apiPath is ignored), e.g., "/get-page?file=my-file.docx&page=5".
+        /// An absolute URL when useAbsoluteUrls is true, e.g., "https://www.example.com/viewer-api/get-page?file=my-file.docx&page=5".
+        /// </returns>
         /// <example>
-        /// string url = UrlHelper.BuildUrl("https://www.example.com", "viewer-api", "get-page", new { file = "my-file.docx", page = 5 });
-        /// Console.WriteLine(url); // Output: https://www.example.com/viewer-api/get-page?file=my-file.docx&page=5
+        /// // Relative URL (useAbsoluteUrls is false, apiPath is ignored)
+        /// string url1 = UrlHelper.BuildUrl(false, null, "viewer-api", "get-page", new { file = "my-file.docx", page = 5 });
+        /// Console.WriteLine(url1); // Output: /get-page?file=my-file.docx&page=5
+        /// 
+        /// // Absolute URL (useAbsoluteUrls is true, apiDomain and apiPath are used)
+        /// string url2 = UrlHelper.BuildUrl(true, "https://www.example.com", "viewer-api", "get-page", new { file = "my-file.docx", page = 5 });
+        /// Console.WriteLine(url2); // Output: https://www.example.com/viewer-api/get-page?file=my-file.docx&page=5
         /// </example>
-        private static string BuildUrl(string apiDomain, string apiPath, string apiMethodName, object values)
+        private static string BuildUrl(bool useAbsoluteUrls, string apiDomain, string apiPath, string apiMethodName, object values)
         {
-            if (string.IsNullOrWhiteSpace(apiDomain))
-                throw new ArgumentNullException(nameof(apiDomain), "API domain cannot be null or empty.");
-
-            if (string.IsNullOrWhiteSpace(apiPath))
-                throw new ArgumentNullException(nameof(apiPath), "API path cannot be null or empty.");
-
             if (string.IsNullOrWhiteSpace(apiMethodName))
                 throw new ArgumentNullException(nameof(apiMethodName), "API method name cannot be null or empty.");
 
-            // Ensure proper URL formatting
-            string basePath = $"{apiDomain.TrimEnd('/')}/{apiPath.TrimStart('/').TrimEnd('/')}/{apiMethodName.TrimStart('/')}";
             var queryString = BuildQueryString(values);
 
-            return string.IsNullOrWhiteSpace(queryString) ? basePath : $"{basePath}?{queryString}";
+            // Build relative URL if useAbsoluteUrls is false (ignore apiPath)
+            if (!useAbsoluteUrls)
+            {
+                string basePath = $"/{apiMethodName.TrimStart('/')}";
+                return string.IsNullOrWhiteSpace(queryString) ? basePath : $"{basePath}?{queryString}";
+            }
+
+            // Build absolute URL (apiDomain and apiPath are required when useAbsoluteUrls is true)
+            if (string.IsNullOrWhiteSpace(apiDomain))
+                throw new ArgumentNullException(nameof(apiDomain), "API domain cannot be null or empty when UseAbsoluteUrls is true.");
+
+            if (string.IsNullOrWhiteSpace(apiPath))
+                throw new ArgumentNullException(nameof(apiPath), "API path cannot be null or empty when UseAbsoluteUrls is true.");
+
+            string basePathWithApiPath = $"/{apiPath.TrimStart('/').TrimEnd('/')}/{apiMethodName.TrimStart('/')}";
+            var pathWithQuery = string.IsNullOrWhiteSpace(queryString) ? basePathWithApiPath : $"{basePathWithApiPath}?{queryString}";
+            var domain = apiDomain.TrimEnd('/');
+            return $"{domain}{pathWithQuery}";
         }
 
         private static string BuildQueryString(object values)
