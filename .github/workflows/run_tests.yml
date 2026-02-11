@@ -67,13 +67,31 @@ jobs:
             **/coverage.cobertura.xml
           retention-days: 30
 
-      - name: Publish test results
-        if: always()
+
+  publish-test-results:
+    name: "Publish Tests Results"
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: read
+      issues: read
+    if: always()
+
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          pattern: test-results-*
+          merge-multiple: true
+
+      - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         with:
-          files: |
-            **/test-results-*.trx
-          check_name: 'Test Results (.NET ${{ matrix.dotnet-version }})'
-          comment_mode: create new
+          files: "artifacts/**/*.trx"
+          check_name: "Test Results"
+          comment_mode: create new 
           report_individual_runs: true
-          fail_on: 'test failures'
+          fail_on: "test failures"
