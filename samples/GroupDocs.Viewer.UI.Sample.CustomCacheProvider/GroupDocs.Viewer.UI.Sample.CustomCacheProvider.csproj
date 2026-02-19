@@ -29,4 +29,8 @@
     <Folder Include="Cache\" />
   </ItemGroup>
 
+  <ItemGroup Label="runtimeconfig.json">
+    <RuntimeHostConfigurationOption Include="System.Drawing.EnableUnixSupport" Value="true" />
+  </ItemGroup>
+
 </Project>
