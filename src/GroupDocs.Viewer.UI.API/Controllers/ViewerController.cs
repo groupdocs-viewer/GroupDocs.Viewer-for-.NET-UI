@@ -456,7 +456,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         private async Task<(string, byte[])> ReadFileFromRequest()
         {
             var formFile = Request.Form.Files.First();
-            var stream = new MemoryStream();
+            using var stream = new MemoryStream();
 
             await formFile.CopyToAsync(stream);
 
