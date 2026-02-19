@@ -34,14 +34,6 @@ Demonstrates how to white-label the viewer with custom colors, logo, and app tit
 
 Demonstrates how to implement the viewer in a cross-platform environment, which is recommended option when running the API on Linux. The example contains Dockerfile that lists all the dependencies required to be installed on the system.
 
-### GroupDocs.Viewer.UI.NetFramework.Sample
-
-Shows how to integrate the viewer into a .NET Framework application, useful for legacy systems that haven't migrated to .NET Core.
-
-### GroupDocs.Viewer.UI.SelfHosted.App.NetFramework.Sample
-
-Demonstrates self-hosting the viewer in a .NET Framework application, providing an example of running the viewer in a traditional Windows environment.
-
 ## API Implementation Samples
 
 ### GroupDocs.Viewer.UI.SelfHost.Api.App.Sample
@@ -72,14 +64,14 @@ This example demonstrates how to pre-generate cache before the file is opened us
 
 To run any of these samples:
 
-1. Ensure you have the required .NET SDK installed (.NET 6 or .NET 8 depending on example)
+1. Ensure you have the .NET 8.0 SDK installed
 2. Navigate to the sample project(s) directory
 3. Run `dotnet restore` to restore dependencies
 4. Run `dotnet run` to start the application
 
 ## Prerequisites
 
-- .NET 6.0 or .NET 8 SDK
+- .NET 8.0 SDK
 - License file for production use 
 - Keys for Cloud samples
 
