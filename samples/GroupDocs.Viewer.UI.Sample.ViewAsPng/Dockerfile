@@ -1,5 +1,5 @@
 # This stage is used when running from VS in fast mode (Default for Debug configuration)
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
@@ -27,7 +27,7 @@ RUN fc-cache -f -v
 # Cleanup temp files
 RUN apt clean && rm -rf /var/lib/apt/lists/*
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["samples/GroupDocs.Viewer.UI.Sample.ViewAsPng/GroupDocs.Viewer.UI.Sample.ViewAsPng.csproj", "samples/GroupDocs.Viewer.UI.Sample.ViewAsPng/"]
