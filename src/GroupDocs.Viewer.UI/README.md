@@ -174,7 +174,7 @@ builder.Services
     });
 ```
 
-### Disable huperlinks
+### Disable hyperlinks
 
 To disable clickable links in document set `EnableHyperlinks` to `false`. By default, links are enabled.
 
@@ -659,7 +659,7 @@ services
 
 ### Custom storage provider
 
-You can add your storage provider by implementing the [GroupDocs.Viewer.UI.Core.IFileStorage](https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/blob/main/src/GroupDocs.Viewer.UI.Core/IFileStorage.css) interface.
+You can add your storage provider by implementing the [GroupDocs.Viewer.UI.Core.IFileStorage](https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/blob/main/src/GroupDocs.Viewer.UI.Core/IFileStorage.cs) interface.
 
 To add you storage provider you have to register it:
 

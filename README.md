@@ -229,7 +229,7 @@ builder.Services
     });
 ```
 
-### Disable huperlinks
+### Disable hyperlinks
 
 To disable clickable links in document set `EnableHyperlinks` to `false`. By default, links are enabled.
 
