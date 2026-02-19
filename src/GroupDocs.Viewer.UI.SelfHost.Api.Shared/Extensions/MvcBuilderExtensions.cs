@@ -101,6 +101,7 @@ namespace Microsoft.Extensions.DependencyInjection
             });
 
             builder.Services.AddHostedService<ConfigurationValidator>();
+            builder.Services.AddHostedService<ServiceRegistrationValidator>();
 
             return new GroupDocsViewerUIApiBuilder(builder.Services);
         }

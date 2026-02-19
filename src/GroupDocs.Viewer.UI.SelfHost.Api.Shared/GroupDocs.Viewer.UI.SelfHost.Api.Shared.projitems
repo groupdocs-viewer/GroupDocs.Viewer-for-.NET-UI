@@ -29,5 +29,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Viewers\JpgViewer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Viewers\PngViewer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ConfigurationValidator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\ServiceRegistrationValidator.cs" />
   </ItemGroup>
 </Project>
