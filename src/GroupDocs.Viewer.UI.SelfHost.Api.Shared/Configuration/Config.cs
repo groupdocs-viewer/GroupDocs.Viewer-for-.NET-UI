@@ -6,9 +6,9 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Configuration
 {
     public class Config
     {
-        internal string LicensePath = string.Empty;
-        
-        internal ViewerType ViewerType = ViewerType.HtmlWithEmbeddedResources;
+        internal string LicensePath { get; set; } = string.Empty;
+
+        internal ViewerType ViewerType { get; set; } = ViewerType.HtmlWithEmbeddedResources;
 
         internal readonly SpreadsheetOptions SpreadsheetOptions = CreateSpreadsheetOptions();
 
