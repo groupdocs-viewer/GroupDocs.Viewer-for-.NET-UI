@@ -20,9 +20,11 @@ namespace GroupDocs.Viewer.UI.Core.Entities
 
         public override void SetContent(string content)
         {
-            this.PageData = content.StartsWith(DATA_IMAGE) 
-                ? Encoding.UTF8.GetBytes(content) 
-                : Encoding.UTF8.GetBytes(content.Substring(DATA_IMAGE.Length - 1));
+            var base64 = content.StartsWith(DATA_IMAGE)
+                ? content.Substring(DATA_IMAGE.Length)
+                : content;
+
+            this.PageData = Convert.FromBase64String(base64);
         }
 
         public JpgPage(int pageNumber, byte[] pageData) 
