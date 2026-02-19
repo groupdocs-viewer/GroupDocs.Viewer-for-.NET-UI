@@ -39,6 +39,7 @@
 		<GroupDocsViewerUIApi>8.1.5</GroupDocsViewerUIApi>
 		<GroupDocsViewerUIApiLocalCache>8.1.5</GroupDocsViewerUIApiLocalCache>
 		<GroupDocsViewerUIApiInMemoryCache>8.1.5</GroupDocsViewerUIApiInMemoryCache>
+		<GroupDocsViewerUIApiDistributedCache>8.1.5</GroupDocsViewerUIApiDistributedCache>
 		<GroupDocsViewerUIApiLocalStorage>8.1.5</GroupDocsViewerUIApiLocalStorage>
 		<GroupDocsViewerUIApiCloudStorage>8.1.5</GroupDocsViewerUIApiCloudStorage>
 		<GroupDocsViewerUIApiAzureStorage>8.1.5</GroupDocsViewerUIApiAzureStorage>
