@@ -697,6 +697,94 @@ Refer to these example Dockerfiles that list the required dependencies:
 - For `GroupDocs.Viewer.UI.SelfHost.Api` and .NET 6 app, see this [Dockerfile](/samples/GroupDocs.Viewer.UI.Sample/Dockerfile).
 - For `GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform` and .NET 8 app, see this [Dockerfile](/samples/GroupDocs.Viewer.UI.Sample.CrossPlatform/Dockerfile).
 
+## Extensibility Points
+
+The library exposes several interfaces that you can implement to customize behavior. Register your implementations in DI to override the defaults.
+
+### IPageFormatter
+
+Post-process rendered pages before they are returned to the client. Use this to inject custom CSS, JavaScript, watermarks, or modify HTML content.
+
+```csharp
+public class WatermarkPageFormatter : IPageFormatter
+{
+    public Task<Page> FormatAsync(FileCredentials fileCredentials, Page page)
+    {
+        var html = Encoding.UTF8.GetString(page.PageData);
+        html = html.Replace("</body>", "<div class='watermark'>CONFIDENTIAL</div></body>");
+        return Task.FromResult(page.SetData(Encoding.UTF8.GetBytes(html)));
+    }
+}
+
+// Register in DI:
+services.AddSingleton<IPageFormatter, WatermarkPageFormatter>();
+```
+
+### IFileTypeResolver
+
+Override file type detection for files without extensions or to detect type by content inspection.
+
+```csharp
+public class ContentBasedFileTypeResolver : IFileTypeResolver
+{
+    public Task<FileType> ResolveFileTypeAsync(string filePath)
+    {
+        // Detect file type by inspecting content
+        return Task.FromResult(FileType.DOCX);
+    }
+}
+
+services.AddSingleton<IFileTypeResolver, ContentBasedFileTypeResolver>();
+```
+
+### ISearchTermResolver
+
+Provide search terms that are automatically highlighted in the document when loaded (HTML rendering mode only).
+
+```csharp
+public class MySearchTermResolver : ISearchTermResolver
+{
+    public Task<string> ResolveSearchTermAsync(string file)
+    {
+        return Task.FromResult("review");
+    }
+}
+
+services.AddSingleton<ISearchTermResolver, MySearchTermResolver>();
+```
+
+### IFileNameResolver
+
+Customize how file names are resolved from file identifiers.
+
+```csharp
+public class CustomFileNameResolver : IFileNameResolver
+{
+    public Task<string> ResolveFileNameAsync(string file)
+    {
+        return Task.FromResult(Path.GetFileName(file));
+    }
+}
+
+services.AddSingleton<IFileNameResolver, CustomFileNameResolver>();
+```
+
+### IErrorMessageProvider
+
+Customize user-facing error messages for different exception types.
+
+```csharp
+public class CustomErrorMessageProvider : IErrorMessageProvider
+{
+    public string GetErrorMessage(Exception exception, ErrorContext context)
+    {
+        return "An error occurred while processing your document.";
+    }
+}
+
+services.AddSingleton<IErrorMessageProvider, CustomErrorMessageProvider>();
+```
+
 ## Contributing
 
 Your contributions are welcome when you want to make the project better by adding new feature, improvement or a bug-fix.
