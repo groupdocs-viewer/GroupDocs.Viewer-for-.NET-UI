@@ -97,12 +97,19 @@ namespace GroupDocs.Viewer.UI.Api.InMemory.Cache
             var entryOptions = new MemoryCacheEntryOptions();
             entryOptions.AddExpirationToken(CreateCancellationChangeToken(cts));
 
+            if (_config.SizeLimit.HasValue)
+                entryOptions.Size = 1;
+
             return entryOptions;
         }
-    
+
         private MemoryCacheEntryOptions CreateCacheEntryOptions()
         {
             var entryOptions = new MemoryCacheEntryOptions();
+
+            if (_config.SizeLimit.HasValue)
+                entryOptions.Size = 1;
+
             return entryOptions;
         }
 

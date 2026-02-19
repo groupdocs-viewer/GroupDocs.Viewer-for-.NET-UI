@@ -25,7 +25,15 @@ namespace Microsoft.Extensions.DependencyInjection
                     setupConfig?.Invoke(settings);
                 });
 
-            builder.Services.TryAddSingleton<IMemoryCache, MemoryCache>();
+            if (config.SizeLimit.HasValue)
+            {
+                builder.Services.TryAddSingleton<IMemoryCache>(
+                    _ => new MemoryCache(new MemoryCacheOptions { SizeLimit = config.SizeLimit }));
+            }
+            else
+            {
+                builder.Services.TryAddSingleton<IMemoryCache, MemoryCache>();
+            }
 
             RegisterInMemoryFileCache(builder);
 

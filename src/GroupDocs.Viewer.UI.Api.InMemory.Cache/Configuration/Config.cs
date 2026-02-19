@@ -3,7 +3,9 @@
     public class Config
     {
         internal int CacheEntryExpirationTimeoutMinutes { get; private set; }
-        
+
+        internal long? SizeLimit { get; private set; }
+
         public bool GroupCacheEntriesByFile { get; private set; }
 
         /// <summary>
@@ -24,6 +26,19 @@
         /// </summary>
         /// <param name="groupCacheEntriesByFile"><value>True</value> to enable grouping.</param>
         /// <returns>This instance.</returns>
+        /// <summary>
+        /// Set the maximum number of entries the cache can hold.
+        /// When the limit is reached, the cache evicts entries based on the built-in eviction policy.
+        /// The default value is null (no size limit).
+        /// </summary>
+        /// <param name="sizeLimit">The maximum number of cache entries.</param>
+        /// <returns>This instance.</returns>
+        public Config SetSizeLimit(long sizeLimit)
+        {
+            SizeLimit = sizeLimit;
+            return this;
+        }
+
         public Config SetGroupCacheEntriesByFile(bool groupCacheEntriesByFile)
         {
             GroupCacheEntriesByFile = groupCacheEntriesByFile;
