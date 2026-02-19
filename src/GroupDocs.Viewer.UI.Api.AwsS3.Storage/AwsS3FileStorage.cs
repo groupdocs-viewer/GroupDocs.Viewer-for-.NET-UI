@@ -28,6 +28,9 @@ namespace GroupDocs.Viewer.UI.Api.AwsS3.Storage
             if(string.IsNullOrEmpty(awsS3Options.Region))
                 throw new ArgumentNullException(nameof(awsS3Options.Region));
 
+            if(string.IsNullOrEmpty(awsS3Options.BucketName))
+                throw new ArgumentNullException(nameof(awsS3Options.BucketName));
+
             _awsS3Options = awsS3Options;
 
             _awsS3Options.S3Config.RegionEndpoint = RegionEndpoint.EnumerableAllRegions.FirstOrDefault(x => x.SystemName == _awsS3Options.Region);
