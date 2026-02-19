@@ -234,6 +234,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         }
 
         [HttpGet]
+        [ServiceFilter(typeof(ResponseCacheFilter))]
         public async Task<IActionResult> GetPage([FromQuery] GetPageRequest request)
         {
             try
@@ -255,6 +256,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         }
 
         [HttpGet]
+        [ServiceFilter(typeof(ResponseCacheFilter))]
         public async Task<IActionResult> GetThumb([FromQuery] GetThumbRequest request)
         {
             try
@@ -276,6 +278,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         }
 
         [HttpGet]
+        [ServiceFilter(typeof(ResponseCacheFilter))]
         public async Task<IActionResult> GetPdf([FromQuery] GetPdfRequest request)
         {
             if (!_config.EnableDownloadPdf && !_config.EnablePrint)
@@ -303,6 +306,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         }
 
         [HttpGet]
+        [ServiceFilter(typeof(ResponseCacheFilter))]
         public async Task<IActionResult> GetResource([FromQuery] GetResourceRequest request)
         {
             if (_config.RenderingMode != RenderingMode.Html)

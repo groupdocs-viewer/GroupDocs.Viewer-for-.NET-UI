@@ -44,6 +44,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 });
 
             builder.Services.AddHttpContextAccessor();
+            builder.Services.AddScoped<GroupDocs.Viewer.UI.Api.Filters.ResponseCacheFilter>();
             builder.Services.AddSingleton<IOptionsProvider, InMemoryOptionsProvider>();
             builder.Services.AddTransient<IApiUrlBuilder, ApiUrlBuilder>();
             builder.Services.AddSingleton<IViewerLicenseManager, ViewerLicenseManager>();

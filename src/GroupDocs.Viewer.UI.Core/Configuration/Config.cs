@@ -97,6 +97,12 @@ namespace GroupDocs.Viewer.UI.Core.Configuration
         /// </summary>
         public bool EnableScrollAnimation { get; set; } = true;
 
+        /// <summary>
+        /// Cache duration in seconds for browser-side response caching of rendered pages, thumbnails, and resources.
+        /// Default value: <c>0</c> (no caching).
+        /// </summary>
+        public int ResponseCacheDurationSeconds { get; set; } = 0;
+
         /* Control Visibility Settings */
 
         /// <summary>
