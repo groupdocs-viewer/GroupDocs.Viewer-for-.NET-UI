@@ -346,7 +346,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                 if (isPageCreated)
                 {
                     var pageUrl = _apiUrlBuilder.BuildPageUrl(file.FilePath, page.Number, _viewer.PageExtension);
-                    var thumbUrl = _apiUrlBuilder.BuildThumbUrl(file.FilePath, page.Number, _viewer.PageExtension);
+                    var thumbUrl = _apiUrlBuilder.BuildThumbUrl(file.FilePath, page.Number, _viewer.ThumbExtension);
 
                     var pageData = _config.EnableThumbnails && _config.RenderingMode == RenderingMode.Html
                         ? new PageData(page.Number, page.Width, page.Height, pageUrl, thumbUrl)
