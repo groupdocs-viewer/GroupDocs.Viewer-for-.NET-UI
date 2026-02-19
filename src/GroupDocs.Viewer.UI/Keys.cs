@@ -8,5 +8,6 @@
         internal const string GROUPDOCSVIEWERUI_MAIN_UI_TITLE = "#uiTitle#";
         internal const string GROUPDOCSVIEWERUI_MAIN_UI_CONFIG = "#uiConfig#";
         internal const string GROUPDOCSVIEWERUI_STYLESHEETS_TARGET = "#customCSS#";
+        internal const string GROUPDOCSVIEWERUI_SCRIPTS_TARGET = "#customJS#";
     }
 }

@@ -67,6 +67,12 @@ namespace GroupDocs.Viewer.UI.Configuration
         internal ICollection<string> CustomStylesheets { get; } = new List<string>();
 
         /// <summary>
+        /// Custom scripts injected as <c>&lt;script&gt;</c> tags into the viewer's index page.
+        /// Use <see cref="AddCustomScript"/> to add scripts.
+        /// </summary>
+        internal ICollection<string> CustomScripts { get; } = new List<string>();
+
+        /// <summary>
         /// Adds a custom stylesheet that will be injected into the viewer's index page.
         /// The stylesheet is served at <c>{UIPath}/css/{filename}</c>.
         /// Use this to override CSS variables (e.g. <c>--c-bg-brand</c>) for custom branding.
@@ -93,6 +99,28 @@ namespace GroupDocs.Viewer.UI.Configuration
 
             CustomStylesheets.Add(stylesheetPath);
 
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a custom JavaScript file that will be injected into the viewer's index page.
+        /// The script is served at <c>{UIPath}/js/{filename}</c>.
+        /// Use this to add custom behavior, event handlers, or integrations.
+        /// Multiple scripts can be added by calling this method multiple times.
+        /// </summary>
+        /// <param name="path">Custom script relative or absolute file path.
+        /// Relative paths are resolved from the current working directory.</param>
+        /// <returns>This <see cref="Options"/> instance for fluent chaining.</returns>
+        /// <exception cref="Exception">Thrown when the file does not exist at the resolved path.</exception>
+        /// <example>
+        /// <code>
+        /// options.AddCustomScript("./Scripts/custom-behavior.js");
+        /// </code>
+        /// </example>
+        public Options AddCustomScript(string path)
+        {
+            string scriptPath = ResolveAndValidatePath(path);
+            CustomScripts.Add(scriptPath);
             return this;
         }
 

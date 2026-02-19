@@ -26,8 +26,9 @@ namespace GroupDocs.Viewer.UI.Core
             var endpoints = new List<IEndpointConventionBuilder>();
 
             var resources = _reader.UIResources.ToList();
-            var stylesheets = resources.GetIndexPage()
-                .GetCustomStylesheets(options);
+            var indexPage = resources.GetIndexPage();
+            var stylesheets = indexPage.GetCustomStylesheets(options);
+            var scripts = indexPage.GetCustomScripts(options);
 
             ReplaceLogoResources(resources, options);
 
@@ -64,6 +65,15 @@ namespace GroupDocs.Viewer.UI.Core
                 endpoints.Add(builder.MapGet(item.ResourcePath, async context =>
                 {
                     context.Response.ContentType = "text/css";
+                    await context.Response.Body.WriteAsync(item.Content, 0, item.Content.Length);
+                }));
+            }
+
+            foreach (var item in scripts)
+            {
+                endpoints.Add(builder.MapGet(item.ResourcePath, async context =>
+                {
+                    context.Response.ContentType = "application/javascript";
                     await context.Response.Body.WriteAsync(item.Content, 0, item.Content.Length);
                 }));
             }

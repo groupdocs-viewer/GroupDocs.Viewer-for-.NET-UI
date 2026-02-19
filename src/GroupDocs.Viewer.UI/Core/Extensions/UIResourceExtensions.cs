@@ -105,6 +105,38 @@ namespace GroupDocs.Viewer.UI.Core.Extensions
             return json;
         }
 
+        public static ICollection<UIScript> GetCustomScripts(this UIResource resource, Options options)
+        {
+            List<UIScript> scripts = new List<UIScript>();
+
+            string content = resource.GetContentString();
+
+            if (!options.CustomScripts.Any())
+            {
+                content = content.Replace(Keys.GROUPDOCSVIEWERUI_SCRIPTS_TARGET, string.Empty);
+                resource.SetContentString(content);
+                return scripts;
+            }
+
+            foreach (var script in options.CustomScripts)
+            {
+                scripts.Add(UIScript.Create(options, script));
+            }
+
+            var htmlScripts = scripts.Select(s =>
+            {
+                var scriptSrc = s.ResourceRelativePath.AsRelativeResource();
+                return $"<script src='{scriptSrc}'></script>";
+            });
+
+            content = content.Replace(Keys.GROUPDOCSVIEWERUI_SCRIPTS_TARGET,
+                string.Join("\n", htmlScripts));
+
+            resource.SetContentString(content);
+
+            return scripts;
+        }
+
         public static ICollection<UIStylesheet> GetCustomStylesheets(this UIResource resource, Options options)
         {
             List<UIStylesheet> styleSheets = new List<UIStylesheet>();
