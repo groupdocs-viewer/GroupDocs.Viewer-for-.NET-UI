@@ -1,4 +1,5 @@
-﻿using GroupDocs.Viewer.UI.Api.Models;
+﻿using GroupDocs.Viewer.UI.Api.Filters;
+using GroupDocs.Viewer.UI.Api.Models;
 using GroupDocs.Viewer.UI.Api.Utils;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Configuration;
@@ -17,6 +18,7 @@ using System.Threading.Tasks;
 
 namespace GroupDocs.Viewer.UI.Api.Controllers
 {
+    [HandleClientDisconnect]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public class ViewerController : ControllerBase
     {
