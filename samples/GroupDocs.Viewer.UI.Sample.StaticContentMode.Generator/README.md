@@ -10,7 +10,7 @@ This is a console application that pre-renders documents into static files (HTML
 
 ## Prerequisites
 
-- .NET 6.0 SDK or later
+- .NET 8.0 SDK or later
 - Windows (uses `System.Drawing.Common` via `SelfHost.Api`)
 
 ## Running

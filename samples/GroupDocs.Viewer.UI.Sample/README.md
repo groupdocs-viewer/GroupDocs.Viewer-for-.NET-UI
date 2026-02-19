@@ -11,7 +11,7 @@ This sample demonstrates the standard setup of GroupDocs.Viewer.UI with local se
 
 ## Prerequisites
 
-- .NET 6.0 SDK or later
+- .NET 8.0 SDK or later
 
 ## Running
 

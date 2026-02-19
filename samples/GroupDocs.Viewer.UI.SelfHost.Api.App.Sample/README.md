@@ -13,7 +13,7 @@ Use this together with the [SelfHost.Api.Service.Sample](../GroupDocs.Viewer.UI.
 
 ## Prerequisites
 
-- .NET 6.0 SDK or later
+- .NET 8.0 SDK or later
 - The [SelfHost.Api.Service.Sample](../GroupDocs.Viewer.UI.SelfHost.Api.Service.Sample/) running on `https://localhost:5001`
 
 ## Running

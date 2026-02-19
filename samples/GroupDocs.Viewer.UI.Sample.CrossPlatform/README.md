@@ -10,7 +10,7 @@ This sample demonstrates running GroupDocs.Viewer.UI on Linux and macOS using th
 
 ## Prerequisites
 
-- .NET 6.0 SDK or later
+- .NET 8.0 SDK or later
 - Works on Windows, Linux, and macOS
 
 ## Running

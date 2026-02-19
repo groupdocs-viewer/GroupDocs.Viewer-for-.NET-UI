@@ -10,7 +10,7 @@ This sample demonstrates using the GroupDocs Cloud API for document rendering in
 
 ## Prerequisites
 
-- .NET 6.0 SDK or later
+- .NET 8.0 SDK or later
 - A GroupDocs Cloud account with API credentials (Client ID and Client Secret)
 
 ## Getting Cloud API Credentials

@@ -10,7 +10,7 @@ This sample demonstrates how to serve pre-rendered document content as static fi
 
 ## Prerequisites
 
-- .NET 6.0 SDK or later
+- .NET 8.0 SDK or later
 - Pre-generated content in the `./Content` directory (use the `StaticContentMode.Generator` sample to generate it)
 
 ## Running
