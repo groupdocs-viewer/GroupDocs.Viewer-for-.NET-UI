@@ -17,6 +17,9 @@ namespace GroupDocs.Viewer.UI.Api.AzureBlob.Storage
 	public class AzureBlobStorage : IFileStorage
 	{
 		private readonly AzureBlobOptions _options;
+		private BlobContainerClient _client;
+		private bool _containerEnsured;
+		private readonly object _lock = new object();
 
 		public AzureBlobStorage(AzureBlobOptions options)
 		{
@@ -113,11 +116,20 @@ namespace GroupDocs.Viewer.UI.Api.AzureBlob.Storage
 
 		private BlobContainerClient CreateClient()
 		{
-			BlobContainerClient client = new BlobContainerClient(ConnectionString, _options.ContainerName, _options.ClientOptions);
+			if(_containerEnsured)
+				return _client;
 
-			client.CreateIfNotExists();
+			lock(_lock)
+			{
+				if(_containerEnsured)
+					return _client;
 
-			return client;
+				_client = new BlobContainerClient(ConnectionString, _options.ContainerName, _options.ClientOptions);
+				_client.CreateIfNotExists();
+				_containerEnsured = true;
+			}
+
+			return _client;
 		}
 
 		private string ConnectionString
