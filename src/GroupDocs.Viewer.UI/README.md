@@ -408,6 +408,128 @@ builder.Services
 
 Default language can also be set via a query string parameter, e.g. `?lang=de`.
 
+### Custom branding (white-labeling)
+
+You can white-label the viewer by replacing logo images, setting a custom page title, and overriding brand colors via a custom stylesheet. All branding options are configured in `MapGroupDocsViewerUI`.
+
+#### Replace logo images
+
+Use `SetLogoImage()` to replace the brand icon (displayed at 26x23px) and `SetLogoText()` to replace the brand text (displayed at 131x15px). SVG format is recommended.
+
+```cs
+endpoints.MapGroupDocsViewerUI(options =>
+{
+    options.SetLogoImage("./Logos/logo-image.svg");
+    options.SetLogoText("./Logos/logo-text.svg");
+});
+```
+
+#### Hide logo images
+
+Use `HideLogoImage()` or `HideLogoText()` to hide individual logo elements. This serves an empty SVG so no broken-image icon is displayed. Hide takes precedence over Set if both are called.
+
+```cs
+endpoints.MapGroupDocsViewerUI(options =>
+{
+    // Show only the logo icon, hide the text
+    options.SetLogoImage("./Logos/logo-image.svg");
+    options.HideLogoText();
+});
+```
+
+```cs
+endpoints.MapGroupDocsViewerUI(options =>
+{
+    // Hide both logos entirely
+    options.HideLogoImage();
+    options.HideLogoText();
+});
+```
+
+#### Set custom page title
+
+Use `UITitle` to change the HTML document title displayed in the browser tab:
+
+```cs
+endpoints.MapGroupDocsViewerUI(options =>
+{
+    options.UITitle = "Acme Corp Document Viewer";
+});
+```
+
+#### Override brand colors with a custom stylesheet
+
+Use `AddCustomStylesheet()` to inject a CSS file into the viewer's index page. The Angular app uses `:root` CSS variables for all colors, which can be overridden. Multiple stylesheets can be added.
+
+```cs
+endpoints.MapGroupDocsViewerUI(options =>
+{
+    options.AddCustomStylesheet("./Styles/custom-branding.css");
+});
+```
+
+Example custom stylesheet with a teal color scheme:
+
+```css
+:root {
+    --c-bg-brand: #0d9488;
+    --c-bg-brand-hover: #0f766e;
+    --c-bg-brand-secondary: #ccfbf1;
+    --c-bg-brand-secondary-hover: #99f6e4;
+    --c-text-brand: #0d9488;
+    --c-text-brand-secondary: #0f766e;
+    --c-text-brand-on-default: #ffffff;
+    --c-text-brand-on-secondary: #115e59;
+}
+```
+
+> **Note**: The Angular app uses ViewEncapsulation which adds `_ngcontent-*` attribute selectors to component styles. Use `!important` when overriding scoped component styles from a global stylesheet.
+
+#### Hide init-screen branding
+
+The empty state screen (shown when no file is selected) displays a default logo and "Powered by" links. Hide them via CSS in your custom stylesheet:
+
+```css
+.gde-init-state-logo {
+    display: none !important;
+}
+.gde-init-state-links {
+    display: none !important;
+}
+```
+
+#### Replace header app name
+
+The header displays "Viewer" as the app name by default. Replace it via CSS pseudo-elements in your custom stylesheet:
+
+```css
+.gd-header-app {
+    font-size: 0 !important;
+    color: transparent !important;
+}
+.gd-header-app::after {
+    content: "Document Viewer";
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.85);
+}
+```
+
+#### Complete example
+
+```cs
+endpoints.MapGroupDocsViewerUI(options =>
+{
+    options.UIPath = "/viewer";
+    options.UITitle = "Acme Corp Document Viewer";
+    options.ApiEndpoint = "/viewer-api";
+    options.SetLogoImage("./Logos/logo-image.svg");
+    options.SetLogoText("./Logos/logo-text.svg");
+    options.AddCustomStylesheet("./Styles/custom-branding.css");
+});
+```
+
+See the [custom branding sample app](https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/tree/main/samples/GroupDocs.Viewer.UI.Sample.CustomBranding) for a working example.
+
 ## API Overview
 
 The API serves document data such as metadata, pages in HTML/PNG/JPG formats, and PDFs for printing. It can be hosted in the same application or separately.

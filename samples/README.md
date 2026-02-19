@@ -24,6 +24,10 @@ Shows how to implement the viewer in static content mode, where all content is p
 
 A utility application that generates static content for use with the static content mode sample.
 
+### GroupDocs.Viewer.UI.Sample.CustomBranding
+
+Demonstrates how to white-label the viewer with custom colors, logo, and app title. Uses `SetLogoImage()`, `SetLogoText()`, `AddCustomStylesheet()`, and `UITitle` to replace default branding with a custom teal color scheme and "Acme Corp" branding.
+
 ## Cross-Platform and Framework Specific Samples
 
 ### GroupDocs.Viewer.UI.Sample.CrossPlatform

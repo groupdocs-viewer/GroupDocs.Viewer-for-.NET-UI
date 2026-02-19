@@ -449,6 +449,56 @@ builder.Services
 
 Default language can also be set via a query string parameter, e.g. `?lang=de`.
 
+### Custom branding (white-labeling)
+
+You can customize the viewer's appearance by replacing logo images, setting a custom page title, and overriding brand colors with a custom stylesheet.
+
+#### Replace logo images
+
+Use `SetLogoImage()` and `SetLogoText()` to replace the default brand icon and text with your own files:
+
+```cs
+endpoints.MapGroupDocsViewerUI(options =>
+{
+    options.SetLogoImage("./Logos/logo-image.svg");
+    options.SetLogoText("./Logos/logo-text.svg");
+});
+```
+
+#### Set custom page title
+
+```cs
+endpoints.MapGroupDocsViewerUI(options =>
+{
+    options.UITitle = "Acme Corp Document Viewer";
+});
+```
+
+#### Override brand colors
+
+Use `AddCustomStylesheet()` to inject a CSS file that overrides the viewer's CSS variables:
+
+```cs
+endpoints.MapGroupDocsViewerUI(options =>
+{
+    options.AddCustomStylesheet("./Styles/custom-branding.css");
+});
+```
+
+Example custom stylesheet with a teal color scheme:
+
+```css
+:root {
+    --c-bg-brand: #0d9488;
+    --c-bg-brand-hover: #0f766e;
+    --c-bg-brand-secondary: #ccfbf1;
+    --c-text-brand: #0d9488;
+    --c-text-brand-on-default: #ffffff;
+}
+```
+
+See the [custom branding sample app](./samples/GroupDocs.Viewer.UI.Sample.CustomBranding/) for a complete example.
+
 ## API Overview
 
 The API serves document data such as metadata, pages in HTML/PNG/JPG formats, and PDFs for printing. It can be hosted in the same application or separately.

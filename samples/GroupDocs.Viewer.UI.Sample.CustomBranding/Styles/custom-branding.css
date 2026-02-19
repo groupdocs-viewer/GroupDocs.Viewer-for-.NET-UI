@@ -1,0 +1,55 @@
+/*
+ * Custom branding stylesheet for GroupDocs.Viewer.UI
+ *
+ * This file demonstrates how to white-label the viewer by overriding
+ * CSS variables and hiding/replacing default branding elements.
+ *
+ * Inject via: options.AddCustomStylesheet("./Styles/custom-branding.css")
+ *
+ * Logo images are replaced via:
+ *   options.SetLogoImage("./Logos/logo-image.svg")
+ *   options.SetLogoText("./Logos/logo-text.svg")
+ *
+ * Note: The Angular app uses ViewEncapsulation which adds _ngcontent-*
+ * attribute selectors to component styles, giving them higher specificity.
+ * Use !important to override scoped component styles from a global stylesheet.
+ */
+
+/* ── Brand color overrides (teal/green palette) ── */
+:root {
+    --c-bg-brand: #0d9488;
+    --c-bg-brand-hover: #0f766e;
+    --c-bg-brand-secondary: #ccfbf1;
+    --c-bg-brand-secondary-hover: #99f6e4;
+
+    --c-text-brand: #0d9488;
+    --c-text-brand-secondary: #0f766e;
+    --c-text-brand-on-default: #ffffff;
+    --c-text-brand-on-secondary: #115e59;
+    --c-text-brand-info: #14b8a6;
+
+    --c-bg-accent: #f0fdfa;
+    --c-bg-accent-hover: #ccfbf1;
+}
+
+/* ── Hide default app name ("Viewer") and replace ── */
+.gd-header-app {
+    font-size: 0 !important;
+    color: transparent !important;
+}
+
+.gd-header-app::after {
+    content: "Document Viewer";
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 400;
+}
+
+/* ── Hide init-state branding (logo and "Powered by" links) ── */
+.gde-init-state-logo {
+    display: none !important;
+}
+
+.gde-init-state-links {
+    display: none !important;
+}

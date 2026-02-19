@@ -29,6 +29,8 @@ namespace GroupDocs.Viewer.UI.Core
             var stylesheets = resources.GetIndexPage()
                 .GetCustomStylesheets(options);
 
+            ReplaceLogoResources(resources, options);
+
             foreach (var resource in resources)
             {
                 endpoints.Add(builder.MapGet($"{options.UIPath}/{resource.FileName}",  async context =>
@@ -67,6 +69,31 @@ namespace GroupDocs.Viewer.UI.Core
             }
 
             return endpoints;
+        }
+
+        private static readonly byte[] EmptySvg =
+            System.Text.Encoding.UTF8.GetBytes("<svg xmlns=\"http://www.w3.org/2000/svg\"/>");
+
+        private static void ReplaceLogoResources(List<UIResource> resources, Options options)
+        {
+            if (options.IsLogoImageHidden)
+                ReplaceResourceContent(resources, "assets/ui/logo-image.svg", EmptySvg);
+            else if (options.CustomLogoImagePath != null)
+                ReplaceResourceContent(resources, "assets/ui/logo-image.svg", File.ReadAllBytes(options.CustomLogoImagePath));
+
+            if (options.IsLogoTextHidden)
+                ReplaceResourceContent(resources, "assets/ui/logo-text.svg", EmptySvg);
+            else if (options.CustomLogoTextPath != null)
+                ReplaceResourceContent(resources, "assets/ui/logo-text.svg", File.ReadAllBytes(options.CustomLogoTextPath));
+        }
+
+        private static void ReplaceResourceContent(List<UIResource> resources, string resourceFileName, byte[] content)
+        {
+            var resource = resources.Find(r => r.FileName == resourceFileName);
+            if (resource != null)
+            {
+                resource.Content = content;
+            }
         }
     }
 }

@@ -337,5 +337,8 @@ ASALocalRun/
 Cache/
 
 # Aspose
-
 Aspose/
+
+# Build output
+build_out/
+
