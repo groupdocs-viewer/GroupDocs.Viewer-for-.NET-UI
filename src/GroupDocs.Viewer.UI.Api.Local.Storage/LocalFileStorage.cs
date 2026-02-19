@@ -52,7 +52,7 @@ namespace GroupDocs.Viewer.UI.Api.Local.Storage
         public async Task<byte[]> ReadFileAsync(string filePath)
         {
             var fullPath = Path.Combine(_storagePath, filePath);
-            await using FileStream fs = GetStream(fullPath, FileMode.Open, FileAccess.Read, FileShare.None);
+            await using FileStream fs = await GetStreamAsync(fullPath, FileMode.Open, FileAccess.Read, FileShare.None);
             var memoryStream = new MemoryStream();
             await fs.CopyToAsync(memoryStream);
 
@@ -65,7 +65,7 @@ namespace GroupDocs.Viewer.UI.Api.Local.Storage
             var fullPath = Path.Combine(_storagePath, newFileName);
             var fileMode = rewrite ? FileMode.Create : FileMode.CreateNew;
 
-            await using FileStream fs = GetStream(fullPath, fileMode, FileAccess.Write, FileShare.None);
+            await using FileStream fs = await GetStreamAsync(fullPath, fileMode, FileAccess.Write, FileShare.None);
             await fs.WriteAsync(bytes, 0, bytes.Length);
 
             return newFileName;
@@ -86,6 +86,33 @@ namespace GroupDocs.Viewer.UI.Api.Local.Storage
                 catch (IOException)
                 {
                     Thread.Sleep(interval);
+                    totalTime += interval;
+
+                    if (_waitTimeout.Ticks != 0 && totalTime > _waitTimeout)
+                    {
+                        throw;
+                    }
+                }
+            }
+
+            return stream;
+        }
+
+        private async Task<FileStream> GetStreamAsync(string path, FileMode mode, FileAccess access, FileShare share)
+        {
+            FileStream stream = null;
+            TimeSpan interval = new TimeSpan(0, 0, 0, 0, 50);
+            TimeSpan totalTime = new TimeSpan();
+
+            while (stream == null)
+            {
+                try
+                {
+                    stream = File.Open(path, mode, access, share);
+                }
+                catch (IOException)
+                {
+                    await Task.Delay(interval);
                     totalTime += interval;
 
                     if (_waitTimeout.Ticks != 0 && totalTime > _waitTimeout)

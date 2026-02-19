@@ -67,10 +67,10 @@ namespace GroupDocs.Viewer.UI.Api.Local.Cache
             if (File.Exists(cacheFilePath))
             {
                 if (typeof(TEntry) == typeof(byte[]))
-                    return (TEntry)ReadBytes(cacheFilePath);
+                    return (TEntry)(object)await GetBytesAsync(cacheFilePath);
 
                 if (typeof(TEntry) == typeof(Stream))
-                    return (TEntry)ReadStream(cacheFilePath);
+                    return (TEntry)(object)await GetStreamAsync(cacheFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
 
                 return await DeserializeAsync<TEntry>(cacheFilePath);
             }
@@ -130,12 +130,12 @@ namespace GroupDocs.Viewer.UI.Api.Local.Cache
 
             if (value is byte[] data)
             {
-                await using FileStream dst = GetStream(cacheFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
+                await using FileStream dst = await GetStreamAsync(cacheFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
                 await dst.WriteAsync(data, 0, data.Length);
             }
             else if (value is Stream src)
             {
-                await using FileStream dst = GetStream(cacheFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
+                await using FileStream dst = await GetStreamAsync(cacheFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
 
                 if (src.CanSeek)
                     src.Position = 0;
@@ -147,7 +147,7 @@ namespace GroupDocs.Viewer.UI.Api.Local.Cache
                 var options = new JsonSerializerOptions { WriteIndented = true };
                 var bytes = JsonSerializer.SerializeToUtf8Bytes(value, options);
 
-                await using FileStream stream = GetStream(cacheFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
+                await using FileStream stream = await GetStreamAsync(cacheFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
                 await stream.WriteAsync(bytes, 0, bytes.Length);
             }
         }
@@ -179,7 +179,7 @@ namespace GroupDocs.Viewer.UI.Api.Local.Cache
             object data;
             try
             {
-                await using var stream = GetStream(cachePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                await using var stream = await GetStreamAsync(cachePath, FileMode.Open, FileAccess.Read, FileShare.Read);
                 data = await JsonSerializer.DeserializeAsync<TEntry>(stream);
             }
             catch (SerializationException)
@@ -228,6 +228,60 @@ namespace GroupDocs.Viewer.UI.Api.Local.Cache
             }
 
             return stream;
+        }
+
+        private async Task<FileStream> GetStreamAsync(string path, FileMode mode, FileAccess access, FileShare share)
+        {
+            FileStream stream = null;
+            TimeSpan interval = new TimeSpan(0, 0, 0, 0, 50);
+            TimeSpan totalTime = new TimeSpan();
+
+            while (stream == null)
+            {
+                try
+                {
+                    stream = File.Open(path, mode, access, share);
+                }
+                catch (IOException)
+                {
+                    await Task.Delay(interval);
+                    totalTime += interval;
+
+                    if (_waitTimeout.Ticks != 0 && totalTime > _waitTimeout)
+                    {
+                        throw;
+                    }
+                }
+            }
+
+            return stream;
+        }
+
+        private async Task<byte[]> GetBytesAsync(string path)
+        {
+            byte[] bytes = null;
+            TimeSpan interval = new TimeSpan(0, 0, 0, 0, 50);
+            TimeSpan totalTime = new TimeSpan();
+
+            while (bytes == null)
+            {
+                try
+                {
+                    bytes = await File.ReadAllBytesAsync(path);
+                }
+                catch (IOException)
+                {
+                    await Task.Delay(interval);
+                    totalTime += interval;
+
+                    if (_waitTimeout.Ticks != 0 && totalTime > _waitTimeout)
+                    {
+                        throw;
+                    }
+                }
+            }
+
+            return bytes;
         }
 
         private byte[] GetBytes(string path)
