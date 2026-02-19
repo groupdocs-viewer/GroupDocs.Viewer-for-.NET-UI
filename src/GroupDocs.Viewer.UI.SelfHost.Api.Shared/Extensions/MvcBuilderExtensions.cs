@@ -14,6 +14,7 @@ using GroupDocs.Viewer.UI.SelfHost.Api;
 using GroupDocs.Viewer.UI.SelfHost.Api.Configuration;
 using GroupDocs.Viewer.UI.SelfHost.Api.InternalCaching;
 using GroupDocs.Viewer.UI.SelfHost.Api.Licensing;
+using GroupDocs.Viewer.UI.SelfHost.Api.Validation;
 using GroupDocs.Viewer.UI.SelfHost.Api.Viewers;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Caching.Memory;
@@ -98,6 +99,8 @@ namespace Microsoft.Extensions.DependencyInjection
                     factory.GetRequiredService<IAsyncLock>()
                 );
             });
+
+            builder.Services.AddHostedService<ConfigurationValidator>();
 
             return new GroupDocsViewerUIApiBuilder(builder.Services);
         }

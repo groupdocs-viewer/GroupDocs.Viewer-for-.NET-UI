@@ -31,7 +31,7 @@ namespace GroupDocs.Viewer.UI.Api.Tests.Utils
 
         private ApiUrlBuilder CreateBuilder(string apiPath = "/viewer-api", string? apiDomain = null, bool useAbsoluteUrls = false)
         {
-            var options = new Options
+            var options = new ApiOptions
             {
                 ApiPath = apiPath,
                 ApiDomain = apiDomain,

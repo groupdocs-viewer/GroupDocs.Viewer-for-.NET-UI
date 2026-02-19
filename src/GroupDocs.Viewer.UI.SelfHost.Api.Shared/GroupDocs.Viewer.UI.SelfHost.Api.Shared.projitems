@@ -28,5 +28,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Viewers\HtmlWithExternalResourcesViewer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Viewers\JpgViewer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Viewers\PngViewer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\ConfigurationValidator.cs" />
   </ItemGroup>
 </Project>

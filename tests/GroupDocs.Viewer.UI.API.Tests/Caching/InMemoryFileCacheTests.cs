@@ -19,7 +19,7 @@ namespace GroupDocs.Viewer.UI.Api.Tests.Caching
             var config = new Config()
                 .SetCacheEntryExpirationTimeoutMinutes(5)
                 .SetGroupCacheEntriesByFile(true);
-            _cache = new InMemoryFileCache(_memoryCache, Options.Create(config));
+            _cache = new InMemoryFileCache(_memoryCache, MSOptions.Create(config));
         }
 
         public void Dispose()

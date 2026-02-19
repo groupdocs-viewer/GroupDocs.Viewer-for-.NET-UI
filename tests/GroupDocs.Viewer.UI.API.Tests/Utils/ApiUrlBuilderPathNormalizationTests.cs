@@ -29,7 +29,7 @@ namespace GroupDocs.Viewer.UI.Api.Tests.Utils
 
         private ApiUrlBuilder CreateBuilder(string apiPath = "/viewer-api", string? apiDomain = null, bool useAbsoluteUrls = false)
         {
-            var options = new Options
+            var options = new ApiOptions
             {
                 ApiPath = apiPath,
                 ApiDomain = apiDomain,
@@ -139,7 +139,7 @@ namespace GroupDocs.Viewer.UI.Api.Tests.Utils
         public void BuildPageUrl_WithEmptyApiPath_ShouldNotThrowWhenDomainNotSet()
         {
             // Arrange
-            var options = new Options
+            var options = new ApiOptions
             {
                 ApiPath = "",
                 ApiDomain = null
@@ -163,7 +163,7 @@ namespace GroupDocs.Viewer.UI.Api.Tests.Utils
         public void BuildPageUrl_WithWhitespaceApiPath_ShouldNotThrowWhenDomainNotSet()
         {
             // Arrange
-            var options = new Options
+            var options = new ApiOptions
             {
                 ApiPath = "   ",
                 ApiDomain = null
@@ -206,7 +206,7 @@ namespace GroupDocs.Viewer.UI.Api.Tests.Utils
         public void BuildPageUrl_WithDomainAndEmptyApiPath_ShouldThrowException()
         {
             // Arrange
-            var options = new Options
+            var options = new ApiOptions
             {
                 ApiPath = "",
                 ApiDomain = "https://example.com",
