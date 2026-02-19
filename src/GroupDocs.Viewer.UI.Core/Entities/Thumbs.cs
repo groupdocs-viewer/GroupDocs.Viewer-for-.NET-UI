@@ -23,7 +23,7 @@ namespace GroupDocs.Viewer.UI.Core.Entities
         public Thumb this[int index]
         {
             get => _thumbs[index];
-            set => _thumbs.Insert(index, value);
+            set => _thumbs[index] = value;
         }
 
         public IEnumerator<Thumb> GetEnumerator() 

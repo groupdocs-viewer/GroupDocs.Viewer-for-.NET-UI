@@ -23,7 +23,7 @@ namespace GroupDocs.Viewer.UI.Core.Entities
         public Page this[int index]
         {
             get => _pages[index];
-            set => _pages.Insert(index, value);
+            set => _pages[index] = value;
         }
 
         public IEnumerator<Page> GetEnumerator() 
