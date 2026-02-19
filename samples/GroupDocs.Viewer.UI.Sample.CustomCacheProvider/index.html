@@ -211,14 +211,15 @@
     </header>
 
     <main>
-        <h1>Self-Hosted API Demo - Custom Cache Provider</h1>
+        <h1>Custom Cache Provider Demo</h1>
 
         <section class="intro">
             <p>
-                This demo application showcases the capabilities of
-                <a href="https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI">GroupDocs.Viewer.UI</a>
-                package and <a href="https://products.groupdocs.com/viewer/net/">GroupDocs.Viewer for .NET</a> API.
-                The app is configured to use a custom cache provider that is based on <b>ConcurrentDictionary</b> type.
+                This sample shows how to implement a custom cache provider for
+                <a href="https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI">GroupDocs.Viewer.UI</a>.
+                Instead of the built-in local file cache or in-memory cache, it uses a custom
+                <b>ConcurrentDictionary</b>-based implementation of the <b>IFileCache</b> interface.
+                The custom provider is registered after <code>AddGroupDocsViewerSelfHostApi()</code> in <b>Program.cs</b>.
             </p>
             <p style="margin-top: 1rem; font-size: 0.95rem;">
                 To test all the features request a temporary license using

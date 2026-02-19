@@ -211,21 +211,22 @@
     </header>
 
     <main>
-        <h1>UI and API hosted in two apps</h1>
+        <h1>Separate UI and API Demo</h1>
 
         <section class="intro">
             <p>
-                This demo application showcases the capabilities of
+                This sample shows how to host the
                 <a href="https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI">GroupDocs.Viewer.UI</a>
-                package and <a href="https://products.groupdocs.com/viewer/net/">GroupDocs.Viewer for .NET</a> API.
-                This app configured to host the UI. You have to run both this app and
-                <b>GroupDocs.Viewer.UI.SelfHost.Api.Service.Sample</b> app for this demo.
+                frontend and the rendering API as <b>two separate applications</b>. This app serves only the UI
+                (Angular SPA) and points the API endpoint to the companion service at
+                <code>https://localhost:5001</code>. The API service
+                (<b>GroupDocs.Viewer.UI.SelfHost.Api.Service.Sample</b>) handles all document rendering and
+                is configured with a CORS policy to allow cross-origin requests from the UI app.
             </p>
             <p style="margin-top: 1rem; font-size: 0.95rem;">
-                To test all the features request a temporary license using
-                <a href="https://purchase.groupdocs.com/buy/cart?ppId=99940">Purchase Wizard</a>.
-                Check your mailbox, download attached file and set path to license file in <b>Program.cs</b> class of
-                <b>GroupDocs.Viewer.UI.SelfHost.Api.Service.Sample</b> app.
+                <b>Both apps must be running</b> for this demo to work. Set the license path in <b>Program.cs</b>
+                of the <b>GroupDocs.Viewer.UI.SelfHost.Api.Service.Sample</b> project. To request a temporary
+                license use the <a href="https://purchase.groupdocs.com/buy/cart?ppId=99940">Purchase Wizard</a>.
                 No credit card required.
             </p>
         </section>

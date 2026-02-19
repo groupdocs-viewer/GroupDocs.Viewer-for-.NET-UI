@@ -211,14 +211,16 @@
     </header>
 
     <main>
-        <h1>Self-Hosted API Demo - View as PNG</h1>
+        <h1>View as PNG Demo</h1>
 
         <section class="intro">
             <p>
-                This demo application showcases the capabilities of
+                This sample shows how to configure
                 <a href="https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI">GroupDocs.Viewer.UI</a>
-                package and <a href="https://products.groupdocs.com/viewer/net/">GroupDocs.Viewer for .NET</a> API.
-                The app is configured to render and display source files as PNG images.
+                to render documents as <b>PNG images</b> instead of the default HTML mode. The UI sets
+                <code>RenderingMode = Image</code> and the API sets <code>ViewerType = Png</code>.
+                Image mode is useful when you need pixel-perfect rendering or want to prevent text selection.
+                Note that text search is not available in image mode.
             </p>
             <p style="margin-top: 1rem; font-size: 0.95rem;">
                 To test all the features request a temporary license using

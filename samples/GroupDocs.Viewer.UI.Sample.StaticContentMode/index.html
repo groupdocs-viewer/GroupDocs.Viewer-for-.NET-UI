@@ -211,19 +211,20 @@
     </header>
 
     <main>
-        <h1>Static Content Mode</h1>
+        <h1>Static Content Mode Demo</h1>
 
         <section class="intro">
             <p>
-                This demo application showcases the capabilities of
+                This sample shows how to run
                 <a href="https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI">GroupDocs.Viewer.UI</a>
-                package that can work with static pre-generated content.
+                in <b>static content mode</b> where no backend rendering API is needed at runtime.
+                All document pages, thumbnails, and metadata are pre-generated as static files and served
+                via ASP.NET Core's static files middleware. This eliminates the need for GroupDocs.Viewer on the server
+                and enables deployment to any static hosting or CDN.
             </p>
             <p style="margin-top: 1rem; font-size: 0.95rem;">
-                The content generated using <b>GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator</b> app.
-            </p>
-            <p style="margin-top: 1rem;">
-                Click on the sample files below to view them.
+                The content in the <b>Content</b> folder was pre-generated using the
+                <b>GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator</b> app.
             </p>
         </section>
 
