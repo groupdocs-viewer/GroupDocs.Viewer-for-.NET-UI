@@ -132,7 +132,23 @@ namespace GroupDocs.Viewer.UI.Api.AzureBlob.Storage
 				if(_containerEnsured)
 					return _client;
 
-				_client = new BlobContainerClient(ConnectionString, _options.ContainerName, _options.ClientOptions);
+				if (_options.TokenCredential != null)
+				{
+					if (string.IsNullOrEmpty(_options.AccountName))
+						throw new ArgumentNullException(nameof(_options.AccountName));
+
+					var serviceUri = new Uri($"https://{_options.AccountName}.blob.core.windows.net/{_options.ContainerName}");
+					_client = new BlobContainerClient(serviceUri, _options.TokenCredential, _options.ClientOptions);
+				}
+				else if (!string.IsNullOrEmpty(_options.ConnectionString))
+				{
+					_client = new BlobContainerClient(_options.ConnectionString, _options.ContainerName, _options.ClientOptions);
+				}
+				else
+				{
+					_client = new BlobContainerClient(BuildConnectionString(), _options.ContainerName, _options.ClientOptions);
+				}
+
 				_client.CreateIfNotExists();
 				_containerEnsured = true;
 			}
@@ -140,18 +156,15 @@ namespace GroupDocs.Viewer.UI.Api.AzureBlob.Storage
 			return _client;
 		}
 
-		private string ConnectionString
+		private string BuildConnectionString()
 		{
-			get
-			{
-				if(string.IsNullOrEmpty(_options.AccountName))
-					throw new ArgumentNullException(nameof(_options.AccountName));
+			if(string.IsNullOrEmpty(_options.AccountName))
+				throw new ArgumentNullException(nameof(_options.AccountName));
 
-				if(string.IsNullOrEmpty(_options.AccountKey))
-					throw new ArgumentNullException(nameof(_options.AccountKey));
+			if(string.IsNullOrEmpty(_options.AccountKey))
+				throw new ArgumentNullException(nameof(_options.AccountKey));
 
-				return $"DefaultEndpointsProtocol=https;AccountName={_options.AccountName};AccountKey={_options.AccountKey}";
-			}
+			return $"DefaultEndpointsProtocol=https;AccountName={_options.AccountName};AccountKey={_options.AccountKey}";
 		}
 	}
 }

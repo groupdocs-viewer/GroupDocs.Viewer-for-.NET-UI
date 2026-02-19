@@ -1,4 +1,6 @@
-﻿using Azure.Storage.Blobs;
+﻿using System;
+using Azure.Core;
+using Azure.Storage.Blobs;
 
 namespace GroupDocs.Viewer.UI.Api.AzureBlob.Storage
 {
@@ -22,6 +24,18 @@ namespace GroupDocs.Viewer.UI.Api.AzureBlob.Storage
         /// The name of the container in the storage account to reference.
         /// </summary>
 		public string ContainerName { get; set; }
+
+        /// <summary>
+        /// Optional connection string. When set, AccountName and AccountKey are ignored.
+        /// </summary>
+        public string ConnectionString { get; set; }
+
+        /// <summary>
+        /// Optional token credential for Azure AD authentication (e.g. DefaultAzureCredential).
+        /// When set, AccountName/AccountKey and ConnectionString are ignored.
+        /// Requires setting <see cref="AccountName"/> for the storage account URL.
+        /// </summary>
+        public TokenCredential TokenCredential { get; set; }
 
         /// <summary>
         /// Optional client options that define the transport pipeline
