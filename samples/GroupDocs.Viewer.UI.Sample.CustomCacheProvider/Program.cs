@@ -85,4 +85,16 @@ class ConcurrentDictionaryFileCache : IFileCache
         Set(cacheKey, filePath, entry);
         return Task.CompletedTask;
     }
+
+    public Task RemoveAsync(string filePath, CancellationToken cancellationToken = default)
+    {
+        var keysToRemove = _cache.Keys
+            .Where(k => k.StartsWith($"{filePath}_"))
+            .ToList();
+
+        foreach (var key in keysToRemove)
+            _cache.TryRemove(key, out _);
+
+        return Task.CompletedTask;
+    }
 }

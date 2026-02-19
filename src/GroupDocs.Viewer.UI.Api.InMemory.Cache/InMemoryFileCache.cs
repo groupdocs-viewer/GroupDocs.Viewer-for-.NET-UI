@@ -59,6 +59,18 @@ namespace GroupDocs.Viewer.UI.Api.InMemory.Cache
             return Task.CompletedTask;
         }
 
+        public Task RemoveAsync(string filePath, CancellationToken cancellationToken = default)
+        {
+            var ctsCacheKey = $"{filePath}__CTS";
+            var cts = _cache.Get<CancellationTokenSource>(ctsCacheKey);
+            if (cts != null && !cts.IsCancellationRequested)
+            {
+                cts.Cancel();
+            }
+
+            return Task.CompletedTask;
+        }
+
         private CancellationTokenSource GetOrCreateCancellationTokenSource(string cacheKey, string filePath)
         {
             var ctsCacheKey = _config.GroupCacheEntriesByFile

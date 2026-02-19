@@ -15,5 +15,8 @@ namespace GroupDocs.Viewer.UI.Core.FileCaching
 
         public Task SetAsync<TEntry>(string cacheKey, string filePath, TEntry entry, CancellationToken cancellationToken = default) =>
             Task.CompletedTask;
+
+        public Task RemoveAsync(string filePath, CancellationToken cancellationToken = default) =>
+            Task.CompletedTask;
     }
 }

@@ -190,11 +190,26 @@ namespace GroupDocs.Viewer.UI.Api.Local.Cache
             return (TEntry)data;
         }
 
-        private string GetCacheFilePath(string cacheKey, string filePath)
+        public Task RemoveAsync(string filePath, CancellationToken cancellationToken = default)
+        {
+            string cacheDirPath = GetCacheDirPath(filePath);
+
+            if (Directory.Exists(cacheDirPath))
+                Directory.Delete(cacheDirPath, recursive: true);
+
+            return Task.CompletedTask;
+        }
+
+        private string GetCacheDirPath(string filePath)
         {
             string cacheSubFolder = string.Join("_", filePath.Split(Path.GetInvalidPathChars()))
                 .Replace(".", "_");
-            string cacheDirPath = Path.Combine(CachePath, cacheSubFolder);
+            return Path.Combine(CachePath, cacheSubFolder);
+        }
+
+        private string GetCacheFilePath(string cacheKey, string filePath)
+        {
+            string cacheDirPath = GetCacheDirPath(filePath);
             string cacheFilePath = Path.Combine(cacheDirPath, cacheKey);
 
             if (!Directory.Exists(cacheDirPath))
