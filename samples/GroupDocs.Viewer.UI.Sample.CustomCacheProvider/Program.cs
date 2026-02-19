@@ -48,7 +48,7 @@ app
         });
     });
 
-app.Run();
+await app.RunAsync();
 
 class ConcurrentDictionaryFileCache : IFileCache
 {
