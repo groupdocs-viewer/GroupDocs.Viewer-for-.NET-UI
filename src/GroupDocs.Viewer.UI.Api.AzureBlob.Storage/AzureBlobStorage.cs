@@ -69,6 +69,14 @@ namespace GroupDocs.Viewer.UI.Api.AzureBlob.Storage
 			}
 		}
 
+		public async Task<Stream> ReadFileStreamAsync(string filePath, CancellationToken cancellationToken = default)
+		{
+			BlobContainerClient client = CreateClient();
+			BlobClient blob = client.GetBlobClient(filePath);
+
+			return await blob.OpenReadAsync();
+		}
+
 		public async Task<string> WriteFileAsync(string filePath, byte[] bytes, bool rewrite, CancellationToken cancellationToken = default)
 		{
 			BlobContainerClient client = CreateClient();

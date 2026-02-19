@@ -112,6 +112,19 @@ namespace GroupDocs.Viewer.UI.Api.AwsS3.Storage
             }
         }
 
+        public async Task<Stream> ReadFileStreamAsync(string filePath, CancellationToken cancellationToken = default)
+        {
+            IAmazonS3 client = CreateS3Client();
+            GetObjectRequest request = new GetObjectRequest
+            {
+                BucketName = _awsS3Options.BucketName,
+                Key = filePath,
+            };
+
+            GetObjectResponse response = await client.GetObjectAsync(request);
+            return response.ResponseStream;
+        }
+
         private static async Task<byte[]> ReadObjectDataAsync(IAmazonS3 client, string bucketName, string keyName)
         {
             GetObjectRequest request = new GetObjectRequest

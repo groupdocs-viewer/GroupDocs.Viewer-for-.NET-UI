@@ -199,11 +199,9 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             return viewer;
         }
 
-        private async Task<MemoryStream> GetFileStreamAsync(string filePath)
+        private async Task<Stream> GetFileStreamAsync(string filePath)
         {
-            byte[] bytes = await _fileStorage.ReadFileAsync(filePath);
-            MemoryStream memoryStream = new MemoryStream(bytes);
-            return memoryStream;
+            return await _fileStorage.ReadFileStreamAsync(filePath);
         }
 
         private async Task<LoadOptions> CreateLoadOptionsAsync(FileCredentials fileCredentials)

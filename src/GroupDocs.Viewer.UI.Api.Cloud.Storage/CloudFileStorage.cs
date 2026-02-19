@@ -59,6 +59,12 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage
             return result.Value;
         }
 
+        public async Task<Stream> ReadFileStreamAsync(string filePath, CancellationToken cancellationToken = default)
+        {
+            byte[] bytes = await ReadFileAsync(filePath, cancellationToken);
+            return new MemoryStream(bytes);
+        }
+
         public async Task<string> WriteFileAsync(string fileName, byte[] bytes, bool rewrite, CancellationToken cancellationToken = default)
         {
             if (!rewrite)

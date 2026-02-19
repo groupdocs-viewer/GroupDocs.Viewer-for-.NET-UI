@@ -59,6 +59,13 @@ namespace GroupDocs.Viewer.UI.Api.Local.Storage
             return memoryStream.ToArray();
         }
 
+        public async Task<Stream> ReadFileStreamAsync(string filePath, CancellationToken cancellationToken = default)
+        {
+            var fullPath = Path.Combine(_storagePath, filePath);
+            FileStream fs = await GetStreamAsync(fullPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            return fs;
+        }
+
         public async Task<string> WriteFileAsync(string fileName, byte[] bytes, bool rewrite, CancellationToken cancellationToken = default)
         {
             var newFileName = rewrite ? fileName : GetFreeFileName(fileName);
