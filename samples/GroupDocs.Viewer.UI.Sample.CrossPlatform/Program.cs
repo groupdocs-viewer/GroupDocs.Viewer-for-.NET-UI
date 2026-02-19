@@ -1,5 +1,4 @@
 using GroupDocs.Viewer.UI.Core;
-using GroupDocs.Viewer.UI.Core.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
