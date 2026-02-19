@@ -63,7 +63,6 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers.Extensions
             dst.ForPrinting = src.ForPrinting;
             dst.ExcludeFonts = src.ExcludeFonts;
             dst.FontsToExclude = src.FontsToExclude;
-            dst.FontsToExclude = src.FontsToExclude;
         }
 
         private static void CopyPdfViewOptions(this PdfViewOptions dst, PdfViewOptions src)
