@@ -1,6 +1,6 @@
-﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using GroupDocs.Viewer.UI.Core.Entities;
 
@@ -31,7 +31,7 @@ namespace GroupDocs.Viewer.UI.Core.Caching
             _asyncLock = asyncLock;
         }
 
-        public async Task<Pages> GetPagesAsync(FileCredentials fileCredentials, int[] pageNumbers)
+        public async Task<Pages> GetPagesAsync(FileCredentials fileCredentials, int[] pageNumbers, CancellationToken cancellationToken = default)
         {
             var pagesOrNulls = GetPagesOrNullsFromCache(fileCredentials.FilePath, pageNumbers);
             var missingPageNumbers = GetMissingPageNumbers(pagesOrNulls);
@@ -39,14 +39,14 @@ namespace GroupDocs.Viewer.UI.Core.Caching
             if (missingPageNumbers.Length == 0)
                 return ToPages(pagesOrNulls);
 
-            var createdPages = await CreatePages(fileCredentials, missingPageNumbers);
+            var createdPages = await CreatePages(fileCredentials, missingPageNumbers, cancellationToken);
 
             var pages = Combine(pagesOrNulls, createdPages);
 
             return pages;
         }
 
-        public async Task<Thumbs> GetThumbsAsync(FileCredentials fileCredentials, int[] pageNumbers)
+        public async Task<Thumbs> GetThumbsAsync(FileCredentials fileCredentials, int[] pageNumbers, CancellationToken cancellationToken = default)
         {
             var pagesOrNulls = GetThumbsOrNullsFromCache(fileCredentials.FilePath, pageNumbers);
             var missingPageNumbers = GetMissingPageNumbers(pagesOrNulls);
@@ -54,14 +54,14 @@ namespace GroupDocs.Viewer.UI.Core.Caching
             if (missingPageNumbers.Length == 0)
                 return ToThumbs(pagesOrNulls);
 
-            var createdPages = await CreateThumbs(fileCredentials, missingPageNumbers);
+            var createdPages = await CreateThumbs(fileCredentials, missingPageNumbers, cancellationToken);
 
             var thumbs = Combine(pagesOrNulls, createdPages);
 
             return thumbs;
         }
 
-        public async Task<Page> GetPageAsync(FileCredentials fileCredentials, int pageNumber)
+        public async Task<Page> GetPageAsync(FileCredentials fileCredentials, int pageNumber, CancellationToken cancellationToken = default)
         {
             var cacheKey = CacheKeys.GetPageCacheKey(pageNumber, PageExtension);
             var bytes = await _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, async () =>
@@ -70,20 +70,20 @@ namespace GroupDocs.Viewer.UI.Core.Caching
                 {
                     return await _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, async () =>
                     {
-                        var page = await _viewer.GetPageAsync(fileCredentials, pageNumber);
+                        var page = await _viewer.GetPageAsync(fileCredentials, pageNumber, cancellationToken);
 
                         await SaveResourcesAsync(fileCredentials.FilePath, page.PageNumber, page.Resources);
 
                         return page.PageData;
-                    });
+                    }, cancellationToken);
                 }
-            });
+            }, cancellationToken);
 
             var page = CreatePage(pageNumber, bytes);
             return page;
         }
 
-        public async Task<Thumb> GetThumbAsync(FileCredentials fileCredentials, int pageNumber)
+        public async Task<Thumb> GetThumbAsync(FileCredentials fileCredentials, int pageNumber, CancellationToken cancellationToken = default)
         {
             var cacheKey = CacheKeys.GetThumbCacheKey(pageNumber, ThumbExtension);
             var bytes = await _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, async () =>
@@ -92,28 +92,28 @@ namespace GroupDocs.Viewer.UI.Core.Caching
                 {
                     return await _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, async () =>
                     {
-                        var thumb = await _viewer.GetThumbAsync(fileCredentials, pageNumber);
+                        var thumb = await _viewer.GetThumbAsync(fileCredentials, pageNumber, cancellationToken);
                         return thumb.ThumbData;
-                    });
+                    }, cancellationToken);
                 }
-            });
+            }, cancellationToken);
 
             var page = CreateThumb(pageNumber, bytes);
             return page;
         }
 
-        public async Task<DocumentInfo> GetDocumentInfoAsync(FileCredentials fileCredentials)
+        public async Task<DocumentInfo> GetDocumentInfoAsync(FileCredentials fileCredentials, CancellationToken cancellationToken = default)
         {
             var cacheKey = CacheKeys.FILE_INFO_CACHE_KEY;
 
             using (await _asyncLock.LockAsync(fileCredentials.FilePath))
             {
                 return await _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, () =>
-                        _viewer.GetDocumentInfoAsync(fileCredentials));
+                        _viewer.GetDocumentInfoAsync(fileCredentials, cancellationToken), cancellationToken);
             }
         }
 
-        public Task<byte[]> GetPdfAsync(FileCredentials fileCredentials)
+        public Task<byte[]> GetPdfAsync(FileCredentials fileCredentials, CancellationToken cancellationToken = default)
         {
             var cacheKey = CacheKeys.PDF_FILE_CACHE_KEY;
             return _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, async () =>
@@ -121,13 +121,13 @@ namespace GroupDocs.Viewer.UI.Core.Caching
                 using (await _asyncLock.LockAsync(fileCredentials.FilePath))
                 {
                     return await _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, () =>
-                        _viewer.GetPdfAsync(fileCredentials));
+                        _viewer.GetPdfAsync(fileCredentials, cancellationToken), cancellationToken);
                 }
-            });
+            }, cancellationToken);
         }
 
         public Task<byte[]> GetPageResourceAsync(FileCredentials fileCredentials, int pageNumber,
-            string resourceName)
+            string resourceName, CancellationToken cancellationToken = default)
         {
             var cacheKey = CacheKeys.GetHtmlPageResourceCacheKey(pageNumber, resourceName);
             return _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath,
@@ -136,9 +136,9 @@ namespace GroupDocs.Viewer.UI.Core.Caching
                     using (await _asyncLock.LockAsync(fileCredentials.FilePath))
                     {
                         return await _fileCache.GetValueAsync(cacheKey, fileCredentials.FilePath, () =>
-                            _viewer.GetPageResourceAsync(fileCredentials, pageNumber, resourceName));
+                            _viewer.GetPageResourceAsync(fileCredentials, pageNumber, resourceName, cancellationToken), cancellationToken);
                     }
-                });
+                }, cancellationToken);
         }
 
         private async Task SaveResourcesAsync(string filePath, int pageNumber, IEnumerable<PageResource> pageResources)
@@ -154,7 +154,7 @@ namespace GroupDocs.Viewer.UI.Core.Caching
             await Task.WhenAll(tasks);
         }
 
-        private async Task<Pages> CreatePages(FileCredentials fileCredentials, int[] pageNumbers)
+        private async Task<Pages> CreatePages(FileCredentials fileCredentials, int[] pageNumbers, CancellationToken cancellationToken)
         {
             using (await _asyncLock.LockAsync(fileCredentials.FilePath))
             {
@@ -164,7 +164,7 @@ namespace GroupDocs.Viewer.UI.Core.Caching
                 if (missingPageNumbers.Length == 0)
                     return ToPages(pagesOrNulls);
 
-                var createdPages = await _viewer.GetPagesAsync(fileCredentials, missingPageNumbers);
+                var createdPages = await _viewer.GetPagesAsync(fileCredentials, missingPageNumbers, cancellationToken);
 
                 await SaveToCache(fileCredentials.FilePath, createdPages);
 
@@ -174,7 +174,7 @@ namespace GroupDocs.Viewer.UI.Core.Caching
             }
         }
 
-        private async Task<Thumbs> CreateThumbs(FileCredentials fileCredentials, int[] pageNumbers)
+        private async Task<Thumbs> CreateThumbs(FileCredentials fileCredentials, int[] pageNumbers, CancellationToken cancellationToken)
         {
             using (await _asyncLock.LockAsync(fileCredentials.FilePath))
             {
@@ -184,7 +184,7 @@ namespace GroupDocs.Viewer.UI.Core.Caching
                 if (missingPageNumbers.Length == 0)
                     return ToThumbs(pagesOrNulls);
 
-                var createdPages = await _viewer.GetThumbsAsync(fileCredentials, missingPageNumbers);
+                var createdPages = await _viewer.GetThumbsAsync(fileCredentials, missingPageNumbers, cancellationToken);
 
                 await SaveToCache(fileCredentials.FilePath, createdPages);
 

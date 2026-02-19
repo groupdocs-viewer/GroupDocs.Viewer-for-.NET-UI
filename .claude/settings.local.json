@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet build:*)",
+      "Bash(dotnet test:*)",
+      "Bash(git show:*)",
+      "Bash(grep:*)",
+      "Bash(gh issue view:*)",
+      "Bash(ls:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(python3:*)",
+      "Bash(powershell -Command \"[guid]::NewGuid\\(\\).ToString\\(\\)\")"
+    ]
+  }
+}

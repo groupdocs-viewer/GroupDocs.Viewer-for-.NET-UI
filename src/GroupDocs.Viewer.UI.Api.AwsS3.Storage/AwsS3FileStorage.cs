@@ -36,7 +36,7 @@ namespace GroupDocs.Viewer.UI.Api.AwsS3.Storage
             _awsS3Options.S3Config.RegionEndpoint = RegionEndpoint.EnumerableAllRegions.FirstOrDefault(x => x.SystemName == _awsS3Options.Region);
         }
 
-        public async Task<IEnumerable<FileSystemEntry>> ListDirsAndFilesAsync(string folderPath)
+        public async Task<IEnumerable<FileSystemEntry>> ListDirsAndFilesAsync(string folderPath, CancellationToken cancellationToken = default)
         {
             using (IAmazonS3 client = CreateS3Client())
             {
@@ -101,7 +101,7 @@ namespace GroupDocs.Viewer.UI.Api.AwsS3.Storage
         private static string GetObjectName(string key) =>
             key.Split('/', StringSplitOptions.RemoveEmptyEntries).Last();
 
-        public async Task<byte[]> ReadFileAsync(string filePath)
+        public async Task<byte[]> ReadFileAsync(string filePath, CancellationToken cancellationToken = default)
         {
             using (IAmazonS3 client = CreateS3Client())
             {
@@ -130,7 +130,7 @@ namespace GroupDocs.Viewer.UI.Api.AwsS3.Storage
             }
         }
 
-        public async Task<string> WriteFileAsync(string fileName, byte[] bytes, bool rewrite)
+        public async Task<string> WriteFileAsync(string fileName, byte[] bytes, bool rewrite, CancellationToken cancellationToken = default)
         {
 			using (IAmazonS3 client = CreateS3Client())
             using (MemoryStream stream = new MemoryStream(bytes))

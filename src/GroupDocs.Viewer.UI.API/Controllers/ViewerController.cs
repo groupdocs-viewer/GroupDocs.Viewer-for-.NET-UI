@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GroupDocs.Viewer.UI.Api.Controllers
@@ -60,7 +61,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             try
             {
                 var files =
-                    await _fileStorage.ListDirsAndFilesAsync(request.Path);
+                    await _fileStorage.ListDirsAndFilesAsync(request.Path, HttpContext.RequestAborted);
 
                 var result = files
                     .Select(entity => new FileSystemItem(entity.FilePath, entity.FilePath, entity.IsDirectory, entity.Size))
@@ -90,7 +91,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                 var (fileName, bytes) = await ReadOrDownloadFile();
                 bool.TryParse(Request.Form["rewrite"], out var rewrite);
 
-                var filePath = await _fileStorage.WriteFileAsync(fileName, bytes, rewrite);
+                var filePath = await _fileStorage.WriteFileAsync(fileName, bytes, rewrite, HttpContext.RequestAborted);
 
                 var result = new UploadFileResponse(filePath);
 
@@ -114,12 +115,13 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             {
                 var file = new FileCredentials(request.File, request.FileType, request.Password);
 
-                var docInfo = await _viewer.GetDocumentInfoAsync(file);
+                var ct = HttpContext.RequestAborted;
+                var docInfo = await _viewer.GetDocumentInfoAsync(file, ct);
                 var pagesToCreate = GetPagesToCreate(docInfo.TotalPagesCount, _config.PreloadPages);
 
                 var pages = _config.RenderingMode == RenderingMode.Html
-                    ? await CreateViewDataPagesAndThumbs(file, docInfo, pagesToCreate)
-                    : await CreateViewDataPages(file, docInfo, pagesToCreate);
+                    ? await CreateViewDataPagesAndThumbs(file, docInfo, pagesToCreate, ct)
+                    : await CreateViewDataPages(file, docInfo, pagesToCreate, ct);
 
                 var searchTerm = await _searchTermResolver.ResolveSearchTermAsync(request.File);
                 var fileName = await _fileNameResolver.ResolveFileNameAsync(request.File);
@@ -163,11 +165,12 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             try
             {
                 var file = new FileCredentials(request.File, request.FileType, request.Password);
-                var docInfo = await _viewer.GetDocumentInfoAsync(file);
+                var ct = HttpContext.RequestAborted;
+                var docInfo = await _viewer.GetDocumentInfoAsync(file, ct);
 
-                var pages = _config.RenderingMode == RenderingMode.Html 
-                    ? await CreatePagesAndThumbs(file, docInfo, request.Pages)
-                    : await CreatePages(file, docInfo, request.Pages);
+                var pages = _config.RenderingMode == RenderingMode.Html
+                    ? await CreatePagesAndThumbs(file, docInfo, request.Pages, ct)
+                    : await CreatePages(file, docInfo, request.Pages, ct);
 
                 return Ok(pages);
             }
@@ -201,7 +204,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             {
                 var fileCredentials = new FileCredentials(request.File, request.FileType, request.Password);
 
-                await _viewer.GetPdfAsync(fileCredentials);
+                await _viewer.GetPdfAsync(fileCredentials, HttpContext.RequestAborted);
 
                 var response = new CreatePdfResponse
                 {
@@ -236,7 +239,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             try
             {
                 var fileCredentials = new FileCredentials(request.File);
-                var page = await _viewer.GetPageAsync(fileCredentials, request.Page);
+                var page = await _viewer.GetPageAsync(fileCredentials, request.Page, HttpContext.RequestAborted);
 
                 return File(page.PageData, page.ContentType);
             }
@@ -257,7 +260,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             try
             {
                 var file = new FileCredentials(request.File);
-                var thumb = await _viewer.GetThumbAsync(file, request.Page);
+                var thumb = await _viewer.GetThumbAsync(file, request.Page, HttpContext.RequestAborted);
 
                 return File(thumb.ThumbData, thumb.ContentType);
             }
@@ -284,7 +287,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
 
                 var fileName = await _fileNameResolver.ResolveFileNameAsync(request.File);
                 var pdfFileName = Path.ChangeExtension(fileName, ".pdf");
-                var pdfFileBytes = await _viewer.GetPdfAsync(fileCredentials);
+                var pdfFileBytes = await _viewer.GetPdfAsync(fileCredentials, HttpContext.RequestAborted);
 
                 return File(pdfFileBytes, "application/pdf", pdfFileName);
             }
@@ -309,7 +312,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             {
                 var fileCredentials = new FileCredentials(request.File);
                 var bytes =
-                    await _viewer.GetPageResourceAsync(fileCredentials, request.Page, request.Resource);
+                    await _viewer.GetPageResourceAsync(fileCredentials, request.Page, request.Resource, HttpContext.RequestAborted);
 
                 if (bytes.Length == 0)
                     return NotFound($"Resource {request.Resource} was not found");
@@ -330,13 +333,13 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         }
 
         // NOTE: This method returns all of the pages including created and not
-        private async Task<List<PageData>> CreateViewDataPagesAndThumbs(FileCredentials file, DocumentInfo docInfo, int[] pagesToCreate)
+        private async Task<List<PageData>> CreateViewDataPagesAndThumbs(FileCredentials file, DocumentInfo docInfo, int[] pagesToCreate, CancellationToken cancellationToken)
         {
-            await _viewer.GetPagesAsync(file, pagesToCreate);
+            await _viewer.GetPagesAsync(file, pagesToCreate, cancellationToken);
 
             if (_config.EnableThumbnails && _config.RenderingMode == RenderingMode.Html)
             {
-                await _viewer.GetThumbsAsync(file, pagesToCreate);
+                await _viewer.GetThumbsAsync(file, pagesToCreate, cancellationToken);
             }
 
             var pages = new List<PageData>();
@@ -364,9 +367,9 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         }
 
         // NOTE: This method returns all of the pages including created and not
-        private async Task<List<PageData>> CreateViewDataPages(FileCredentials file, DocumentInfo docInfo, int[] pagesToCreate)
+        private async Task<List<PageData>> CreateViewDataPages(FileCredentials file, DocumentInfo docInfo, int[] pagesToCreate, CancellationToken cancellationToken)
         {
-            await _viewer.GetPagesAsync(file, pagesToCreate);
+            await _viewer.GetPagesAsync(file, pagesToCreate, cancellationToken);
 
             var pages = new List<PageData>();
             foreach (PageInfo page in docInfo.Pages)
@@ -389,13 +392,13 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         }
 
         // NOTE: This method returns only created pages
-        private async Task<List<PageData>> CreatePagesAndThumbs(FileCredentials file, DocumentInfo docInfo, int[] pagesToCreate)
+        private async Task<List<PageData>> CreatePagesAndThumbs(FileCredentials file, DocumentInfo docInfo, int[] pagesToCreate, CancellationToken cancellationToken)
         {
-            await _viewer.GetPagesAsync(file, pagesToCreate);
+            await _viewer.GetPagesAsync(file, pagesToCreate, cancellationToken);
 
             if (_config.EnableThumbnails && _config.RenderingMode == RenderingMode.Html)
             {
-                await _viewer.GetThumbsAsync(file, pagesToCreate);
+                await _viewer.GetThumbsAsync(file, pagesToCreate, cancellationToken);
             }
 
             var pages = new List<PageData>();
@@ -416,9 +419,9 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         }
 
         // NOTE: This method returns only created pages
-        private async Task<List<PageData>> CreatePages(FileCredentials file, DocumentInfo docInfo, int[] pagesToCreate)
+        private async Task<List<PageData>> CreatePages(FileCredentials file, DocumentInfo docInfo, int[] pagesToCreate, CancellationToken cancellationToken)
         {
-            await _viewer.GetPagesAsync(file, pagesToCreate);
+            await _viewer.GetPagesAsync(file, pagesToCreate, cancellationToken);
 
             var pages = new List<PageData>();
             foreach (int pageNumber in pagesToCreate)

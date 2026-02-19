@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Entities;
@@ -38,7 +39,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
         public Thumb CreateThumb(int pageNumber, byte[] data) => 
             new JpgThumb(pageNumber, data);
 
-        public Task<Page> GetPageAsync(FileCredentials fileCredentials, int pageNumber)
+        public Task<Page> GetPageAsync(FileCredentials fileCredentials, int pageNumber, CancellationToken cancellationToken = default)
         {
             var html = string.Format(PAGE_TEMPLATE, pageNumber);
             var bytes = Encoding.UTF8.GetBytes(html);
@@ -47,7 +48,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             return Task.FromResult((Page) page);
         }
 
-        public Task<Thumb> GetThumbAsync(FileCredentials fileCredentials, int pageNumber)
+        public Task<Thumb> GetThumbAsync(FileCredentials fileCredentials, int pageNumber, CancellationToken cancellationToken = default)
         {
             var bytes = Convert.FromBase64String(THUMB_IN_BASE64);
             var thumb = new JpgThumb(pageNumber, bytes);
@@ -55,7 +56,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             return Task.FromResult((Thumb) thumb);
         }
 
-        public Task<Pages> GetPagesAsync(FileCredentials fileCredentials, int[] pageNumbers)
+        public Task<Pages> GetPagesAsync(FileCredentials fileCredentials, int[] pageNumbers, CancellationToken cancellationToken = default)
         {
             var pages = pageNumbers.Select(pageNumber =>
             {
@@ -81,7 +82,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             return Task.FromResult(result);
         }
 
-        public Task<Thumbs> GetThumbsAsync(FileCredentials fileCredentials, int[] pageNumbers)
+        public Task<Thumbs> GetThumbsAsync(FileCredentials fileCredentials, int[] pageNumbers, CancellationToken cancellationToken = default)
         {
             var thumbs = pageNumbers.Select(pageNumber =>
             {
@@ -96,7 +97,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             return Task.FromResult(result);
         }
 
-        public Task<DocumentInfo> GetDocumentInfoAsync(FileCredentials fileCredentials)
+        public Task<DocumentInfo> GetDocumentInfoAsync(FileCredentials fileCredentials, CancellationToken cancellationToken = default)
         {
             var documentInfo = new DocumentInfo
             {
@@ -113,7 +114,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             return Task.FromResult(documentInfo);
         }
 
-        public Task<byte[]> GetPdfAsync(FileCredentials fileCredentials)
+        public Task<byte[]> GetPdfAsync(FileCredentials fileCredentials, CancellationToken cancellationToken = default)
         {
             var bytes = Encoding.UTF8.GetBytes(@"
 %PDF-1.4
@@ -157,7 +158,7 @@ startxref
             return Task.FromResult(bytes);
         }
 
-        public Task<byte[]> GetPageResourceAsync(FileCredentials fileCredentials,int pageNumber, string resourceName)
+        public Task<byte[]> GetPageResourceAsync(FileCredentials fileCredentials, int pageNumber, string resourceName, CancellationToken cancellationToken = default)
         {
             var css = @"
                 html {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using GroupDocs.Viewer.Exceptions;
 using GroupDocs.Viewer.Options;
@@ -61,7 +62,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
 
         protected abstract ViewInfoOptions CreateViewInfoOptions();
 
-        public async Task<DocumentInfo> GetDocumentInfoAsync(FileCredentials fileCredentials)
+        public async Task<DocumentInfo> GetDocumentInfoAsync(FileCredentials fileCredentials, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -81,21 +82,21 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             }
         }
 
-        public async Task<Page> GetPageAsync(FileCredentials fileCredentials, int pageNumber)
+        public async Task<Page> GetPageAsync(FileCredentials fileCredentials, int pageNumber, CancellationToken cancellationToken = default)
         {
             var viewer = await InitViewerAsync(fileCredentials);
             var page = await RenderPageInternalAsync(viewer, fileCredentials, pageNumber);
             return page;
         }
         
-        public async Task<Thumb> GetThumbAsync(FileCredentials fileCredentials, int pageNumber)
+        public async Task<Thumb> GetThumbAsync(FileCredentials fileCredentials, int pageNumber, CancellationToken cancellationToken = default)
         {
             var viewer = await InitViewerAsync(fileCredentials);
             var thumb = await RenderThumbInternalAsync(viewer, fileCredentials, pageNumber);
             return thumb;
         }
 
-        public async Task<Pages> GetPagesAsync(FileCredentials fileCredentials, int[] pageNumbers)
+        public async Task<Pages> GetPagesAsync(FileCredentials fileCredentials, int[] pageNumbers, CancellationToken cancellationToken = default)
         {
             var viewer = await InitViewerAsync(fileCredentials);
 
@@ -109,7 +110,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             return pages;
         }
 
-        public async Task<Thumbs> GetThumbsAsync(FileCredentials fileCredentials, int[] pageNumbers)
+        public async Task<Thumbs> GetThumbsAsync(FileCredentials fileCredentials, int[] pageNumbers, CancellationToken cancellationToken = default)
         {
             var viewer = await InitViewerAsync(fileCredentials);
 
@@ -123,7 +124,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             return thumbs;
         }
 
-        public async Task<byte[]> GetPdfAsync(FileCredentials fileCredentials)
+        public async Task<byte[]> GetPdfAsync(FileCredentials fileCredentials, CancellationToken cancellationToken = default)
         {
             var pdfStream = new MemoryStream();
             var viewOptions = CreatePdfViewOptions(pdfStream);
@@ -134,7 +135,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             return pdfStream.ToArray();
         }
 
-        public abstract Task<byte[]> GetPageResourceAsync(FileCredentials fileCredentials, int pageNumber, string resourceName);
+        public abstract Task<byte[]> GetPageResourceAsync(FileCredentials fileCredentials, int pageNumber, string resourceName, CancellationToken cancellationToken = default);
 
         private PdfViewOptions CreatePdfViewOptions(MemoryStream pdfStream)
         {

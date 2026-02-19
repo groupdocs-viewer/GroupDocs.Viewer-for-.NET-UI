@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GroupDocs.Viewer.UI.Core
@@ -34,14 +35,15 @@ namespace GroupDocs.Viewer.UI.Core
         /// <param name="cacheKey">A key identifying the requested entry.</param>
         /// <param name="filePath">The source file relative file path.</param>
         /// <param name="acquire">The method which returns entry.</param>
+        /// <param name="cancellationToken">A token to cancel the operation.</param>
         /// <returns>The entry associated with this key if present or acquires and sets the entry if not present.</returns>
-        public static async Task<TEntry> GetValueAsync<TEntry>(this IFileCache cache, string cacheKey, string filePath, Func<Task<TEntry>> acquire)
+        public static async Task<TEntry> GetValueAsync<TEntry>(this IFileCache cache, string cacheKey, string filePath, Func<Task<TEntry>> acquire, CancellationToken cancellationToken = default)
         {
-            var entry = await cache.TryGetValueAsync<TEntry>(cacheKey, filePath);
+            var entry = await cache.TryGetValueAsync<TEntry>(cacheKey, filePath, cancellationToken);
             if (entry == null)
             {
                 entry = await acquire();
-                await cache.SetAsync(cacheKey, filePath, entry);
+                await cache.SetAsync(cacheKey, filePath, entry, cancellationToken);
             }
 
             return entry;

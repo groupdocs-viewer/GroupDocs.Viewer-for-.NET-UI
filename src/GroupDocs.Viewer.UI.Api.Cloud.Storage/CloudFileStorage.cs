@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect.Contracts;
 using GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect.Requests;
@@ -23,7 +24,7 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage
             _config = config.Value;
         }
 
-        public async Task<IEnumerable<FileSystemEntry>> ListDirsAndFilesAsync(string dirPath)
+        public async Task<IEnumerable<FileSystemEntry>> ListDirsAndFilesAsync(string dirPath, CancellationToken cancellationToken = default)
         {
             var request = new GetFilesListRequest(dirPath, _config.StorageName);
             var result = await _apiConnect.GetFilesList(request);
@@ -47,7 +48,7 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage
             return entries;
         }
 
-        public async Task<byte[]> ReadFileAsync(string filePath)
+        public async Task<byte[]> ReadFileAsync(string filePath, CancellationToken cancellationToken = default)
         {
             var request = new DownloadFileRequest(filePath, _config.StorageName);
             var result = await _apiConnect.DownloadFile(request);
@@ -58,7 +59,7 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage
             return result.Value;
         }
 
-        public async Task<string> WriteFileAsync(string fileName, byte[] bytes, bool rewrite)
+        public async Task<string> WriteFileAsync(string fileName, byte[] bytes, bool rewrite, CancellationToken cancellationToken = default)
         {
             if (!rewrite)
                 fileName = await GetFreeFileName(fileName);

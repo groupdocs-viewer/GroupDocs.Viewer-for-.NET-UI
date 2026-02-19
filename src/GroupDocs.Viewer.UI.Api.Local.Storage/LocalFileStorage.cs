@@ -46,10 +46,10 @@ namespace GroupDocs.Viewer.UI.Api.Local.Storage
             return dirsAndFiles;
         }
 
-        public Task<IEnumerable<FileSystemEntry>> ListDirsAndFilesAsync(string dirPath) => 
+        public Task<IEnumerable<FileSystemEntry>> ListDirsAndFilesAsync(string dirPath, CancellationToken cancellationToken = default) => 
             Task.FromResult(ListFiles(dirPath));
 
-        public async Task<byte[]> ReadFileAsync(string filePath)
+        public async Task<byte[]> ReadFileAsync(string filePath, CancellationToken cancellationToken = default)
         {
             var fullPath = Path.Combine(_storagePath, filePath);
             await using FileStream fs = await GetStreamAsync(fullPath, FileMode.Open, FileAccess.Read, FileShare.None);
@@ -59,7 +59,7 @@ namespace GroupDocs.Viewer.UI.Api.Local.Storage
             return memoryStream.ToArray();
         }
 
-        public async Task<string> WriteFileAsync(string fileName, byte[] bytes, bool rewrite)
+        public async Task<string> WriteFileAsync(string fileName, byte[] bytes, bool rewrite, CancellationToken cancellationToken = default)
         {
             var newFileName = rewrite ? fileName : GetFreeFileName(fileName);
             var fullPath = Path.Combine(_storagePath, newFileName);

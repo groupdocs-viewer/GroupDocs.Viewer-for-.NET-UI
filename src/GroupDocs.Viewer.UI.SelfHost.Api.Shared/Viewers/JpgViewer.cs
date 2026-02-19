@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using GroupDocs.Viewer.Options;
 using GroupDocs.Viewer.UI.Api.Configuration;
@@ -41,7 +42,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             => new JpgThumb(pageNumber, data);
 
         public override Task<byte[]> GetPageResourceAsync(
-            FileCredentials fileCredentials, int pageNumber, string resourceName) => 
+            FileCredentials fileCredentials, int pageNumber, string resourceName, CancellationToken cancellationToken = default) => 
             throw new System.NotImplementedException(
                 $"{nameof(JpgViewer)} does not support retrieving external HTML resources.");
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using GroupDocs.Viewer.Interfaces;
 using GroupDocs.Viewer.Options;
@@ -84,7 +85,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
             ViewInfoOptions.FromHtmlViewOptions(_config.HtmlViewOptions);
 
         public override async Task<byte[]> GetPageResourceAsync(
-            FileCredentials fileCredentials, int pageNumber, string resourceName)
+            FileCredentials fileCredentials, int pageNumber, string resourceName, CancellationToken cancellationToken = default)
         {
             var page = await GetPageAsync(fileCredentials, pageNumber);
             var resource = page.GetResource(resourceName);

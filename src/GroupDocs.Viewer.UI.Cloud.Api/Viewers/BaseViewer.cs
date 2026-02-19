@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts;
 using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models;
@@ -60,7 +61,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
             return viewOptions;
         }
 
-        public async Task<Page> GetPageAsync(FileCredentials fileCredentials, int pageNumber)
+        public async Task<Page> GetPageAsync(FileCredentials fileCredentials, int pageNumber, CancellationToken cancellationToken = default)
         {
             await UploadFileIfNotExists(fileCredentials.FilePath);
 
@@ -70,7 +71,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
             return page;
         }
 
-        public async Task<Thumb> GetThumbAsync(FileCredentials fileCredentials, int pageNumber)
+        public async Task<Thumb> GetThumbAsync(FileCredentials fileCredentials, int pageNumber, CancellationToken cancellationToken = default)
         {
             await UploadFileIfNotExists(fileCredentials.FilePath);
 
@@ -80,7 +81,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
             return thumb;
         }
 
-        public async Task<Pages> GetPagesAsync(FileCredentials fileCredentials, int[] pageNumbers)
+        public async Task<Pages> GetPagesAsync(FileCredentials fileCredentials, int[] pageNumbers, CancellationToken cancellationToken = default)
         {
             await UploadFileIfNotExists(fileCredentials.FilePath);
 
@@ -89,7 +90,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
             return new Pages(pages);
         }
 
-        public async Task<Thumbs> GetThumbsAsync(FileCredentials fileCredentials, int[] pageNumbers)
+        public async Task<Thumbs> GetThumbsAsync(FileCredentials fileCredentials, int[] pageNumbers, CancellationToken cancellationToken = default)
         {
             await UploadFileIfNotExists(fileCredentials.FilePath);
 
@@ -182,7 +183,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
             return resources;
         }
 
-        public async Task<DocumentInfo> GetDocumentInfoAsync(FileCredentials fileCredentials)
+        public async Task<DocumentInfo> GetDocumentInfoAsync(FileCredentials fileCredentials, CancellationToken cancellationToken = default)
         {
             await UploadFileIfNotExists(fileCredentials.FilePath);
 
@@ -207,7 +208,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
             return fileInfo;
         }
 
-        public async Task<byte[]> GetPdfAsync(FileCredentials fileCredentials)
+        public async Task<byte[]> GetPdfAsync(FileCredentials fileCredentials, CancellationToken cancellationToken = default)
         {
             await UploadFileIfNotExists(fileCredentials.FilePath);
 
@@ -227,7 +228,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.Viewers
         }
 
         public async Task<byte[]> GetPageResourceAsync(FileCredentials fileCredentials, int pageNumber,
-            string resourceName)
+            string resourceName, CancellationToken cancellationToken = default)
         {
             var page = await GetPageAsync(fileCredentials, pageNumber);
             var bytes =

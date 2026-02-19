@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Threading;
 using GroupDocs.Viewer.UI.Core;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -64,7 +65,7 @@ class ConcurrentDictionaryFileCache : IFileCache
         return default!;
     }
 
-    public Task<TEntry> TryGetValueAsync<TEntry>(string cacheKey, string filePath)
+    public Task<TEntry> TryGetValueAsync<TEntry>(string cacheKey, string filePath, CancellationToken cancellationToken = default)
     {
         TEntry entry = TryGetValue<TEntry>(cacheKey, filePath);
         return Task.FromResult(entry);
@@ -79,7 +80,7 @@ class ConcurrentDictionaryFileCache : IFileCache
         _cache.TryAdd(key, entry);
     }
 
-    public Task SetAsync<TEntry>(string cacheKey, string filePath, TEntry entry)
+    public Task SetAsync<TEntry>(string cacheKey, string filePath, TEntry entry, CancellationToken cancellationToken = default)
     {
         Set(cacheKey, filePath, entry);
         return Task.CompletedTask;

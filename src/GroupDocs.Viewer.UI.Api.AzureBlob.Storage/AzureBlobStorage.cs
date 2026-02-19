@@ -32,7 +32,7 @@ namespace GroupDocs.Viewer.UI.Api.AzureBlob.Storage
 			_options = options;
 		}
 
-        public async Task<IEnumerable<FileSystemEntry>> ListDirsAndFilesAsync(string dirPath)
+        public async Task<IEnumerable<FileSystemEntry>> ListDirsAndFilesAsync(string dirPath, CancellationToken cancellationToken = default)
         {
             BlobContainerClient client = CreateClient();
 
@@ -55,7 +55,7 @@ namespace GroupDocs.Viewer.UI.Api.AzureBlob.Storage
             return fileSystemEntries;
         }
 
-        public async Task<byte[]> ReadFileAsync(string filePath)
+        public async Task<byte[]> ReadFileAsync(string filePath, CancellationToken cancellationToken = default)
 		{
 			BlobContainerClient client = CreateClient();
 			BlobClient blob = client.GetBlobClient(filePath);
@@ -69,7 +69,7 @@ namespace GroupDocs.Viewer.UI.Api.AzureBlob.Storage
 			}
 		}
 
-		public async Task<string> WriteFileAsync(string filePath, byte[] bytes, bool rewrite)
+		public async Task<string> WriteFileAsync(string filePath, byte[] bytes, bool rewrite, CancellationToken cancellationToken = default)
 		{
 			BlobContainerClient client = CreateClient();
 			

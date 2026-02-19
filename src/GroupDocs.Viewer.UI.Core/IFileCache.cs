@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace GroupDocs.Viewer.UI.Core
 {
@@ -6,10 +7,10 @@ namespace GroupDocs.Viewer.UI.Core
     {
         TEntry TryGetValue<TEntry>(string cacheKey, string filePath);
 
-        Task<TEntry> TryGetValueAsync<TEntry>(string cacheKey, string filePath);
+        Task<TEntry> TryGetValueAsync<TEntry>(string cacheKey, string filePath, CancellationToken cancellationToken = default);
 
         void Set<TEntry>(string cacheKey, string filePath, TEntry entry);
 
-        Task SetAsync<TEntry>(string cacheKey, string filePath, TEntry entry);
+        Task SetAsync<TEntry>(string cacheKey, string filePath, TEntry entry, CancellationToken cancellationToken = default);
     }
 }

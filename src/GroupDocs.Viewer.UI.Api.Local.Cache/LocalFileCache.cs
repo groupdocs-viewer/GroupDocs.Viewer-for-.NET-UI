@@ -60,7 +60,7 @@ namespace GroupDocs.Viewer.UI.Api.Local.Cache
         /// <param name="cacheKey">A key identifying the requested entry.</param>
         /// <param name="filePath">The relative or absolute filepath.</param>
         /// <returns><code>True</code> if the key was found.</returns>
-        public async Task<TEntry> TryGetValueAsync<TEntry>(string cacheKey, string filePath)
+        public async Task<TEntry> TryGetValueAsync<TEntry>(string cacheKey, string filePath, CancellationToken cancellationToken = default)
         {
             string cacheFilePath = GetCacheFilePath(cacheKey, filePath);
 
@@ -121,7 +121,7 @@ namespace GroupDocs.Viewer.UI.Api.Local.Cache
         /// <param name="cacheKey">An unique identifier for the cache entry.</param>
         /// <param name="filePath">The relative or absolute filepath.</param>
         /// <param name="value">The object to serialize.</param>
-        public async Task SetAsync<TEntry>(string cacheKey, string filePath, TEntry value)
+        public async Task SetAsync<TEntry>(string cacheKey, string filePath, TEntry value, CancellationToken cancellationToken = default)
         {
             if (value == null)
                 return;
