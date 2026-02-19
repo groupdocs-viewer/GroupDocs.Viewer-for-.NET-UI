@@ -71,7 +71,7 @@ namespace GroupDocs.Viewer.UI.SelfHost.Api.Viewers
         }
 
         protected override ViewInfoOptions CreateViewInfoOptions() =>
-            ViewInfoOptions.FromJpgViewOptions(_config.JpgViewOptions);
+            ViewInfoOptions.FromPngViewOptions(_config.PngViewOptions);
 
         private PngViewOptions CreatePageViewOptions(MemoryStream pageStream)
         {
