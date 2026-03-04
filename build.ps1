@@ -32,10 +32,6 @@ switch -Exact ($env:BUILD_TYPE)
     {
         $suffix = "prod"; Break
     }
-    "STAGE"
-    {
-        $suffix = "stage"; Break
-    }
     Default {
         $suffix = "local"; Break
     }
@@ -59,4 +55,5 @@ exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.Cloud.Storage\GroupDocs.Viewe
 exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.Local.Storage\GroupDocs.Viewer.UI.Api.Local.Storage.csproj -c Release -o .\build_out --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
 exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.AzureBlob.Storage\GroupDocs.Viewer.UI.Api.AzureBlob.Storage.csproj -c Release -o .\build_out --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
 exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.AwsS3.Storage\GroupDocs.Viewer.UI.Api.AwsS3.Storage.csproj -c Release -o .\build_out --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
+exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.Distributed.Cache\GroupDocs.Viewer.UI.Api.Distributed.Cache.csproj -c Release -o .\build_out --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
 
