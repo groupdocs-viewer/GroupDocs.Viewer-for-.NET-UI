@@ -28,6 +28,7 @@
     <ProjectReference Include="..\..\src\GroupDocs.Viewer.UI.Api.InMemory.Cache\GroupDocs.Viewer.UI.Api.InMemory.Cache.csproj" />
     <ProjectReference Include="..\..\src\GroupDocs.Viewer.UI\GroupDocs.Viewer.UI.csproj" />
     <ProjectReference Include="..\..\src\GroupDocs.Viewer.UI.SelfHost.Api\GroupDocs.Viewer.UI.SelfHost.Api.csproj" />
+    <ProjectReference Include="..\..\src\GroupDocs.Viewer.UI.Api.Distributed.Cache\GroupDocs.Viewer.UI.Api.Distributed.Cache.csproj" />
   </ItemGroup>
 
 </Project>

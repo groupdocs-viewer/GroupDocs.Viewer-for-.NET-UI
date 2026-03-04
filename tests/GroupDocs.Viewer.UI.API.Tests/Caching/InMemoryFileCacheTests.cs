@@ -88,5 +88,19 @@ namespace GroupDocs.Viewer.UI.Api.Tests.Caching
         {
             await _cache.RemoveAsync("nonexistent.pdf");
         }
+
+        [Fact]
+        public void Set_WithSizeLimit_ShouldAcceptEntries()
+        {
+            using var memoryCache = new MemoryCache(new MemoryCacheOptions { SizeLimit = 100 });
+            var config = new Config().SetSizeLimit(100);
+            var cache = new InMemoryFileCache(memoryCache, MSOptions.Create(config));
+
+            cache.Set("page1.png", "doc.pdf", new byte[] { 1 });
+            cache.Set("page2.png", "doc.pdf", new byte[] { 2 });
+
+            Assert.NotNull(cache.TryGetValue<byte[]>("page1.png", "doc.pdf"));
+            Assert.NotNull(cache.TryGetValue<byte[]>("page2.png", "doc.pdf"));
+        }
     }
 }
