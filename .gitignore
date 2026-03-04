@@ -342,3 +342,5 @@ Aspose/
 # Build output
 build_out/
 
+# Claude
+.claude/

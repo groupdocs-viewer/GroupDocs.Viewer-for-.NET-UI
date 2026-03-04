@@ -32,9 +32,11 @@ namespace GroupDocs.Viewer.UI.Core
 
             ReplaceLogoResources(resources, options);
 
+            var uiPathBase = options.UIPath.TrimEnd('/');
+
             foreach (var resource in resources)
             {
-                endpoints.Add(builder.MapGet($"{options.UIPath}/{resource.FileName}",  async context =>
+                endpoints.Add(builder.MapGet($"{uiPathBase}/{resource.FileName}",  async context =>
                 {
                     context.Response.ContentType = resource.ContentType;
                     context.Response.ContentLength = resource.Content.Length;

@@ -15,7 +15,7 @@ namespace GroupDocs.Viewer.UI.Core
         {
             FileName = Path.GetFileName(filePath);
             Content = File.ReadAllBytes(filePath);
-            ResourcePath = $"{options.UIPath}/{StylesheetsPath}/{FileName}";
+            ResourcePath = $"{options.UIPath.TrimEnd('/')}/{StylesheetsPath}/{FileName}";
             ResourceRelativePath = $"{StylesheetsPath}/{FileName}";
         }
 
