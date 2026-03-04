@@ -691,10 +691,60 @@ To run the self-hosted API on Linux, the following dependencies are required:
 
 ## Running in Docker
 
-To run the self-hosted API in Docker, you need to install Microsoft Fonts and the latest version of the `libgdiplus` package.  
-Refer to these example Dockerfiles that list the required dependencies:
+### Pre-built Docker image
 
-- For `GroupDocs.Viewer.UI.SelfHost.Api` and .NET 6 app, see this [Dockerfile](/samples/GroupDocs.Viewer.UI.Sample/Dockerfile).
+The quickest way to get started — no .NET SDK or code required:
+
+```bash
+docker run -p 8080:8080 -v ./documents:/app/Files ghcr.io/groupdocs-viewer/groupdocs.viewer-for-.net-ui/viewer-ui:latest
+```
+
+Open `http://localhost:8080` in your browser. Place documents into the `./documents` folder.
+
+#### Environment variables
+
+| Variable | Default | Description |
+|---|---|---|
+| `VIEWER_TYPE` | `HtmlWithEmbeddedResources` | Rendering type: `HtmlWithEmbeddedResources`, `HtmlWithExternalResources`, `Png`, `Jpg` |
+| `GROUPDOCS_LIC_PATH` | | Path to GroupDocs.Viewer license file |
+| `VIEWER_STORAGE_PATH` | `/app/Files` | Document storage directory |
+| `VIEWER_CACHE_PATH` | `/app/Cache` | Rendering cache directory |
+| `VIEWER_UI_PATH` | `/` | UI endpoint path |
+| `VIEWER_API_PATH` | `/viewer-api` | API endpoint path |
+| `VIEWER_PRELOAD_PAGES` | `3` | Number of pages to render on first request |
+
+#### Docker Compose
+
+```yaml
+services:
+  viewer:
+    image: ghcr.io/groupdocs-viewer/groupdocs.viewer-for-.net-ui/viewer-ui:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./documents:/app/Files
+      - ./cache:/app/Cache
+      # - ./license:/app/License
+    environment:
+      - VIEWER_TYPE=HtmlWithEmbeddedResources
+      # - GROUPDOCS_LIC_PATH=/app/License/GroupDocs.Viewer.lic
+```
+
+#### Building locally
+
+```bash
+# PowerShell
+.\build-docker.ps1 -Tag "26.3.0"
+
+# Or directly
+docker build -f docker/Dockerfile -t groupdocs/viewer-ui .
+```
+
+### Custom Dockerfiles
+
+To build your own Docker image with custom configuration, refer to these example Dockerfiles:
+
+- For `GroupDocs.Viewer.UI.SelfHost.Api` and .NET 8 app, see this [Dockerfile](/samples/GroupDocs.Viewer.UI.Sample/Dockerfile).
 - For `GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform` and .NET 8 app, see this [Dockerfile](/samples/GroupDocs.Viewer.UI.Sample.CrossPlatform/Dockerfile).
 
 ## Extensibility Points

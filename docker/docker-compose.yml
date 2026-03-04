@@ -1,0 +1,17 @@
+services:
+  viewer:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./Files:/app/Files
+      - ./Cache:/app/Cache
+      # - ./License:/app/License
+    environment:
+      - VIEWER_TYPE=HtmlWithEmbeddedResources
+      # - GROUPDOCS_LIC_PATH=/app/License/GroupDocs.Viewer.lic
+      # - VIEWER_PRELOAD_PAGES=3
+      # - VIEWER_UI_PATH=/viewer
+      # - VIEWER_API_PATH=/viewer-api
