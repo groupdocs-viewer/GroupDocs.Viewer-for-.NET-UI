@@ -22,7 +22,7 @@ jobs:
         run: |
           OWNER="${{ github.repository_owner }}"
           echo "ghcr=ghcr.io/${OWNER,,}/viewer-ui" >> $GITHUB_OUTPUT
-          echo "dockerhub=${{ secrets.DOCKERHUB_USERNAME }}/viewer-ui" >> $GITHUB_OUTPUT
+          echo "dockerhub=groupdocs/viewer-ui" >> $GITHUB_OUTPUT
 
       - name: Determine version
         id: version
