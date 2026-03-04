@@ -67,3 +67,10 @@ jobs:
         with:
           name: artifacts
           path: artifacts
+
+      - name: Notify CLI repo
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.CLI_REPO_TOKEN }}
+          repository: groupdocs-viewer-app/GroupDocs.Viewer-for-.NET-CLI
+          event-type: ui-package-published
