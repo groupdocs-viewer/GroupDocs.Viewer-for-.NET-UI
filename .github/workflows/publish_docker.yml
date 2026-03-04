@@ -20,8 +20,8 @@ jobs:
       - name: Set image names
         id: images
         run: |
-          REPO="${{ github.repository }}"
-          echo "ghcr=ghcr.io/${REPO,,}/viewer-ui" >> $GITHUB_OUTPUT
+          OWNER="${{ github.repository_owner }}"
+          echo "ghcr=ghcr.io/${OWNER,,}/viewer-ui" >> $GITHUB_OUTPUT
           echo "dockerhub=${{ secrets.DOCKERHUB_USERNAME }}/viewer-ui" >> $GITHUB_OUTPUT
 
       - name: Determine version
