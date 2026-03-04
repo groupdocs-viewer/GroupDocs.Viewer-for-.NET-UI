@@ -6,10 +6,6 @@ on:
       - '[0-9]+.[0-9]+.[0-9]+'
   workflow_dispatch:
 
-env:
-  GHCR_IMAGE: ghcr.io/${{ github.repository }}/viewer-ui
-  DOCKERHUB_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/viewer-ui
-
 jobs:
   publish_docker:
     runs-on: ubuntu-latest
@@ -20,6 +16,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Set image names
+        id: images
+        run: |
+          REPO="${{ github.repository }}"
+          echo "ghcr=ghcr.io/${REPO,,}/viewer-ui" >> $GITHUB_OUTPUT
+          echo "dockerhub=${{ secrets.DOCKERHUB_USERNAME }}/viewer-ui" >> $GITHUB_OUTPUT
 
       - name: Determine version
         id: version
@@ -55,9 +58,9 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            ${{ env.GHCR_IMAGE }}:${{ steps.version.outputs.version }}
-            ${{ env.GHCR_IMAGE }}:latest
-            ${{ env.DOCKERHUB_IMAGE }}:${{ steps.version.outputs.version }}
-            ${{ env.DOCKERHUB_IMAGE }}:latest
+            ${{ steps.images.outputs.ghcr }}:${{ steps.version.outputs.version }}
+            ${{ steps.images.outputs.ghcr }}:latest
+            ${{ steps.images.outputs.dockerhub }}:${{ steps.version.outputs.version }}
+            ${{ steps.images.outputs.dockerhub }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
