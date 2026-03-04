@@ -696,7 +696,7 @@ To run the self-hosted API on Linux, the following dependencies are required:
 The quickest way to get started — no .NET SDK or code required:
 
 ```bash
-docker run -p 8080:8080 -v ./documents:/app/Files ghcr.io/groupdocs-viewer/groupdocs.viewer-for-.net-ui/viewer-ui:latest
+docker run -p 8080:8080 -v ./documents:/app/Files groupdocs/viewer-ui:latest
 ```
 
 Open `http://localhost:8080` in your browser. Place documents into the `./documents` folder.
@@ -718,7 +718,7 @@ Open `http://localhost:8080` in your browser. Place documents into the `./docume
 ```yaml
 services:
   viewer:
-    image: ghcr.io/groupdocs-viewer/groupdocs.viewer-for-.net-ui/viewer-ui:latest
+    image: groupdocs/viewer-ui:latest
     ports:
       - "8080:8080"
     volumes:
