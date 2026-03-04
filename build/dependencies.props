@@ -35,19 +35,19 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="GroupDocs.Viewer UI Package Versions">
-		<GroupDocsViewerUI>8.1.5</GroupDocsViewerUI>
-		<GroupDocsViewerUIApi>8.1.5</GroupDocsViewerUIApi>
-		<GroupDocsViewerUIApiLocalCache>8.1.5</GroupDocsViewerUIApiLocalCache>
-		<GroupDocsViewerUIApiInMemoryCache>8.1.5</GroupDocsViewerUIApiInMemoryCache>
-		<GroupDocsViewerUIApiDistributedCache>8.1.5</GroupDocsViewerUIApiDistributedCache>
-		<GroupDocsViewerUIApiLocalStorage>8.1.5</GroupDocsViewerUIApiLocalStorage>
-		<GroupDocsViewerUIApiCloudStorage>8.1.5</GroupDocsViewerUIApiCloudStorage>
-		<GroupDocsViewerUIApiAzureStorage>8.1.5</GroupDocsViewerUIApiAzureStorage>
-		<GroupDocsViewerUIApiAwsS3Storage>8.1.5</GroupDocsViewerUIApiAwsS3Storage>
-		<GroupDocsViewerUICore>8.1.5</GroupDocsViewerUICore>
-		<GroupDocsViewerUISelfHostApi>8.1.5</GroupDocsViewerUISelfHostApi>
-		<GroupDocsViewerUISelfHostApiCrossPlatform>8.1.5</GroupDocsViewerUISelfHostApiCrossPlatform>
-		<GroupDocsViewerUICloudApi>8.1.5</GroupDocsViewerUICloudApi>
+		<GroupDocsViewerUI>26.3.0</GroupDocsViewerUI>
+		<GroupDocsViewerUIApi>26.3.0</GroupDocsViewerUIApi>
+		<GroupDocsViewerUIApiLocalCache>26.3.0</GroupDocsViewerUIApiLocalCache>
+		<GroupDocsViewerUIApiInMemoryCache>26.3.0</GroupDocsViewerUIApiInMemoryCache>
+		<GroupDocsViewerUIApiDistributedCache>26.3.0</GroupDocsViewerUIApiDistributedCache>
+		<GroupDocsViewerUIApiLocalStorage>26.3.0</GroupDocsViewerUIApiLocalStorage>
+		<GroupDocsViewerUIApiCloudStorage>26.3.0</GroupDocsViewerUIApiCloudStorage>
+		<GroupDocsViewerUIApiAzureStorage>26.3.0</GroupDocsViewerUIApiAzureStorage>
+		<GroupDocsViewerUIApiAwsS3Storage>26.3.0</GroupDocsViewerUIApiAwsS3Storage>
+		<GroupDocsViewerUICore>26.3.0</GroupDocsViewerUICore>
+		<GroupDocsViewerUISelfHostApi>26.3.0</GroupDocsViewerUISelfHostApi>
+		<GroupDocsViewerUISelfHostApiCrossPlatform>26.3.0</GroupDocsViewerUISelfHostApiCrossPlatform>
+		<GroupDocsViewerUICloudApi>26.3.0</GroupDocsViewerUICloudApi>
 	</PropertyGroup>
 
 	<PropertyGroup Label="NuGet Common Settings">
