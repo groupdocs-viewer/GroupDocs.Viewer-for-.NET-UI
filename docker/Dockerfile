@@ -58,7 +58,6 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 
 # Default environment variables
-ENV ASPNETCORE_URLS=http://+:8080
 ENV VIEWER_STORAGE_PATH=/app/Files
 ENV VIEWER_CACHE_PATH=/app/Cache
 
