@@ -696,7 +696,7 @@ To run the self-hosted API on Linux, the following dependencies are required:
 The quickest way to get started — no .NET SDK or code required:
 
 ```bash
-docker run -p 8080:8080 -v ./documents:/app/Files groupdocs/viewer-ui:latest
+docker run -p 8080:8080 -v ./documents:/app/Files groupdocs/viewer-net-ui:latest
 ```
 
 Open `http://localhost:8080` in your browser. Place documents into the `./documents` folder.
@@ -718,7 +718,7 @@ Open `http://localhost:8080` in your browser. Place documents into the `./docume
 ```yaml
 services:
   viewer:
-    image: groupdocs/viewer-ui:latest
+    image: groupdocs/viewer-net-ui:latest
     ports:
       - "8080:8080"
     volumes:
@@ -734,10 +734,10 @@ services:
 
 ```bash
 # PowerShell
-.\build-docker.ps1 -Tag "26.3.0"
+.\build-docker.ps1 -Tag "26.4.0"
 
 # Or directly
-docker build -f docker/Dockerfile -t groupdocs/viewer-ui .
+docker build -f docker/Dockerfile -t groupdocs/viewer-net-ui .
 ```
 
 ### Custom Dockerfiles

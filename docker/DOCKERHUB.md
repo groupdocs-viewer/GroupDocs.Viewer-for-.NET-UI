@@ -7,7 +7,7 @@ Powered by [GroupDocs.Viewer for .NET](https://products.groupdocs.com/viewer/net
 ## Quick Start
 
 ```bash
-docker run -p 8080:8080 -v ./documents:/app/Files groupdocs/viewer-ui
+docker run -p 8080:8080 -v ./documents:/app/Files groupdocs/viewer-net-ui
 ```
 
 Open http://localhost:8080 in your browser. Place documents into the `./documents` folder.
@@ -17,7 +17,7 @@ Open http://localhost:8080 in your browser. Place documents into the `./document
 ```yaml
 services:
   viewer:
-    image: groupdocs/viewer-ui:latest
+    image: groupdocs/viewer-net-ui:latest
     ports:
       - "8080:8080"
     volumes:
@@ -56,7 +56,7 @@ docker run -p 8080:8080 \
   -v ./documents:/app/Files \
   -v ./license:/app/License \
   -e GROUPDOCS_LIC_PATH=/app/License/GroupDocs.Viewer.lic \
-  groupdocs/viewer-ui
+  groupdocs/viewer-net-ui
 ```
 
 Request a [temporary license](https://purchase.groupdocs.com/temporary-license) for evaluation without limitations.

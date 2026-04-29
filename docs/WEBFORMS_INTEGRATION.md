@@ -9,7 +9,7 @@ Run the pre-built Docker image alongside your Web Forms application. No code cha
 ### Setup
 
 ```bash
-docker run -d --name viewer -p 8080:8080 -v C:\YourDocuments:/app/Files groupdocs/viewer-ui
+docker run -d --name viewer -p 8080:8080 -v C:\YourDocuments:/app/Files groupdocs/viewer-net-ui
 ```
 
 ### Embed in Web Forms Page
@@ -68,7 +68,7 @@ If your Web Forms app runs in IIS alongside Docker Desktop:
 ```yaml
 services:
   viewer:
-    image: groupdocs/viewer-ui:latest
+    image: groupdocs/viewer-net-ui:latest
     ports:
       - "8080:8080"
     volumes:

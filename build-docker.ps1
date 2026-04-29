@@ -22,7 +22,7 @@ function Exec {
     }
 }
 
-$imageName = "groupdocs/viewer-ui"
+$imageName = "groupdocs/viewer-net-ui"
 
 echo "build-docker: Building image ${imageName}:${Tag}"
 

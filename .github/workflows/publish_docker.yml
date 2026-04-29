@@ -21,8 +21,8 @@ jobs:
         id: images
         run: |
           OWNER="${{ github.repository_owner }}"
-          echo "ghcr=ghcr.io/${OWNER,,}/viewer-ui" >> $GITHUB_OUTPUT
-          echo "dockerhub=groupdocs/viewer-ui" >> $GITHUB_OUTPUT
+          echo "ghcr=ghcr.io/${OWNER,,}/viewer-net-ui" >> $GITHUB_OUTPUT
+          echo "dockerhub=groupdocs/viewer-net-ui" >> $GITHUB_OUTPUT
 
       - name: Determine version
         id: version
