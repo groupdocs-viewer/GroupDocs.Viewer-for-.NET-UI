@@ -38,7 +38,7 @@ namespace GroupDocs.Viewer.UI.Api.AzureBlob.Storage
 
             var fileSystemEntries = new List<FileSystemEntry>();
 
-            await foreach(var item in client.GetBlobsByHierarchyAsync(prefix: dirPath, delimiter: "/"))
+            await foreach(var item in client.GetBlobsByHierarchyAsync(traits: BlobTraits.None, states: BlobStates.None, prefix: dirPath, delimiter: "/", cancellationToken: cancellationToken))
             {
                 if(item.IsPrefix)
                 {
@@ -99,7 +99,7 @@ namespace GroupDocs.Viewer.UI.Api.AzureBlob.Storage
 
 			var dirFiles = new List<BlobItem>();
 			
-			await foreach(var blob in client.GetBlobsAsync(prefix: dirPath))
+			await foreach(var blob in client.GetBlobsAsync(traits: BlobTraits.None, states: BlobStates.None, prefix: dirPath, cancellationToken: default))
             {
 				dirFiles.Add(blob);
             }

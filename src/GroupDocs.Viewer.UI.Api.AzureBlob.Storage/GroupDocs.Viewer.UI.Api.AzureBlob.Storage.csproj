@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>$(NetVersions)</TargetFrameworks>
-    
+
     <PackageId>GroupDocs.Viewer.UI.Api.AzureBlob.Storage</PackageId>
     <Version>$(GroupDocsViewerUIApiAzureStorage)</Version>
 
@@ -10,6 +10,11 @@
     <PackageTags>GroupDocs;Viewer;UI;API;Azure;Azure;File;Storage;ASP.NET Core;</PackageTags>
     <PackageIcon>images\icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0'">
+    <!-- Azure.Storage.Blobs 12.27 transitively pulls System.IO.Hashing 10.x, which drops net6 support. -->
+    <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
   </PropertyGroup>
 
   <ItemGroup>

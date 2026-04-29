@@ -16,38 +16,65 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="Package Versions">
-		<GroupDocsViewer>25.12.0</GroupDocsViewer>
+		<GroupDocsViewer>26.4.0</GroupDocsViewer>
 
+		<!-- Defaults: applied to netstandard2.0 (Core) and net8.0 builds. -->
+		<!-- Per-TFM overrides for net6.0 and net10.0 are below. -->
 		<MicrosoftExtensionsHttp>8.0.1</MicrosoftExtensionsHttp>
 		<MicrosoftExtensionsDependencyInjectionAbstractions>8.0.2</MicrosoftExtensionsDependencyInjectionAbstractions>
 		<MicrosoftExtensionsConfiguration>8.0.0</MicrosoftExtensionsConfiguration>
 		<MicrosoftExtensionsConfigurationAbstractions>8.0.0</MicrosoftExtensionsConfigurationAbstractions>
 		<MicrosoftExtensionsConfigurationBinder>8.0.2</MicrosoftExtensionsConfigurationBinder>
 		<MicrosoftExtensionsCachingMemory>8.0.1</MicrosoftExtensionsCachingMemory>
+		<MicrosoftExtensionsCachingAbstractions>8.0.0</MicrosoftExtensionsCachingAbstractions>
 		<SystemFormatsAsn1>8.0.2</SystemFormatsAsn1>
 
 		<SystemTextJson>8.0.6</SystemTextJson>
 
-		<AzureBlobs>12.25.0</AzureBlobs>
-		<AwsSdkS3>4.0.7.2</AwsSdkS3>
+		<AzureBlobs>12.27.0</AzureBlobs>
+		<AwsSdkS3>4.0.22.1</AwsSdkS3>
 
-		<MicrosoftSourceLinkGithub>8.0.0</MicrosoftSourceLinkGithub>
+		<MicrosoftSourceLinkGithub>10.0.203</MicrosoftSourceLinkGithub>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net6.0'" Label="Package Versions (.NET 6)">
+		<MicrosoftExtensionsHttp>6.0.1</MicrosoftExtensionsHttp>
+		<MicrosoftExtensionsDependencyInjectionAbstractions>6.0.0</MicrosoftExtensionsDependencyInjectionAbstractions>
+		<MicrosoftExtensionsConfiguration>6.0.2</MicrosoftExtensionsConfiguration>
+		<MicrosoftExtensionsConfigurationAbstractions>6.0.1</MicrosoftExtensionsConfigurationAbstractions>
+		<MicrosoftExtensionsConfigurationBinder>6.0.1</MicrosoftExtensionsConfigurationBinder>
+		<MicrosoftExtensionsCachingMemory>6.0.3</MicrosoftExtensionsCachingMemory>
+		<MicrosoftExtensionsCachingAbstractions>6.0.1</MicrosoftExtensionsCachingAbstractions>
+		<!-- SystemFormatsAsn1 and SystemTextJson stay at default 8.0.x: GroupDocs.Viewer 26.4.0 -->
+		<!-- transitively requires System.Text.Json >= 8.0.5 and System.Formats.Asn1 >= 8.0.0. -->
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net10.0'" Label="Package Versions (.NET 10)">
+		<MicrosoftExtensionsHttp>10.0.7</MicrosoftExtensionsHttp>
+		<MicrosoftExtensionsDependencyInjectionAbstractions>10.0.7</MicrosoftExtensionsDependencyInjectionAbstractions>
+		<MicrosoftExtensionsConfiguration>10.0.7</MicrosoftExtensionsConfiguration>
+		<MicrosoftExtensionsConfigurationAbstractions>10.0.7</MicrosoftExtensionsConfigurationAbstractions>
+		<MicrosoftExtensionsConfigurationBinder>10.0.7</MicrosoftExtensionsConfigurationBinder>
+		<MicrosoftExtensionsCachingMemory>10.0.7</MicrosoftExtensionsCachingMemory>
+		<MicrosoftExtensionsCachingAbstractions>10.0.7</MicrosoftExtensionsCachingAbstractions>
+		<SystemFormatsAsn1>10.0.7</SystemFormatsAsn1>
+		<SystemTextJson>10.0.7</SystemTextJson>
 	</PropertyGroup>
 
 	<PropertyGroup Label="GroupDocs.Viewer UI Package Versions">
-		<GroupDocsViewerUI>26.3.0</GroupDocsViewerUI>
-		<GroupDocsViewerUIApi>26.3.0</GroupDocsViewerUIApi>
-		<GroupDocsViewerUIApiLocalCache>26.3.0</GroupDocsViewerUIApiLocalCache>
-		<GroupDocsViewerUIApiInMemoryCache>26.3.0</GroupDocsViewerUIApiInMemoryCache>
-		<GroupDocsViewerUIApiDistributedCache>26.3.0</GroupDocsViewerUIApiDistributedCache>
-		<GroupDocsViewerUIApiLocalStorage>26.3.0</GroupDocsViewerUIApiLocalStorage>
-		<GroupDocsViewerUIApiCloudStorage>26.3.0</GroupDocsViewerUIApiCloudStorage>
-		<GroupDocsViewerUIApiAzureStorage>26.3.0</GroupDocsViewerUIApiAzureStorage>
-		<GroupDocsViewerUIApiAwsS3Storage>26.3.0</GroupDocsViewerUIApiAwsS3Storage>
-		<GroupDocsViewerUICore>26.3.0</GroupDocsViewerUICore>
-		<GroupDocsViewerUISelfHostApi>26.3.0</GroupDocsViewerUISelfHostApi>
-		<GroupDocsViewerUISelfHostApiCrossPlatform>26.3.0</GroupDocsViewerUISelfHostApiCrossPlatform>
-		<GroupDocsViewerUICloudApi>26.3.0</GroupDocsViewerUICloudApi>
+		<GroupDocsViewerUI>26.4.0</GroupDocsViewerUI>
+		<GroupDocsViewerUIApi>26.4.0</GroupDocsViewerUIApi>
+		<GroupDocsViewerUIApiLocalCache>26.4.0</GroupDocsViewerUIApiLocalCache>
+		<GroupDocsViewerUIApiInMemoryCache>26.4.0</GroupDocsViewerUIApiInMemoryCache>
+		<GroupDocsViewerUIApiDistributedCache>26.4.0</GroupDocsViewerUIApiDistributedCache>
+		<GroupDocsViewerUIApiLocalStorage>26.4.0</GroupDocsViewerUIApiLocalStorage>
+		<GroupDocsViewerUIApiCloudStorage>26.4.0</GroupDocsViewerUIApiCloudStorage>
+		<GroupDocsViewerUIApiAzureStorage>26.4.0</GroupDocsViewerUIApiAzureStorage>
+		<GroupDocsViewerUIApiAwsS3Storage>26.4.0</GroupDocsViewerUIApiAwsS3Storage>
+		<GroupDocsViewerUICore>26.4.0</GroupDocsViewerUICore>
+		<GroupDocsViewerUISelfHostApi>26.4.0</GroupDocsViewerUISelfHostApi>
+		<GroupDocsViewerUISelfHostApiCrossPlatform>26.4.0</GroupDocsViewerUISelfHostApiCrossPlatform>
+		<GroupDocsViewerUICloudApi>26.4.0</GroupDocsViewerUICloudApi>
 	</PropertyGroup>
 
 	<PropertyGroup Label="NuGet Common Settings">
