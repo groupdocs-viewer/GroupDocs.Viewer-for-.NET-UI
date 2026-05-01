@@ -1,33 +1,44 @@
+# MS Core Fonts install runs in an isolated stage so cabextract / wget / dpkg
+# never reach the runtime image. Only the resulting font files get copied out.
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS fonts-install
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    fontconfig \
+    cabextract \
+    xfonts-utils \
+    ca-certificates \
+    wget \
+ && rm -rf /var/lib/apt/lists/*
+
+RUN wget -q -O /tmp/mscorefonts.deb \
+    https://deb.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8.1_all.deb \
+ && dpkg -i /tmp/mscorefonts.deb \
+ && rm /tmp/mscorefonts.deb \
+ && fc-cache -f -v
+
+
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 WORKDIR /app
 EXPOSE 8080
 
-# Install dependencies for Windows Fonts package
-RUN apt update && apt install -y --no-install-recommends \
+# fontconfig is required by GroupDocs.Viewer at runtime; curl backs the HEALTHCHECK.
+RUN apt-get update && apt-get install -y --no-install-recommends \
     fontconfig \
-    cabextract \
-    xfonts-utils \
-    wget
+    curl \
+ && rm -rf /var/lib/apt/lists/*
 
-# Download and install Windows Fonts package
-RUN wget http://ftp.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8.1_all.deb
-RUN dpkg -i ttf-mscorefonts-installer_3.8.1_all.deb
-RUN rm ttf-mscorefonts-installer_3.8.1_all.deb
-
-# Update font cache
+COPY --from=fonts-install /usr/share/fonts/truetype/msttcorefonts /usr/share/fonts/truetype/msttcorefonts
 RUN fc-cache -f -v
 
-# Cleanup temp files
-RUN apt clean && rm -rf /var/lib/apt/lists/*
+# /app and the volume mount points must be writable by the non-root `app` user (UID 1654, defined in the base image).
+RUN mkdir -p /app/Files /app/Cache /app/License \
+ && chown -R app:app /app
 
-# Create default directories
-RUN mkdir -p /app/Files /app/Cache /app/License
 
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-# Copy project and dependency files
 COPY ["Directory.Build.props", "."]
 COPY ["Nuget.config", "."]
 COPY ["build/dependencies.props", "build/"]
@@ -39,25 +50,23 @@ COPY ["src/GroupDocs.Viewer.UI.Api.Local.Cache/GroupDocs.Viewer.UI.Api.Local.Cac
 COPY ["src/GroupDocs.Viewer.UI.Api.Local.Storage/GroupDocs.Viewer.UI.Api.Local.Storage.csproj", "src/GroupDocs.Viewer.UI.Api.Local.Storage/"]
 COPY ["src/GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform/GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform.csproj", "src/GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform/"]
 
-# Restore dependencies
 RUN dotnet restore "./docker/GroupDocs.Viewer.UI.Docker/GroupDocs.Viewer.UI.Docker.csproj"
 
-# Copy the rest of the code
 COPY . .
 WORKDIR "/src/docker/GroupDocs.Viewer.UI.Docker"
 
-# Build the project
 RUN dotnet build "./GroupDocs.Viewer.UI.Docker.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./GroupDocs.Viewer.UI.Docker.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
+
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=publish --chown=app:app /app/publish .
 
-# Default environment variables
 ENV VIEWER_STORAGE_PATH=/app/Files
 ENV VIEWER_CACHE_PATH=/app/Cache
 
@@ -65,5 +74,7 @@ VOLUME ["/app/Files", "/app/Cache", "/app/License"]
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD curl -f http://localhost:8080/health || exit 1
+
+USER app
 
 ENTRYPOINT ["dotnet", "GroupDocs.Viewer.UI.Docker.dll"]
