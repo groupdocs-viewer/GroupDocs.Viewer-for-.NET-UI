@@ -4,7 +4,7 @@
     <TargetFrameworks>$(NetVersions)</TargetFrameworks>
 
     <PackageId>GroupDocs.Viewer.UI.Api</PackageId>
-    <Version>$(GroupDocsViewerUIApi)</Version>
+    <Version>$(GroupDocsViewerUIVersion)</Version>
 
 	<Description>GroupDocs.Viewer.UI.Api containing base API features required by GroupDocs.Viewer.UI see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
 	<PackageTags>GroupDocs;Viewer;UI;API;ASP.NET Core;</PackageTags>

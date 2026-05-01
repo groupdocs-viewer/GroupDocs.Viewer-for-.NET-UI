@@ -6,7 +6,7 @@
     <DefineConstants>CROSS_PLATFORM</DefineConstants>
 
     <PackageId>GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform</PackageId>
-    <Version>$(GroupDocsViewerUISelfHostApiCrossPlatform)</Version>
+    <Version>$(GroupDocsViewerUIVersion)</Version>
     
 	<Description>GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform containing API implementation that is based on GroupDocs.Viewer for .NET cross-platform version see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
     <PackageTags>GroupDocs;Viewer;UI;SelftHost;API;ASP.NET Core;CrossPlatform;</PackageTags>

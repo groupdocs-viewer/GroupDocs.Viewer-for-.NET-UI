@@ -4,7 +4,7 @@
     <TargetFrameworks>$(NetVersions)</TargetFrameworks>
 
     <PackageId>GroupDocs.Viewer.UI.Api.Distributed.Cache</PackageId>
-    <Version>$(GroupDocsViewerUIApiDistributedCache)</Version>
+    <Version>$(GroupDocsViewerUIVersion)</Version>
 
     <Description>GroupDocs.Viewer.UI.Api.Distributed.Cache containing IDistributedCache-based file-cache implementation (Redis, SQL Server, etc.) that can be used with GroupDocs.Viewer.UI.Api see https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI for more details.</Description>
     <PackageTags>GroupDocs;Viewer;UI;API;Distributed;Cache;Redis;ASP.NET Core;</PackageTags>

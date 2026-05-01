@@ -62,23 +62,11 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="GroupDocs.Viewer UI Package Versions">
-		<GroupDocsViewerUI>26.4.0</GroupDocsViewerUI>
-		<GroupDocsViewerUIApi>26.4.0</GroupDocsViewerUIApi>
-		<GroupDocsViewerUIApiLocalCache>26.4.0</GroupDocsViewerUIApiLocalCache>
-		<GroupDocsViewerUIApiInMemoryCache>26.4.0</GroupDocsViewerUIApiInMemoryCache>
-		<GroupDocsViewerUIApiDistributedCache>26.4.0</GroupDocsViewerUIApiDistributedCache>
-		<GroupDocsViewerUIApiLocalStorage>26.4.0</GroupDocsViewerUIApiLocalStorage>
-		<GroupDocsViewerUIApiCloudStorage>26.4.0</GroupDocsViewerUIApiCloudStorage>
-		<GroupDocsViewerUIApiAzureStorage>26.4.0</GroupDocsViewerUIApiAzureStorage>
-		<GroupDocsViewerUIApiAwsS3Storage>26.4.0</GroupDocsViewerUIApiAwsS3Storage>
-		<GroupDocsViewerUICore>26.4.0</GroupDocsViewerUICore>
-		<GroupDocsViewerUISelfHostApi>26.4.0</GroupDocsViewerUISelfHostApi>
-		<GroupDocsViewerUISelfHostApiCrossPlatform>26.4.0</GroupDocsViewerUISelfHostApiCrossPlatform>
-		<GroupDocsViewerUICloudApi>26.4.0</GroupDocsViewerUICloudApi>
+		<GroupDocsViewerUIVersion>26.4.0</GroupDocsViewerUIVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Label="NuGet Common Settings">
-		<PackageReleaseNotes>https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/releases/tag/$(GroupDocsViewerUI)</PackageReleaseNotes>
+		<PackageReleaseNotes>https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/releases/tag/$(GroupDocsViewerUIVersion)</PackageReleaseNotes>
 	</PropertyGroup>
 	
 </Project>
