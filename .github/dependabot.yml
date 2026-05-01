@@ -1,0 +1,52 @@
+version: 2
+updates:
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "nuget"
+    groups:
+      microsoft-extensions:
+        patterns:
+          - "Microsoft.Extensions.*"
+      azure-sdk:
+        patterns:
+          - "Azure.*"
+      aws-sdk:
+        patterns:
+          - "AWSSDK.*"
+      xunit:
+        patterns:
+          - "xunit"
+          - "xunit.*"
+      test-tooling:
+        patterns:
+          - "Moq"
+          - "coverlet.*"
+          - "Microsoft.NET.Test.Sdk"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    groups:
+      actions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "docker"
+    directory: "/docker"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "docker"
