@@ -8,6 +8,7 @@ using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts;
 using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Handlers;
 using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Cloud.Api.Configuration;
+using GroupDocs.Viewer.UI.Cloud.Api.Validation;
 using GroupDocs.Viewer.UI.Cloud.Api.Viewers;
 using GroupDocs.Viewer.UI.Core.Caching;
 using GroupDocs.Viewer.UI.Core.Caching.Implementation;
@@ -103,6 +104,10 @@ namespace Microsoft.Extensions.DependencyInjection
                     factory.GetRequiredService<IAsyncLock>()
                 );
             });
+
+            //Startup validators (warn-only; never fail host startup)
+            builder.Services.AddHostedService<ConfigurationValidator>();
+            builder.Services.AddHostedService<ServiceRegistrationValidator>();
 
             return new GroupDocsViewerUIApiBuilder(builder.Services);
         }
