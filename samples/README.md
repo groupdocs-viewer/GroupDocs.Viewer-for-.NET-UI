@@ -1,6 +1,24 @@
 # UI for GroupDocs.Viewer for .NET (Samples)
 
-This directory contains various sample projects demonstrating different ways to implement and use GroupDocs.Viewer.UI. Below is a description of each sample project:
+This directory contains various sample projects demonstrating different ways to implement and use GroupDocs.Viewer.UI. Below is a description of each sample project.
+
+## Quick reference
+
+| Sample | Hosting | Storage | Cache | Rendering | Demonstrates |
+|---|---|---|---|---|---|
+| [`GroupDocs.Viewer.UI.Sample`](GroupDocs.Viewer.UI.Sample/) | SelfHost.Api | Local | Local | HTML | Default integration; ships a Dockerfile |
+| [`GroupDocs.Viewer.UI.Sample.ViewAsPng`](GroupDocs.Viewer.UI.Sample.ViewAsPng/) | SelfHost.Api | Local | Local | PNG | Rendering documents as PNG |
+| [`GroupDocs.Viewer.UI.Sample.AzureCustomDomain`](GroupDocs.Viewer.UI.Sample.AzureCustomDomain/) | SelfHost.Api | Local | Local | JPG | Azure App Service with custom domains; relative URLs; Docker Compose + Nginx |
+| [`GroupDocs.Viewer.UI.Sample.StaticContentMode`](GroupDocs.Viewer.UI.Sample.StaticContentMode/) | UI only (no API) | — | — | HTML | Pre-generated static content served from `Content/` |
+| [`GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator`](GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator/) | Console | Local | — | HTML | Generates the static content used by the sample above |
+| [`GroupDocs.Viewer.UI.Sample.CustomBranding`](GroupDocs.Viewer.UI.Sample.CustomBranding/) | SelfHost.Api | Local | Local | HTML | White-labeling: logo, title, and custom stylesheet |
+| [`GroupDocs.Viewer.UI.Sample.CrossPlatform`](GroupDocs.Viewer.UI.Sample.CrossPlatform/) | SelfHost.Api.CrossPlatform | Local | Local | HTML | Linux-friendly hosting; ships a Dockerfile |
+| [`GroupDocs.Viewer.UI.SelfHost.Api.App.Sample`](GroupDocs.Viewer.UI.SelfHost.Api.App.Sample/) | UI only (talks to remote API) | — | — | HTML | UI ↔ API split — pairs with `SelfHost.Api.Service.Sample` |
+| [`GroupDocs.Viewer.UI.SelfHost.Api.Service.Sample`](GroupDocs.Viewer.UI.SelfHost.Api.Service.Sample/) | SelfHost.Api (API only, CORS) | Local | Local | HTML | API split — pairs with `SelfHost.Api.App.Sample` |
+| [`GroupDocs.Viewer.UI.Cloud.Api.Sample`](GroupDocs.Viewer.UI.Cloud.Api.Sample/) | Cloud.Api | Local | Local | HTML | GroupDocs Cloud rendering (needs credentials) |
+| [`GroupDocs.Viewer.UI.Sample.CustomCacheProvider`](GroupDocs.Viewer.UI.Sample.CustomCacheProvider/) | SelfHost.Api | Local | **Custom `IFileCache`** | HTML | Implementing a custom cache provider |
+| [`GroupDocs.Viewer.UI.Sample.CustomFileStorage`](GroupDocs.Viewer.UI.Sample.CustomFileStorage/) | SelfHost.Api | **Custom `IFileStorage`** | Local | HTML | Implementing a custom storage provider (DB/blob-style) |
+| [`GroupDocs.Viewer.UI.CacheFactory.Sample`](GroupDocs.Viewer.UI.CacheFactory.Sample/) | Console | Local | Local | HTML | Pre-warming cache before UI access |
 
 ## Basic Implementation Samples
 
@@ -55,6 +73,10 @@ Shows how to integrate the viewer with GroupDocs Cloud API. This sample requires
 ### GroupDocs.Viewer.UI.Sample.CustomCacheProvider
 
 Demonstrates how to implement a custom cache provider for the viewer.
+
+### GroupDocs.Viewer.UI.Sample.CustomFileStorage
+
+Demonstrates how to implement a custom `IFileStorage` for a database- or blob-backed store. The sample includes a `DatabaseFileStorage` class that simulates a SQL `VARBINARY(MAX)` column with an in-memory dictionary seeded from disk, and shows how to register the custom storage after `AddGroupDocsViewerSelfHostApi()`. Note that custom storages must implement `ReadFileStreamAsync` (required since 26.3.0).
 
 ### GroupDocs.Viewer.UI.CacheFactory.Sample
 
