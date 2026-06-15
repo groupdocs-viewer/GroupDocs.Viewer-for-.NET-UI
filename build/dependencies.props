@@ -27,7 +27,7 @@
 		<MicrosoftExtensionsConfigurationBinder>8.0.2</MicrosoftExtensionsConfigurationBinder>
 		<MicrosoftExtensionsCachingMemory>8.0.1</MicrosoftExtensionsCachingMemory>
 		<MicrosoftExtensionsCachingAbstractions>8.0.0</MicrosoftExtensionsCachingAbstractions>
-		<SystemFormatsAsn1>8.0.2</SystemFormatsAsn1>
+		<SystemFormatsAsn1>10.0.9</SystemFormatsAsn1>
 
 		<SystemTextJson>8.0.6</SystemTextJson>
 
