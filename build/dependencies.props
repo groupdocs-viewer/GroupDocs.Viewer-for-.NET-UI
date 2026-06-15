@@ -29,7 +29,7 @@
 		<MicrosoftExtensionsCachingAbstractions>8.0.0</MicrosoftExtensionsCachingAbstractions>
 		<SystemFormatsAsn1>8.0.2</SystemFormatsAsn1>
 
-		<SystemTextJson>8.0.6</SystemTextJson>
+		<SystemTextJson>10.0.9</SystemTextJson>
 
 		<AzureBlobs>12.27.0</AzureBlobs>
 		<AwsSdkS3>4.0.22.1</AwsSdkS3>
