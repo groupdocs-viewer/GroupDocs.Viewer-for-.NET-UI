@@ -32,7 +32,7 @@
 		<SystemTextJson>8.0.6</SystemTextJson>
 
 		<AzureBlobs>12.27.0</AzureBlobs>
-		<AwsSdkS3>4.0.22.1</AwsSdkS3>
+		<AwsSdkS3>4.0.24.4</AwsSdkS3>
 
 		<MicrosoftSourceLinkGithub>10.0.203</MicrosoftSourceLinkGithub>
 	</PropertyGroup>
