@@ -20,13 +20,13 @@
 
 		<!-- Defaults: applied to netstandard2.0 (Core) and net8.0 builds. -->
 		<!-- Per-TFM overrides for net6.0 and net10.0 are below. -->
-		<MicrosoftExtensionsHttp>8.0.1</MicrosoftExtensionsHttp>
-		<MicrosoftExtensionsDependencyInjectionAbstractions>8.0.2</MicrosoftExtensionsDependencyInjectionAbstractions>
-		<MicrosoftExtensionsConfiguration>8.0.0</MicrosoftExtensionsConfiguration>
-		<MicrosoftExtensionsConfigurationAbstractions>8.0.0</MicrosoftExtensionsConfigurationAbstractions>
-		<MicrosoftExtensionsConfigurationBinder>8.0.2</MicrosoftExtensionsConfigurationBinder>
-		<MicrosoftExtensionsCachingMemory>8.0.1</MicrosoftExtensionsCachingMemory>
-		<MicrosoftExtensionsCachingAbstractions>8.0.0</MicrosoftExtensionsCachingAbstractions>
+		<MicrosoftExtensionsHttp>10.0.10</MicrosoftExtensionsHttp>
+		<MicrosoftExtensionsDependencyInjectionAbstractions>10.0.10</MicrosoftExtensionsDependencyInjectionAbstractions>
+		<MicrosoftExtensionsConfiguration>10.0.10</MicrosoftExtensionsConfiguration>
+		<MicrosoftExtensionsConfigurationAbstractions>10.0.10</MicrosoftExtensionsConfigurationAbstractions>
+		<MicrosoftExtensionsConfigurationBinder>10.0.10</MicrosoftExtensionsConfigurationBinder>
+		<MicrosoftExtensionsCachingMemory>10.0.10</MicrosoftExtensionsCachingMemory>
+		<MicrosoftExtensionsCachingAbstractions>10.0.10</MicrosoftExtensionsCachingAbstractions>
 		<SystemFormatsAsn1>8.0.2</SystemFormatsAsn1>
 
 		<SystemTextJson>8.0.6</SystemTextJson>
