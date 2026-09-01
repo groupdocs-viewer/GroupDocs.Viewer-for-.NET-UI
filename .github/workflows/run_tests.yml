@@ -27,14 +27,8 @@ on:
 
 jobs:
   test:
-    name: Test on .NET ${{ matrix.dotnet-version }}
+    name: Test
     runs-on: windows-latest
-    strategy:
-      matrix:
-        dotnet-version:
-          - '6.0.x'
-          - '8.0.x'
-          - '10.0.x'
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: true
       DOTNET_NOLOGO: true
@@ -44,10 +38,17 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup .NET SDK
+      # The test project multi-targets net6.0/net8.0/net10.0, so a single `dotnet test`
+      # already exercises all three. Every one of those runtimes has to be installed for
+      # the inner builds to start - a matrix that installed one SDK per leg left the other
+      # two TFMs unable to run, which failed the build while still reporting 0 errors.
+      - name: Setup .NET SDKs
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-version: |
+            6.0.x
+            8.0.x
+            10.0.x
 
       - name: Restore dependencies
         run: dotnet restore ./GroupDocs.Viewer.UI.sln
@@ -55,16 +56,18 @@ jobs:
       - name: Build solution
         run: dotnet build ./GroupDocs.Viewer.UI.sln --no-restore --configuration Release
 
+      # LogFilePrefix, not LogFileName: with a fixed name all three TFMs write the same
+      # trx and overwrite each other, so only one framework's results survive.
       - name: Run tests
-        run: dotnet test ./tests/GroupDocs.Viewer.UI.Api.Tests/GroupDocs.Viewer.UI.Api.Tests.csproj --no-build --configuration Release --verbosity normal --logger "trx;LogFileName=test-results-${{ matrix.dotnet-version }}.trx" --collect:"XPlat Code Coverage"
+        run: dotnet test ./tests/GroupDocs.Viewer.UI.Api.Tests/GroupDocs.Viewer.UI.Api.Tests.csproj --no-build --configuration Release --verbosity normal --logger "trx;LogFilePrefix=test-results" --collect:"XPlat Code Coverage"
 
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-${{ matrix.dotnet-version }}
+          name: test-results
           path: |
-            **/test-results-*.trx
+            **/test-results_*.trx
             **/coverage.cobertura.xml
           retention-days: 30
 
