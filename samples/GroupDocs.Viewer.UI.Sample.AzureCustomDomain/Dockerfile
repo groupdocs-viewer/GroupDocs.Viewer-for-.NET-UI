@@ -4,11 +4,6 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-# Install libgdiplus
-RUN apt update && apt install -y --no-install-recommends \ 
-    libgdiplus \ 
-    libc6-dev
-
 # Install dependencies for Windows Fonts package
 RUN apt update && apt install -y --no-install-recommends \
     fontconfig \
@@ -38,6 +33,7 @@ COPY ["src/GroupDocs.Viewer.UI.Core/GroupDocs.Viewer.UI.Core.csproj", "src/Group
 COPY ["src/GroupDocs.Viewer.UI.Api.Local.Cache/GroupDocs.Viewer.UI.Api.Local.Cache.csproj", "src/GroupDocs.Viewer.UI.Api.Local.Cache/"]
 COPY ["src/GroupDocs.Viewer.UI.Api.Local.Storage/GroupDocs.Viewer.UI.Api.Local.Storage.csproj", "src/GroupDocs.Viewer.UI.Api.Local.Storage/"]
 COPY ["src/GroupDocs.Viewer.UI.SelfHost.Api/GroupDocs.Viewer.UI.SelfHost.Api.csproj", "src/GroupDocs.Viewer.UI.SelfHost.Api/"]
+COPY ["src/GroupDocs.Viewer.UI.SelfHost.Api.Shared/GroupDocs.Viewer.UI.SelfHost.Api.Shared.projitems", "src/GroupDocs.Viewer.UI.SelfHost.Api.Shared/"]
 COPY ["Directory.Build.props", "."]
 COPY ["build/dependencies.props", "build/"]
 

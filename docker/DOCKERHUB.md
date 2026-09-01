@@ -63,7 +63,11 @@ Request a [temporary license](https://purchase.groupdocs.com/temporary-license) 
 
 ## Supported Formats
 
-PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, HTML, MSG, EML, ODT, ODS, ODP, RTF, TXT, CSV, TSV, XML, JSON, DWG, DXF, STL, IFC, PNG, JPG, TIFF, BMP, GIF, SVG, WEBP, ICO, PSD, AI, EPUB, MOBI, and [many more](https://docs.groupdocs.com/viewer/net/supported-document-formats/).
+PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, HTML, MSG, EML, ODT, ODS, ODP, RTF, TXT, CSV, TSV, XML, JSON, DWG, DXF, STL, IFC, PNG, JPG, TIFF, BMP, GIF, SVG, WEBP, ICO, EPUB, MOBI, and [many more](https://docs.groupdocs.com/viewer/net/supported-document-formats/).
+
+> **Not in this version**: PSD, PSB, AI, and ONE. These are provided only by the Windows-specific
+> engine build, which the cross-platform image does not use. If you need them, stay on `26.4.0`
+> and watch for a later release that restores them.
 
 ## Health Check
 

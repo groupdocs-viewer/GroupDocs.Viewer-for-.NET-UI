@@ -23,11 +23,20 @@ function Exec {
 
 if (-Not (Test-Path .\artifacts)) { throw ("Folder '.\artifacts' does not exit.") }
 
-Get-ChildItem .\artifacts -Filter *.nupkg | 
-Foreach-Object {
-    $fileName = $_.Name
-    $package = ".\artifacts\${filename}"
-    
+# The shim release of a retired ID must go last: its dependency on the replacement should
+# never resolve to a package that is not on the feed yet. nuget.org does not validate this
+# at push time, so nothing enforces it for us - hence the explicit ordering rather than
+# relying on Get-ChildItem happening to sort the replacement first.
+$shimId = "GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform"
+
+$all = Get-ChildItem .\artifacts -Filter *.nupkg
+$shims = @($all | Where-Object { $_.Name -like "$shimId.*" })
+$rest = @($all | Where-Object { $_.Name -notlike "$shimId.*" })
+
+foreach ($item in $rest + $shims) {
+    $fileName = $item.Name
+    $package = ".\artifacts\${fileName}"
+
     Write-Host "Package $package will be published."
 
     exec { & dotnet nuget push $package --api-key "$env:NUGET_API_KEY_PROD" --source https://api.nuget.org/v3/index.json --skip-duplicate }

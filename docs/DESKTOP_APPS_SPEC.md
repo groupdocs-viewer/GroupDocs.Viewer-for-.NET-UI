@@ -53,7 +53,7 @@ A Windows desktop application using WPF with WebView2 to host the Angular SPA. A
 | `Microsoft.AspNetCore.App` (FrameworkReference) | In-process Kestrel for API |
 | `GroupDocs.Viewer.UI` | Angular SPA (embedded resources) |
 | `GroupDocs.Viewer.UI.Api` | API controller + models |
-| `GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform` | Rendering engine |
+| `GroupDocs.Viewer.UI.SelfHost.Api` | Rendering engine |
 | `GroupDocs.Viewer.UI.Api.Local.Storage` | File storage |
 | `GroupDocs.Viewer.UI.Api.Local.Cache` | File cache |
 
@@ -175,7 +175,7 @@ A cross-platform desktop/mobile application using .NET MAUI. Uses `BlazorWebView
 | `Microsoft.AspNetCore.Components.WebView.Maui` | BlazorWebView for hosting web content |
 | `GroupDocs.Viewer.UI` | Angular SPA (embedded resources) |
 | `GroupDocs.Viewer.UI.Api` | API controller + models |
-| `GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform` | Rendering engine |
+| `GroupDocs.Viewer.UI.SelfHost.Api` | Rendering engine |
 | `GroupDocs.Viewer.UI.Api.Local.Storage` | File storage |
 | `GroupDocs.Viewer.UI.Api.Local.Cache` | File cache |
 
@@ -318,7 +318,7 @@ The entire app runs client-side. The Angular SPA is replaced with a Blazor-rende
 | `Microsoft.AspNetCore.Components` | Blazor framework |
 | `GroupDocs.Viewer.UI` | Angular SPA |
 | `GroupDocs.Viewer.UI.Api` | API controller |
-| `GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform` | Rendering |
+| `GroupDocs.Viewer.UI.SelfHost.Api` | Rendering |
 | `GroupDocs.Viewer.UI.Api.Local.Storage` | Storage |
 | `GroupDocs.Viewer.UI.Api.Local.Cache` | Cache |
 

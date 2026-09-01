@@ -12,7 +12,6 @@ This directory contains various sample projects demonstrating different ways to 
 | [`GroupDocs.Viewer.UI.Sample.StaticContentMode`](GroupDocs.Viewer.UI.Sample.StaticContentMode/) | UI only (no API) | — | — | HTML | Pre-generated static content served from `Content/` |
 | [`GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator`](GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator/) | Console | Local | — | HTML | Generates the static content used by the sample above |
 | [`GroupDocs.Viewer.UI.Sample.CustomBranding`](GroupDocs.Viewer.UI.Sample.CustomBranding/) | SelfHost.Api | Local | Local | HTML | White-labeling: logo, title, and custom stylesheet |
-| [`GroupDocs.Viewer.UI.Sample.CrossPlatform`](GroupDocs.Viewer.UI.Sample.CrossPlatform/) | SelfHost.Api.CrossPlatform | Local | Local | HTML | Linux-friendly hosting; ships a Dockerfile |
 | [`GroupDocs.Viewer.UI.SelfHost.Api.App.Sample`](GroupDocs.Viewer.UI.SelfHost.Api.App.Sample/) | UI only (talks to remote API) | — | — | HTML | UI ↔ API split — pairs with `SelfHost.Api.Service.Sample` |
 | [`GroupDocs.Viewer.UI.SelfHost.Api.Service.Sample`](GroupDocs.Viewer.UI.SelfHost.Api.Service.Sample/) | SelfHost.Api (API only, CORS) | Local | Local | HTML | API split — pairs with `SelfHost.Api.App.Sample` |
 | [`GroupDocs.Viewer.UI.Cloud.Api.Sample`](GroupDocs.Viewer.UI.Cloud.Api.Sample/) | Cloud.Api | Local | Local | HTML | GroupDocs Cloud rendering (needs credentials) |
@@ -45,12 +44,6 @@ A utility application that generates static content for use with the static cont
 ### GroupDocs.Viewer.UI.Sample.CustomBranding
 
 Demonstrates how to white-label the viewer with custom colors, logo, and app title. Uses `SetLogoImage()`, `SetLogoText()`, `AddCustomStylesheet()`, and `UITitle` to replace default branding with a custom teal color scheme and "Acme Corp" branding.
-
-## Cross-Platform and Framework Specific Samples
-
-### GroupDocs.Viewer.UI.Sample.CrossPlatform
-
-Demonstrates how to implement the viewer in a cross-platform environment, which is recommended option when running the API on Linux. The example contains Dockerfile that lists all the dependencies required to be installed on the system.
 
 ## API Implementation Samples
 
@@ -100,6 +93,6 @@ To run any of these samples:
 ## Notes
 
 - In case you would like to configure the specific sample, check `Program.cs` file
-- `GroupDocs.Viewer.UI.Sample`, `GroupDocs.Viewer.UI.Sample.CrossPlatform`, and `GroupDocs.Viewer.UI.Sample.AzureCustomDomain` provide Dockerfile
+- `GroupDocs.Viewer.UI.Sample` and `GroupDocs.Viewer.UI.Sample.AzureCustomDomain` provide Dockerfile
 - `GroupDocs.Viewer.UI.Sample.AzureCustomDomain` also includes Docker Compose with Nginx for testing custom domains locally
 - Please let us know if you can't find the example you're looking for by posting an issue

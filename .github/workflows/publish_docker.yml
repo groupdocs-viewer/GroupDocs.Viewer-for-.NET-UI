@@ -30,7 +30,7 @@ jobs:
           if [[ "${{ github.ref_type }}" == "tag" ]]; then
             echo "version=${{ github.ref_name }}" >> $GITHUB_OUTPUT
           else
-            VERSION=$(grep -oP '<GroupDocsViewerUI>\K[^<]+' build/dependencies.props)
+            VERSION=$(grep -oP '<GroupDocsViewerUIVersion>\K[^<]+' build/dependencies.props)
             echo "version=$VERSION" >> $GITHUB_OUTPUT
           fi
 

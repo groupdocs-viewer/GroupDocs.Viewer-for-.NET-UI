@@ -48,7 +48,8 @@ COPY ["src/GroupDocs.Viewer.UI.Api/GroupDocs.Viewer.UI.Api.csproj", "src/GroupDo
 COPY ["src/GroupDocs.Viewer.UI.Core/GroupDocs.Viewer.UI.Core.csproj", "src/GroupDocs.Viewer.UI.Core/"]
 COPY ["src/GroupDocs.Viewer.UI.Api.Local.Cache/GroupDocs.Viewer.UI.Api.Local.Cache.csproj", "src/GroupDocs.Viewer.UI.Api.Local.Cache/"]
 COPY ["src/GroupDocs.Viewer.UI.Api.Local.Storage/GroupDocs.Viewer.UI.Api.Local.Storage.csproj", "src/GroupDocs.Viewer.UI.Api.Local.Storage/"]
-COPY ["src/GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform/GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform.csproj", "src/GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform/"]
+COPY ["src/GroupDocs.Viewer.UI.SelfHost.Api/GroupDocs.Viewer.UI.SelfHost.Api.csproj", "src/GroupDocs.Viewer.UI.SelfHost.Api/"]
+COPY ["src/GroupDocs.Viewer.UI.SelfHost.Api.Shared/GroupDocs.Viewer.UI.SelfHost.Api.Shared.projitems", "src/GroupDocs.Viewer.UI.SelfHost.Api.Shared/"]
 
 RUN dotnet restore "./docker/GroupDocs.Viewer.UI.Docker/GroupDocs.Viewer.UI.Docker.csproj"
 

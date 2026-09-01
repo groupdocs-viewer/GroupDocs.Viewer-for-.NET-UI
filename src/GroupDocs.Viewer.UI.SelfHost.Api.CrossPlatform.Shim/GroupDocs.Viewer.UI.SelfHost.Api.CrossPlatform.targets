@@ -1,0 +1,21 @@
+<!--
+  ===========================================================================
+  Build warning for the retired GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform
+  package ID.
+
+  Packed into build/ and buildTransitive/ by the shim nuspec. The filename
+  must match the package ID exactly, or NuGet will not import it.
+
+  Deprecation on nuget.org produces NO warning during restore or build - this
+  file is what makes the retirement visible in a normal build.
+
+  GDVUI0001 is distinct from the engine shim's GDV0001 so consumers can
+  suppress each retirement independently.
+  ===========================================================================
+-->
+<Project>
+  <Target Name="GroupDocsViewerUISelfHostApiCrossPlatformDeprecated" BeforeTargets="Build">
+    <Warning Code="GDVUI0001"
+             Text="GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform is deprecated and receives no further updates. Replace it with GroupDocs.Viewer.UI.SelfHost.Api (https://www.nuget.org/packages/GroupDocs.Viewer.UI.SelfHost.Api) - same namespaces, same AddGroupDocsViewerSelfHostApi() entry point, and it is now cross-platform. To migrate later, suppress with &lt;NoWarn&gt;GDVUI0001&lt;/NoWarn&gt;." />
+  </Target>
+</Project>

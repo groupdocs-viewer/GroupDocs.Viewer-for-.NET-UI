@@ -1,10 +1,10 @@
 # GroupDocs.Viewer.UI.SelfHost.Api.Shared
 
-`GroupDocs.Viewer.UI.SelfHost.Api.Shared` is a shared library that provides core functionality for document viewing in both `GroupDocs.Viewer.UI.SelfHost.Api` and `GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform` implementations. This library contains common components that enable consistent document viewing capabilities across different platforms.
+`GroupDocs.Viewer.UI.SelfHost.Api.Shared` is a shared library that provides core functionality for document viewing the `GroupDocs.Viewer.UI.SelfHost.Api` implementation. This library contains the common components that enable document viewing capabilities across platforms.
 
 ## Purpose
 
-This shared library serves as the foundation for both the standard Windows-optimized implementation (`GroupDocs.Viewer.UI.SelfHost.Api`) and the cross-platform implementation (`GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform`). It provides:
+This shared library serves as the foundation for `GroupDocs.Viewer.UI.SelfHost.Api`. It provides:
 
 - Common configuration management
 - Base viewer implementations
@@ -50,10 +50,9 @@ The license system supports:
 
 This library is not meant to be used directly in applications. Instead, it serves as the foundation for:
 
-1. `GroupDocs.Viewer.UI.SelfHost.Api` - Windows-optimized implementation
-2. `GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform` - Cross-platform implementation
+1. `GroupDocs.Viewer.UI.SelfHost.Api` - the self-hosted API implementation, cross-platform as of 26.8.0
 
-Both implementations build upon this shared library to provide their specific functionality while maintaining consistent behavior for core document viewing operations.
+That implementation builds upon this shared library to provide its functionality while maintaining consistent behavior for core document viewing operations.
 
 ## Technical Details
 

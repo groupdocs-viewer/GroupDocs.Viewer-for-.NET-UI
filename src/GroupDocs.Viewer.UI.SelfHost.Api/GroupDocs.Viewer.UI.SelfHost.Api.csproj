@@ -20,8 +20,10 @@
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="GroupDocs.Viewer" Version="$(GroupDocsViewer)" />
+    <!-- GroupDocs.Viewer -> GroupDocs.Viewer.Net60 -> System.Security.Cryptography.Pkcs 8.0.0
+         -> System.Formats.Asn1 8.0.0 (GHSA-447r-wph3-92pm). Pin above it.
+         System.Text.Json needs no pin: the engine already floors it at 10.0.4. -->
     <PackageReference Include="System.Formats.Asn1" Version="$(SystemFormatsAsn1)" />
-    <PackageReference Include="System.Text.Json" Version="$(SystemTextJson)" />
   </ItemGroup>
 
   <ItemGroup>

@@ -23,7 +23,7 @@ dotnet add package GroupDocs.Viewer.UI.Api.Local.Storage
 dotnet add package GroupDocs.Viewer.UI.Api.Local.Cache
 ```
 
-> **Note**: If you're planning to host your app on Linux, use the `GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform` package.
+> **Note**: `GroupDocs.Viewer.UI.SelfHost.Api` runs on Windows, Linux, and macOS. The separate `GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform` package is deprecated - it now forwards to this one.
 
 ### Update the `Startup` class
 
@@ -506,23 +506,21 @@ The API serves document data such as metadata, pages in HTML/PNG/JPG formats, an
 ### Available API Implementations
 
 - [GroupDocs.Viewer.UI.SelfHost.Api](https://www.nuget.org/packages/GroupDocs.Viewer.UI.SelfHost.Api)
-- [GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform](https://www.nuget.org/packages/GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform)
 - [GroupDocs.Viewer.UI.Cloud.Api](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Cloud.Api)
 
 ### Self-Hosted
 
 The API is used to retrieve document information and convert documents to HTML, PNG, JPG, and PDF.
 
-There are two versions of the self-hosted API:
-
 - **[GroupDocs.Viewer.UI.SelfHost.Api](https://www.nuget.org/packages/GroupDocs.Viewer.UI.SelfHost.Api)**:  
-  This package is based on the [GroupDocs.Viewer](https://www.nuget.org/packages/groupdocs.viewer) NuGet package and can be used in .NET 6 applications on Windows and Linux.  
-  It relies heavily on `System.Drawing.Common`.
+  This package is based on the [GroupDocs.Viewer](https://www.nuget.org/packages/groupdocs.viewer) NuGet package and runs on .NET 6, 8, and 10 on Windows, Linux, and macOS.  
+  Rendering goes through SkiaSharp and the GroupDocs cross-platform native assets - no GDI+ or `libgdiplus` is required.
 
-- **[GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform](https://www.nuget.org/packages/GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform)**:  
-  This package is based on the [GroupDocs.Viewer.CrossPlatform](https://www.nuget.org/packages/groupdocs.viewer.crossplatform) NuGet package and works with .NET 6 and higher versions on both Linux and Windows.
+> **Note**: [GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform](https://www.nuget.org/packages/GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform) is deprecated.
+> As of 26.8.0 `GroupDocs.Viewer` ships per-TFM runtime packages that are cross-platform on their own, so the two packages are identical.
+> Replace the reference with `GroupDocs.Viewer.UI.SelfHost.Api` - no code changes are needed.
 
-After installing the package that suits your requirements, you can add it in your startup code:
+After installing the package, you can add it in your startup code:
 
 ```cs
 services
@@ -684,10 +682,8 @@ Find example implementation of custom cache provider [here](./samples/GroupDocs.
 
 To run the self-hosted API on Linux, the following dependencies are required:
 
-1. **Microsoft Fonts**: You can copy these from your Windows host.  
+**Microsoft Fonts**: You can copy these from your Windows host.  
    If you're using Ubuntu, refer to the [How to Install Windows Fonts on Ubuntu](https://docs.groupdocs.com/viewer/java/how-to-install-windows-fonts-on-ubuntu/) documentation.
-
-2. **`libgdiplus` Package**: This package is required for using `GroupDocs.Viewer.UI.SelfHost.Api` on Linux. Ensure you install the latest available version of `libgdiplus`.
 
 ## Running in Docker
 
@@ -734,7 +730,7 @@ services:
 
 ```bash
 # PowerShell
-.\build-docker.ps1 -Tag "26.4.0"
+.\build-docker.ps1 -Tag "26.8.0"
 
 # Or directly
 docker build -f docker/Dockerfile -t groupdocs/viewer-net-ui .
@@ -745,7 +741,6 @@ docker build -f docker/Dockerfile -t groupdocs/viewer-net-ui .
 To build your own Docker image with custom configuration, refer to these example Dockerfiles:
 
 - For `GroupDocs.Viewer.UI.SelfHost.Api` and .NET 8 app, see this [Dockerfile](/samples/GroupDocs.Viewer.UI.Sample/Dockerfile).
-- For `GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform` and .NET 8 app, see this [Dockerfile](/samples/GroupDocs.Viewer.UI.Sample.CrossPlatform/Dockerfile).
 
 ## Extensibility Points
 

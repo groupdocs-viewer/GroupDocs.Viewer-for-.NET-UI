@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ===========================================================================
+  SHIM NUSPEC - the final release of the retired
+  GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform package ID.
+
+  Ships NO assemblies. It forwards consumers to GroupDocs.Viewer.UI.SelfHost.Api
+  and emits build warning GDVUI0001.
+
+  Packed by build.ps1 with -BasePath on this directory. dotnet pack cannot pack
+  a bare nuspec, so this uses nuget.exe.
+  ===========================================================================
+-->
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform</id>
+    <version>$version$</version>
+    <title>GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform (deprecated - use GroupDocs.Viewer.UI.SelfHost.Api)</title>
+    <authors>GroupDocs Contributors</authors>
+    <owners>Aspose</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <icon>images/icon.png</icon>
+    <readme>README.md</readme>
+    <projectUrl>https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI</projectUrl>
+    <repository type="git" url="https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI" />
+
+    <!--
+      The description DOES reach clients - nuget.org, Visual Studio, search
+      results. The nuget.org deprecation "custom message" does NOT. Put the
+      real migration instructions here.
+    -->
+    <description>
+      DEPRECATED - use GroupDocs.Viewer.UI.SelfHost.Api instead.
+
+      GroupDocs.Viewer 26.8.0 ships per-TFM runtime packages that are cross-platform on
+      Windows, Linux and macOS, so GroupDocs.Viewer.UI.SelfHost.Api is cross-platform too
+      and this package has no reason to exist. Replace the reference with
+      GroupDocs.Viewer.UI.SelfHost.Api - the namespaces, the AddGroupDocsViewerSelfHostApi()
+      entry point and the configuration API are unchanged, so no code changes are needed.
+
+      This version contains no assemblies. It only forwards to GroupDocs.Viewer.UI.SelfHost.Api.
+    </description>
+    <tags>deprecated GroupDocs Viewer UI SelfHost API ASP.NET Core</tags>
+
+    <dependencies>
+      <!--
+        One group per TFM the retired package supported.
+
+        Floor constraint, not the router's exact [x.y.z]. The shim ships at the
+        version of the replacement it forwards to, but the replacement keeps
+        shipping after it. An exact pin would make a consumer who also references
+        a newer GroupDocs.Viewer.UI.SelfHost.Api fail restore with NU1107 instead
+        of building with the GDVUI0001 warning.
+      -->
+      <group targetFramework="net6.0">
+        <dependency id="GroupDocs.Viewer.UI.SelfHost.Api" version="26.8.0" />
+      </group>
+      <group targetFramework="net8.0">
+        <dependency id="GroupDocs.Viewer.UI.SelfHost.Api" version="26.8.0" />
+      </group>
+      <group targetFramework="net10.0">
+        <dependency id="GroupDocs.Viewer.UI.SelfHost.Api" version="26.8.0" />
+      </group>
+    </dependencies>
+  </metadata>
+
+  <files>
+    <!-- _._ = "this TFM is supported, no assemblies shipped from this package".
+         One per dependency group, or a consumer gets NU1202. -->
+    <file src="_._" target="lib/net6.0/" />
+    <file src="_._" target="lib/net8.0/" />
+    <file src="_._" target="lib/net10.0/" />
+
+    <!--
+      build/           -> projects that reference this package directly
+      buildTransitive/ -> projects that pick it up through another package
+
+      Ship both. The filename must be exactly <PackageId>.targets or NuGet
+      will not import it.
+    -->
+    <file src="GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform.targets" target="build/" />
+    <file src="GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform.targets" target="buildTransitive/" />
+
+    <file src="../../assets/icon.png" target="images/" />
+    <file src="README.md" target="" />
+  </files>
+</package>

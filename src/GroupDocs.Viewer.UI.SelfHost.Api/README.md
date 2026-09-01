@@ -2,7 +2,9 @@
 
 `GroupDocs.Viewer.UI.SelfHost.Api` is a self-hosted API implementation for `GroupDocs.Viewer.UI` that enables document viewing using GroupDocs.Viewer for .NET. It provides a local, self-contained solution for document viewing without requiring cloud services.
 
-This package uses the `GroupDocs.Viewer` NuGet package which relies on System.Drawing.Common and is optimized for Windows environments. For Linux deployments, we recommend using `GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform` instead, which utilizes `GroupDocs.Viewer.CrossPlatform` with its cross-platform graphical engine.
+This package uses the `GroupDocs.Viewer` NuGet package. As of 26.8.0 `GroupDocs.Viewer` ships per-TFM runtime packages that are cross-platform on their own, so this package runs on Windows, Linux, and macOS with no GDI+ or `libgdiplus` required. The separate `GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform` package is deprecated - use this one.
+
+> **Note**: rendering of PSD, PSB, AI, and ONE documents is not available in 26.8.0. Those formats are provided only by the Windows-specific engine build, which this package does not use.
 
 ## Installation
 

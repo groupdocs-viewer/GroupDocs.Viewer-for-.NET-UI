@@ -86,7 +86,7 @@ Deploy the viewer as a separate ASP.NET Core application on a different port or 
 
 ### Deploy the Viewer Service
 
-Create a minimal ASP.NET Core app (see [samples/GroupDocs.Viewer.UI.Sample.CrossPlatform](../samples/GroupDocs.Viewer.UI.Sample.CrossPlatform/)):
+Create a minimal ASP.NET Core app (see [samples/GroupDocs.Viewer.UI.Sample](../samples/GroupDocs.Viewer.UI.Sample/)):
 
 ```csharp
 var builder = WebApplication.CreateBuilder(args);
