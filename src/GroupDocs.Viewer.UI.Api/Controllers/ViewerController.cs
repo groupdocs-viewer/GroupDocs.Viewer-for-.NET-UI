@@ -6,6 +6,7 @@ using GroupDocs.Viewer.UI.Core.Configuration;
 using GroupDocs.Viewer.UI.Core.Entities;
 using GroupDocs.Viewer.UI.Core.Extensions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -13,7 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -510,14 +510,10 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
 
         private async Task<(string, byte[])> DownloadFileAsync(string url)
         {
-            using HttpClient httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Add("User-Agent", "Other");
+            // NOTE: a file uploaded by URL can't be larger than a file uploaded directly
+            var maxFileSize = HttpContext.Features.Get<IHttpMaxRequestBodySizeFeature>()?.MaxRequestBodySize;
 
-            Uri uri = new Uri(url);
-            string fileName = Path.GetFileName(uri.LocalPath);
-            byte[] bytes = await httpClient.GetByteArrayAsync(uri);
-
-            return (fileName, bytes);
+            return await UrlFileDownloader.DownloadAsync(url, maxFileSize, HttpContext.RequestAborted);
         }
 
         private IActionResult ErrorJsonResult(string message) =>

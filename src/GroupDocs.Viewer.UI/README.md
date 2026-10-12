@@ -346,6 +346,8 @@ builder.Services
 
 To hide file upload in file browser popup, set `EnableFileUpload` to `false`. By default, this button is visible.
 
+When a file is uploaded by URL, the server downloads it. Only public internet addresses are allowed: loopback, private and link-local addresses (e.g. cloud metadata endpoints) are refused, proxy settings are not used, and the file can't be larger than the server's request body size limit.
+
 ```cs
 builder.Services
    .AddGroupDocsViewerUI(config =>
