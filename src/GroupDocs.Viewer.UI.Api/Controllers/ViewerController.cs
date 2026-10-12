@@ -312,6 +312,10 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             if (_config.RenderingMode != RenderingMode.Html)
                 return ErrorJsonResult("Loading page resources is disabled in image mode.");
 
+            // NOTE: resource names are plain file names, a path here is never a page resource
+            if (string.IsNullOrEmpty(request.Resource) || request.Resource.IndexOfAny(new[] { '/', '\\' }) >= 0)
+                return NotFound("Resource was not found");
+
             try
             {
                 var fileCredentials = new FileCredentials(request.File);
@@ -467,7 +471,8 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
 
             await formFile.CopyToAsync(stream);
 
-            return (formFile.FileName, stream.ToArray());
+            // NOTE: the file name comes from the client and may contain a path
+            return (Path.GetFileName(formFile.FileName), stream.ToArray());
         }
 
         private async Task<(string, byte[])> DownloadFileAsync(string url)

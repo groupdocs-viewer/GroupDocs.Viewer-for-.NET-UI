@@ -56,6 +56,12 @@ The Local Storage implementation requires a single configuration option:
 
 ## Security Considerations
 
+File and folder paths received from the client are always resolved inside the storage directory:
+
+- A leading `/` (or `\` on Windows) refers to the storage directory, e.g. `/reports/annual.docx` is `<storagePath>/reports/annual.docx`
+- Paths that resolve outside the storage directory, such as `../appsettings.json` or `C:\Windows\win.ini`, are rejected with `UnauthorizedAccessException`
+- Symbolic links and junctions inside the storage directory are followed, so don't link to folders you don't want to expose
+
 When using Local Storage:
 
 1. Ensure the storage directory is not accessible directly through the web server

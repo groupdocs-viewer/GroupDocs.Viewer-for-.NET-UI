@@ -11,6 +11,9 @@ namespace GroupDocs.Viewer.UI.Api.Local.Storage
 {
     public class LocalFileStorage : IFileStorage
     {
+        private static readonly StringComparison PathComparison =
+            OperatingSystem.IsWindows() ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+
         private readonly string _storagePath;
         private readonly TimeSpan _waitTimeout = TimeSpan.FromMilliseconds(100);
 
@@ -21,9 +24,7 @@ namespace GroupDocs.Viewer.UI.Api.Local.Storage
 
         private IEnumerable<FileSystemEntry> ListFiles(string folderPath)
         {
-            var folderFullPath = string.IsNullOrEmpty(folderPath)
-                ? _storagePath
-                : Path.Combine(_storagePath, folderPath);
+            var folderFullPath = ResolvePath(folderPath);
 
             var dirs = Directory.GetDirectories(folderFullPath)
                 .Select(file => new FileInfo(file))
@@ -51,7 +52,7 @@ namespace GroupDocs.Viewer.UI.Api.Local.Storage
 
         public async Task<byte[]> ReadFileAsync(string filePath, CancellationToken cancellationToken = default)
         {
-            var fullPath = Path.Combine(_storagePath, filePath);
+            var fullPath = ResolvePath(filePath);
             await using FileStream fs = await GetStreamAsync(fullPath, FileMode.Open, FileAccess.Read, FileShare.None);
             var memoryStream = new MemoryStream();
             await fs.CopyToAsync(memoryStream);
@@ -61,7 +62,7 @@ namespace GroupDocs.Viewer.UI.Api.Local.Storage
 
         public async Task<Stream> ReadFileStreamAsync(string filePath, CancellationToken cancellationToken = default)
         {
-            var fullPath = Path.Combine(_storagePath, filePath);
+            var fullPath = ResolvePath(filePath);
             FileStream fs = await GetStreamAsync(fullPath, FileMode.Open, FileAccess.Read, FileShare.Read);
             return fs;
         }
@@ -69,7 +70,7 @@ namespace GroupDocs.Viewer.UI.Api.Local.Storage
         public async Task<string> WriteFileAsync(string fileName, byte[] bytes, bool rewrite, CancellationToken cancellationToken = default)
         {
             var newFileName = rewrite ? fileName : GetFreeFileName(fileName);
-            var fullPath = Path.Combine(_storagePath, newFileName);
+            var fullPath = ResolvePath(newFileName);
             var fileMode = rewrite ? FileMode.Create : FileMode.CreateNew;
 
             await using FileStream fs = await GetStreamAsync(fullPath, fileMode, FileAccess.Write, FileShare.None);
@@ -134,7 +135,7 @@ namespace GroupDocs.Viewer.UI.Api.Local.Storage
 
         private string GetFreeFileName(string fileName)
         {
-            var fullPath = Path.Combine(_storagePath, fileName);
+            var fullPath = ResolvePath(fileName);
 
             if (!File.Exists(fullPath))
                 return fileName;
@@ -155,5 +156,52 @@ namespace GroupDocs.Viewer.UI.Api.Local.Storage
 
             return fileNameCandidate;
         }
+
+        // Resolves a path received from the client inside the storage folder and throws if it points outside.
+        // Leading separators are ignored, so "" and "/" both refer to the storage folder.
+        private string ResolvePath(string path)
+        {
+            var rootPath = Path.GetFullPath(_storagePath);
+            var relativePath = (path ?? string.Empty)
+                .TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+
+            if (relativePath.Length == 0)
+                return rootPath;
+
+            // Drive-qualified paths on Windows, e.g. "C:\file.docx" or "C:file.docx"
+            if (Path.IsPathRooted(relativePath))
+                throw CreateAccessDeniedException();
+
+            string fullPath;
+            try
+            {
+                fullPath = Path.GetFullPath(Path.Combine(rootPath, relativePath));
+            }
+            catch (Exception ex) when (ex is ArgumentException or NotSupportedException or PathTooLongException)
+            {
+                // The original message may contain the path
+                throw CreateAccessDeniedException();
+            }
+
+            if (!IsPathInside(fullPath, rootPath))
+                throw CreateAccessDeniedException();
+
+            return fullPath;
+        }
+
+        private static bool IsPathInside(string fullPath, string rootPath)
+        {
+            var rootPathWithSeparator = Path.EndsInDirectorySeparator(rootPath)
+                ? rootPath
+                : rootPath + Path.DirectorySeparatorChar;
+
+            return fullPath.StartsWith(rootPathWithSeparator, PathComparison)
+                || string.Equals(fullPath + Path.DirectorySeparatorChar, rootPathWithSeparator, PathComparison);
+        }
+
+        // NOTE: the message must not include the path, it is returned to the client
+        private static UnauthorizedAccessException CreateAccessDeniedException() =>
+            new UnauthorizedAccessException(
+                "Access to the path is denied. The path must point to a file or folder inside the storage folder.");
     }
 }

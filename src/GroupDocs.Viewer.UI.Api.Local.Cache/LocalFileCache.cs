@@ -10,6 +10,9 @@ namespace GroupDocs.Viewer.UI.Api.Local.Cache
 {
     public class LocalFileCache : IFileCache
     {
+        private static readonly StringComparison PathComparison =
+            OperatingSystem.IsWindows() ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+
         /// <summary>
         /// The Relative or absolute path to the cache folder.
         /// </summary>
@@ -202,21 +205,54 @@ namespace GroupDocs.Viewer.UI.Api.Local.Cache
 
         private string GetCacheDirPath(string filePath)
         {
+            // Leading separators are dropped and ':' is replaced, so rooted paths such as
+            // "/file.docx" or "C:\file.docx" map to a sub-folder of the cache folder
             string cacheSubFolder = string.Join("_", filePath.Split(Path.GetInvalidPathChars()))
-                .Replace(".", "_");
-            return Path.Combine(CachePath, cacheSubFolder);
+                .TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+                .Replace(".", "_")
+                .Replace(":", "_");
+
+            string cacheRootPath = Path.GetFullPath(CachePath);
+            string cacheDirPath = Path.GetFullPath(Path.Combine(cacheRootPath, cacheSubFolder));
+
+            if (!IsPathInside(cacheDirPath, cacheRootPath))
+                throw CreateAccessDeniedException();
+
+            return cacheDirPath;
         }
 
         private string GetCacheFilePath(string cacheKey, string filePath)
         {
+            // Cache keys are file names, e.g. "p1.html", or "p1_styles.css" for a page resource
+            if (string.IsNullOrEmpty(cacheKey) || cacheKey == "." || cacheKey == ".." || Path.GetFileName(cacheKey) != cacheKey)
+                throw CreateAccessDeniedException();
+
             string cacheDirPath = GetCacheDirPath(filePath);
-            string cacheFilePath = Path.Combine(cacheDirPath, cacheKey);
+            string cacheFilePath = Path.GetFullPath(Path.Combine(cacheDirPath, cacheKey));
+
+            if (!IsPathInside(cacheFilePath, cacheDirPath))
+                throw CreateAccessDeniedException();
 
             if (!Directory.Exists(cacheDirPath))
                 Directory.CreateDirectory(cacheDirPath);
 
             return cacheFilePath;
         }
+
+        private static bool IsPathInside(string fullPath, string rootPath)
+        {
+            string rootPathWithSeparator = Path.EndsInDirectorySeparator(rootPath)
+                ? rootPath
+                : rootPath + Path.DirectorySeparatorChar;
+
+            return fullPath.StartsWith(rootPathWithSeparator, PathComparison)
+                || string.Equals(fullPath + Path.DirectorySeparatorChar, rootPathWithSeparator, PathComparison);
+        }
+
+        // NOTE: the message must not include the path, it is returned to the client
+        private static UnauthorizedAccessException CreateAccessDeniedException() =>
+            new UnauthorizedAccessException(
+                "Access to the path is denied. The cache entry must be inside the cache folder.");
 
         private FileStream GetStream(string path, FileMode mode, FileAccess access, FileShare share)
         {

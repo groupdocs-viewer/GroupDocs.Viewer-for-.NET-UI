@@ -76,8 +76,9 @@ The Local Cache implementation stores cached data in the local file system. Here
 - Handles concurrent access through file sharing modes
 
 ### Cache Key Management
-- Cache keys are used as filenames within the cache directory
-- File paths are sanitized to create valid directory names
+- Cache keys are used as filenames within the cache directory and must be plain file names
+- File paths are mapped to sub-directory names: dots and colons are replaced with underscores and leading separators are dropped
+- Cache paths that would resolve outside the cache directory are rejected with `UnauthorizedAccessException`
 - Maintains a clean directory structure for easy management
 
 ## Features
