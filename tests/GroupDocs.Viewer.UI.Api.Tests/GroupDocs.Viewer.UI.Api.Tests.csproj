@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0'">
-    <!-- GroupDocs.Viewer 26.8.0 requires System.Text.Json 10.x, which along with several
+    <!-- GroupDocs.Viewer 26.9.0 requires System.Text.Json 10.x, which along with several
          Microsoft.Extensions packages no longer ships a net6.0 asset and warns about it. -->
     <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
   </PropertyGroup>

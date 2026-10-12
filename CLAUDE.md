@@ -14,7 +14,7 @@ dotnet test ./tests/GroupDocs.Viewer.UI.Api.Tests          # Run all tests
 dotnet test ./tests/GroupDocs.Viewer.UI.Api.Tests --filter "FullyQualifiedName~ClassName.MethodName"  # Run single test
 ```
 
-Production packaging is done via `build.ps1` (PowerShell), which packs all 13 NuGet packages into `./build_out/`. CI runs on Windows with .NET 6.0, 8.0, and 10.0.
+Production packaging is done via `build.ps1` (PowerShell), which packs all 12 NuGet packages into `./build_out/`. CI runs on Windows with .NET 6.0, 8.0, and 10.0.
 
 ## Architecture
 
@@ -52,7 +52,7 @@ The solution is layered into three tiers connected via dependency injection:
 - **Extension methods** for DI registration live in namespace `Microsoft.Extensions.DependencyInjection` and `Microsoft.AspNetCore.Builder`
 - **Options pattern** via `IOptions<T>` for configuration
 - **Fluent builder** for setup: `AddGroupDocsViewerUI(config => { ... })`
-- All packages share synchronized version numbers (currently 26.8.0), defined in `build/dependencies.props`
+- All packages share synchronized version numbers (currently 26.9.0), defined in `build/dependencies.props`
 - Package versions for dependencies are centralized in `build/dependencies.props`
 - `global.json` pins SDK to 6.0.400 with `rollForward: latestMajor`
 

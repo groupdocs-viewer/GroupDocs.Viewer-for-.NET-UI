@@ -4,7 +4,7 @@
 
 This package uses the `GroupDocs.Viewer` NuGet package. As of 26.8.0 `GroupDocs.Viewer` ships per-TFM runtime packages that are cross-platform on their own, so this package runs on Windows, Linux, and macOS with no GDI+ or `libgdiplus` required. The separate `GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform` package is deprecated - use this one.
 
-> **Note**: rendering of PSD, PSB, AI, and ONE documents is not available in 26.8.0. Those formats are provided only by the Windows-specific engine build, which this package does not use.
+> **Note**: since 26.8.0, rendering of PSD, PSB, AI, and ONE documents is not available. Those formats are provided only by the Windows-specific engine build, which this package does not use.
 
 ## Installation
 

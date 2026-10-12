@@ -730,7 +730,7 @@ services:
 
 ```bash
 # PowerShell
-.\build-docker.ps1 -Tag "26.8.0"
+.\build-docker.ps1 -Tag "26.9.0"
 
 # Or directly
 docker build -f docker/Dockerfile -t groupdocs/viewer-net-ui .

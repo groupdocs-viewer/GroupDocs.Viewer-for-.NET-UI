@@ -55,12 +55,3 @@ exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.Local.Storage\GroupDocs.Viewe
 exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.AzureBlob.Storage\GroupDocs.Viewer.UI.Api.AzureBlob.Storage.csproj -c Release -o .\build_out --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
 exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.AwsS3.Storage\GroupDocs.Viewer.UI.Api.AwsS3.Storage.csproj -c Release -o .\build_out --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
 exec { & dotnet pack .\src\GroupDocs.Viewer.UI.Api.Distributed.Cache\GroupDocs.Viewer.UI.Api.Distributed.Cache.csproj -c Release -o .\build_out --include-symbols -p:SymbolPackageFormat=snupkg --no-build }
-
-# Final shim release of the retired GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform ID.
-# Ships no assemblies - it forwards to GroupDocs.Viewer.UI.SelfHost.Api and warns GDVUI0001.
-# Packed with nuget.exe because dotnet pack cannot pack a bare nuspec, and at a fixed version
-# (no --version-suffix) because it is a release rather than a CI build.
-$shimDir = ".\src\GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform.Shim"
-$shimVersion = (Select-String -Path .\build\dependencies.props -Pattern '<GroupDocsViewerUIVersion>(.*?)</GroupDocsViewerUIVersion>').Matches[0].Groups[1].Value
-echo "build: Packing CrossPlatform shim $shimVersion"
-exec { & nuget pack "$shimDir\GroupDocs.Viewer.UI.SelfHost.Api.CrossPlatform.nuspec" -Version $shimVersion -BasePath $shimDir -OutputDirectory .\build_out -NoPackageAnalysis }

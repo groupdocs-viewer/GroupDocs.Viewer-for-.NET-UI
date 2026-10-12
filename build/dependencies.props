@@ -16,7 +16,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="Package Versions">
-		<GroupDocsViewer>26.8.0</GroupDocsViewer>
+		<GroupDocsViewer>26.9.0</GroupDocsViewer>
 
 		<!-- Defaults: applied to netstandard2.0 (Core) and net8.0 builds. -->
 		<!-- Per-TFM overrides for net6.0 and net10.0 are below. -->
@@ -34,7 +34,7 @@
 		<AzureBlobs>12.27.0</AzureBlobs>
 		<AwsSdkS3>4.0.22.1</AwsSdkS3>
 
-		<MicrosoftSourceLinkGithub>10.0.203</MicrosoftSourceLinkGithub>
+		<MicrosoftSourceLinkGithub>10.0.401</MicrosoftSourceLinkGithub>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net6.0'" Label="Package Versions (.NET 6)">
@@ -45,7 +45,7 @@
 		<MicrosoftExtensionsConfigurationBinder>6.0.1</MicrosoftExtensionsConfigurationBinder>
 		<MicrosoftExtensionsCachingMemory>6.0.3</MicrosoftExtensionsCachingMemory>
 		<MicrosoftExtensionsCachingAbstractions>6.0.1</MicrosoftExtensionsCachingAbstractions>
-		<!-- SystemFormatsAsn1 stays at 8.0.x. GroupDocs.Viewer 26.8.0 -> GroupDocs.Viewer.Net60 -->
+		<!-- SystemFormatsAsn1 stays at 8.0.x. GroupDocs.Viewer 26.9.0 -> GroupDocs.Viewer.Net60 -->
 		<!-- -> System.Security.Cryptography.Pkcs 8.0.0 -> System.Formats.Asn1 8.0.0, which is    -->
 		<!-- vulnerable (GHSA-447r-wph3-92pm, fixed in 8.0.1). 8.0.2 is the last 8.x with a       -->
 		<!-- net6.0 asset; 9.x and 10.x have none and would fall back to netstandard2.0.          -->
@@ -66,7 +66,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="GroupDocs.Viewer UI Package Versions">
-		<GroupDocsViewerUIVersion>26.8.0</GroupDocsViewerUIVersion>
+		<GroupDocsViewerUIVersion>26.9.0</GroupDocsViewerUIVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Label="NuGet Common Settings">
