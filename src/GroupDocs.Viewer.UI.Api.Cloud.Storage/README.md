@@ -70,6 +70,10 @@ To obtain your client ID and client secret:
 2. Create a new application or select an existing one
 3. Copy the client ID and client secret from the application details
 
+## Security Considerations
+
+File paths come from the client and are part of the GroupDocs Cloud API URLs. Each path segment is URL-escaped, so characters such as `?` and `#` stay part of the file name, and paths with `..` segments are rejected with `UnauthorizedAccessException`.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.txt](../../LICENSE.txt) file for details. 

@@ -2,6 +2,7 @@
 using GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect.Requests;
 using GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect.Responses;
 using GroupDocs.Viewer.UI.Api.Cloud.Storage.Common;
+using GroupDocs.Viewer.UI.Core;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -29,7 +30,7 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect
 
         public async Task<Result<FilesList>> GetFilesList(GetFilesListRequest request)
         {
-            var uri = $"viewer/storage/folder/{request.Path}?storageName={request.StorageName}";
+            var uri = $"viewer/storage/folder/{ToUrlPath(request.Path)}?storageName={request.StorageName}";
             Result<FilesList> result = await Send<FilesList>(uri, HttpMethod.Get);
 
             return result;
@@ -37,7 +38,7 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect
 
         public async Task<Result<byte[]>> DownloadFile(DownloadFileRequest request)
         {
-            var requestUri = $"viewer/storage/file/{request.Path}?storageName={request.StorageName}";
+            var requestUri = $"viewer/storage/file/{ToUrlPath(request.Path)}?storageName={request.StorageName}";
             Result<byte[]> result = await Download<FilesList>(requestUri);
 
             return result;
@@ -45,7 +46,7 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect
 
         public async Task<Result> UploadFile(UploadFileRequest request)
         {
-            var requestUri = $"viewer/storage/file/{request.FileName}?storageName={request.StorageName}";
+            var requestUri = $"viewer/storage/file/{ToUrlPath(request.FileName)}?storageName={request.StorageName}";
             var uploadResult = await Upload<UploadedFiles>(requestUri, request.Data);
             if (uploadResult.IsFailure)
                 return Result.Fail(uploadResult.Message);
@@ -58,7 +59,7 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect
 
         public async Task<Result<bool>> CheckObjectExistsAsync(ObjectExistRequest request)
         {
-            var requestUri = $"viewer/storage/exist/{request.Path}?storageName={request.StorageName}";
+            var requestUri = $"viewer/storage/exist/{ToUrlPath(request.Path)}?storageName={request.StorageName}";
             var existResult = await Send<ObjectExist>(requestUri, HttpMethod.Get);
 
             if (existResult.IsFailure)
@@ -66,6 +67,10 @@ namespace GroupDocs.Viewer.UI.Api.Cloud.Storage.ApiConnect
 
             return Result.Ok(existResult.Value.Exists);
         }
+
+        // NOTE: the path comes from the client, ".." would reach other API routes and '?' or '#' would change the query
+        private static string ToUrlPath(string path) =>
+            StoragePath.EscapeUrlPath(StoragePath.EnsureNoParentSegments(path));
 
         private async Task<Result<T>> Send<T>(string requestUri, HttpMethod method, object request = null)
         {

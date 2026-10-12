@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Contracts;
 using GroupDocs.Viewer.UI.Cloud.Api.ApiConnect.Models;
 using GroupDocs.Viewer.UI.Cloud.Api.Common;
+using GroupDocs.Viewer.UI.Core;
 using GroupDocs.Viewer.UI.Core.Entities;
 
 namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
@@ -101,7 +102,7 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
 
         public async Task<Result<bool>> CheckFileExistsAsync(string filePath, string storageName)
         {
-            var requestUri = $"viewer/storage/exist/{filePath}?storageName={storageName}";
+            var requestUri = $"viewer/storage/exist/{ToUrlPath(filePath)}?storageName={storageName}";
             var existResult = await Send<ObjectExist>(requestUri, HttpMethod.Get);
 
             if (existResult.IsFailure)
@@ -112,10 +113,14 @@ namespace GroupDocs.Viewer.UI.Cloud.Api.ApiConnect
 
         public async Task<Result> UploadFileAsync(string filePath, string storageName, byte[] bytes)
         {
-            var requestUri = $"viewer/storage/file/{filePath}?storageName={storageName}";
+            var requestUri = $"viewer/storage/file/{ToUrlPath(filePath)}?storageName={storageName}";
             var uploadResult = await Upload<FilesUploadResult>(requestUri, bytes);
             return uploadResult;
         }
+
+        // NOTE: the path comes from the client, ".." would reach other API routes and '?' or '#' would change the query
+        private static string ToUrlPath(string path) =>
+            StoragePath.EscapeUrlPath(StoragePath.EnsureNoParentSegments(path));
 
         public async Task<Result> DeleteView(FileInfo fileInfo, string outputPath)
         {

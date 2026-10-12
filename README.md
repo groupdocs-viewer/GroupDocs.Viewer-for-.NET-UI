@@ -580,6 +580,8 @@ Storage providers are used to read/write file from/to the storage. The storage p
 - [GroupDocs.Viewer.UI.Api.AzureBlob.Storage](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Api.AzureBlob.Storage)
 - [GroupDocs.Viewer.UI.Api.AwsS3.Storage](https://www.nuget.org/packages/GroupDocs.Viewer.UI.Api.AwsS3.Storage)
 
+File paths come from the client, so the storage providers keep them inside the configured storage: the local storage resolves them inside the storage folder, while the cloud, Azure Blob and Amazon S3 storages reject paths with `..` segments, which could otherwise reach another storage, container or bucket. Rejected paths fail with `UnauthorizedAccessException`.
+
 ### Local storage
 
 To render files from your local drive use local file storage.

@@ -57,6 +57,8 @@ namespace GroupDocs.Viewer.UI.Api.AzureBlob.Storage
 
         public async Task<byte[]> ReadFileAsync(string filePath, CancellationToken cancellationToken = default)
 		{
+			StoragePath.EnsureNoParentSegments(filePath);
+
 			BlobContainerClient client = CreateClient();
 			BlobClient blob = client.GetBlobClient(filePath);
 
@@ -71,6 +73,8 @@ namespace GroupDocs.Viewer.UI.Api.AzureBlob.Storage
 
 		public async Task<Stream> ReadFileStreamAsync(string filePath, CancellationToken cancellationToken = default)
 		{
+			StoragePath.EnsureNoParentSegments(filePath);
+
 			BlobContainerClient client = CreateClient();
 			BlobClient blob = client.GetBlobClient(filePath);
 
@@ -79,6 +83,8 @@ namespace GroupDocs.Viewer.UI.Api.AzureBlob.Storage
 
 		public async Task<string> WriteFileAsync(string filePath, byte[] bytes, bool rewrite, CancellationToken cancellationToken = default)
 		{
+			StoragePath.EnsureNoParentSegments(filePath);
+
 			BlobContainerClient client = CreateClient();
 			
             var newFilePah = rewrite ? filePath : await GetFreeFileName(client, filePath);

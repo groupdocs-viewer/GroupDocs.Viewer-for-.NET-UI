@@ -103,6 +103,8 @@ namespace GroupDocs.Viewer.UI.Api.AwsS3.Storage
 
         public async Task<byte[]> ReadFileAsync(string filePath, CancellationToken cancellationToken = default)
         {
+            StoragePath.EnsureNoParentSegments(filePath);
+
             using (IAmazonS3 client = CreateS3Client())
             {
                 var bytes =
@@ -114,6 +116,8 @@ namespace GroupDocs.Viewer.UI.Api.AwsS3.Storage
 
         public async Task<Stream> ReadFileStreamAsync(string filePath, CancellationToken cancellationToken = default)
         {
+            StoragePath.EnsureNoParentSegments(filePath);
+
             IAmazonS3 client = CreateS3Client();
             GetObjectRequest request = new GetObjectRequest
             {
@@ -145,6 +149,8 @@ namespace GroupDocs.Viewer.UI.Api.AwsS3.Storage
 
         public async Task<string> WriteFileAsync(string fileName, byte[] bytes, bool rewrite, CancellationToken cancellationToken = default)
         {
+            StoragePath.EnsureNoParentSegments(fileName);
+
 			using (IAmazonS3 client = CreateS3Client())
             using (MemoryStream stream = new MemoryStream(bytes))
 			{

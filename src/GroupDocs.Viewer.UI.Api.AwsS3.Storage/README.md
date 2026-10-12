@@ -86,6 +86,12 @@ You can provide AWS credentials in several ways:
 
 4. **Instance Profile** (when running on AWS EC2)
 
+## Security Considerations
+
+Object keys come from the client. Keys with `..` segments are rejected with `UnauthorizedAccessException`, as some S3-compatible services resolve them in the request path.
+
+Use credentials that can only access the configured bucket.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.txt](../../LICENSE.txt) file for details. 

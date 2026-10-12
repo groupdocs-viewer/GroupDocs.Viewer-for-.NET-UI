@@ -73,6 +73,10 @@ Alternatively, you can use a connection string instead of separate account name 
 options.ConnectionString = "DefaultEndpointsProtocol=https;AccountName=your-storage-account-name;AccountKey=your-storage-account-key;EndpointSuffix=core.windows.net";
 ```
 
+## Security Considerations
+
+Blob names come from the client. Names with `..` segments are rejected with `UnauthorizedAccessException`, because the Azure SDK resolves them in the blob URL: `../other/file.docx` would read `file.docx` from the `other` container of the same storage account.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.txt](../../LICENSE.txt) file for details. 
