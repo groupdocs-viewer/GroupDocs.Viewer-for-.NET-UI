@@ -65,6 +65,29 @@ This configuration registers `/viewer` as the middleware for the Single Page App
 
 > **Note**: Ensure the `Files` and `Cache` folders are created manually before running the application.
 
+### Restrict access
+
+The viewer does not authenticate users. To require signed-in users, apply your authorization policy to both the UI and the API endpoints. Applying it to the UI alone still leaves the API, and with it every document, open to anyone.
+
+```cs
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapGroupDocsViewerUI(options =>
+{
+    options.UIPath = "/viewer";
+    options.ApiEndpoint = "/viewer-api";
+}).RequireAuthorization();
+
+app.MapGroupDocsViewerApi(options =>
+{
+    options.ApiPath = "/viewer-api";
+}).RequireAuthorization();
+```
+
+Any other endpoint convention, for example `RequireCors(...)` or `WithMetadata(...)`, also applies to all API endpoints.
+
 ### Set the license
 
 Optionally, you can specify the license path using the following code or set the environment variable `GROUPDOCS_LIC_PATH`:

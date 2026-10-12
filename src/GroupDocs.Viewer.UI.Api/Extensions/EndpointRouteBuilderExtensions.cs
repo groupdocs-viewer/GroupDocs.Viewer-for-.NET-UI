@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using GroupDocs.Viewer.UI.Api;
 using GroupDocs.Viewer.UI.Api.Configuration;
 using GroupDocs.Viewer.UI.Api.Extensions;
@@ -25,12 +26,13 @@ namespace Microsoft.AspNetCore.Builder
 
             EnsureValidApiOptions(options);
 
-            MapControllerRoutes(builder, options);
+            // NOTE: conventions such as RequireAuthorization() are forwarded to every API endpoint
+            var endpoints = MapControllerRoutes(builder, options);
 
-            return new GroupDocsViewerApiConventionBuilder(Array.Empty<IEndpointConventionBuilder>());
+            return new GroupDocsViewerApiConventionBuilder(endpoints);
         }
 
-        private static void MapControllerRoutes(IEndpointRouteBuilder builder, Options options)
+        private static List<IEndpointConventionBuilder> MapControllerRoutes(IEndpointRouteBuilder builder, Options options)
         {
             var relativeApiPath = options.ApiPath.AsRelativeResource();
 
@@ -47,12 +49,17 @@ namespace Microsoft.AspNetCore.Builder
                 ApiNames.API_METHOD_GET_RESOURCE,
             };
 
+            var endpoints = new List<IEndpointConventionBuilder>();
             foreach (var apiMethod in apiMethods)
             {
-                builder.MapControllerRoute(
+                var endpoint = builder.MapControllerRoute(
                     name: apiMethod, $"{relativeApiPath}/{apiMethod}",
                     new { controller = ApiNames.CONTROLLER_NAME, action = apiMethod.ToActionName() });
+
+                endpoints.Add(endpoint);
             }
+
+            return endpoints;
         }
 
         private static void EnsureValidApiOptions(Options options)

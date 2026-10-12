@@ -14,6 +14,17 @@ This readme includes information and usage examples for the features provided by
 
 This section lists the features provided by the module.
 
+### Restricting Access
+
+`MapGroupDocsViewerApi` returns an endpoint convention builder that applies conventions to all API endpoints. To require signed-in users, call `RequireAuthorization()` on it as well as on `MapGroupDocsViewerUI`:
+
+```cs
+app.MapGroupDocsViewerApi(options =>
+{
+    options.ApiPath = "/viewer-api";
+}).RequireAuthorization();
+```
+
 ### Error Handling
 
 Types that enable you to display custom error messages can be found in the [ErrorHandling](./ErrorHandling) folder.
