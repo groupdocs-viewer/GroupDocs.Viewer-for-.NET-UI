@@ -48,7 +48,7 @@ builder.Services.AddSingleton<IErrorMessageProvider, MyErrorMessageProvider>();
 ```
 
 **NOTE:** The service should be registered before you register the self-hosted or cloud API for it to take effect. By default, [ExceptionMessageProvider.cs](./ErrorHandling/Implementation/ExceptionMessageProvider.cs) is registered.
-This class provides a default implementation that returns the exception error message.
+This class provides a default implementation that returns the exception error message. File system errors (file not found, access denied, other I/O errors) get generic messages instead, because their messages contain absolute paths on the server.
 
 Once a custom error message provider is registered, a popup with the custom error message will be displayed in case of an error.
 

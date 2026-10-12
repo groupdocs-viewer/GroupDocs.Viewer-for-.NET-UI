@@ -58,6 +58,9 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             if (!_config.EnableFileBrowser)
                 return ErrorJsonResult("Browsing files is disabled.");
 
+            if (request == null)
+                return InvalidRequestBodyResult();
+
             try
             {
                 var files =
@@ -111,6 +114,12 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> ViewData([FromBody] ViewDataRequest request)
         {
+            if (request == null)
+                return InvalidRequestBodyResult();
+
+            if (string.IsNullOrEmpty(request.File))
+                return FileRequiredResult();
+
             try
             {
                 var file = new FileCredentials(request.File, request.FileType, request.Password);
@@ -141,7 +150,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             }
             catch (Exception ex)
             {
-                if (ex.Message.Contains("password", StringComparison.InvariantCultureIgnoreCase))
+                if (IsPasswordError(ex))
                 {
                     var message = string.IsNullOrEmpty(request.Password)
                             ? "Password Required"
@@ -162,6 +171,12 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreatePages([FromBody] CreatePagesRequest request)
         {
+            if (request == null)
+                return InvalidRequestBodyResult();
+
+            if (string.IsNullOrEmpty(request.File))
+                return FileRequiredResult();
+
             try
             {
                 var file = new FileCredentials(request.File, request.FileType, request.Password);
@@ -176,7 +191,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             }
             catch (Exception ex)
             {
-                if (ex.Message.Contains("password", StringComparison.InvariantCultureIgnoreCase))
+                if (IsPasswordError(ex))
                 {
                     var message = string.IsNullOrEmpty(request.Password)
                         ? "Password Required"
@@ -200,6 +215,12 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             if (!_config.EnableDownloadPdf && !_config.EnablePrint)
                 return ErrorJsonResult("Creating PDF files is disabled.");
 
+            if (request == null)
+                return InvalidRequestBodyResult();
+
+            if (string.IsNullOrEmpty(request.File))
+                return FileRequiredResult();
+
             try
             {
                 var fileCredentials = new FileCredentials(request.File, request.FileType, request.Password);
@@ -215,7 +236,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             }
             catch (Exception ex)
             {
-                if (ex.Message.Contains("password", StringComparison.InvariantCultureIgnoreCase))
+                if (IsPasswordError(ex))
                 {
                     var message = string.IsNullOrEmpty(request.Password)
                         ? "Password Required"
@@ -237,6 +258,9 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         [ServiceFilter(typeof(ResponseCacheFilter))]
         public async Task<IActionResult> GetPage([FromQuery] GetPageRequest request)
         {
+            if (string.IsNullOrEmpty(request.File))
+                return FileRequiredResult();
+
             try
             {
                 var fileCredentials = new FileCredentials(request.File);
@@ -259,6 +283,9 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         [ServiceFilter(typeof(ResponseCacheFilter))]
         public async Task<IActionResult> GetThumb([FromQuery] GetThumbRequest request)
         {
+            if (string.IsNullOrEmpty(request.File))
+                return FileRequiredResult();
+
             try
             {
                 var file = new FileCredentials(request.File);
@@ -283,6 +310,9 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         {
             if (!_config.EnableDownloadPdf && !_config.EnablePrint)
                 return ErrorJsonResult("Creating PDF files is disabled.");
+
+            if (string.IsNullOrEmpty(request.File))
+                return FileRequiredResult();
 
             try
             {
@@ -311,6 +341,9 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         {
             if (_config.RenderingMode != RenderingMode.Html)
                 return ErrorJsonResult("Loading page resources is disabled in image mode.");
+
+            if (string.IsNullOrEmpty(request.File))
+                return FileRequiredResult();
 
             // NOTE: resource names are plain file names, a path here is never a page resource
             if (string.IsNullOrEmpty(request.Resource) || request.Resource.IndexOfAny(new[] { '/', '\\' }) >= 0)
@@ -495,5 +528,17 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         {
             StatusCode = StatusCodes.Status403Forbidden
         };
+
+        // NOTE: [FromBody] arguments are null when the body is missing or is not valid JSON
+        private IActionResult InvalidRequestBodyResult() =>
+            BadRequest("Request body is missing or is not valid JSON.");
+
+        private IActionResult FileRequiredResult() =>
+            BadRequest("File is required.");
+
+        // NOTE: file system errors are skipped as their messages contain file paths, e.g. "password.docx"
+        private static bool IsPasswordError(Exception ex) =>
+            ex is not IOException and not UnauthorizedAccessException
+            && ex.Message.Contains("password", StringComparison.InvariantCultureIgnoreCase);
     }
 }
