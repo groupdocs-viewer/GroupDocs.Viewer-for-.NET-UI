@@ -88,6 +88,10 @@ app.MapGroupDocsViewerApi(options =>
 
 Any other endpoint convention, for example `RequireCors(...)` or `WithMetadata(...)`, also applies to all API endpoints.
 
+Only the routes that `MapGroupDocsViewerApi` maps reach the viewer controller. Other conventional routes of your app, for example `MapDefaultControllerRoute()`, can't bypass these conventions. If you upgrade from 26.9.0 or earlier, see [Upgrade notes](#upgrade-notes).
+
+See the [authorization sample app](./samples/GroupDocs.Viewer.UI.Sample.Authorization/) for a complete example with sign-in and a role-based policy.
+
 ### Set the license
 
 Optionally, you can specify the license path using the following code or set the environment variable `GROUPDOCS_LIC_PATH`:
@@ -855,6 +859,42 @@ public class CustomErrorMessageProvider : IErrorMessageProvider
 }
 
 services.AddSingleton<IErrorMessageProvider, CustomErrorMessageProvider>();
+```
+
+## Upgrade notes
+
+### Versions later than 26.9.0: only `MapGroupDocsViewerApi` routes reach the viewer API
+
+To fix [#117](https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/issues/117), the viewer controller now requires the route value `groupdocs-viewer-api=true` (`ApiNames.ROUTE_VALUE_KEY` and `ApiNames.ROUTE_VALUE`). Only the routes that `MapGroupDocsViewerApi` maps provide this value. In 26.9.0 and earlier, other conventional routes of the app also reached the controller. For example, the default route `{controller=Home}/{action=Index}/{id?}` from `MapDefaultControllerRoute()` exposed `/Viewer/GetPdf` and `/Viewer/ViewData`, and `RequireAuthorization()` on `MapGroupDocsViewerApi` did not apply to these requests.
+
+Your app needs no changes if it calls the API only through the URLs under `ApiPath` that `MapGroupDocsViewerApi` maps, as all examples in this repository do. Otherwise, check this table:
+
+| Your app | After the upgrade | What to do |
+|---|---|---|
+| Calls the API through a conventional route of the app, for example `/Viewer/GetPdf` or `/Viewer/ViewData` | 404 Not Found | Call the URLs under `ApiPath` instead, for example `/viewer-api/get-pdf` or `/viewer-api/view-data` |
+| Maps its own conventional route to the viewer controller | 404 Not Found | Use `MapGroupDocsViewerApi` with `ApiPath`, or add the route value to the route defaults, see below |
+| Reaches a subclass of `ViewerController` through a conventional route | 404 Not Found | Give the subclass an attribute route, `[Route("...")]`, or add the route value to the route defaults. Attribute routes are not affected |
+| Generates API links with `Url.Action(...)` or `LinkGenerator.GetPathByAction(...)` | `null`, or a link such as `/Viewer/GetPdf` that returns 404 | Generate the links by route name, see below |
+
+To keep your own conventional route to the viewer controller, add the route value to its defaults. Conventions on `MapGroupDocsViewerApi`, such as `RequireAuthorization()`, don't apply to your route, so add them to it as well:
+
+```cs
+using GroupDocs.Viewer.UI.Api;
+using Microsoft.AspNetCore.Routing;
+
+app.MapControllerRoute("my-viewer-api", "my-viewer-api/{action}",
+    new RouteValueDictionary
+    {
+        ["controller"] = ApiNames.CONTROLLER_NAME,
+        [ApiNames.ROUTE_VALUE_KEY] = ApiNames.ROUTE_VALUE,
+    }).RequireAuthorization();
+```
+
+To generate a link to an API method, use its route name. The route names are the API method names in `ApiNames`. This works both before and after the upgrade:
+
+```cs
+var pdfUrl = Url.RouteUrl(ApiNames.API_METHOD_GET_PDF, new { file = "sample.docx" });
+// /viewer-api/get-pdf?file=sample.docx
 ```
 
 ## Contributing

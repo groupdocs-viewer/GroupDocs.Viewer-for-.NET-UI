@@ -12,6 +12,7 @@ This directory contains various sample projects demonstrating different ways to 
 | [`GroupDocs.Viewer.UI.Sample.StaticContentMode`](GroupDocs.Viewer.UI.Sample.StaticContentMode/) | UI only (no API) | — | — | HTML | Pre-generated static content served from `Content/` |
 | [`GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator`](GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator/) | Console | Local | — | HTML | Generates the static content used by the sample above |
 | [`GroupDocs.Viewer.UI.Sample.CustomBranding`](GroupDocs.Viewer.UI.Sample.CustomBranding/) | SelfHost.Api | Local | Local | HTML | White-labeling: logo, title, and custom stylesheet |
+| [`GroupDocs.Viewer.UI.Sample.Authorization`](GroupDocs.Viewer.UI.Sample.Authorization/) | SelfHost.Api | Local | Local | HTML | Requiring signed-in users: cookie sign-in and a role policy on the UI and the API in an MVC app |
 | [`GroupDocs.Viewer.UI.SelfHost.Api.App.Sample`](GroupDocs.Viewer.UI.SelfHost.Api.App.Sample/) | UI only (talks to remote API) | — | — | HTML | UI ↔ API split — pairs with `SelfHost.Api.Service.Sample` |
 | [`GroupDocs.Viewer.UI.SelfHost.Api.Service.Sample`](GroupDocs.Viewer.UI.SelfHost.Api.Service.Sample/) | SelfHost.Api (API only, CORS) | Local | Local | HTML | API split — pairs with `SelfHost.Api.App.Sample` |
 | [`GroupDocs.Viewer.UI.Cloud.Api.Sample`](GroupDocs.Viewer.UI.Cloud.Api.Sample/) | Cloud.Api | Local | Local | HTML | GroupDocs Cloud rendering (needs credentials) |
@@ -44,6 +45,10 @@ A utility application that generates static content for use with the static cont
 ### GroupDocs.Viewer.UI.Sample.CustomBranding
 
 Demonstrates how to white-label the viewer with custom colors, logo, and app title. Uses `SetLogoImage()`, `SetLogoText()`, `AddCustomStylesheet()`, and `UITitle` to replace default branding with a custom teal color scheme and "Acme Corp" branding.
+
+### GroupDocs.Viewer.UI.Sample.Authorization
+
+Demonstrates how to require signed-in users in an ASP.NET Core MVC app. Uses cookie authentication with two demo accounts and applies a role-based policy to both the viewer UI and the viewer API with `RequireAuthorization()`. The app also maps the MVC default route, which doesn't reach the viewer API.
 
 ## API Implementation Samples
 

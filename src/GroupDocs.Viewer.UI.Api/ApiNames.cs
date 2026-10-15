@@ -4,6 +4,18 @@
     {
         public const string CONTROLLER_NAME = "viewer";
 
+        /// <summary>
+        /// The route value that the viewer controller requires. Only the routes mapped by <c>MapGroupDocsViewerApi</c>
+        /// provide it, so other conventional routes of the app, e.g. the default route, can't reach the controller.
+        /// Add it, with <see cref="ROUTE_VALUE"/>, to the defaults of your own conventional route to the controller.
+        /// </summary>
+        public const string ROUTE_VALUE_KEY = "groupdocs-viewer-api";
+
+        /// <summary>
+        /// The value of the <see cref="ROUTE_VALUE_KEY"/> route value.
+        /// </summary>
+        public const string ROUTE_VALUE = "true";
+
         public const string API_METHOD_LIST_DIR = "list-dir";
         public const string API_METHOD_UPLOAD_FILE = "upload-file";
         public const string API_METHOD_VIEW_DATA = "view-data";

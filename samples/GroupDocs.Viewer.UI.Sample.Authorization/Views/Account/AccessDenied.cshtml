@@ -1,0 +1,16 @@
+@{
+    ViewData["Title"] = "Access denied";
+}
+
+<h1>Access denied</h1>
+
+<section class="intro">
+    <p>
+        You are signed in as <b>@User.Identity?.Name</b>, but only users with the <b>@ViewerAccess.Role</b>
+        role can open the viewer. Sign out and sign in as <b>viewer</b>.
+    </p>
+</section>
+
+<div class="actions">
+    <a asp-controller="Home" asp-action="Index" class="button secondary">Back to the home page</a>
+</div>

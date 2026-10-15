@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using GroupDocs.Viewer.UI.Api.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -11,7 +12,8 @@ using Xunit;
 namespace GroupDocs.Viewer.UI.Api.Tests.Endpoints
 {
     /// <summary>
-    /// Conventions added to the builder returned by MapGroupDocsViewerApi must reach every API endpoint (issue #116).
+    /// Conventions added to the builder returned by MapGroupDocsViewerApi must reach every API endpoint (issue #116),
+    /// and conventional routes of the app must not create other endpoints for the API actions (issue #117).
     /// </summary>
     public class MapGroupDocsViewerApiTests
     {
@@ -48,6 +50,70 @@ namespace GroupDocs.Viewer.UI.Api.Tests.Endpoints
         }
 
         [Fact]
+        public async Task MapGroupDocsViewerApi_WithDefaultControllerRoute_ShouldNotMapViewerActionsToDefaultRoute()
+        {
+            await using var app = CreateApp();
+
+            app.MapGroupDocsViewerApi().RequireAuthorization("ViewerPolicy");
+            app.MapDefaultControllerRoute();
+
+            var endpoints = GetViewerEndpoints(app);
+            Assert.Equal(ApiEndpointsCount, endpoints.Count);
+            Assert.All(endpoints, endpoint =>
+            {
+                Assert.StartsWith("viewer-api/", endpoint.RoutePattern.RawText);
+                Assert.Equal("ViewerPolicy", endpoint.Metadata.GetMetadata<IAuthorizeData>()?.Policy);
+            });
+        }
+
+        [Fact]
+        public async Task CustomConventionalRoute_WithoutApiRouteValue_ShouldNotReachViewerController()
+        {
+            await using var app = CreateApp();
+
+            app.MapControllerRoute("my-viewer-api", "my-viewer-api/{action}", new { controller = ApiNames.CONTROLLER_NAME });
+
+            Assert.Empty(GetViewerEndpoints(app));
+        }
+
+        // NOTE: the upgrade notes in README.md recommend this route for apps with their own route to the controller
+        [Fact]
+        public async Task CustomConventionalRoute_WithApiRouteValue_ShouldReachViewerController()
+        {
+            await using var app = CreateApp();
+
+            app.MapControllerRoute("my-viewer-api", "my-viewer-api/{action}", new RouteValueDictionary
+            {
+                ["controller"] = ApiNames.CONTROLLER_NAME,
+                [ApiNames.ROUTE_VALUE_KEY] = ApiNames.ROUTE_VALUE,
+            });
+
+            var endpoints = GetViewerEndpoints(app);
+            Assert.Equal(ApiEndpointsCount, endpoints.Count);
+            Assert.All(endpoints, endpoint => Assert.StartsWith("my-viewer-api/", endpoint.RoutePattern.RawText));
+        }
+
+        // NOTE: the upgrade notes in README.md recommend route names for links to the API methods
+        [Fact]
+        public async Task MapGroupDocsViewerApi_WithDefaultControllerRoute_ShouldGenerateLinksByRouteName()
+        {
+            await using var app = CreateApp();
+
+            app.MapGroupDocsViewerApi();
+            app.MapDefaultControllerRoute();
+
+            // NOTE: the link generator sees the endpoints of the app once the app is started
+            app.Urls.Add("http://127.0.0.1:0");
+            await app.StartAsync();
+
+            var linkGenerator = app.Services.GetRequiredService<LinkGenerator>();
+            Assert.Equal("/viewer-api/get-pdf?file=sample.docx",
+                linkGenerator.GetPathByRouteValues(ApiNames.API_METHOD_GET_PDF, new { file = "sample.docx" }));
+
+            await app.StopAsync();
+        }
+
+        [Fact]
         public async Task MapGroupDocsViewerApi_WithoutConventions_ShouldNotRequireAuthorization()
         {
             await using var app = CreateApp();
@@ -75,6 +141,11 @@ namespace GroupDocs.Viewer.UI.Api.Tests.Endpoints
                 .SelectMany(dataSource => dataSource.Endpoints)
                 .OfType<RouteEndpoint>()
                 .Where(endpoint => endpoint.Metadata.GetMetadata<ISuppressMatchingMetadata>()?.SuppressMatching != true)
+                .ToList();
+
+        private static List<RouteEndpoint> GetViewerEndpoints(IEndpointRouteBuilder app) =>
+            GetEndpoints(app)
+                .Where(endpoint => endpoint.Metadata.GetMetadata<ControllerActionDescriptor>()?.ControllerTypeInfo == typeof(ViewerController))
                 .ToList();
     }
 }

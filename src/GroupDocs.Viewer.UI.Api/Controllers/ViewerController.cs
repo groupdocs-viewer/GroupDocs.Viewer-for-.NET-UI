@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 namespace GroupDocs.Viewer.UI.Api.Controllers
 {
     [HandleClientDisconnect]
+    [GroupDocsViewerApiRoute]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public class ViewerController : ControllerBase
     {

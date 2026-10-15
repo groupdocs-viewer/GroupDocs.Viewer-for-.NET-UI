@@ -52,9 +52,16 @@ namespace Microsoft.AspNetCore.Builder
             var endpoints = new List<IEndpointConventionBuilder>();
             foreach (var apiMethod in apiMethods)
             {
+                // NOTE: the controller requires this route value, so conventional routes of the app can't reach it
+                var defaults = new RouteValueDictionary
+                {
+                    ["controller"] = ApiNames.CONTROLLER_NAME,
+                    ["action"] = apiMethod.ToActionName(),
+                    [ApiNames.ROUTE_VALUE_KEY] = ApiNames.ROUTE_VALUE,
+                };
+
                 var endpoint = builder.MapControllerRoute(
-                    name: apiMethod, $"{relativeApiPath}/{apiMethod}",
-                    new { controller = ApiNames.CONTROLLER_NAME, action = apiMethod.ToActionName() });
+                    name: apiMethod, $"{relativeApiPath}/{apiMethod}", defaults);
 
                 endpoints.Add(endpoint);
             }
