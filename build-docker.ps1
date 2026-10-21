@@ -3,7 +3,7 @@
   Builds the GroupDocs.Viewer.UI Docker image locally.
 .EXAMPLE
   .\build-docker.ps1
-  .\build-docker.ps1 -Tag "26.9.0"
+  .\build-docker.ps1 -Tag "26.9.1"
 #>
 
 param(

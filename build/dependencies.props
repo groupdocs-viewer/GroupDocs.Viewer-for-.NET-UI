@@ -68,7 +68,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="GroupDocs.Viewer UI Package Versions">
-		<GroupDocsViewerUIVersion>26.9.0</GroupDocsViewerUIVersion>
+		<GroupDocsViewerUIVersion>26.9.1</GroupDocsViewerUIVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Label="NuGet Common Settings">

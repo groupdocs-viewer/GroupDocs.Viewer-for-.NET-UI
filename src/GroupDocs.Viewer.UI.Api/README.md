@@ -168,7 +168,7 @@ builder.Services
 
 ## Upgrade notes
 
-### Versions later than 26.9.0: only `MapGroupDocsViewerApi` routes reach the viewer API
+### 26.9.1: only `MapGroupDocsViewerApi` routes reach the viewer API
 
 To fix [#117](https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/issues/117), the viewer controller now requires the route value `groupdocs-viewer-api=true` (`ApiNames.ROUTE_VALUE_KEY` and `ApiNames.ROUTE_VALUE`). Only the routes that `MapGroupDocsViewerApi` maps provide this value. In 26.9.0 and earlier, other conventional routes of the app also reached the controller. For example, the default route `{controller=Home}/{action=Index}/{id?}` from `MapDefaultControllerRoute()` exposed `/Viewer/GetPdf` and `/Viewer/ViewData`, and `RequireAuthorization()` on `MapGroupDocsViewerApi` did not apply to these requests.
 
