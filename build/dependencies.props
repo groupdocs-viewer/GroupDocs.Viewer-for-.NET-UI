@@ -32,7 +32,7 @@
 		<!-- 8.0.2 also covers net6.0: it still ships a net6.0 asset.                                     -->
 		<SystemSecurityCryptographyPkcs>8.0.2</SystemSecurityCryptographyPkcs>
 
-		<SystemTextJson>8.0.6</SystemTextJson>
+		<SystemTextJson>10.0.14</SystemTextJson>
 
 		<AzureBlobs>12.27.0</AzureBlobs>
 		<AwsSdkS3>4.0.22.1</AwsSdkS3>
