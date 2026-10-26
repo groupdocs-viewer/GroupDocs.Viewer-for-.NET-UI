@@ -13,10 +13,10 @@ jobs:
       DOTNET_CLI_TELEMETRY_OPTOUT: true
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json
 
@@ -63,13 +63,13 @@ jobs:
         run: .\publish-prod.ps1
 
       - name: Archive packages
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: artifacts
           path: artifacts
 
       - name: Notify CLI repo
-        uses: peter-evans/repository-dispatch@v3
+        uses: peter-evans/repository-dispatch@v4
         with:
           token: ${{ secrets.CLI_REPO_TOKEN }}
           repository: groupdocs-viewer-app/GroupDocs.Viewer-for-.NET-CLI
