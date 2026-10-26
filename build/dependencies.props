@@ -30,7 +30,7 @@
 		<!-- GroupDocs.Viewer 26.9.0 -> GroupDocs.Viewer.Net60 -> System.Security.Cryptography.Pkcs 8.0.0, -->
 		<!-- which is vulnerable (GHSA-2fmv-rv2c-59x7, GHSA-846f-f764-76mx, fixed in 8.0.2 and 10.0.13). -->
 		<!-- 8.0.2 also covers net6.0: it still ships a net6.0 asset.                                     -->
-		<SystemSecurityCryptographyPkcs>8.0.2</SystemSecurityCryptographyPkcs>
+		<SystemSecurityCryptographyPkcs>10.0.14</SystemSecurityCryptographyPkcs>
 
 		<SystemTextJson>8.0.6</SystemTextJson>
 
