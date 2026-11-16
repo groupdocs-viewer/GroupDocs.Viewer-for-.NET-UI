@@ -1,6 +1,6 @@
 # MS Core Fonts install runs in an isolated stage so cabextract / wget / dpkg
 # never reach the runtime image. Only the resulting font files get copied out.
-FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS fonts-install
+FROM mcr.microsoft.com/dotnet/aspnet:11.0 AS fonts-install
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     fontconfig \
@@ -17,7 +17,7 @@ RUN wget -q -O /tmp/mscorefonts.deb \
  && fc-cache -f -v
 
 
-FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:11.0 AS base
 WORKDIR /app
 EXPOSE 8080
 
