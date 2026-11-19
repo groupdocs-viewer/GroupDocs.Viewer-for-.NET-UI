@@ -10,26 +10,53 @@
  *   options.SetLogoImage("./Logos/logo-image.svg")
  *   options.SetLogoText("./Logos/logo-text.svg")
  *
+ * The viewer has a light and a dark theme. Light colors go under :root and
+ * dark colors under :root[data-theme="dark"], which takes precedence over
+ * the dark theme's own colors.
+ *
  * Note: The Angular app uses ViewEncapsulation which adds _ngcontent-*
  * attribute selectors to component styles, giving them higher specificity.
  * Use !important to override scoped component styles from a global stylesheet.
  */
 
-/* ── Brand color overrides (teal/green palette) ── */
+/* ── Brand colors, light theme (teal palette) ── */
 :root {
-    --c-bg-brand: #0d9488;
+    --c-bg-brand: #0d9488;                  /* primary buttons, selected thumbnail */
     --c-bg-brand-hover: #0f766e;
-    --c-bg-brand-secondary: #ccfbf1;
-    --c-bg-brand-secondary-hover: #99f6e4;
+    --c-bg-brand-secondary: #ccfbf1;        /* active toggles, thumbnail hover */
+    --c-bg-brand-secondary-hover: #99f6e4;  /* scrollbars */
 
     --c-text-brand: #0d9488;
     --c-text-brand-secondary: #0f766e;
-    --c-text-brand-on-default: #ffffff;
+    --c-text-brand-on-default: #ffffff;     /* text on brand and accent backgrounds */
     --c-text-brand-on-secondary: #115e59;
-    --c-text-brand-info: #14b8a6;
+    --c-text-brand-info: #0d9488;
 
-    --c-bg-accent: #f0fdfa;
-    --c-bg-accent-hover: #ccfbf1;
+    --c-bg-accent: #134e4a;                 /* tooltips */
+    --c-bg-accent-hover: #0f766e;
+
+    --c-text-link: #0d9488;                 /* links, selected language */
+    --c-shadow: #99f6e4;                    /* focus ring */
+}
+
+/* ── Brand colors, dark theme ── */
+:root[data-theme="dark"] {
+    --c-bg-brand: #14b8a6;
+    --c-bg-brand-hover: #2dd4bf;
+    --c-bg-brand-secondary: #99f6e4;
+    --c-bg-brand-secondary-hover: #134e4a;
+
+    --c-text-brand: #0f766e;
+    --c-text-brand-secondary: #5eead4;
+    --c-text-brand-on-default: #042f2e;
+    --c-text-brand-on-secondary: #0f766e;
+    --c-text-brand-info: #0d9488;
+
+    --c-bg-accent: #ccfbf1;
+    --c-bg-accent-hover: #5eead4;
+
+    --c-text-link: #2dd4bf;
+    --c-shadow: #5eead4;
 }
 
 /* ── Hide default app name ("Viewer") and replace ── */
@@ -40,9 +67,9 @@
 
 .gd-header-app::after {
     content: "Document Viewer";
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.85);
-    font-weight: 400;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--c-text-base);
 }
 
 /* ── Hide init-state branding (logo and "Powered by" links) ── */

@@ -19,6 +19,8 @@ namespace GroupDocs.Viewer.UI.Api.Tests.Configuration
                 ["GroupDocsViewerUI:EnableFileBrowser"] = "false",
                 ["GroupDocsViewerUI:EnableSearch"] = "false",
                 ["GroupDocsViewerUI:EnableHyperlinks"] = "false",
+                ["GroupDocsViewerUI:EnableRotate"] = "false",
+                ["GroupDocsViewerUI:EnableThemeSwitcher"] = "false",
             };
 
             var configuration = new ConfigurationBuilder()
@@ -35,6 +37,8 @@ namespace GroupDocs.Viewer.UI.Api.Tests.Configuration
             Assert.False(config.EnableFileBrowser);
             Assert.False(config.EnableSearch);
             Assert.False(config.EnableHyperlinks);
+            Assert.False(config.EnableRotate);
+            Assert.False(config.EnableThemeSwitcher);
         }
 
         [Fact]
@@ -51,6 +55,9 @@ namespace GroupDocs.Viewer.UI.Api.Tests.Configuration
             Assert.Equal(3, config.PreloadPages);
             Assert.True(config.EnableThumbnails);
             Assert.Equal(0, config.ResponseCacheDurationSeconds);
+            Assert.True(config.EnableRotate);
+            Assert.True(config.EnableThemeSwitcher);
+            Assert.Same(Theme.Light, config.DefaultTheme);
         }
 
         [Fact]

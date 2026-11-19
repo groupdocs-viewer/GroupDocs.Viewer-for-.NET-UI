@@ -146,7 +146,8 @@ namespace GroupDocs.Viewer.UI.Configuration
         /// <summary>
         /// Sets a custom logo text image that replaces the default brand text (<c>logo-text.svg</c>)
         /// displayed in the header next to the logo icon. The image is displayed at 131x15 pixels.
-        /// SVG format is recommended.
+        /// SVG format is recommended. Only the shape of the image is used: the header paints it
+        /// in the text color of the current theme, so it shows in both the light and dark themes.
         /// </summary>
         /// <param name="path">Custom logo text image relative or absolute file path.
         /// Relative paths are resolved from the current working directory.</param>

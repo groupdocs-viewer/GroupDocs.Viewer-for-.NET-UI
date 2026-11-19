@@ -136,6 +136,13 @@ namespace GroupDocs.Viewer.UI.Core.Configuration
         public bool EnableZoom { get; set; } = true;
 
         /// <summary>
+        /// Show or hide the rotate buttons that turn all pages 90 degrees clockwise or counterclockwise.
+        /// When disabled, the rotation keyboard shortcuts are also turned off and removed from the help popup.
+        /// Default value: <c>true</c>.
+        /// </summary>
+        public bool EnableRotate { get; set; } = true;
+
+        /// <summary>
         /// Show or hide the page navigation menu.
         /// Default value: <c>true</c>.
         /// </summary>
@@ -201,5 +208,26 @@ namespace GroupDocs.Viewer.UI.Core.Configuration
         /// List of supported language codes.
         /// </summary>
         public LanguageCode[] SupportedLanguages { get; set; } = LanguageCode.All;
+
+        /* Theme Settings */
+
+        /// <summary>
+        /// Show or hide the theme button that switches between the light and dark themes.
+        /// Default value: <c>true</c>.
+        /// </summary>
+        public bool EnableThemeSwitcher { get; set; } = true;
+
+        /// <summary>
+        /// Theme the UI opens with.
+        /// Possible values: <c>Theme.Light</c>, <c>Theme.Dark</c>, <c>Theme.Auto</c>.
+        /// Default value: <c>Theme.Light</c>.
+        /// </summary>
+        /// <remarks>
+        /// <para>With <c>Theme.Auto</c>, the UI follows the light or dark setting of the operating system.</para>
+        /// <para>Once a user picks a theme with the theme button, the browser remembers that choice and uses it
+        /// instead of this setting. When the theme button is hidden with <see cref="EnableThemeSwitcher"/>,
+        /// the UI always opens in this theme.</para>
+        /// </remarks>
+        public Theme DefaultTheme { get; set; } = Theme.Light;
     }
 }

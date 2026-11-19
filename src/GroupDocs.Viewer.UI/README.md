@@ -268,6 +268,18 @@ builder.Services
     });
 ```
 
+#### Hide rotate buttons
+
+To hide the buttons in the tools pane that rotate all pages 90 degrees clockwise or counterclockwise, set `EnableRotate` to `false`. This also turns off the rotation keyboard shortcuts, Cmd/Ctrl + Shift + `+` and Cmd/Ctrl + Shift + `-`. By default, the buttons are visible.
+
+```cs
+builder.Services
+   .AddGroupDocsViewerUI(config =>
+    {
+        config.EnableRotate = false; // Hide rotate buttons
+    });
+```
+
 #### Hide page selector
 
 To hide the page selector control in the tools pane, set `EnablePageSelector` to `false`. By default, the page selector is enabled.
@@ -366,7 +378,7 @@ The hotkeys are organized into the following sections:
 
 - **File Management**: Download PDF (Cmd/Ctrl + S)
 - **Navigation**: Next/Previous Page, First/Last Page, Scroll Up/Down
-- **View**: Zoom In/Out, Fit In, Full Screen
+- **View**: Zoom In/Out, Fit In, Full Screen, Rotate Clockwise/Counterclockwise
 - **Search**: Find, Find Next/Previous, Close Search
 - **Slide**: Start presentation, Start from current slide, Close slide, Black/White screen, Next/Previous slide
 - **Miscellaneous**: Help (Cmd/Ctrl + / or F1), Print (Cmd/Ctrl + P)
@@ -376,6 +388,18 @@ builder.Services
    .AddGroupDocsViewerUI(config =>
     {
         config.EnableHelp = false;
+    });
+```
+
+#### Hide theme button
+
+To hide the button in the header that switches between the light and dark themes, set `EnableThemeSwitcher` to `false`. By default, this button is visible. To choose the theme the viewer opens with, see "Set the UI theme" below.
+
+```cs
+builder.Services
+   .AddGroupDocsViewerUI(config =>
+    {
+        config.EnableThemeSwitcher = false;
     });
 ```
 
@@ -410,13 +434,27 @@ builder.Services
 
 Default language can also be set via a query string parameter, e.g. `?lang=de`.
 
+#### Set the UI theme
+
+The viewer has a light and a dark theme. To set the theme it opens with, set the `DefaultTheme` property to `Theme.Light` (default), `Theme.Dark` or `Theme.Auto`. `Theme.Auto` follows the light or dark setting of the operating system.
+
+Once a user picks a theme with the theme button, the browser remembers that choice and uses it instead of `DefaultTheme`. When the theme button is hidden, the viewer always opens in `DefaultTheme`.
+
+```cs
+builder.Services
+    .AddGroupDocsViewerUI(config =>
+    {
+        config.DefaultTheme = Theme.Auto; // Follow the operating system
+    });
+```
+
 ### Custom branding (white-labeling)
 
 You can white-label the viewer by replacing logo images, setting a custom page title, and overriding brand colors via a custom stylesheet. All branding options are configured in `MapGroupDocsViewerUI`.
 
 #### Replace logo images
 
-Use `SetLogoImage()` to replace the brand icon (displayed at 26x23px) and `SetLogoText()` to replace the brand text (displayed at 131x15px). SVG format is recommended.
+Use `SetLogoImage()` to replace the brand icon (displayed at 26x23px) and `SetLogoText()` to replace the brand text (displayed at 131x15px). SVG format is recommended. Only the shape of the logo text image is used: the header paints it in the text color of the current theme, so it shows in both the light and dark themes.
 
 ```cs
 endpoints.MapGroupDocsViewerUI(options =>
@@ -484,6 +522,20 @@ Example custom stylesheet with a teal color scheme:
     --c-text-brand-on-secondary: #115e59;
 }
 ```
+
+The dark theme sets its own colors. To brand it as well, repeat the variables with dark-theme values under `:root[data-theme="dark"]`. A plain `:root` rule loses to the dark theme's rules when the operating system is set to dark:
+
+```css
+:root[data-theme="dark"] {
+    --c-bg-brand: #14b8a6;
+    --c-bg-brand-hover: #2dd4bf;
+    --c-bg-brand-secondary: #99f6e4;
+    --c-text-brand: #0f766e;
+    --c-text-brand-on-default: #042f2e;
+}
+```
+
+To keep the viewer light instead, hide the theme button with `EnableThemeSwitcher = false`. The viewer opens in the light theme by default, see "Set the UI theme" above.
 
 > **Note**: The Angular app uses ViewEncapsulation which adds `_ngcontent-*` attribute selectors to component styles. Use `!important` when overriding scoped component styles from a global stylesheet.
 
