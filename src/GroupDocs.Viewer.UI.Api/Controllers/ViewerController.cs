@@ -129,9 +129,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                 var docInfo = await _viewer.GetDocumentInfoAsync(file, ct);
                 var pagesToCreate = GetPagesToCreate(docInfo.TotalPagesCount, _config.PreloadPages);
 
-                var pages = _config.RenderingMode == RenderingMode.Html
-                    ? await CreateViewDataPagesAndThumbs(file, docInfo, pagesToCreate, ct)
-                    : await CreateViewDataPages(file, docInfo, pagesToCreate, ct);
+                var pages = await CreateViewDataPages(file, docInfo, pagesToCreate, ct);
 
                 var searchTerm = await _searchTermResolver.ResolveSearchTermAsync(request.File);
                 var fileName = await _fileNameResolver.ResolveFileNameAsync(request.File);
@@ -184,9 +182,7 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
                 var ct = HttpContext.RequestAborted;
                 var docInfo = await _viewer.GetDocumentInfoAsync(file, ct);
 
-                var pages = _config.RenderingMode == RenderingMode.Html
-                    ? await CreatePagesAndThumbs(file, docInfo, request.Pages, ct)
-                    : await CreatePages(file, docInfo, request.Pages, ct);
+                var pages = await CreatePages(file, docInfo, request.Pages, ct);
 
                 return Ok(pages);
             }
@@ -375,40 +371,6 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
         }
 
         // NOTE: This method returns all of the pages including created and not
-        private async Task<List<PageData>> CreateViewDataPagesAndThumbs(FileCredentials file, DocumentInfo docInfo, int[] pagesToCreate, CancellationToken cancellationToken)
-        {
-            await _viewer.GetPagesAsync(file, pagesToCreate, cancellationToken);
-
-            if (_config.EnableThumbnails && _config.RenderingMode == RenderingMode.Html)
-            {
-                await _viewer.GetThumbsAsync(file, pagesToCreate, cancellationToken);
-            }
-
-            var pages = new List<PageData>();
-            foreach (PageInfo page in docInfo.Pages)
-            {
-                var isPageCreated = pagesToCreate.Contains(page.Number);
-                if (isPageCreated)
-                {
-                    var pageUrl = _apiUrlBuilder.BuildPageUrl(file.FilePath, page.Number, _viewer.PageExtension);
-                    var thumbUrl = _apiUrlBuilder.BuildThumbUrl(file.FilePath, page.Number, _viewer.ThumbExtension);
-
-                    var pageData = _config.EnableThumbnails && _config.RenderingMode == RenderingMode.Html
-                        ? new PageData(page.Number, page.Width, page.Height, pageUrl, thumbUrl)
-                        : new PageData(page.Number, page.Width, page.Height, pageUrl);
-
-                    pages.Add(pageData);
-                }
-                else
-                {
-                    pages.Add(new PageData(page.Number, page.Width, page.Height));
-                }
-            }
-
-            return pages;
-        }
-
-        // NOTE: This method returns all of the pages including created and not
         private async Task<List<PageData>> CreateViewDataPages(FileCredentials file, DocumentInfo docInfo, int[] pagesToCreate, CancellationToken cancellationToken)
         {
             await _viewer.GetPagesAsync(file, pagesToCreate, cancellationToken);
@@ -417,44 +379,9 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             foreach (PageInfo page in docInfo.Pages)
             {
                 var isPageCreated = pagesToCreate.Contains(page.Number);
-                if (isPageCreated)
-                {
-                    var pageUrl = _apiUrlBuilder.BuildPageUrl(file.FilePath, page.Number, _viewer.PageExtension);
-                    var pageData = new PageData(page.Number, page.Width, page.Height, pageUrl);
-
-                    pages.Add(pageData);
-                }
-                else
-                {
-                    pages.Add(new PageData(page.Number, page.Width, page.Height));
-                }
-            }
-
-            return pages;
-        }
-
-        // NOTE: This method returns only created pages
-        private async Task<List<PageData>> CreatePagesAndThumbs(FileCredentials file, DocumentInfo docInfo, int[] pagesToCreate, CancellationToken cancellationToken)
-        {
-            await _viewer.GetPagesAsync(file, pagesToCreate, cancellationToken);
-
-            if (_config.EnableThumbnails && _config.RenderingMode == RenderingMode.Html)
-            {
-                await _viewer.GetThumbsAsync(file, pagesToCreate, cancellationToken);
-            }
-
-            var pages = new List<PageData>();
-            foreach (int pageNumber in pagesToCreate)
-            {
-                var page = docInfo.Pages.First(p => p.Number == pageNumber);
-                var pageUrl = _apiUrlBuilder.BuildPageUrl(file.FilePath, page.Number, _viewer.PageExtension);
-                var thumbUrl = _apiUrlBuilder.BuildThumbUrl(file.FilePath, page.Number, _viewer.ThumbExtension);
-
-                var pageData = _config.EnableThumbnails && _config.RenderingMode == RenderingMode.Html
-                    ? new PageData(page.Number, page.Width, page.Height, pageUrl, thumbUrl)
-                    : new PageData(page.Number, page.Width, page.Height, pageUrl);
-
-                pages.Add(pageData);
+                pages.Add(isPageCreated
+                    ? CreatePageData(file, page)
+                    : new PageData(page.Number, page.Width, page.Height));
             }
 
             return pages;
@@ -469,13 +396,23 @@ namespace GroupDocs.Viewer.UI.Api.Controllers
             foreach (int pageNumber in pagesToCreate)
             {
                 var page = docInfo.Pages.First(p => p.Number == pageNumber);
-                var pageUrl = _apiUrlBuilder.BuildPageUrl(file.FilePath, page.Number, _viewer.PageExtension);
-                var pageData = new PageData(page.Number, page.Width, page.Height, pageUrl);
-
-                pages.Add(pageData);
+                pages.Add(CreatePageData(file, page));
             }
 
             return pages;
+        }
+
+        // NOTE: Thumbnails aren't rendered with the pages. The browser requests each thumbnail URL,
+        // and GetThumb renders the thumbnail then, so a page doesn't wait for its thumbnail.
+        private PageData CreatePageData(FileCredentials file, PageInfo page)
+        {
+            var pageUrl = _apiUrlBuilder.BuildPageUrl(file.FilePath, page.Number, _viewer.PageExtension);
+
+            if (!_config.EnableThumbnails || _config.RenderingMode != RenderingMode.Html)
+                return new PageData(page.Number, page.Width, page.Height, pageUrl);
+
+            var thumbUrl = _apiUrlBuilder.BuildThumbUrl(file.FilePath, page.Number, _viewer.ThumbExtension);
+            return new PageData(page.Number, page.Width, page.Height, pageUrl, thumbUrl);
         }
 
         private int[] GetPagesToCreate(int totalPageCount, int preloadPageCount)
