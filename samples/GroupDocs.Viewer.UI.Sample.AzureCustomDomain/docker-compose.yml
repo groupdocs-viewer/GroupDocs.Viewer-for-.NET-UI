@@ -5,9 +5,8 @@ services:
       dockerfile: samples/GroupDocs.Viewer.UI.Sample.AzureCustomDomain/Dockerfile
     container_name: viewer-azure-sample-app
     ports:
-      - "5000:80"
+      - "5000:8080"
     environment:
-      - ASPNETCORE_URLS=http://+:80
       - ASPNETCORE_ENVIRONMENT=Development
     volumes:
       - ./Files:/app/Files

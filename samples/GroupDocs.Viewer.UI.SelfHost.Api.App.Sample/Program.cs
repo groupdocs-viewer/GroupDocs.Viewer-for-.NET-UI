@@ -28,7 +28,8 @@ app
         endpoints.MapGroupDocsViewerUI(options =>
         {
             options.UIPath = "/document-viewer";
-            options.ApiEndpoint = "https://localhost:5001/document-viewer-api";
+            // GroupDocs.Viewer.UI.SelfHost.Api.Service.Sample serves the API at this URL, see its Properties/launchSettings.json
+            options.ApiEndpoint = "https://localhost:5003/document-viewer-api";
         });
     });
 

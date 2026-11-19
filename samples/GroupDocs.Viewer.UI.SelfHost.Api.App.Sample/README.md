@@ -7,14 +7,14 @@ Use this together with the [SelfHost.Api.Service.Sample](../GroupDocs.Viewer.UI.
 ## What This Sample Shows
 
 - Running the viewer UI without a local rendering API
-- Pointing the UI to a remote API endpoint (`https://localhost:5001/document-viewer-api`)
+- Pointing the UI to a remote API endpoint (`https://localhost:5003/document-viewer-api`)
 - Configuring language support (English, French, Italian)
 - Keeping `PreloadPages` in sync between UI and API apps
 
 ## Prerequisites
 
-- .NET 8.0 SDK or later
-- The [SelfHost.Api.Service.Sample](../GroupDocs.Viewer.UI.SelfHost.Api.Service.Sample/) running on `https://localhost:5001`
+- .NET 10 SDK or later
+- The [SelfHost.Api.Service.Sample](../GroupDocs.Viewer.UI.SelfHost.Api.Service.Sample/) running on `https://localhost:5003`
 
 ## Running
 
@@ -30,7 +30,7 @@ Use this together with the [SelfHost.Api.Service.Sample](../GroupDocs.Viewer.UI.
    dotnet run
    ```
 
-Open your browser at the URL shown in the console output.
+Open your browser at `https://localhost:5001`. The API service runs at `https://localhost:5003`.
 
 ## Configuration
 
@@ -48,7 +48,7 @@ builder.Services
 endpoints.MapGroupDocsViewerUI(options =>
 {
     options.UIPath = "/document-viewer";
-    options.ApiEndpoint = "https://localhost:5001/document-viewer-api";  // Remote API
+    options.ApiEndpoint = "https://localhost:5003/document-viewer-api";  // Remote API
 });
 ```
 

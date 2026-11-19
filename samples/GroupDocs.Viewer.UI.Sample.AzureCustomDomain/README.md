@@ -71,7 +71,7 @@ endpoints.MapGroupDocsViewerApi(options =>
 
 - Azure account with App Service access
 - Azure CLI or Visual Studio with Azure tools installed
-- .NET 8.0 SDK
+- .NET 10 SDK
 
 ### Deployment Steps
 
@@ -94,7 +94,7 @@ endpoints.MapGroupDocsViewerApi(options =>
    dotnet publish -c Release
    az webapp deploy --resource-group <your-resource-group> \
                     --name <your-app-name> \
-                    --src-path bin/Release/net8.0/publish
+                    --src-path bin/Release/net10.0/publish
    ```
 
    Or use Visual Studio's **Publish** feature to deploy directly.

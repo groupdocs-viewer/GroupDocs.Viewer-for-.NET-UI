@@ -82,22 +82,29 @@ This example demonstrates how to pre-generate cache before the file is opened us
 
 ## Getting Started
 
-To run any of these samples:
+All samples target .NET 10 and start the same way:
 
-1. Ensure you have the .NET 8.0 SDK installed
-2. Navigate to the sample project(s) directory
-3. Run `dotnet restore` to restore dependencies
-4. Run `dotnet run` to start the application
+1. Install the .NET 10 SDK.
+2. Go to the sample folder, for example `cd samples/GroupDocs.Viewer.UI.Sample`.
+3. Run `dotnet run`.
+4. Open `https://localhost:5001` or `http://localhost:5000`. Visual Studio opens the browser for you.
+
+Every web sample uses these ports, so only one of them can run at a time. The ports and the other launch settings are in `Properties/launchSettings.json` of each sample.
+
+### Samples that use two apps
+
+- **`GroupDocs.Viewer.UI.SelfHost.Api.Service.Sample`** and **`GroupDocs.Viewer.UI.SelfHost.Api.App.Sample`** run together. Start the API service first, it runs at `https://localhost:5003` and `http://localhost:5002`. Then start the UI app and open it at `https://localhost:5001`.
+- **`GroupDocs.Viewer.UI.Sample.StaticContentMode.Generator`** is a console app that generates the content for **`GroupDocs.Viewer.UI.Sample.StaticContentMode`**. The content is already generated, so you only need the generator when you change the documents. Run it, copy its `Content` folder to the `StaticContentMode` sample, then run the sample.
 
 ## Prerequisites
 
-- .NET 8.0 SDK
-- License file for production use 
-- Keys for Cloud samples
+- .NET 10 SDK
+- A license file to remove the evaluation limitations, see the note on the start page of each sample
+- Client ID and Client Secret for the GroupDocs Cloud sample
 
 ## Notes
 
 - In case you would like to configure the specific sample, check `Program.cs` file
-- `GroupDocs.Viewer.UI.Sample` and `GroupDocs.Viewer.UI.Sample.AzureCustomDomain` provide Dockerfile
+- `GroupDocs.Viewer.UI.Sample`, `GroupDocs.Viewer.UI.Sample.ViewAsPng` and `GroupDocs.Viewer.UI.Sample.AzureCustomDomain` provide a Dockerfile
 - `GroupDocs.Viewer.UI.Sample.AzureCustomDomain` also includes Docker Compose with Nginx for testing custom domains locally
 - Please let us know if you can't find the example you're looking for by posting an issue

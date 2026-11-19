@@ -12,7 +12,7 @@ This sample demonstrates how to white-label GroupDocs.Viewer.UI with custom colo
 
 ## Prerequisites
 
-- .NET 8.0 SDK or later
+- .NET 10 SDK or later
 
 ## Running
 

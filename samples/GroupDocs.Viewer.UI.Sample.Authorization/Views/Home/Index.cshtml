@@ -3,81 +3,52 @@
 
     var documents = new[]
     {
-        (Name: "annual-review.docx", Description: "Sample Word document with text and images."),
-        (Name: "professional-services.pdf", Description: "Sample PDF document."),
+        (Name: "annual-review.docx", Format: "docx", Description: "Sample Word document with text and images."),
+        (Name: "professional-services.pdf", Format: "pdf", Description: "Sample PDF document."),
     };
     var viewerUrl = $"{ViewerAccess.UIPath}/?file=annual-review.docx";
     var apiUrl = $"{ViewerAccess.ApiPath}/get-pdf?file=annual-review.docx";
     var defaultRouteUrl = "/Viewer/GetPdf?file=annual-review.docx";
 }
 
-<h1>Viewer Authorization Demo</h1>
-
-<section class="intro">
-    <p>
-        This sample shows how to require signed-in users for
-        <a href="https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI">GroupDocs.Viewer.UI</a>
-        in an ASP.NET Core MVC app. It uses cookie authentication, and only users with the
-        <b>@ViewerAccess.Role</b> role can open the viewer and call its API.
-        Sign in as <b>viewer</b> to open the documents, or as <b>guest</b> to see the access denied page.
-    </p>
-    <p class="note">
-        To test all the features request a temporary license using
-        <a href="https://purchase.groupdocs.com/buy/cart?ppId=99940">Purchase Wizard</a>.
-        Check your mailbox, download attached file and set path to license file in <b>Program.cs</b> class.
-    </p>
-</section>
-
-<div class="sample-grid">
+<section class="gds-intro">
+  <span class="gds-eyebrow">GroupDocs.Viewer.UI sample</span>
+  <h1 class="gds-title">Viewer Authorization Demo</h1>
+  <p class="gds-lead">Requires signed-in users for <a href="https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI">GroupDocs.Viewer.UI</a> in an ASP.NET Core MVC app. Only users with the <b>@ViewerAccess.Role</b> role can open the viewer and call its API. Sign in as <b>viewer</b> to open the documents, or as <b>guest</b> to see the access denied page.</p>
+  <ul class="gds-facts"><li>Sign-in <b>Cookies</b></li><li>Policy <b>@ViewerAccess.Policy</b></li><li>Role <b>@ViewerAccess.Role</b></li><li>App <b>MVC</b></li></ul>
+</section><aside class="gds-note"><span class="gds-note-label">Before you run</span><p>Request a temporary license in the <a href="https://purchase.groupdocs.com/buy/cart?ppId=99940">Purchase Wizard</a>, then set the path to the license file in <b>Program.cs</b>. No credit card required.</p></aside>
+<div class="gds-files gds-files-center">
     @foreach (var document in documents)
     {
-        <a href="@($"{ViewerAccess.UIPath}/?file={Uri.EscapeDataString(document.Name)}")" class="card">
-            <div class="card-icon">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
-                </svg>
-            </div>
-            <div class="card-content">
-                <div class="card-title">@document.Name</div>
-                <div class="card-desc">@document.Description</div>
-            </div>
-        </a>
+        <a href="@($"{ViewerAccess.UIPath}/?file={Uri.EscapeDataString(document.Name)}")" class="gds-file"><span class="gds-file-icon" data-fmt="@document.Format">@document.Format.ToUpperInvariant()</span><span class="gds-file-body"><span class="gds-file-name">@document.Name</span><span class="gds-file-desc">@document.Description</span></span></a>
     }
 </div>
-
-<h2>Check the protection</h2>
-<p class="section-desc">Open these URLs signed out, as <b>guest</b> and as <b>viewer</b>.</p>
-<div class="panel">
-    <table>
-        <thead>
-            <tr>
-                <th>URL</th>
-                <th>Signed out</th>
-                <th>guest</th>
-                <th>viewer</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><a href="@viewerUrl"><code>@viewerUrl</code></a></td>
-                <td>Redirect to the sign-in page</td>
-                <td>Access denied page</td>
-                <td>The viewer opens the document</td>
-            </tr>
-            <tr>
-                <td><a href="@apiUrl"><code>@apiUrl</code></a></td>
-                <td>401</td>
-                <td>403</td>
-                <td>The PDF file</td>
-            </tr>
-            <tr>
-                <td><a href="@defaultRouteUrl"><code>@defaultRouteUrl</code></a></td>
-                <td colspan="3">
-                    404 for everyone. The default route of this app doesn't reach the viewer API, see
-                    <a href="https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/issues/117">#117</a>.
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+<section class="gds-section">
+    <h2>Check the protection</h2>
+    <p>Open these URLs signed out, as <b>guest</b> and as <b>viewer</b>.</p>
+    <div class="gds-table-wrap">
+        <table class="gds-table">
+            <thead>
+                <tr><th>URL</th><th>Signed out</th><th>guest</th><th>viewer</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="@viewerUrl"><code>@viewerUrl</code></a></td>
+                    <td><span class="gds-status gds-status-warn">Sign-in page</span></td>
+                    <td><span class="gds-status gds-status-err">Access denied</span></td>
+                    <td><span class="gds-status gds-status-ok">Viewer opens</span></td>
+                </tr>
+                <tr>
+                    <td><a href="@apiUrl"><code>@apiUrl</code></a></td>
+                    <td><span class="gds-status gds-status-err">401</span></td>
+                    <td><span class="gds-status gds-status-err">403</span></td>
+                    <td><span class="gds-status gds-status-ok">200</span> The PDF file</td>
+                </tr>
+                <tr>
+                    <td><a href="@defaultRouteUrl"><code>@defaultRouteUrl</code></a></td>
+                    <td colspan="3"><span class="gds-status gds-status-err">404</span> for everyone. The default route of this app doesn't reach the viewer API, see <a href="https://github.com/groupdocs-viewer/GroupDocs.Viewer-for-.NET-UI/issues/117">#117</a>.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>

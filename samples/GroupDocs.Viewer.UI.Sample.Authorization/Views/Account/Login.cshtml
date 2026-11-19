@@ -2,33 +2,15 @@
     ViewData["Title"] = "Sign in";
 }
 
-<h1>Sign in</h1>
-
-<section class="intro">
-    <p>Pick a demo account. In your app, this is the sign-in page of your identity provider.</p>
+<section class="gds-intro">
+  <span class="gds-eyebrow">GroupDocs.Viewer.UI sample</span>
+  <h1 class="gds-title">Sign in</h1>
+  <p class="gds-lead">Pick a demo account. In your app, this is the sign-in page of your identity provider.</p>
 </section>
-
-<form asp-controller="Account" asp-action="Login" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" class="sample-grid">
-    <button type="submit" name="userName" value="viewer" class="card">
-        <span class="card-icon">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-            </svg>
-        </span>
-        <span class="card-content">
-            <span class="card-title">Sign in as viewer</span>
-            <span class="card-desc">Has the <b>@ViewerAccess.Role</b> role and can open the viewer.</span>
-        </span>
-    </button>
-    <button type="submit" name="userName" value="guest" class="card">
-        <span class="card-icon">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-            </svg>
-        </span>
-        <span class="card-content">
-            <span class="card-title">Sign in as guest</span>
-            <span class="card-desc">Has no roles and can't open the viewer.</span>
-        </span>
-    </button>
+<form asp-controller="Account" asp-action="Login" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" class="gds-files gds-files-center">
+    <button type="submit" name="userName" value="viewer" class="gds-file"><span class="gds-file-icon"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></span><span class="gds-file-body"><span class="gds-file-name">Sign in as viewer</span><span class="gds-file-desc">Has the <b>@ViewerAccess.Role</b> role and can open the viewer.</span></span></button>
+    <button type="submit" name="userName" value="guest" class="gds-file"><span class="gds-file-icon"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></span><span class="gds-file-body"><span class="gds-file-name">Sign in as guest</span><span class="gds-file-desc">Has no roles and can't open the viewer.</span></span></button>
 </form>
+<div class="gds-back">
+    <a asp-controller="Home" asp-action="Index" class="gds-btn gds-btn-outline">Back to the home page</a>
+</div>

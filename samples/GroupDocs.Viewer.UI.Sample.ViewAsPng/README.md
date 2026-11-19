@@ -10,7 +10,7 @@ This sample demonstrates rendering documents as PNG images instead of HTML. This
 
 ## Prerequisites
 
-- .NET 8.0 SDK or later
+- .NET 10 SDK or later
 
 ## Running
 

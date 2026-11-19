@@ -825,7 +825,7 @@ docker build -f docker/Dockerfile -t groupdocs/viewer-net-ui .
 
 To build your own Docker image with custom configuration, refer to these example Dockerfiles:
 
-- For `GroupDocs.Viewer.UI.SelfHost.Api` and .NET 8 app, see this [Dockerfile](/samples/GroupDocs.Viewer.UI.Sample/Dockerfile).
+- For `GroupDocs.Viewer.UI.SelfHost.Api` and .NET 10 app, see this [Dockerfile](/samples/GroupDocs.Viewer.UI.Sample/Dockerfile).
 
 ## Extensibility Points
 

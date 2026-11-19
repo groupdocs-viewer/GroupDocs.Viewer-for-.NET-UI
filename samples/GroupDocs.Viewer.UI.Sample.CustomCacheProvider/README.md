@@ -10,7 +10,7 @@ This sample demonstrates how to implement and register a custom `IFileCache` pro
 
 ## Prerequisites
 
-- .NET 8.0 SDK or later
+- .NET 10 SDK or later
 
 ## Running
 

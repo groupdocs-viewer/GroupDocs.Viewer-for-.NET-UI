@@ -49,13 +49,14 @@ app
     {
         endpoints.MapGet("/", async context =>
         {
-            await context.Response.WriteAsync("Viewer API can be accessed at '/document-viewer-api' endpoint.");
+            await context.Response.SendFileAsync("index.html");
         });
 
         endpoints.MapGroupDocsViewerApi(options =>
         {
             options.ApiPath = "/document-viewer-api";
-            options.ApiDomain = "https://localhost:5001";
+            // This app runs at this URL, see Properties/launchSettings.json
+            options.ApiDomain = "https://localhost:5003";
         });
     });
 

@@ -13,7 +13,7 @@ Use this together with the [SelfHost.Api.App.Sample](../GroupDocs.Viewer.UI.Self
 
 ## Prerequisites
 
-- .NET 8.0 SDK or later
+- .NET 10 SDK or later
 
 ## Running
 
@@ -29,7 +29,7 @@ Use this together with the [SelfHost.Api.App.Sample](../GroupDocs.Viewer.UI.Self
    dotnet run
    ```
 
-The API service runs at `https://localhost:5001` and serves the API at `/document-viewer-api`.
+The API service runs at `https://localhost:5003` and serves the API at `/document-viewer-api`. Open the UI app at `https://localhost:5001`.
 
 ## Configuration
 
@@ -58,7 +58,7 @@ builder.Services
 endpoints.MapGroupDocsViewerApi(options =>
 {
     options.ApiPath = "/document-viewer-api";
-    options.ApiDomain = "https://localhost:5001";  // Explicit domain for absolute URLs
+    options.ApiDomain = "https://localhost:5003";  // Explicit domain for absolute URLs
 });
 ```
 

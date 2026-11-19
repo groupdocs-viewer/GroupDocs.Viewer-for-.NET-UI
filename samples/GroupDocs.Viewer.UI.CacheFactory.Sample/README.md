@@ -10,7 +10,7 @@ This is a console application that pre-populates the local file cache by renderi
 
 ## Prerequisites
 
-- .NET 8.0 SDK or later
+- .NET 10 SDK or later
 - Windows, Linux, or macOS - as of 26.8.0 `SelfHost.Api` renders via SkiaSharp and the GroupDocs cross-platform native assets, so no GDI+ or `libgdiplus` is needed
 
 ## Running

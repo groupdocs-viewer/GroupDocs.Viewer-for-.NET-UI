@@ -33,7 +33,7 @@ There is **no flag** in `Config`, in any options class, or in the DI extension m
 
 ## Prerequisites
 
-- .NET 8.0 SDK or later
+- .NET 10 SDK or later
 
 ## Running
 

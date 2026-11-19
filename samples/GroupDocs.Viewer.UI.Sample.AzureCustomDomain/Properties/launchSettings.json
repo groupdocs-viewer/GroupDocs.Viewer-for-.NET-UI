@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "GroupDocs.Viewer.UI.Sample.AzureCustomDomain": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "hotReloadEnabled": false,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_HOSTINGSTARTUPEXCLUDEASSEMBLIES": "Microsoft.AspNetCore.Watch.BrowserRefresh"
+      },
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "environmentVariables": {
+        "ASPNETCORE_HTTPS_PORTS": "8081",
+        "ASPNETCORE_HTTP_PORTS": "8080",
+        "ASPNETCORE_HOSTINGSTARTUPEXCLUDEASSEMBLIES": "Microsoft.AspNetCore.Watch.BrowserRefresh"
+      },
+      "publishAllPorts": true,
+      "useSSL": true
+    }
+  }
+}

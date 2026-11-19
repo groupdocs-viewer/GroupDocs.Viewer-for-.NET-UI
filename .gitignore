@@ -53,6 +53,8 @@ project.lock.json
 project.fragment.lock.json
 artifacts/
 **/Properties/launchSettings.json
+# The samples share launch settings, so every sample starts on the same ports
+!samples/*/Properties/launchSettings.json
 
 # StyleCop
 StyleCopReport.xml

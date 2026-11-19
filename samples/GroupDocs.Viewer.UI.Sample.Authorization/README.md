@@ -11,7 +11,7 @@ This sample shows how to require signed-in users for GroupDocs.Viewer.UI in an A
 
 ## Prerequisites
 
-- .NET 8.0 SDK or later
+- .NET 10 SDK or later
 
 ## Running
 
