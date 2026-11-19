@@ -19,6 +19,7 @@ This directory contains various sample projects demonstrating different ways to 
 | [`GroupDocs.Viewer.UI.Sample.CustomCacheProvider`](GroupDocs.Viewer.UI.Sample.CustomCacheProvider/) | SelfHost.Api | Local | **Custom `IFileCache`** | HTML | Implementing a custom cache provider |
 | [`GroupDocs.Viewer.UI.Sample.CustomFileStorage`](GroupDocs.Viewer.UI.Sample.CustomFileStorage/) | SelfHost.Api | **Custom `IFileStorage`** | Local | HTML | Implementing a custom storage provider (DB/blob-style) |
 | [`GroupDocs.Viewer.UI.CacheFactory.Sample`](GroupDocs.Viewer.UI.CacheFactory.Sample/) | Console | Local | Local | HTML | Pre-warming cache before UI access |
+| [`GroupDocs.Viewer.UI.Sample.Performance`](GroupDocs.Viewer.UI.Sample.Performance/) | SelfHost.Api | Local | Local | HTML | Faster rendering: first page first, a default font, pages without fonts, sheets split into pages, a lighter PDF, compression and a warm-up |
 
 ## Basic Implementation Samples
 
@@ -79,6 +80,12 @@ Demonstrates how to implement a custom `IFileStorage` for a database- or blob-ba
 ### GroupDocs.Viewer.UI.CacheFactory.Sample
 
 This example demonstrates how to pre-generate cache before the file is opened using UI. It shows how to implement background processing of documents to improve user experience.
+
+## Performance Samples
+
+### GroupDocs.Viewer.UI.Sample.Performance
+
+Shows settings that make the viewer faster. The first response holds one page, fonts the server doesn't have go to a default font, the HTML pages are sent without fonts, sheets are split into pages of 100 rows, and the PDF for download and printing uses page breaks and lighter spreadsheet output. The app also caches and compresses its responses and warms up the rendering engine when it starts. Every API request logs its time and sends it in the `Server-Timing` header.
 
 ## Getting Started
 

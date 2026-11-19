@@ -613,6 +613,8 @@ services
 
 A sample application demonstrating how to use the self-hosted API can be found [here](./samples/GroupDocs.Viewer.UI.Sample/).
 
+For settings that make rendering faster, such as a default font, pages without embedded fonts, sheets split into pages and a lighter PDF, see the [performance sample](./samples/GroupDocs.Viewer.UI.Sample.Performance/).
+
 ### GroupDocs Cloud
 
 In case you want to offload rendering to [GroupDocs Cloud](https://www.groupdocs.cloud/) infrastructure you can opt to use [GroupDocs.Viewer Cloud API](https://products.groupdocs.cloud/viewer/family/). To get started create your first application at <https://dashboard.groupdocs.cloud/applications> and copy your `Client Id` and `Client Secret` keys.
