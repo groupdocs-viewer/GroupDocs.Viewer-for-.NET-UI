@@ -8,6 +8,7 @@ builder.Services
     .AddGroupDocsViewerUI(config =>
     {
         config.RenderingMode = viewerType.ToRenderingMode();
+        config.EnableLanguageSelector = true;
         config.PreloadPages = 3; // Number of pages to create on first request
     });
 
