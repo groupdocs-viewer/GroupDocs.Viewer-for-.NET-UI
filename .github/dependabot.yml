@@ -28,6 +28,21 @@ updates:
           - "Moq"
           - "coverlet.*"
           - "Microsoft.NET.Test.Sdk"
+    ignore:
+      # build/dependencies.props sets these per target framework: 6.x for net6.0, 8.x for net8.0 and
+      # netstandard2.0, 10.x for net10.0. Dependabot updates only the first value, and a new major
+      # version has no assets for the older frameworks, so major updates are done by hand.
+      - dependency-name: "Microsoft.Extensions.*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "System.*"
+        update-types: ["version-update:semver-major"]
+      # SourceLink 11 depends on System.IO.Hashing 11, which warns on net8.0 builds
+      - dependency-name: "Microsoft.SourceLink.*"
+        update-types: ["version-update:semver-major"]
+      # AWS SDK 4.1 has no asset for net6.0 and brings System.IO.Hashing 11, which warns on net6.0
+      # and net8.0, see build/dependencies.props
+      - dependency-name: "AWSSDK.*"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -50,3 +65,7 @@ updates:
     labels:
       - "dependencies"
       - "docker"
+    ignore:
+      # The image runs the net10.0 build of docker/GroupDocs.Viewer.UI.Docker on the .NET 10 runtime
+      - dependency-name: "dotnet/*"
+        update-types: ["version-update:semver-major"]
