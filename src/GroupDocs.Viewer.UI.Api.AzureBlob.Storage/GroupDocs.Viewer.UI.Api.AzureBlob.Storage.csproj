@@ -13,7 +13,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0'">
-    <!-- Azure.Storage.Blobs 12.27 transitively pulls System.IO.Hashing 10.x, which drops net6 support. -->
+    <!-- Azure.Storage.Blobs pulls System.Text.Json and System.IO.Hashing 10.x, which have no net6.0 asset
+         and warn about it. -->
     <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
   </PropertyGroup>
 
@@ -23,8 +24,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- No System.Text.Json reference: Azure.Core requires 10.0.9 or later, and a lower pin fails the
+         restore with NU1605. -->
     <PackageReference Include="Azure.Storage.Blobs" Version="$(AzureBlobs)" />
-    <PackageReference Include="System.Text.Json" Version="$(SystemTextJson)" />
   </ItemGroup>
 
   <ItemGroup>

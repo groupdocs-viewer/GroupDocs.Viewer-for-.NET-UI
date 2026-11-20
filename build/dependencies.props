@@ -30,7 +30,7 @@
 
 		<SystemTextJson>8.0.6</SystemTextJson>
 
-		<AzureBlobs>12.27.0</AzureBlobs>
+		<AzureBlobs>12.30.1</AzureBlobs>
 		<!-- Stays at 4.0.x: AWS SDK 4.1 has no asset for net6.0 and depends on System.IO.Hashing 11, -->
 		<!-- which doesn't support net6.0 and net8.0 and warns about it in every project that uses it. -->
 		<AwsSdkS3>4.0.104.12</AwsSdkS3>
@@ -49,8 +49,8 @@
 		<!-- SystemFormatsAsn1 stays at 8.0.x (GHSA-447r-wph3-92pm is fixed in 8.0.1). 8.0.2 is  -->
 		<!-- the last 8.x with a net6.0 asset; 9.x and 10.x have none and would fall back to     -->
 		<!-- netstandard2.0.                                                                      -->
-		<!-- SystemTextJson is no longer pinned by the SelfHost projects - the engine already     -->
-		<!-- requires System.Text.Json >= 10.0.4. It still applies to the cache/storage packages. -->
+		<!-- SystemTextJson applies to the cache packages only. SelfHost.Api and AzureBlob.Storage -->
+		<!-- don't pin it: the engine requires System.Text.Json >= 10.0.4, Azure.Core >= 10.0.9.  -->
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net10.0'" Label="Package Versions (.NET 10)">
