@@ -39,5 +39,20 @@ namespace GroupDocs.Viewer.UI.Api.Tests.SelfHostApi
             Assert.True(render.ExcludeFonts);
             Assert.Same(configured.SpreadsheetOptions, render.SpreadsheetOptions);
         }
+
+        [Fact]
+        public void CopyViewOptions_ShouldCopyPdfAndCadOptionsOfHtmlPages()
+        {
+            // Options added in GroupDocs.Viewer 26.10
+            var configured = HtmlViewOptions.ForEmbeddedResources();
+            configured.PdfOptions.FixThaiMarks = true;
+            configured.CadOptions.EnableLayeredRendering = true;
+            var render = HtmlViewOptions.ForEmbeddedResources();
+
+            render.CopyViewOptions(configured);
+
+            Assert.True(render.PdfOptions.FixThaiMarks);
+            Assert.True(render.CadOptions.EnableLayeredRendering);
+        }
     }
 }

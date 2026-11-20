@@ -15,7 +15,7 @@ This sample shows settings that make the viewer faster and the pages it sends sm
 | `AddResponseCompression()` | Bytes sent to the browser |
 | `WarmUpService` | Loading the engine, and the first use of the settings, during the first request |
 
-`OptimizeSpreadsheets` needs GroupDocs.Viewer.UI 26.11.0 or later. Earlier versions ignore the `PdfOptimizationOptions` set with `ConfigurePdfViewOptions`.
+`OptimizeSpreadsheets` needs GroupDocs.Viewer.UI 26.10.0 or later. Earlier versions ignore the `PdfOptimizationOptions` set with `ConfigurePdfViewOptions`.
 
 ## Prerequisites
 
@@ -44,8 +44,8 @@ Compared with the default settings, with this sample's documents on one Windows 
 | `basic-presentation.pptx`, all 13 slides without embedded fonts | −97% | −35% |
 | `annual-review.docx`, all 6 pages without embedded fonts | −5% | −5% |
 | `sales-10000-rows.csv` as PDF, with page breaks and lighter output | −53% | −21% |
-| The next pages, with thumbnails rendered on request (new in 26.11.0) | | −38% to −86% |
-| The first response, with thumbnails rendered on request (new in 26.11.0) | | −2% to −40% |
+| The next pages, with thumbnails rendered on request (new in 26.10.0) | | −38% to −86% |
+| The first response, with thumbnails rendered on request (new in 26.10.0) | | −2% to −40% |
 | A page on the wire, compressed | −91% | |
 | A document viewed again, from the cache | | −97% to −99% |
 | The first view after the app starts, with the warm-up | | −96% |
@@ -58,7 +58,7 @@ Compared with the default settings, with this sample's documents on one Windows 
 - **Default font:** it replaces every font the server doesn't have, symbol fonts included, so their symbols can turn into letters. Install the symbol fonts your documents use. On Windows, where the fonts are installed, a default font made `annual-review.docx` about a quarter slower and `basic-presentation.pptx` about a tenth faster, so this sample sets it on Linux only.
 - **Sheets split into pages:** a page holds 100 rows and all the columns, so a wide sheet gives wide pages. Rendering every page takes longer in total than one large page, but the first page shows at once.
 - **The lighter PDF:** standard fonts such as Arial are referenced instead of embedded. For a small sheet, the PDF can take a little longer to create.
-- **Thumbnails:** every thumbnail is one more render of its page, as a JPG image, and it often takes longer than the page itself: for a 100-row page of `sales-10000-rows.csv`, about 20 times as long. Since 26.11.0 the viewer renders a thumbnail when the browser asks for it, so the pages don't wait for their thumbnails. The browser still asks for the thumbnail of every page it shows, also while the thumbnails pane is closed, so set `EnableThumbnails = false` if your users don't need them.
+- **Thumbnails:** every thumbnail is one more render of its page, as a JPG image, and it often takes longer than the page itself: for a 100-row page of `sales-10000-rows.csv`, about 20 times as long. Since 26.10.0 the viewer renders a thumbnail when the browser asks for it, so the pages don't wait for their thumbnails. The browser still asks for the thumbnail of every page it shows, also while the thumbnails pane is closed, so set `EnableThumbnails = false` if your users don't need them.
 - **Compression over HTTPS:** ASP.NET Core turns it off by default because of attacks such as BREACH, which need a secret and text an attacker controls in the same response. Check your pages before you turn it on, or compress in the proxy in front of the app.
 
 ## On Linux Servers

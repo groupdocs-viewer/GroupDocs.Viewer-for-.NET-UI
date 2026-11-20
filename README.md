@@ -817,7 +817,7 @@ services:
 
 ```bash
 # PowerShell
-.\build-docker.ps1 -Tag "26.9.1"
+.\build-docker.ps1 -Tag "26.10.0"
 
 # Or directly
 docker build -f docker/Dockerfile -t groupdocs/viewer-net-ui .
@@ -919,7 +919,7 @@ services.AddSingleton<IErrorMessageProvider, CustomErrorMessageProvider>();
 
 ## Upgrade notes
 
-### 26.11.0: rotate buttons, theme button and dark theme
+### 26.10.0: rotate buttons, theme button and dark theme
 
 The viewer now has buttons that rotate pages, a button that switches between the light and dark themes, and a dark theme. The viewer still opens in the light theme, but the new buttons are visible by default, and the browser remembers the theme a user picks with the theme button. To hide the new buttons:
 
