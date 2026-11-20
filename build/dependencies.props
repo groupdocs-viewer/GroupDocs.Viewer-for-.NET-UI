@@ -31,9 +31,12 @@
 		<SystemTextJson>8.0.6</SystemTextJson>
 
 		<AzureBlobs>12.27.0</AzureBlobs>
-		<AwsSdkS3>4.0.22.1</AwsSdkS3>
+		<!-- Stays at 4.0.x: AWS SDK 4.1 has no asset for net6.0 and depends on System.IO.Hashing 11, -->
+		<!-- which doesn't support net6.0 and net8.0 and warns about it in every project that uses it. -->
+		<AwsSdkS3>4.0.104.12</AwsSdkS3>
 
-		<MicrosoftSourceLinkGithub>10.0.401</MicrosoftSourceLinkGithub>
+		<!-- Stays at 10.x: SourceLink 11 depends on System.IO.Hashing 11, which warns on net8.0 builds. -->
+		<MicrosoftSourceLinkGithub>10.0.404</MicrosoftSourceLinkGithub>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net6.0'" Label="Package Versions (.NET 6)">
@@ -51,14 +54,14 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net10.0'" Label="Package Versions (.NET 10)">
-		<MicrosoftExtensionsDependencyInjectionAbstractions>10.0.7</MicrosoftExtensionsDependencyInjectionAbstractions>
-		<MicrosoftExtensionsConfiguration>10.0.7</MicrosoftExtensionsConfiguration>
-		<MicrosoftExtensionsConfigurationAbstractions>10.0.7</MicrosoftExtensionsConfigurationAbstractions>
-		<MicrosoftExtensionsConfigurationBinder>10.0.7</MicrosoftExtensionsConfigurationBinder>
-		<MicrosoftExtensionsCachingMemory>10.0.7</MicrosoftExtensionsCachingMemory>
-		<MicrosoftExtensionsCachingAbstractions>10.0.7</MicrosoftExtensionsCachingAbstractions>
-		<SystemFormatsAsn1>10.0.7</SystemFormatsAsn1>
-		<SystemTextJson>10.0.7</SystemTextJson>
+		<MicrosoftExtensionsDependencyInjectionAbstractions>10.0.15</MicrosoftExtensionsDependencyInjectionAbstractions>
+		<MicrosoftExtensionsConfiguration>10.0.15</MicrosoftExtensionsConfiguration>
+		<MicrosoftExtensionsConfigurationAbstractions>10.0.15</MicrosoftExtensionsConfigurationAbstractions>
+		<MicrosoftExtensionsConfigurationBinder>10.0.15</MicrosoftExtensionsConfigurationBinder>
+		<MicrosoftExtensionsCachingMemory>10.0.15</MicrosoftExtensionsCachingMemory>
+		<MicrosoftExtensionsCachingAbstractions>10.0.15</MicrosoftExtensionsCachingAbstractions>
+		<SystemFormatsAsn1>10.0.15</SystemFormatsAsn1>
+		<SystemTextJson>10.0.15</SystemTextJson>
 	</PropertyGroup>
 
 	<PropertyGroup Label="GroupDocs.Viewer UI Package Versions">
