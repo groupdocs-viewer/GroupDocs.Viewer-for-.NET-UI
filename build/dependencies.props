@@ -30,7 +30,7 @@
 
 		<SystemTextJson>8.0.6</SystemTextJson>
 
-		<AzureBlobs>12.30.1</AzureBlobs>
+		<AzureBlobs>12.30.2</AzureBlobs>
 		<!-- Stays at 4.0.x: AWS SDK 4.1 has no asset for net6.0 and depends on System.IO.Hashing 11, -->
 		<!-- which doesn't support net6.0 and net8.0 and warns about it in every project that uses it. -->
 		<AwsSdkS3>4.0.104.12</AwsSdkS3>
